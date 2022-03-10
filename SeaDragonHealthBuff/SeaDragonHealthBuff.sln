@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeaDragonHealthBuff", "SeaDragonHealthBuff.csproj", "{55734D82-EF17-434A-9C13-2EDB5323C14F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{55734D82-EF17-434A-9C13-2EDB5323C14F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55734D82-EF17-434A-9C13-2EDB5323C14F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55734D82-EF17-434A-9C13-2EDB5323C14F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55734D82-EF17-434A-9C13-2EDB5323C14F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2848599D-8180-4B96-ADA6-B7060201583F}
+	EndGlobalSection
+EndGlobal

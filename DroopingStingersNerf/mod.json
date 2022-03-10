@@ -1,0 +1,13 @@
+{
+  "Id": "DroopingStingersNerf",
+  "DisplayName": "Drooping Stingers Nerf",
+  "Author": "Nagorrogan",
+  "Version": "1.0.3",
+  "Enable": true,
+  "AssemblyName": "DroopingStingersNerf.dll",
+  "LoadAfter": [ "DeathRun" ],
+  "VersionDependencies": {
+    "SMLHelper": "2.9.6"
+  },
+  "Game": "Subnautica"
+}

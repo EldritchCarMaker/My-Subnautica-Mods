@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FasterSnowFoxCharging", "FasterSnowFoxCharging.csproj", "{50F0CF02-52E9-409B-89CA-AC9EEF0203A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterCyclopsLockers", "..\BetterCyclopsLockers\BetterCyclopsLockers.csproj", "{5AC33665-DECD-4251-8821-C6F2CCEE2B80}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuantumLockerMute", "..\QuantumLockerMute\QuantumLockerMute.csproj", "{9628045B-3D8D-4E98-A9CA-5857E84157D8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{50F0CF02-52E9-409B-89CA-AC9EEF0203A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50F0CF02-52E9-409B-89CA-AC9EEF0203A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50F0CF02-52E9-409B-89CA-AC9EEF0203A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50F0CF02-52E9-409B-89CA-AC9EEF0203A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AC33665-DECD-4251-8821-C6F2CCEE2B80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AC33665-DECD-4251-8821-C6F2CCEE2B80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AC33665-DECD-4251-8821-C6F2CCEE2B80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AC33665-DECD-4251-8821-C6F2CCEE2B80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9628045B-3D8D-4E98-A9CA-5857E84157D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9628045B-3D8D-4E98-A9CA-5857E84157D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9628045B-3D8D-4E98-A9CA-5857E84157D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9628045B-3D8D-4E98-A9CA-5857E84157D8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1B5B503B-F0A2-4F48-8799-174D71698F76}
+	EndGlobalSection
+EndGlobal

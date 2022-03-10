@@ -1,0 +1,12 @@
+﻿{
+  "Id": "QuantumLockerMute",
+  "DisplayName": "Quantum Locker Mute",
+  "Author": "Nagorrogan",
+  "Version": "1.0.0",
+  "Enable": true,
+  "AssemblyName": "QuantumLockerMute.dll",
+  "VersionDependencies": {
+    "SMLHelper": "2.9.6"
+  },
+  "Game": "BelowZero"
+}

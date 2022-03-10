@@ -1,0 +1,12 @@
+﻿{
+  "Id": "FasterSnowFoxCharging",
+  "DisplayName": "Faster Snow Fox Charging",
+  "Author": "Nagorrogan",
+  "Version": "1.0.0",
+  "Enable": true,
+  "AssemblyName": "FasterSnowFoxCharging.dll",
+  "VersionDependencies": {
+    "SMLHelper": "2.9.6"
+  },
+  "Game": "BelowZero"
+}

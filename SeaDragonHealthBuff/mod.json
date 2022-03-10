@@ -1,0 +1,13 @@
+{
+  "Id": "SeaDragonHealthBuff",
+  "DisplayName": "Sea Dragon Healt hBuff",
+  "Author": "Nagorrogan",
+  "Version": "1.0.3",
+  "Enable": true,
+  "AssemblyName": "SeaDragonHealthBuff.dll",
+  "LoadAfter": [ "DeathRun" ],
+  "VersionDependencies": {
+    "SMLHelper": "2.9.6"
+  },
+  "Game": "Subnautica"
+}

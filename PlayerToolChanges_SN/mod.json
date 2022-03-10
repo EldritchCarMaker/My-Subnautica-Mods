@@ -1,0 +1,12 @@
+﻿{
+  "Id": "PlayerToolChanges_SN",
+  "DisplayName": "Player Tool Changes SN",
+  "Author": "Nagorrogan",
+  "Version": "1.0.0",
+  "Enable": true,
+  "AssemblyName": "PlayerToolChanges_SN.dll",
+  "VersionDependencies": {
+    "SMLHelper": "2.9.6"
+  },
+  "Game": "Subnautica"
+}

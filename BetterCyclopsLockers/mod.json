@@ -1,0 +1,13 @@
+﻿{
+  "Id": "BetterCyclopsLockers",
+  "DisplayName": "Better Cyclops Lockers",
+  "Author": "Nagorrogan",
+  "Version": "1.0.3",
+  "Enable": true,
+  "AssemblyName": "BetterCyclopsLockers.dll",
+  "Dependencies": [ "AutosortLockersSML" ],
+  "VersionDependencies": {
+  "SMLHelper": "2.9.6"
+  },
+  "Game": "Subnautica"
+}

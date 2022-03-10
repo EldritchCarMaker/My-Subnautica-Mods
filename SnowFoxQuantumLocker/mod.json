@@ -1,0 +1,12 @@
+﻿{
+  "Id": "SnowFoxQuantumLocker",
+  "DisplayName": "SnowFoxQuantumLocker",
+  "Author": "Nagorrogan",
+  "Version": "1.0.0",
+  "Enable": true,
+  "AssemblyName": "SnowFoxQuantumLocker.dll",
+  "VersionDependencies": {
+    "SMLHelper": "2.9.6"
+  },
+  "Game": "BelowZero"
+}

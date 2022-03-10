@@ -1,0 +1,12 @@
+﻿{
+  "Id": "PlayerToolChanges_BZ",
+  "DisplayName": "Player Tool Changes BZ",
+  "Author": "Nagorrogan",
+  "Version": "1.0.0",
+  "Enable": true,
+  "AssemblyName": "PlayerToolChanges_BZ.dll",
+  "VersionDependencies": {
+    "SMLHelper": "2.9.6"
+  },
+  "Game": "BelowZero"
+}
