@@ -11,14 +11,15 @@ namespace BetterCyclopsLockers
         [HarmonyPostfix]
         private static void StartPostfix(CyclopsLocker __instance)
         {
-            int Height = (int)QMod.Config.Height;
-            int Width = (int)QMod.Config.Width;
+            int Height = QMod.Config.Height;
+            int Width = QMod.Config.Width;
 
             var storage = __instance.GetComponent<StorageContainer>(); // get the StorageContainer component that exists in the current locker object
             storage.Resize(Width, Height); // resize the locker. first argument is width, second is height.
             var temp = __instance.gameObject;
-            temp.AddComponent<AutosortLockers.AutosortTarget>();
-            temp.AddComponent<Constructable>();
+            temp.EnsureComponent<AutosortLockers.AutosortTarget>();
+            Constructable constructable = temp.EnsureComponent<Constructable>();
+            constructable.deconstructionAllowed = false;
         }
     }
     
