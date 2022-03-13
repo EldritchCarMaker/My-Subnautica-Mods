@@ -35,6 +35,7 @@ namespace BetterCyclopsLockers
         */
         [Slider("Cyclops locker height", Format = "{0:F2}", Min = 1.0F, Max = 100.0f, DefaultValue = 7.0F, Step = 1.0F, Tooltip = "Warning, going above 10 can cause slots to begin to overlap and/or other issues to appear.   Must reload save to take effect.")]
         public int Height = 7;
+        //max is 15 for nexus users, 100 for github users. I don't trust nexus users to not cry to me when their game is broken from 10000 big lockers
         [Slider("Cyclops locker width", Format = "{0:F2}", Min = 1.0F, Max = 100.0F, DefaultValue = 7.0F, Step = 1.0F, Tooltip = "Warning, going above 10 can cause slots to begin to overlap and/or other issues to appear.   Must reload save to take effect.")]
         public int Width = 7;
         /*Was gonna have a unique config option only in the file that could go above the normal max 
