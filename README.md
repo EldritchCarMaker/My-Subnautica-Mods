@@ -1,6 +1,6 @@
 # Subnautica Mods
  
- **[BetterCyclopsLockers.zip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8239038/BetterCyclopsLockers.zip):**
+ **[BetterCyclopsLockers.zip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8239047/BetterCyclopsLockers.zip):**
 
 Increases the width and height of the cyclops lockers by a configurable amount (1-15 each on nexus, 1-100 each from this file. I trust github users a bit more, please don't disappoint.) and allows the lockers to function as an autosort target meaning that any placed autosortlocker within the cyclops can automatically deposit to the lockers. 
 
