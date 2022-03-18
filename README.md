@@ -12,7 +12,7 @@ Increases the width and height of the cyclops lockers by a configurable amount (
 Decreases the damage drooping stingers do while also fixing the bug that causes them to near instantly kill things.
 
 
-**[PlayerToolChanges_SN.zip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8227643/PlayerToolChanges_SN.zip)**:
+**[PlayerToolChanges_SN.zip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8308028/PlayerToolChanges_SN.zip):**
 
 Allows you to configure the stats of most tools in game. Must re-equip tool for changes to take effect.
 
@@ -27,7 +27,7 @@ Makes the snowfox docking pad recharge and repair at a configurable rate, also a
 **Dependencies:** [SmlHelperZero](https://www.nexusmods.com/subnauticabelowzero/mods/34)
 
 
-**[PlayerToolChanges_BZ.zip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8227675/PlayerToolChanges_BZ.zip):**
+**[PlayerToolChanges_BZ.zip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8308022/PlayerToolChanges_BZ.zip):**
 
 Allows you to configure the stats of most tools in game. Must re-equip tool for changes to take effect. Has option for Air bladder changes, currently unused and too lazy to remove. Just pretend the air bladder config doesn't exist.
 
