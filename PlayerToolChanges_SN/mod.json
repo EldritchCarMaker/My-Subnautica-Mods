@@ -2,11 +2,14 @@
   "Id": "PlayerToolChanges_SN",
   "DisplayName": "Player Tool Changes SN",
   "Author": "Nagorrogan",
-  "Version": "1.0.0",
+  "Version": "1.1.0",
   "Enable": true,
   "AssemblyName": "PlayerToolChanges_SN.dll",
   "VersionDependencies": {
     "SMLHelper": "2.9.6"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/PlayerToolChanges_SN/mod.json"
   },
   "Game": "Subnautica"
 }

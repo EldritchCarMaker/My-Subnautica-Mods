@@ -78,15 +78,38 @@ namespace RepairToolChanges_SN
                         //propCannon.
                     */
                 }
+                else if(__instance.GetType() == typeof(StasisRifle))
+                {
+                    StasisRifle stasisRifle = __instance as StasisRifle;
+
+                    float chargeDurationMultiplier = QMod.config.stasisRifleChargeRate;
+                    float EnergyDrainMultiplier = QMod.config.stasisRifleEnergyCost;
+
+                    stasisRifle.chargeDuration = 3f / chargeDurationMultiplier;
+                    stasisRifle.energyCost = 5f / EnergyDrainMultiplier;
+                }
+            }
+            [HarmonyPatch(typeof(StasisSphere), nameof(StasisSphere.Shoot))]
+            [HarmonyPrefix]
+            public static void stasisSpherePatch(StasisSphere __instance)
+            {
+                __instance.maxRadius = QMod.config.stasisRifleBubbleRadius * 10f;
+                __instance.maxTime = QMod.config.stasisRifleBubbleDuration * 20f;
             }
         }
-        [HarmonyPatch(typeof(PropulsionCannon))]
-        [HarmonyPatch(nameof(PropulsionCannon.Update))]
+        [HarmonyPatch]
         internal class patchPropCannon
         {
+            [HarmonyPatch(typeof(PropulsionCannon), nameof(PropulsionCannon.Update))]
             [HarmonyPrefix]
-            public static void PropCannonPreFix(PropulsionCannon __instance)
+            public static bool PropCannonUpdateEnergyChanger(PropulsionCannon __instance)
             {
+                //I know I shouldn't be returning false, but it's way easier than doing my first transpiler
+                //plus I only return false if the energy config is different from 1
+                if (QMod.config.propCannonEnergyCost == 1)
+                {
+                    return true;
+                }
                 if (__instance.grabbedObject != null)
                 {
                     if (__instance.grabbedObject.GetComponent<Rigidbody>() != null)
@@ -111,21 +134,84 @@ namespace RepairToolChanges_SN
                         vfxelectricLine2.originVector = __instance.muzzle.forward;
                     }
                 }
+                return false;
+            }
+            [HarmonyPatch(typeof(PropulsionCannon), nameof(PropulsionCannon.OnShoot))]
+            [HarmonyPrefix]
+            public static bool PropCannonShootEnergyChanger(PropulsionCannon __instance, ref bool __result)
+            {
+                //I know I shouldn't be returning false, but it's way easier than doing my first transpiler
+                //plus I only return false if the energy config is different from 1
+                if (QMod.config.propCannonEnergyCost == 1)
+                {
+                    return true;
+                }
+                if (__instance.grabbedObject != null)
+                {
+                    float num;
+                    float num2;
+                    __instance.energyInterface.GetValues(out num, out num2);
+                    float d = Mathf.Min(1f, num / 4f);
+                    Rigidbody component = __instance.grabbedObject.GetComponent<Rigidbody>();
+                    float d2 = 1f + component.mass * __instance.massScalingFactor;
+                    Vector3 vector = MainCamera.camera.transform.forward * __instance.shootForce * d / d2;
+                    Vector3 velocity = component.velocity;
+                    if (Vector3.Dot(velocity, vector) < 0f)
+                    {
+                        component.velocity = vector;
+                    }
+                    else
+                    {
+                        component.velocity = velocity * 0.3f + vector;
+                    }
+                    __instance.grabbedObject.GetComponent<PropulseCannonAmmoHandler>().OnShot(false);
+                    __instance.launchedObjects.Add(__instance.grabbedObject);
+                    __instance.grabbedObject = null;
+                    __instance.energyInterface.ConsumeEnergy(4f * QMod.config.propCannonShootEnergyCost);
+                    Utils.PlayFMODAsset(__instance.shootSound, __instance.transform, 20f);
+                    __instance.fxControl.Play(0);
+                }
+                else
+                {
+                    GameObject gameObject = __instance.TraceForGrabTarget();
+                    if (gameObject != null)
+                    {
+                        __instance.GrabObject(gameObject);
+                    }
+                    else
+                    {
+                        Utils.PlayFMODAsset(__instance.grabFailSound, __instance.transform, 20f);
+                    }
+                }
+                __result = true;
+                return false;
+            }
+
+            [HarmonyPatch(typeof(PropulsionCannon), nameof(PropulsionCannon.GrabObject))]
+            [HarmonyPrefix]
+            public static void propCannonStatChanger(PropulsionCannon __instance)
+            {
                 __instance.maxMass = 1200f * QMod.config.propCannonMaxMass;
                 __instance.pickupDistance = 18f * QMod.config.propCannonPickupDist;
                 __instance.shootForce = 50f * QMod.config.propCannonShootForce;
                 __instance.attractionForce = 140f * QMod.config.propCannonAttractionForce;
-                __instance.massScalingFactor = 0.5f;
+                __instance.massScalingFactor = 0.02f * QMod.config.propCannonMassScalingFactorMultiplier;
             }
-        }
-        [HarmonyPatch(typeof(PropulsionCannon))]
-        [HarmonyPatch(nameof(PropulsionCannon.ValidateNewObject))]
-        internal class patchPropCannonObjectOverride
-        {
+            [HarmonyPatch(typeof(PropulsionCannon), nameof(PropulsionCannon.Start))]
             [HarmonyPrefix]
-            public static bool PropCannonPreFix(PropulsionCannon __instance, ref bool __result)
+            public static void propCannonStartStatChanger(PropulsionCannon __instance)
             {
-                if(QMod.config.targetOverride)
+                __instance.maxMass = 1200f * QMod.config.propCannonMaxMass;
+                __instance.pickupDistance = 18f * QMod.config.propCannonPickupDist;
+                __instance.shootForce = 50f * QMod.config.propCannonShootForce;
+                __instance.attractionForce = 140f * QMod.config.propCannonAttractionForce;
+                __instance.massScalingFactor = 0.02f * QMod.config.propCannonMassScalingFactorMultiplier;
+            }
+            [HarmonyPatch(typeof(PropulsionCannon), nameof(PropulsionCannon.ValidateNewObject))]
+            [HarmonyPrefix]
+            public static bool PropCannonOverride(PropulsionCannon __instance, ref bool __result)
+            {
+                if (QMod.config.targetOverride)
                 {
                     __result = true;
                     return false;
@@ -133,5 +219,13 @@ namespace RepairToolChanges_SN
                 return true;
             }
         }
+        //patch constructable.getconstructinterval
+        //should let the habitat builder build faster
+
+        //patch the pipes thing
+        //getpipeposition mathf.clamp make transpiler for that
+
+        //patch the pdascanner
+        //use transpiler on pdascanner.scan if()else tree
     }
 }

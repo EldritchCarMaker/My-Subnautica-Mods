@@ -48,9 +48,6 @@ namespace RepairToolChanges_SN
         public float knifeDamage = 1.0f;
         [Slider("knife distance", Format = "{0:F2}", Min = 0.0F, Max = 50.0F, DefaultValue = 1.0F, Step = 0.5F, Tooltip = "Multiplies how far the knife can reach. Default is 1")]
         public float knifeRange = 1.0f;
-        //air bladder config
-        [Slider("Air bladder Force", Format = "{0:F2}", Min = 1.0F, Max = 50.0F, DefaultValue = 1.0F, Step = 0.5F, Tooltip = "Multiplies how much force the air bladder uses. Default is 1")]
-        public float AirBladderForce = 1.0F;
         //propulsion cannon config
         [Slider("Propulsion Cannon Pickup Distance", Format = "{0:F2}", Min = 0.0F, Max = 50.0F, DefaultValue = 1.0F, Step = 0.5F, Tooltip = "Multiplies how far you can pick things up from with the propulsion cannon. Default is 1")]
         public float propCannonPickupDist = 1.0F;
@@ -58,11 +55,24 @@ namespace RepairToolChanges_SN
         public float propCannonShootForce = 1.0F;
         [Slider("Propulsion cannon Energy Cost", Format = "{0:F2}", Min = 0.0F, Max = 50.0F, DefaultValue = 1.0F, Step = 0.5F, Tooltip = "Multiplies how much energy the propulsion cannon consumes. Default is 1")]
         public float propCannonEnergyCost = 1.0F;
+        [Slider("Propulsion cannon Shoot Energy Cost", Format = "{0:F2}", Min = 0.0F, Max = 50.0F, DefaultValue = 1.0F, Step = 0.5F, Tooltip = "Multiplies how much energy the propulsion cannon consumes per shot. Default is 1")]
+        public float propCannonShootEnergyCost = 1.0F;
         [Slider("Propulsion cannon max mass", Format = "{0:F2}", Min = 0.0F, Max = 50.0F, DefaultValue = 1.0F, Step = 0.5F, Tooltip = "Multiplies the max mass the propulsion cannon can pick up. Default is 1")]
         public float propCannonMaxMass = 1.0F;
         [Slider("Propulsion cannon attraction force", Format = "{0:F2}", Min = 0.0F, Max = 50.0F, DefaultValue = 1.0F, Step = 0.5F, Tooltip = "Multiplies how much force the propulsion cannon uses to bring things to it. Default is 1")]
         public float propCannonAttractionForce = 1.0f;
-        [Toggle("Propulsion cannon target override", Tooltip ="WARNING! VERY BUGGY! DO NOT USE WITHOUT SAVING. Allow the propulsion cannon to target anything including objects marked as immune to the propulsion cannon")]
+        [Slider("Propulsion cannon mass scaling", Format = "{0:F2}", Min = 0.0F, Max = 50.0F, DefaultValue = 1.0F, Step = 0.5F, Tooltip = "Multiplies how much the prop cannon scales the amount of force used based on the mass of the object carried.. Default is 1")]
+        public float propCannonMassScalingFactorMultiplier = 1.0f;
+        [Toggle("Propulsion cannon target override", Tooltip = "WARNING! VERY BUGGY! DO NOT USE WITHOUT SAVING. Allow the propulsion cannon to target anything including objects marked as immune to the propulsion cannon")]
         public bool targetOverride = false;
+        //stasis rifle config
+        [Slider("Stasis rifle charge speed", Format = "{0:F2}", Min = 0.0F, Max = 50.0F, DefaultValue = 1.0F, Step = 0.5F, Tooltip = "Multiplies how fast the stasis rifle charges. Takes 3 seconds to charge at default, setting this to 2 turns that to 1.5 seconds. Default is 1")]
+        public float stasisRifleChargeRate = 1.0F;
+        [Slider("Stasis rifle energy cost", Format = "{0:F2}", Min = 0.0F, Max = 50.0F, DefaultValue = 1.0F, Step = 0.5F, Tooltip = "Multiplies how much energy drain the stasis rifle has. Default is 1")]
+        public float stasisRifleEnergyCost = 1.0F;
+        [Slider("Stasis rifle bubble radius", Format = "{0:F2}", Min = 0.0F, Max = 50.0F, DefaultValue = 1.0F, Step = 0.5F, Tooltip = "Multiplies how big the stasis bubble is. Default is 1")]
+        public float stasisRifleBubbleRadius = 1.0F;
+        [Slider("Stasis rifle bubble duration", Format = "{0:F2}", Min = 0.0F, Max = 50.0F, DefaultValue = 1.0F, Step = 0.5F, Tooltip = "Multiplies how long the stasis bubble lasts. Default is 1")]
+        public float stasisRifleBubbleDuration = 1.0F;
     }
 }
