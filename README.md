@@ -25,6 +25,7 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 Makes the snowfox docking pad recharge and repair at a configurable rate, also allows the pad to refill percentages of power/health rather than fixed values.
 
 Dependencies: [SmlHelperZero](https://www.nexusmods.com/subnauticabelowzero/mods/34)
+###### No Changelog yet
 
 
 ### [PlayerToolChanges_BZ.zip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8309959/PlayerToolChanges_BZ.zip):
