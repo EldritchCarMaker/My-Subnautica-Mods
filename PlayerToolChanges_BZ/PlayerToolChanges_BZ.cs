@@ -212,6 +212,21 @@ namespace RepairToolChanges_SN
                 return true;
             }
         }
+        [HarmonyPatch]
+        public static class PDAScanPatches
+        {
+            [HarmonyPatch(typeof(PDAScanner), nameof(PDAScanner.Scan))]
+            [HarmonyPrefix]
+            public static void Prefix()
+            {
+                TechType techType = PDAScanner.scanTarget.techType;
+                PDAScanner.EntryData entryData = PDAScanner.GetEntryData(techType);
+                if (entryData != null && QMod.config.ScanDuration != 2)
+                {
+                    entryData.scanTime = QMod.config.ScanDuration;
+                }
+            }
+        }
         //patch constructable.getconstructinterval
         //should let the habitat builder build faster
 
