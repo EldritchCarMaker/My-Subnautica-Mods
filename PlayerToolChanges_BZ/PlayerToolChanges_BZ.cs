@@ -81,6 +81,14 @@ namespace RepairToolChanges_SN
                     stasisRifle.chargeDuration = stasisRifle.chargeDuration / chargeDurationMultiplier;
                     stasisRifle.energyCost = stasisRifle.energyCost / EnergyDrainMultiplier;
                 }
+                else if (__instance.GetType() == typeof(ScannerTool))
+                {
+                    ScannerTool scannerTool = __instance as ScannerTool;
+
+                    float scannerEnergyDrain = QMod.config.scannerEnergyCost;
+
+                    scannerTool.powerConsumption = scannerEnergyDrain * 0.2f;
+                }
             }
             [HarmonyPatch(typeof(StasisSphere), nameof(StasisSphere.Shoot))]
             [HarmonyPrefix]

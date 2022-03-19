@@ -80,6 +80,8 @@ namespace RepairToolChanges_SN
         //scanner config
         [Slider("Scan duration", Format = "{0:F2}", Min = 0.0F, Max = 4.0F, DefaultValue = 2.0F, Step = 0.1F, Tooltip = "Amount of time in seconds to scan something with the scanner tool. Default changes based on the item. Changing this value to anything other than 2 will cause every item to take exactly this amount of seconds to scan. Leave at 2 and the scan time will continue to adjust based on the item")]
         public float ScanDuration = 2.0F;
+        [Slider("Scanner Energy cost", Format = "{0:F2}", Min = 0.0F, Max = 50.0F, DefaultValue = 1.0F, Step = 0.5F, Tooltip = "Multiplies how much energy drain the scanner tool has. Default is 1")]
+        public float scannerEnergyCost = 1.0F;
         /*Maybe make a keybind later I guess idfk
         [Keybind("")]
         public key = 
