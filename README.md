@@ -18,11 +18,11 @@ Allows you to configure the stats of most tools in game. Must re-equip tool for 
 Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/PlayerToolChanges_SN/Changelog.md)
 
-###[Adaptive Teleporting Costs](https://github.com/Nagorogan/My-Subnautica-Mods/files/8386445/AdaptiveTeleportingCosts.zip) :
+### [Adaptive Teleporting Costs](https://github.com/Nagorogan/My-Subnautica-Mods/files/8386445/AdaptiveTeleportingCosts.zip) :
 
 Changes the FCS quantum teleporter to drain power based on distance teleported rather than simply if the teleporter is in the same base or not. Also lets you configure the min and max costs and the scaling rate of cost over distance.
 
-#####Known bugs: teleporting still requires 1500 for out of base and 500 for in base, it just no longer drains this amount
+##### Known bugs: teleporting still requires 1500 for out of base and 500 for in base, it just no longer drains this amount
 
 Dependencies: [FCS Home Solutions](http://fcstudioshub.com/subnautica/home-solutions/)
 ###### No Changelog yet
