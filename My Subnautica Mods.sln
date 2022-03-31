@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayerToolChanges_SN", "Pla
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuantumLockerMute", "QuantumLockerMute\QuantumLockerMute.csproj", "{9628045B-3D8D-4E98-A9CA-5857E84157D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeaDragonHealthBuff", "SeaDragonHealthBuff\SeaDragonHealthBuff.csproj", "{09157B0B-67EA-4F36-94A9-D9C246995736}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdaptiveTeleportingCosts", "SeaDragonHealthBuff\AdaptiveTeleportingCosts.csproj", "{09157B0B-67EA-4F36-94A9-D9C246995736}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

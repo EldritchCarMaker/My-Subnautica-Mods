@@ -1,13 +1,13 @@
 {
-  "Id": "SeaDragonHealthBuff",
-  "DisplayName": "Sea Dragon Healt hBuff",
+  "Id": "AdaptiveTeleportingCosts",
+  "DisplayName": "Adaptive Teleporting Costs",
   "Author": "Nagorrogan",
   "Version": "1.0.3",
   "Enable": true,
-  "AssemblyName": "SeaDragonHealthBuff.dll",
-  "LoadAfter": [ "DeathRun" ],
+  "AssemblyName": "AdaptiveTeleportingCosts.dll",
   "VersionDependencies": {
     "SMLHelper": "2.9.6"
   },
+  "Dependencies": [ "FCSHomeSolutions" ],
   "Game": "Subnautica"
 }

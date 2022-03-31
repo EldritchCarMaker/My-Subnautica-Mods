@@ -7,8 +7,8 @@
     <ProjectGuid>{09157B0B-67EA-4F36-94A9-D9C246995736}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SeaDragonHealthBuff</RootNamespace>
-    <AssemblyName>SeaDragonHealthBuff</AssemblyName>
+    <RootNamespace>AdaptiveTeleportingCosts</RootNamespace>
+    <AssemblyName>AdaptiveTeleportingCosts</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -41,14 +41,17 @@
     <Reference Include="Assembly-CSharp_publicized">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Subnautica\Subnautica_Data\Managed\publicized_assemblies\Assembly-CSharp_publicized.dll</HintPath>
     </Reference>
+    <Reference Include="FCS_AlterraHub">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Subnautica\QMods\FCS_AlterraHub\FCS_AlterraHub.dll</HintPath>
+    </Reference>
+    <Reference Include="FCS_HomeSolutions">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Subnautica\Subnautica_Data\Managed\publicized_assemblies\FCS_HomeSolutions.dll</HintPath>
+    </Reference>
     <Reference Include="QModInstaller">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Subnautica\BepInEx\plugins\QModManager\QModInstaller.dll</HintPath>
     </Reference>
     <Reference Include="SMLHelper">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Subnautica\QMods\Modding Helper\SMLHelper.dll</HintPath>
-    </Reference>
-    <Reference Include="TweaksAndFixes">
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Subnautica\QMods\Tweaks and Fixes\Tweaks and Fixes.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -72,9 +75,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SeaDragonHealthBuff.cs" />
+    <Compile Include="Main.cs" />
     <Compile Include="QMod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="mod.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
