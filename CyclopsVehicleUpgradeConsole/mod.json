@@ -1,0 +1,12 @@
+{
+  "Id": "CyclopsVehicleUpgradeConsole",
+  "DisplayName": "Cyclops Vehicle Upgrade Console",
+  "Author": "Nagorrogan",
+  "Version": "1.0.3",
+  "Enable": true,
+  "AssemblyName": "CyclopsVehicleUpgradeConsole.dll",
+  "VersionDependencies": {
+    "SMLHelper": "2.9.6"
+  },
+  "Game": "Subnautica"
+}
