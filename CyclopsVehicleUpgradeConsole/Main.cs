@@ -310,6 +310,10 @@ namespace CyclopsVehicleUpgradeConsole
             {
                 hoverText = "Make " + vehicleType;
                 Sprite sprite = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "PageChangerBackground.png"));
+                //first off, wrong component lmao you idiot
+                //second off, it's getting the component from the object itself
+                //needs to get the image component from child object
+                //should fix, hopefully
                 gameObject.GetComponent<Image>().sprite = null;
                 Logger.Log(Logger.Level.Info, "Still Alive bitches", null, true);
             }catch(Exception e)
