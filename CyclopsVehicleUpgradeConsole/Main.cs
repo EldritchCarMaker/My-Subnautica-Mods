@@ -9,6 +9,12 @@ using UnityEngine;
 using System.Collections;
 using UWE;
 using UnityEngine.EventSystems;
+using System.Reflection;
+using Story;
+using UnityEngine.UI;
+using SMLHelper.V2.Utility;
+using System.IO;
+using Sprite = Atlas.Sprite;
 
 namespace CyclopsVehicleUpgradeConsole
 {
@@ -21,7 +27,6 @@ namespace CyclopsVehicleUpgradeConsole
         //Understand code
 
         //Make buttons to create vehicles from within moonpool
-
 
 
         [HarmonyPatch(typeof(SubRoot), nameof(SubRoot.Start))]
@@ -73,6 +78,7 @@ namespace CyclopsVehicleUpgradeConsole
             GameObject vehicleTerminal = gameObject.GetComponentInParent<SubRoot>().transform.Find("CyclopsVehicleStorageTerminal").gameObject;
 
             if (vehicleTerminal == null) return;
+            Logger.Log(Logger.Level.Info, "1", null, true); 
 
             GameObject screen = vehicleTerminal.transform.Find("GUIScreen").gameObject;
             for(var i = 0; i < screen.transform.childCount; i++)
@@ -80,15 +86,19 @@ namespace CyclopsVehicleUpgradeConsole
                 GameObject child = screen.transform.GetChild(i).gameObject;
                 if(!child.name.Equals("Swap Button"))
                 {
+                    Logger.Log(Logger.Level.Info, "2", null, true); 
                     child.SetActive(false);
                 }
                 else
                 {
+                    Logger.Log(Logger.Level.Info, "3", null, true); 
                     child.GetComponent<SwapButton>().colorScreenActive = false;
                 }
             }
+            Logger.Log(Logger.Level.Info, "4", null, true); 
             vehicleTerminal.GetComponent<CyclopsVehicleStorageTerminalManager>().OnDockedChanged();
 
+            Logger.Log(Logger.Level.Info, "5", null, true); 
             vehicleTerminal.transform.Find("EditScreen").gameObject.GetComponent<SubNameInput>().uiActive.SetActive(false);
         }
         public static void SetInActive(GameObject gameObject)
@@ -147,13 +157,41 @@ namespace CyclopsVehicleUpgradeConsole
             */
             GameObject button = GameObject.Instantiate(cyclopsConsoleGUI.gameObject.transform.Find("Seamoth").Find("Modules").gameObject.GetComponent<CyclopsVehicleStorageTerminalButton>().gameObject, cyclopsConsoleGUI.gameObject.transform);
 
-            button.transform.position += 0.5f * button.gameObject.transform.right;
-            button.transform.position += 0.15f * button.gameObject.transform.up;
+            button.transform.position += 0.765f * button.gameObject.transform.right;
+            button.transform.position -= 0.05f * button.gameObject.transform.up;
+
 
             button.AddComponent<SwapButton>();
 
             GameObject.Destroy(button.GetComponent<CyclopsVehicleStorageTerminalButton>());
             button.name = "Swap Button";
+
+            GameObject noVehicleScreen = cyclopsConsoleGUI.gameObject.transform.Find("NoVehicle").gameObject;
+            
+            noVehicleScreen.AddComponent<Canvas>();
+            GameObject buttonSeamoth = GameObject.Instantiate(cyclopsConsoleGUI.gameObject.transform.Find("Seamoth").Find("Modules").gameObject.GetComponent<CyclopsVehicleStorageTerminalButton>().gameObject, noVehicleScreen.transform);
+            
+            buttonSeamoth.AddComponent<MakeVehicleButton>();
+            GameObject.Destroy(buttonSeamoth.GetComponent<CyclopsVehicleStorageTerminalButton>());
+
+            GameObject buttonPrawn = GameObject.Instantiate(cyclopsConsoleGUI.gameObject.transform.Find("Seamoth").Find("Modules").gameObject.GetComponent<CyclopsVehicleStorageTerminalButton>().gameObject, noVehicleScreen.transform);
+
+            MakeVehicleButton component = buttonPrawn.AddComponent<MakeVehicleButton>();
+            component.vehicleType = TechType.Exosuit;
+            GameObject.Destroy(buttonPrawn.GetComponent<CyclopsVehicleStorageTerminalButton>());
+        }
+        public static IEnumerator MakeAndDockSeamoth(GameObject startingObject)
+        {
+            var task = CraftData.GetPrefabForTechTypeAsync(TechType.Seamoth);
+            yield return task;
+            var prefab = task.GetResult();
+
+            GameObject seamoth = GameObject.Instantiate(prefab);
+
+            SubRoot subRoot = startingObject.GetComponentInParent<SubRoot>();
+
+            VehicleDockingBay vehicleDockingBay = subRoot.GetComponentInChildren<VehicleDockingBay>();
+            vehicleDockingBay.DockVehicle(seamoth.GetComponent<Vehicle>());
         }
     }
     public class SwapButton : HandTarget, IHandTarget, IPointerEnterHandler, IEventSystemHandler, IPointerExitHandler, IPointerClickHandler
@@ -171,6 +209,14 @@ namespace CyclopsVehicleUpgradeConsole
             {
                 colorScreenActive = true;
                 MakeThing.SetInActive(gameObject);
+            }
+            if (hand == null)
+            {
+                Logger.Log(Logger.Level.Info, "pointer", null, true);
+            }
+            else
+            {
+                Logger.Log(Logger.Level.Info, "hand", null, true);
             }
         }
 
@@ -200,19 +246,153 @@ namespace CyclopsVehicleUpgradeConsole
             HandReticle.main.SetInteractText("");
         }
     }
+    public class MakeVehicleButton : HandTarget, IHandTarget, IPointerEnterHandler, IEventSystemHandler, IPointerExitHandler, IPointerClickHandler
+    {
+        private string hoverText = "Make Vehicle";
+        public TechType vehicleType = TechType.Seamoth;
+        public bool colorScreenActive = false;
+        readonly string AssetsFolder = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
+        public void OnHandClick(GUIHand hand)
+        {
+            if(hand == null)
+            {
+                Logger.Log(Logger.Level.Info, "pointer", null, true);
+            }
+            else
+            {
+                Logger.Log(Logger.Level.Info, "hand", null, true); 
+            }
+            CoroutineHost.StartCoroutine(OnCraftingBegin(this.vehicleType, 5f));
+        }
+        public IEnumerator OnCraftingBegin(TechType techType, float duration)
+        {
+            Vector3 zero = Vector3.zero;
+            Quaternion identity = Quaternion.identity;
+
+            //this.GetCraftTransform(techType, ref zero, ref identity);
+            
+
+            GameObject gameObject;
+            if (techType == TechType.Cyclops)
+            {
+                SubConsoleCommand.main.SpawnSub("cyclops", zero, identity);
+                FMODUWE.PlayOneShot("event:/tools/constructor/spawn", zero, 1f);
+                gameObject = SubConsoleCommand.main.GetLastCreatedSub();
+            }
+            else
+            {
+                var task = CraftData.GetPrefabForTechTypeAsync(techType);
+                yield return task;
+                var prefab = task.GetResult();
+
+                gameObject = GameObject.Instantiate(prefab);
+                Transform component = gameObject.GetComponent<Transform>();
+                component.position = zero;
+                component.rotation = identity;
+            }
+            CrafterLogic.NotifyCraftEnd(gameObject, techType);
+            ItemGoalTracker.OnConstruct(techType);
+            VFXConstructing componentInChildren = gameObject.GetComponentInChildren<VFXConstructing>();
+            if (componentInChildren != null)
+            {
+                componentInChildren.timeToConstruct = duration;
+                componentInChildren.StartConstruction();
+            }
+            LargeWorldEntity.Register(gameObject);
+            SubRoot subRoot = this.gameObject.GetComponentInParent<SubRoot>();
+            VehicleDockingBay vehicleDockingBay = subRoot.GetComponentInChildren<VehicleDockingBay>();
+            vehicleDockingBay.DockVehicle(gameObject.GetComponent<Vehicle>());
+        }
+        public override void Awake()
+        {
+            Logger.Log(Logger.Level.Info, "WooWee! I'm Awake!", null, true);
+            try
+            {
+                hoverText = "Make " + vehicleType;
+                Sprite sprite = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "PageChangerBackground.png"));
+                gameObject.GetComponent<Image>().sprite = null;
+                Logger.Log(Logger.Level.Info, "Still Alive bitches", null, true);
+            }catch(Exception e)
+            {
+                Logger.Log(Logger.Level.Info, "Death and Dishoner await me", null, true); 
+            }
+        }
+        public void OnHandHover(GUIHand hand)
+        {
+            if (hand.IsFreeToInteract())
+            {
+                HandReticle.main.SetIcon(HandReticle.IconType.Hand, 1f);
+                HandReticle.main.SetInteractText(this.hoverText);
+            }
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            OnHandClick(null);
+        }
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            HandReticle.main.SetIcon(HandReticle.IconType.Hand, 1f);
+            HandReticle.main.SetInteractText(this.hoverText);
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            HandReticle.main.SetIcon(HandReticle.IconType.Default, 1f);
+            HandReticle.main.SetInteractText("");
+        }
+    }
 }
 
 /*
- * var cyclopsVehicleStorageTerminalButton = geti<CyclopsVehicleStorageTerminalButton>()
-> GameObject button = GameObject.Instantiate(cyclopsVehicleStorageTerminalButton.gameObject, cyclopsVehicleStorageTerminalButton.gameObject.transform.parent);
+ * button.gameObject.transform.position -= 0.75f * button.gameObject.transform.right;
+GameObject button = GameObject.Instantiate<GameObject>(sawp.gameObject, noVehicle.gameObject.transform);
 
-> button.transform.position += 0.5f * button.gameObject.transform.right;
-> button.transform.position += 0.15f * button.gameObject.transform.up;
+vehicleDockingBay.DockVehicle(seamoth.GetComponent<Vehicle>());
+GameObject seamoth = GameObject.Instantiate(CraftData.GetPrefabForTechType(TechType.Seamoth));
 
-button.AddComponent<CyclopsVehicleUpgradeConsole.SwapButton>();
+protected static void OnCraftingBegin(TechType techType, float duration)
+{
+	Vector3 zero = Vector3.zero;
+	Quaternion identity = Quaternion.identity;
+	this.GetCraftTransform(techType, ref zero, ref identity);
+	if (!GameInput.GetButtonHeld(GameInput.Button.Sprint))
+	{
+		uGUI.main.craftingMenu.Close(this);
+		this.cinematicController.DisengageConstructor();
+	}
+	GameObject gameObject;
+	if (techType == TechType.Cyclops)
+	{
+		SubConsoleCommand.main.SpawnSub("cyclops", zero, identity);
+		FMODUWE.PlayOneShot("event:/tools/constructor/spawn", zero, 1f);
+		gameObject = SubConsoleCommand.main.GetLastCreatedSub();
+	}
+	else
+	{
+		gameObject = CraftData.InstantiateFromPrefab(techType, false);
+		Transform component = gameObject.GetComponent<Transform>();
+		component.position = zero;
+		component.rotation = identity;
+	}
+	CrafterLogic.NotifyCraftEnd(gameObject, techType);
+	ItemGoalTracker.OnConstruct(techType);
+	VFXConstructing componentInChildren = gameObject.GetComponentInChildren<VFXConstructing>();
+	if (componentInChildren != null)
+	{
+		componentInChildren.timeToConstruct = duration;
+		componentInChildren.StartConstruction();
+	}
+	if (gameObject.GetComponentInChildren<BuildBotPath>() == null)
+	{
+		new GameObject("ConstructorBeam").AddComponent<TwoPointLine>().Initialize(this.beamMaterial, base.transform, gameObject.transform, 0.1f, 1f, duration);
+	}
+	else
+	{
+		this.constructor.SendBuildBots(gameObject);
+	}
+	LargeWorldEntity.Register(gameObject);
+}
 
-GameObject.Destroy(button.GetComponent<CyclopsVehicleStorageTerminalButton>());
-
-
-public class CyclopsVehicleStorageTerminalButton : MonoBehaviour, IPointerEnterHandler, IEventSystemHandler, IPointerExitHandler, IPointerClickHandler
 */
