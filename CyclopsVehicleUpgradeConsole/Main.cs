@@ -78,27 +78,33 @@ namespace CyclopsVehicleUpgradeConsole
             GameObject vehicleTerminal = gameObject.GetComponentInParent<SubRoot>().transform.Find("CyclopsVehicleStorageTerminal").gameObject;
 
             if (vehicleTerminal == null) return;
-            Logger.Log(Logger.Level.Info, "1", null, true); 
 
+            var manager = vehicleTerminal.GetComponent<CyclopsVehicleStorageTerminalManager>();
             GameObject screen = vehicleTerminal.transform.Find("GUIScreen").gameObject;
             for(var i = 0; i < screen.transform.childCount; i++)
             {
                 GameObject child = screen.transform.GetChild(i).gameObject;
-                if(!child.name.Equals("Swap Button"))
+                if (child.name.Equals("SwapButton"))
                 {
-                    Logger.Log(Logger.Level.Info, "2", null, true); 
-                    child.SetActive(false);
+                    child.GetComponent<SwapButton>().colorScreenActive = false;
+                }
+                else if (child.name.Equals("MakeSeamothButton") && manager.currentVehicle == null)
+                {
+                    child.SetActive(true);
+                }
+                else if (child.name.Equals("MakeExoSuitButton") && manager.currentVehicle == null)
+                {
+                    child.SetActive(true);
                 }
                 else
                 {
-                    Logger.Log(Logger.Level.Info, "3", null, true); 
-                    child.GetComponent<SwapButton>().colorScreenActive = false;
+                    child.SetActive(false);
                 }
             }
-            Logger.Log(Logger.Level.Info, "4", null, true); 
-            vehicleTerminal.GetComponent<CyclopsVehicleStorageTerminalManager>().OnDockedChanged();
+            
+            manager.OnDockedChanged();
 
-            Logger.Log(Logger.Level.Info, "5", null, true); 
+
             vehicleTerminal.transform.Find("EditScreen").gameObject.GetComponent<SubNameInput>().uiActive.SetActive(false);
         }
         public static void SetInActive(GameObject gameObject)
@@ -111,13 +117,13 @@ namespace CyclopsVehicleUpgradeConsole
             for (var i = 0; i < screen.transform.childCount; i++)
             {
                 GameObject child = screen.transform.GetChild(i).gameObject;
-                if (!child.name.Equals("Swap Button"))
+                if(child.name.Equals("SwapButton"))
                 {
-                    child.SetActive(false);
+                    child.GetComponent<SwapButton>().colorScreenActive = true;
                 }
                 else
                 {
-                    child.GetComponent<SwapButton>().colorScreenActive = true;
+                    child.SetActive(false);
                 }
             }
             vehicleTerminal.transform.Find("EditScreen").gameObject.GetComponent<SubNameInput>().uiActive.SetActive(true);
@@ -164,21 +170,36 @@ namespace CyclopsVehicleUpgradeConsole
             button.AddComponent<SwapButton>();
 
             GameObject.Destroy(button.GetComponent<CyclopsVehicleStorageTerminalButton>());
-            button.name = "Swap Button";
+            button.name = "SwapButton";
 
             GameObject noVehicleScreen = cyclopsConsoleGUI.gameObject.transform.Find("NoVehicle").gameObject;
-            
-            noVehicleScreen.AddComponent<Canvas>();
-            GameObject buttonSeamoth = GameObject.Instantiate(cyclopsConsoleGUI.gameObject.transform.Find("Seamoth").Find("Modules").gameObject.GetComponent<CyclopsVehicleStorageTerminalButton>().gameObject, noVehicleScreen.transform);
+            noVehicleScreen.transform.Find("XIcon").gameObject.SetActive(false);
+
+            GameObject buttonSeamoth = GameObject.Instantiate(cyclopsConsoleGUI.gameObject.transform.Find("Seamoth").Find("Modules").gameObject.GetComponent<CyclopsVehicleStorageTerminalButton>().gameObject, cyclopsConsoleGUI.gameObject.transform);
             
             buttonSeamoth.AddComponent<MakeVehicleButton>();
             GameObject.Destroy(buttonSeamoth.GetComponent<CyclopsVehicleStorageTerminalButton>());
+            buttonSeamoth.name = "MakeSeamothButton";
 
-            GameObject buttonPrawn = GameObject.Instantiate(cyclopsConsoleGUI.gameObject.transform.Find("Seamoth").Find("Modules").gameObject.GetComponent<CyclopsVehicleStorageTerminalButton>().gameObject, noVehicleScreen.transform);
+            buttonSeamoth.transform.position += 0.15f * button.gameObject.transform.right;
+            buttonSeamoth.transform.position -= 0.1f * button.gameObject.transform.up;
+
+            GameObject buttonPrawn = GameObject.Instantiate(cyclopsConsoleGUI.gameObject.transform.Find("Seamoth").Find("Modules").gameObject.GetComponent<CyclopsVehicleStorageTerminalButton>().gameObject, cyclopsConsoleGUI.gameObject.transform);
 
             MakeVehicleButton component = buttonPrawn.AddComponent<MakeVehicleButton>();
             component.vehicleType = TechType.Exosuit;
             GameObject.Destroy(buttonPrawn.GetComponent<CyclopsVehicleStorageTerminalButton>());
+            buttonPrawn.name = "MakeExoSuitButton";
+
+            buttonPrawn.transform.position += 0.38f * button.gameObject.transform.right;
+            buttonPrawn.transform.position -= 0.1f * button.gameObject.transform.up;
+
+            //make text
+            GameObject text = GameObject.Instantiate(noVehicleScreen.transform.Find("Text").gameObject, noVehicleScreen.transform);
+            text.GetComponent<Text>().text = "Fabricate Vehicle In Empty Bay";
+            text.transform.localScale = new Vector3(1, 1, 1);
+            text.transform.position -= 0.14f * text.transform.up;
+
         }
         public static IEnumerator MakeAndDockSeamoth(GameObject startingObject)
         {
@@ -198,6 +219,7 @@ namespace CyclopsVehicleUpgradeConsole
     {
         private string hoverText = "Swap Screens";
         public bool colorScreenActive = false;
+        readonly string AssetsFolder = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
         public void OnHandClick(GUIHand hand)
         {
             if(colorScreenActive)
@@ -210,16 +232,14 @@ namespace CyclopsVehicleUpgradeConsole
                 colorScreenActive = true;
                 MakeThing.SetInActive(gameObject);
             }
-            if (hand == null)
-            {
-                Logger.Log(Logger.Level.Info, "pointer", null, true);
-            }
-            else
-            {
-                Logger.Log(Logger.Level.Info, "hand", null, true);
-            }
         }
-
+        public override void Awake()
+        {
+            Atlas.Sprite myAtlas = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "PageChangerBackground.png"));
+            var texture = myAtlas.texture;
+            var sprite = UnityEngine.Sprite.Create(texture, new Rect(0f, 0f, texture.width, texture.height), Vector2.one * 0.5f);
+            gameObject.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
+        }
         public void OnHandHover(GUIHand hand)
         {
             if (hand.IsFreeToInteract())
@@ -251,16 +271,11 @@ namespace CyclopsVehicleUpgradeConsole
         private string hoverText = "Make Vehicle";
         public TechType vehicleType = TechType.Seamoth;
         public bool colorScreenActive = false;
-        readonly string AssetsFolder = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
         public void OnHandClick(GUIHand hand)
         {
-            if(hand == null)
+            if (!CrafterLogic.ConsumeResources(this.vehicleType))
             {
-                Logger.Log(Logger.Level.Info, "pointer", null, true);
-            }
-            else
-            {
-                Logger.Log(Logger.Level.Info, "hand", null, true); 
+                return;
             }
             CoroutineHost.StartCoroutine(OnCraftingBegin(this.vehicleType, 5f));
         }
@@ -273,23 +288,16 @@ namespace CyclopsVehicleUpgradeConsole
             
 
             GameObject gameObject;
-            if (techType == TechType.Cyclops)
-            {
-                SubConsoleCommand.main.SpawnSub("cyclops", zero, identity);
-                FMODUWE.PlayOneShot("event:/tools/constructor/spawn", zero, 1f);
-                gameObject = SubConsoleCommand.main.GetLastCreatedSub();
-            }
-            else
-            {
-                var task = CraftData.GetPrefabForTechTypeAsync(techType);
-                yield return task;
-                var prefab = task.GetResult();
 
-                gameObject = GameObject.Instantiate(prefab);
-                Transform component = gameObject.GetComponent<Transform>();
-                component.position = zero;
-                component.rotation = identity;
-            }
+            var task = CraftData.GetPrefabForTechTypeAsync(techType);
+            yield return task;
+            var prefab = task.GetResult();
+
+            gameObject = GameObject.Instantiate(prefab);
+            Transform component = gameObject.GetComponent<Transform>();
+            component.position = zero;
+            component.rotation = identity;
+
             CrafterLogic.NotifyCraftEnd(gameObject, techType);
             ItemGoalTracker.OnConstruct(techType);
             VFXConstructing componentInChildren = gameObject.GetComponentInChildren<VFXConstructing>();
@@ -305,21 +313,28 @@ namespace CyclopsVehicleUpgradeConsole
         }
         public override void Awake()
         {
-            Logger.Log(Logger.Level.Info, "WooWee! I'm Awake!", null, true);
-            try
+            hoverText = "Make " + vehicleType;
+
+            /*
+            Atlas.Sprite myAtlas = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "PageChangerBackground.png"));
+            var texture = myAtlas.texture;
+            var sprite = UnityEngine.Sprite.Create(texture, new Rect(0f, 0f, texture.width, texture.height), Vector2.one * 0.5f);
+            gameObject.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
+            */
+            gameObject.transform.GetChild(0).GetComponent<Image>().sprite = GetSprite(this.vehicleType);
+        }
+        private static UnityEngine.Sprite GetSprite(TechType item)
+        {
+            // Gets the atlas (group of sprites) for item icons
+            Atlas itemAtlas = Atlas.GetAtlas("Items");
+            if (itemAtlas != null)
             {
-                hoverText = "Make " + vehicleType;
-                Sprite sprite = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "PageChangerBackground.png"));
-                //first off, wrong component lmao you idiot
-                //second off, it's getting the component from the object itself
-                //needs to get the image component from child object
-                //should fix, hopefully
-                gameObject.GetComponent<Image>().sprite = null;
-                Logger.Log(Logger.Level.Info, "Still Alive bitches", null, true);
-            }catch(Exception e)
-            {
-                Logger.Log(Logger.Level.Info, "Death and Dishoner await me", null, true); 
+                // finds the serial data corresponding to the item and returns the sprite of it if successful.
+                var itemData = itemAtlas.serialData.Find(x => x.name == item.AsString(true));
+                if (itemData != null) return itemData.sprite;
             }
+
+            return null;
         }
         public void OnHandHover(GUIHand hand)
         {
