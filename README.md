@@ -1,13 +1,14 @@
 # Subnautica Mods
  
-### [BetterCyclopsLockers.zip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8239047/BetterCyclopsLockers.zip):
+### [Better Cyclops Lockers](https://github.com/Nagorogan/My-Subnautica-Mods/files/8239047/BetterCyclopsLockers.zip):
 
 Increases the width and height of the cyclops lockers by a configurable amount (1-15 each on nexus, 1-100 each from this file. I trust github users a bit more, please don't disappoint.) and allows the lockers to function as an autosort target meaning that any placed autosortlocker within the cyclops can automatically deposit to the lockers. 
 
 Dependencies: [AutosortLockers](https://www.nexusmods.com/subnautica/mods/31), [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ###### No Changelog yet
 
-### [Cyclops Vehicle Upgrade Console](https://github.com/Nagorogan/My-Subnautica-Mods/files/8535330/CyclopsVehicleUpgradeConsole.zip)
+### [Cyclops Vehicle Upgrade Console](https://github.com/Nagorogan/My-Subnautica-Mods/files/8550269/CyclopsVehicleUpgradeConsole.zip)
+
 
 Improves the vehicle management terminal inside the cyclops (the terminal above the docking bay) to also function as a vehicle upgrade console. Meaning you can change the color and name of your vehicle. More importantly, allows you to fabricate a new seamoth/prawn suit directly inside the cyclops' empty docking bay. Requires the resources be in your inventory, currently doesn't support easy craft's pulling of resources from other containers. Also doesn't currently show resources required, both will be done later hopefully.
 
