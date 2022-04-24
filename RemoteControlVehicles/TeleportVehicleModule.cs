@@ -35,7 +35,7 @@ namespace RemoteControlVehicles
         public override QuickSlotType QuickSlotType => QuickSlotType.Passive;
         protected override Sprite GetItemSprite()
         {
-            return ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "TempIcon.png"));
+            return ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "SeamothRemoteControl.png"));
         }
 
         protected override RecipeData GetBlueprintRecipe()

@@ -88,7 +88,7 @@
     <None Include="mod.json" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\TempIcon.png" />
+    <Content Include="Assets\SeamothRemoteControl.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

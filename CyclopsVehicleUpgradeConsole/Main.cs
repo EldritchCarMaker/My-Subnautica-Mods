@@ -273,6 +273,11 @@ namespace CyclopsVehicleUpgradeConsole
         public bool colorScreenActive = false;
         public void OnHandClick(GUIHand hand)
         {
+            if(!CrafterLogic.IsCraftRecipeUnlocked(this.vehicleType)) 
+            {
+                ErrorMessage.AddMessage("You haven't unlocked the blueprint for this vehicle");
+                return;
+            }
             if (!CrafterLogic.ConsumeResources(this.vehicleType))
             {
                 return;
