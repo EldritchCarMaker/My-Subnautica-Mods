@@ -273,7 +273,15 @@ namespace CyclopsVehicleUpgradeConsole
         public bool colorScreenActive = false;
         public void OnHandClick(GUIHand hand)
         {
-            if(!CrafterLogic.IsCraftRecipeUnlocked(this.vehicleType)) 
+            SubRoot subRoot = this.gameObject.GetComponentInParent<SubRoot>();
+            VehicleDockingBay vehicleDockingBay = subRoot.GetComponentInChildren<VehicleDockingBay>();
+            if(vehicleDockingBay.dockedVehicle != null)
+            {
+                ErrorMessage.AddMessage("There is already a vehicle docked!");
+                MakeThing.SetActive(gameObject);
+                return;
+            }
+            if (!CrafterLogic.IsCraftRecipeUnlocked(this.vehicleType)) 
             {
                 ErrorMessage.AddMessage("You haven't unlocked the blueprint for this vehicle");
                 return;
@@ -284,6 +292,7 @@ namespace CyclopsVehicleUpgradeConsole
             }
             CoroutineHost.StartCoroutine(OnCraftingBegin(this.vehicleType, 5f));
         }
+
         public IEnumerator OnCraftingBegin(TechType techType, float duration)
         {
             Vector3 zero = Vector3.zero;

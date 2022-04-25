@@ -39,6 +39,7 @@ namespace RemoteControlVehicles
                 Player.main.transform.position = position;
                 isActive = false;
                 hud.SetActive(false);
+                Player.main.liveMixin.shielded = false;
             }
         }
 
@@ -107,6 +108,14 @@ namespace RemoteControlVehicles
 
                 CoroutineHost.StartCoroutine(WaitForWorld(__instance));
             }
+            if(isActive)
+            {
+                __instance.transform.Find("body").gameObject.SetActive(false);
+            }
+            else
+            {
+                __instance.transform.Find("body").gameObject.SetActive(true);
+            }
         }
         public static bool PlayerHasChip()
         {
@@ -155,6 +164,7 @@ namespace RemoteControlVehicles
                 vehicle.EnterVehicle(player, true, false);
             }
             isActive = true;
+            player.liveMixin.shielded = true;
         }
         public static IEnumerator WaitForABit(VehicleDockingBay dockingBay, Player player, Vehicle dockedVehicle)//unused
         {
@@ -205,6 +215,26 @@ namespace RemoteControlVehicles
             {
                 hasModule = added;
                 vehicle = null;
+            }
+        }
+
+        [HarmonyPatch(typeof(Vehicle), nameof(Vehicle.ReplenishOxygen))]
+        [HarmonyPrefix]
+        public static bool FixOxygen(Vehicle __instance)
+        {
+            if (isActive && sub == null)
+            {
+                return false;
+            }
+            return true;
+        }
+        [HarmonyPatch(typeof(Player), nameof(Player.CanBreathe))]
+        [HarmonyPostfix]
+        public static void FixOxygen(Player __instance, ref bool __result)
+        {
+            if (isActive && sub == null)
+            {
+                __result = false;
             }
         }
 
