@@ -1,0 +1,15 @@
+﻿{
+  "Id": "CyclopsWindows",
+  "DisplayName": "Cyclops Windows",
+  "Author": "Nagorrogan",
+  "Version": "1.0.0",
+  "Enable": true,
+  "AssemblyName": "CyclopsWindows.dll",
+  "VersionDependencies": {
+    "SMLHelper": "2.9.6"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/BetterCyclopsLockers/mod.json"
+  },
+  "Game": "Subnautica"
+}
