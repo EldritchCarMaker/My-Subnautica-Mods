@@ -15,6 +15,12 @@ Improves the vehicle management terminal inside the cyclops (the terminal above 
 Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/CyclopsVehicleUpgradeConsole/Changelog.md)
 
+### [Cyclops Windows](https://github.com/Nagorogan/My-Subnautica-Mods/files/8568257/CyclopsWindows.zip)
+
+Moves the cyclops lockers to the other side of the wall, replacing them with some super sweet windows
+
+###### No Changelog Yet
+
 ### [Drooping Stingers Nerf](https://github.com/Nagorogan/My-Subnautica-Mods/files/8227628/DroopingStingersNerf.zip):
 
 Decreases the damage drooping stingers do while also fixing the bug that causes them to near instantly kill things.
