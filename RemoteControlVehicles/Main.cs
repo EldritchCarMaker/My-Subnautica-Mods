@@ -28,6 +28,8 @@ namespace RemoteControlVehicles
         public static GameObject blackScreen;
         public static Text text1;
         public static Text text2;
+        public static SubRoot cyclops;
+        public static bool hasCyclopsModule = false;
 
         [HarmonyPatch(typeof(Vehicle), nameof(Vehicle.OnPilotModeEnd))]
         [HarmonyPostfix]
@@ -40,6 +42,29 @@ namespace RemoteControlVehicles
                 isActive = false;
                 hud.SetActive(false);
                 Player.main.liveMixin.shielded = false;
+            }
+        }
+        [HarmonyPatch(typeof(Player), nameof(Player.ExitPilotingMode))]
+        [HarmonyPostfix]
+        public static void TeleportPlayer(Player __instance)
+        {
+            if (isActive)
+            {
+                __instance.currentSub = sub;
+                __instance.transform.position = position;
+                isActive = false;
+                hud.SetActive(false);
+                __instance.liveMixin.shielded = false;
+                CoroutineHost.StartCoroutine(WaitForABit(null, __instance, null));
+            }
+        }
+        [HarmonyPatch(typeof(PilotingChair), nameof(PilotingChair.IsValidHandTarget))]
+        [HarmonyPostfix]
+        public static void ForceValid(PilotingChair __instance, ref bool __result)
+        {
+            if (isActive)
+            {
+                __result = true;
             }
         }
 
@@ -108,7 +133,43 @@ namespace RemoteControlVehicles
 
                 CoroutineHost.StartCoroutine(WaitForWorld(__instance));
             }
-            if(isActive)
+            if (Input.GetKeyUp(QMod.config.cyclopsControlKey))
+            {
+                if (!PlayerHasChip()) return;
+
+                if (cyclops == null)
+                {
+                    ErrorMessage.AddMessage("No cyclops available to control");
+                    return;
+                }
+
+                if (isActive)
+                {
+                    ErrorMessage.AddMessage("Already controlling vehicle");
+                    return;
+                }
+
+                if (QMod.config.MustBeInBase && !__instance.IsInSub())
+                {
+                    ErrorMessage.AddMessage("Must be in safe location to control vehicle");
+                    return;
+                }
+
+                sub = Player.main.currentSub;
+                position = Player.main.transform.position;
+
+                hud.SetActive(true);
+                hud.transform.Find("Connecting").gameObject.SetActive(true);
+                blackScreen.SetActive(true);
+                Image image = blackScreen.GetComponent<Image>();
+                Color color = image.color;
+                color.a = 1;
+                image.color = color;
+
+                CoroutineHost.StartCoroutine(WaitForWorld(__instance, true));
+            }
+
+            if (isActive)
             {
                 __instance.transform.Find("body").gameObject.SetActive(false);
             }
@@ -133,43 +194,55 @@ namespace RemoteControlVehicles
             }
             return false;
         }
-        public static IEnumerator WaitForWorld(Player player)
+        public static IEnumerator WaitForWorld(Player player, bool isCyclops = false)
         {
-            player.transform.position = vehicle.transform.position;
-            yield return new WaitUntil(() => LargeWorldStreamer.main.IsWorldSettled());
-
-            hud.transform.Find("Connecting").gameObject.SetActive(false);
-
-            Image image = blackScreen.GetComponent<Image>();
-            Color color = image.color;
-            color.a = 0;
-            image.color = color;
-            if (vehicle.docked)
+            if(!isCyclops)
             {
-                vehicle.GetComponentInParent<SubRoot>().GetComponentInChildren<DockedVehicleHandTarget>().OnHandClick(Player.main.armsController.guiHand);
-                /*
-                VehicleDockingBay dockingbay = vehicle.GetComponentInParent<VehicleDockingBay>();
-                if(dockingbay == null)
+                player.transform.position = vehicle.transform.position;
+                yield return new WaitUntil(() => LargeWorldStreamer.main.IsWorldSettled());
+
+                hud.transform.Find("Connecting").gameObject.SetActive(false);
+
+                Image image = blackScreen.GetComponent<Image>();
+                Color color = image.color;
+                color.a = 0;
+                image.color = color;
+                if (vehicle.docked)
                 {
-                    SubRoot subRoot = vehicle.GetComponentInParent<SubRoot>();
-                    dockingbay = subRoot.GetComponentInChildren<VehicleDockingBay>();
+                    vehicle.GetComponentInParent<SubRoot>().GetComponentInChildren<DockedVehicleHandTarget>().OnHandClick(Player.main.armsController.guiHand);
                 }
-                Vehicle dockedVehicle = dockingbay.GetDockedVehicle();
-                dockingbay.vehicle_docked_param = false;
-                CoroutineHost.StartCoroutine(WaitForABit(dockingbay, __instance, dockedVehicle));
-                */
+                else
+                {
+                    vehicle.EnterVehicle(player, true, false);
+                }
+                isActive = true;
+                player.liveMixin.shielded = true;
             }
             else
             {
-                vehicle.EnterVehicle(player, true, false);
+                PilotingChair chair = cyclops.GetComponentInChildren<PilotingChair>();
+
+                player.transform.position = chair.transform.position;
+                yield return new WaitUntil(() => LargeWorldStreamer.main.IsWorldSettled());
+
+                hud.transform.Find("Connecting").gameObject.SetActive(false);
+
+                Image image = blackScreen.GetComponent<Image>();
+                Color color = image.color;
+                color.a = 0;
+                image.color = color;
+
+                isActive = true;
+                player.liveMixin.shielded = true;
+
+                chair.OnHandClick(player.armsController.guiHand);
             }
-            isActive = true;
-            player.liveMixin.shielded = true;
+            
         }
-        public static IEnumerator WaitForABit(VehicleDockingBay dockingBay, Player player, Vehicle dockedVehicle)//unused
+        public static IEnumerator WaitForABit(VehicleDockingBay dockingBay, Player player, Vehicle dockedVehicle)
         {
-            yield return new WaitForSeconds(2f);
-            dockingBay.OnUndockingComplete(player);
+            yield return new WaitForSeconds(2.5f);
+            player.transform.position = position;
         }
 
         [HarmonyPatch(typeof(VehicleDockingBay), nameof(VehicleDockingBay.DockVehicle))]

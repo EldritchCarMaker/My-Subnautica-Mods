@@ -17,7 +17,7 @@ namespace RemoteControlVehicles
 
         public override string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
 
-        public RemoteControlHudChip() : base("VehicleRemoteControlChip", "Vehicle Remote Control Chip", "Allows use of the remote control module")
+        public RemoteControlHudChip() : base("VehicleRemoteControlChip", "Vehicle Remote Control Chip", "Allows use of remote control modules")
         {
             OnFinishedPatching += () =>
             {
@@ -56,7 +56,7 @@ namespace RemoteControlVehicles
 
         public override GameObject GetGameObject()
         {
-            var prefab = CraftData.GetPrefabForTechType(TechType.CyclopsShieldModule);
+            var prefab = CraftData.GetPrefabForTechType(TechType.MapRoomHUDChip);
             var obj = GameObject.Instantiate(prefab);
             return obj;
         }

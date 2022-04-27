@@ -8,6 +8,8 @@ using UnityEngine;
 using RecipeData = SMLHelper.V2.Crafting.TechData;
 using SMLHelper.V2.Utility;
 using Logger = QModManager.Utility.Logger;
+using MoreCyclopsUpgrades.API.Upgrades;
+using MoreCyclopsUpgrades.API;
 
 namespace RemoteControlVehicles
 {
@@ -56,9 +58,76 @@ namespace RemoteControlVehicles
 
         public override GameObject GetGameObject()
         {
+            var prefab = CraftData.GetPrefabForTechType(TechType.SeamothSonarModule);
+            var obj = GameObject.Instantiate(prefab);
+            return obj;
+        }
+    }
+    public class CyclopsRemoteControlModule : CyclopsUpgrade
+    {
+        public static TechType thisTechType;
+
+        public override string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
+
+        public CyclopsRemoteControlModule() : base("CyclopsRemoteControl", "Cyclops Remote Control", "Allows remote control over the cyclops")
+        {
+            OnFinishedPatching += () =>
+            {
+                thisTechType = TechType;
+            };
+        }
+
+        public override TechType RequiredForUnlock => TechType.Cyclops;
+        public override CraftTree.Type FabricatorType => CraftTree.Type.CyclopsFabricator;
+        public override string[] StepsToFabricatorTab => MCUServices.CrossMod.StepsToCyclopsModulesTabInCyclopsFabricator;
+        public override float CraftingTime => 3f;
+        protected override Sprite GetItemSprite()
+        {
+            return ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "SeamothRemoteControl.png"));
+        }
+
+        protected override RecipeData GetBlueprintRecipe()
+        {
+            return new RecipeData()
+            {
+                craftAmount = 1,
+                Ingredients = new List<Ingredient>(new Ingredient[]
+                    {
+                        new Ingredient(TechType.Magnetite, 2),
+                        new Ingredient(TechType.ComputerChip, 2),
+                        new Ingredient(TechType.WiringKit, 1)
+                    }
+                )
+            };
+        }
+
+        public override GameObject GetGameObject()
+        {
             var prefab = CraftData.GetPrefabForTechType(TechType.CyclopsShieldModule);
             var obj = GameObject.Instantiate(prefab);
             return obj;
+        }
+    }
+    public class CyclopsRemoteControlHandler : UpgradeHandler
+    {
+        public CyclopsRemoteControlHandler(TechType techType, SubRoot cyclops) : base(techType, cyclops)
+        {
+            IsAllowedToAdd = (TechType, verbose) =>
+            {
+                return !RemoteControlVehicles.hasCyclopsModule;
+            };
+
+            OnUpgradeCounted = () =>
+            {
+                RemoteControlVehicles.hasCyclopsModule = true;
+                RemoteControlVehicles.cyclops = cyclops;
+            };
+
+            OnClearUpgrades = () =>
+            {
+                RemoteControlVehicles.hasCyclopsModule = false;
+                RemoteControlVehicles.cyclops = null;
+            };
         }
     }
 }
