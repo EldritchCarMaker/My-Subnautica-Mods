@@ -37,7 +37,7 @@ namespace RemoteControlVehicles
         public override QuickSlotType QuickSlotType => QuickSlotType.Passive;
         protected override Sprite GetItemSprite()
         {
-            return ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "SeamothRemoteControl.png"));
+            return ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "Seamoth_remote_module.png"));
         }
 
         protected override RecipeData GetBlueprintRecipe()
@@ -83,7 +83,7 @@ namespace RemoteControlVehicles
         public override float CraftingTime => 3f;
         protected override Sprite GetItemSprite()
         {
-            return ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "SeamothRemoteControl.png"));
+            return ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "cyclops_remote_module.png"));
         }
 
         protected override RecipeData GetBlueprintRecipe()
@@ -100,6 +100,16 @@ namespace RemoteControlVehicles
                 )
             };
         }
+        /*var position = Player.main.transform.position;
+         * 
+         * var subPosition = Player.main.currentSub.transform.position;
+         * wait some time
+         * var newSubPosition = Player.main.currentSub.transform.posiion;
+         * 
+         * var difference = subPosion - newSubPosition;
+         * 
+         * Player.main.transform.position = position + difference;
+        */
 
         public override GameObject GetGameObject()
         {
@@ -110,24 +120,39 @@ namespace RemoteControlVehicles
     }
     public class CyclopsRemoteControlHandler : UpgradeHandler
     {
+        internal static readonly List<CyclopsRemoteControlHandler> AllHandlers = new List<CyclopsRemoteControlHandler>();
+        internal static SubRoot TrackedSub;
+
         public CyclopsRemoteControlHandler(TechType techType, SubRoot cyclops) : base(techType, cyclops)
         {
-            IsAllowedToAdd = (TechType, verbose) =>
-            {
-                return !RemoteControlVehicles.hasCyclopsModule;
+            AllHandlers.Add(this); // on construction, add this handler to the static list (this only happens once)
+
+            IsAllowedToAdd = (TechType, verbose) => {
+                if (AnySubHasRemoteUpgrade())
+                {
+                    ErrorMessage.AddMessage("Only one vehicle can have this module equipped at a time!");
+                    return false;
+                }
+                return true;
             };
 
-            OnUpgradeCounted = () =>
+            OnFinishedUpgrades = () =>
             {
-                RemoteControlVehicles.hasCyclopsModule = true;
-                RemoteControlVehicles.cyclops = cyclops;
+                if(this.HasUpgrade)
+                    TrackedSub = cyclops;
+                else if (!AnySubHasRemoteUpgrade())
+                    TrackedSub = null;
             };
+        }
 
-            OnClearUpgrades = () =>
+        private static bool AnySubHasRemoteUpgrade()
+        {
+            foreach(var handler in AllHandlers)
             {
-                RemoteControlVehicles.hasCyclopsModule = false;
-                RemoteControlVehicles.cyclops = null;
-            };
+                if(handler.HasUpgrade)
+                    return true;
+            }
+            return false;
         }
     }
 }
