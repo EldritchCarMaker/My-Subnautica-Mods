@@ -2,11 +2,12 @@
   "Id": "RemoteControlVehicles",
   "DisplayName": "Remote Control Vehicles",
   "Author": "Nagorrogan",
-  "Version": "1.0.3",
+  "Version": "1.0.0",
   "Enable": true,
   "AssemblyName": "RemoteControlVehicles.dll",
   "VersionDependencies": {
     "SMLHelper": "2.9.6"
   },
+  "Dependencies": [ "MoreCyclopsUpgrades" ],
   "Game": "Subnautica"
 }
