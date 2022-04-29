@@ -11,6 +11,8 @@ Dependencies: [AutosortLockers](https://www.nexusmods.com/subnautica/mods/31), [
 
 
 Improves the vehicle management terminal inside the cyclops (the terminal above the docking bay) to also function as a vehicle upgrade console. Meaning you can change the color and name of your vehicle. More importantly, allows you to fabricate a new seamoth/prawn suit directly inside the cyclops' empty docking bay. Requires the resources be in your inventory, currently doesn't support easy craft's pulling of resources from other containers. Also doesn't currently show resources required, both will be done later hopefully.
+![image](https://user-images.githubusercontent.com/97289845/165867628-8a745e4e-f160-4af1-aa8e-3d53e392f5f8.png)
+![image](https://user-images.githubusercontent.com/97289845/165867694-2cc86abf-111d-4a5b-ac9b-5e67d6e89154.png)
 
 Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/CyclopsVehicleUpgradeConsole/Changelog.md)
@@ -18,6 +20,8 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ### [Cyclops Windows](https://github.com/Nagorogan/My-Subnautica-Mods/files/8568257/CyclopsWindows.zip)
 
 Moves the cyclops lockers to the other side of the wall, replacing them with some super sweet windows
+![image](https://user-images.githubusercontent.com/97289845/165867823-b09aecdd-6cc8-4f7b-9292-608a6b5032a3.png)
+
 
 ###### No Changelog Yet
 
