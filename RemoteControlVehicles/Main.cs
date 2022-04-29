@@ -39,10 +39,15 @@ namespace RemoteControlVehicles
             {
                 Player.main.currentSub = sub;
 
-                var newSubPosition = sub.transform.position;
-                var difference = subPosition - newSubPosition;
+                Vector3 difference = new Vector3(0, 0, 0);
 
-                Player.main.transform.position = position - difference;
+                if(sub != null)
+                {
+                    var newSubPosition = sub.transform.position;
+                    difference = subPosition - newSubPosition;
+                }
+
+                Player.main.SetPosition(position - difference);
                 isActive = false;
                 hud.SetActive(false);
                 Player.main.liveMixin.shielded = false;
@@ -62,15 +67,6 @@ namespace RemoteControlVehicles
                 hud.SetActive(false);
                 __instance.liveMixin.shielded = false;
                 CoroutineHost.StartCoroutine(WaitForABit(null, __instance, null));
-            }
-        }
-        [HarmonyPatch(typeof(PilotingChair), nameof(PilotingChair.IsValidHandTarget))]
-        [HarmonyPostfix]
-        public static void ForceValid(PilotingChair __instance, ref bool __result)
-        {
-            if (isActive)
-            {
-                __result = true;
             }
         }
 
@@ -125,9 +121,20 @@ namespace RemoteControlVehicles
                     return;
                 }
 
+                if (__instance.currChair != null || __instance.currentMountedVehicle != null)
+                {
+                    ErrorMessage.AddMessage("Already controlling vehicle");
+                    return;
+                }
+
                 sub = Player.main.currentSub;
                 position = Player.main.transform.position;
-                subPosition = sub.transform.position;
+
+                if(sub != null)
+                {
+                    subPosition = sub.transform.position;
+                }
+
                 text1.text = vehicle.subName.GetName();
 
                 hud.SetActive(true);
@@ -170,7 +177,12 @@ namespace RemoteControlVehicles
 
                 sub = Player.main.currentSub;
                 position = Player.main.transform.position;
-                subPosition = Player.main.currentSub.transform.position;
+
+                if(sub != null)
+                {
+                    subPosition = Player.main.currentSub.transform.position;
+                }
+                
                 //subPosition = sub.transform.position;
 
                 hud.SetActive(true);
@@ -214,7 +226,9 @@ namespace RemoteControlVehicles
         {
             if(!isCyclops)
             {
-                player.transform.position = vehicle.transform.position;
+                if(!vehicle.docked)
+                    player.SetPosition(vehicle.transform.position);
+
                 yield return new WaitUntil(() => LargeWorldStreamer.main.IsWorldSettled());
 
                 hud.transform.Find("Connecting").gameObject.SetActive(false);
@@ -240,7 +254,7 @@ namespace RemoteControlVehicles
 
                 Player.main.currentSub = null;
 
-                player.transform.position = chair.transform.position;
+                player.SetPosition(chair.transform.position);
                 yield return new WaitUntil(() => LargeWorldStreamer.main.IsWorldSettled());
 
                 hud.transform.Find("Connecting").gameObject.SetActive(false);
@@ -263,10 +277,16 @@ namespace RemoteControlVehicles
             yield return new WaitForSeconds(1.1f);
             player.currentSub = null;
 
-            var newSubPosition = sub.transform.position;
-            var difference = subPosition - newSubPosition;
 
-            player.transform.position = position - difference;
+            Vector3 difference = new Vector3(0, 0, 0);
+
+            if (sub != null)
+            {
+                var newSubPosition = sub.transform.position;
+                difference = subPosition - newSubPosition;
+            }
+
+            player.SetPosition(position - difference);
             yield return new WaitForEndOfFrame();
             yield return new WaitForEndOfFrame();
             yield return new WaitForEndOfFrame();
@@ -280,7 +300,7 @@ namespace RemoteControlVehicles
                 {
                     yield return new WaitForEndOfFrame();
                 }
-                Player.main.transform.position = position - difference;            }
+                player.SetPosition(position - difference);            }
         }
 
         [HarmonyPatch(typeof(VehicleDockingBay), nameof(VehicleDockingBay.DockVehicle))]
@@ -296,7 +316,17 @@ namespace RemoteControlVehicles
                     Player.main.transform.parent = null;
                 }
                 Player.main.currentSub = sub;
-                Player.main.transform.position = position;
+
+                Vector3 difference = new Vector3(0, 0, 0);
+
+                if (sub != null)
+                {
+                    var newSubPosition = sub.transform.position;
+                    difference = subPosition - newSubPosition;
+                }
+
+                Player.main.SetPosition(position - difference);
+
                 isActive = false;
                 hud.SetActive(false);
             }
