@@ -224,9 +224,9 @@ namespace RemoteControlVehicles
         }
         public static IEnumerator WaitForWorld(Player player, bool isCyclops = false)
         {
-            if(!isCyclops)
+            if (!isCyclops)
             {
-                if(!vehicle.docked)
+                if (!vehicle.docked)
                     player.SetPosition(vehicle.transform.position);
 
                 yield return new WaitUntil(() => LargeWorldStreamer.main.IsWorldSettled());
@@ -270,8 +270,8 @@ namespace RemoteControlVehicles
                 isActive = true;
                 player.liveMixin.shielded = true;
             }
-            
         }
+
         public static IEnumerator WaitForABit(VehicleDockingBay dockingBay, Player player, Vehicle dockedVehicle)
         {
             yield return new WaitForSeconds(1.1f);

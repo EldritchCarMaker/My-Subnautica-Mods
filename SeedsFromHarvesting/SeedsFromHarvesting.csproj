@@ -62,7 +62,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Patches.cs" />
+    <Compile Include="Patches\PickPrefabPatches.cs" />
+    <Compile Include="Patches\GrownPlantPatches.cs" />
+    <Compile Include="Patches\PlanterPatches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QMod.cs" />
   </ItemGroup>
