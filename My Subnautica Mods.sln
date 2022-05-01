@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteControlVehicles", "Re
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CyclopsWindows", "CyclopsWindows\CyclopsWindows.csproj", "{76BCE5A6-6BB6-47AD-9F0E-73486C5C37B9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeedsFromHarvesting", "SeedsFromHarvesting\SeedsFromHarvesting.csproj", "{10487094-0A14-471A-90BE-6AA7021F4EFE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{76BCE5A6-6BB6-47AD-9F0E-73486C5C37B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76BCE5A6-6BB6-47AD-9F0E-73486C5C37B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76BCE5A6-6BB6-47AD-9F0E-73486C5C37B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10487094-0A14-471A-90BE-6AA7021F4EFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10487094-0A14-471A-90BE-6AA7021F4EFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10487094-0A14-471A-90BE-6AA7021F4EFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10487094-0A14-471A-90BE-6AA7021F4EFE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

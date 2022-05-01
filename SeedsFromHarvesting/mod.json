@@ -1,0 +1,15 @@
+{
+  "Id": "SeedsFromHarvesting",
+  "DisplayName": "Seeds From Harvesting",
+  "Author": "Nagorrogan",
+  "Version": "1.0.0",
+  "Enable": true,
+  "AssemblyName": "SeedsFromHarvesting.dll",
+  "VersionDependencies": {
+    "SMLHelper": "2.9.6"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/SeedsFromHarvesting/mod.json"
+  },
+  "Game": "Subnautica"
+}
