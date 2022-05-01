@@ -31,6 +31,9 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 
 Gives you one seed whenever you harvest a plant like a mushroom or marble melon. Don't need to knife them if you just want to keep the farm sustained. If you want to expand the farm, still need to knife them to get all 4 seeds though. This mod also stops you from planting fully grown plants like the marble melon, now you need to plant the seeds instead. There is a config for this but if you set it to false you can just plant and harvest rapidly to duplicate as many seeds as you want. 
 
+Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
+###### No Changelog Yet
+
 ### [Cyclops Windows](https://github.com/Nagorogan/My-Subnautica-Mods/files/8568257/CyclopsWindows.zip)
 
 Moves the cyclops lockers to the other side of the wall, replacing them with some super sweet windows
