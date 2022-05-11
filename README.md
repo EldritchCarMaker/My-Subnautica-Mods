@@ -34,7 +34,7 @@ Gives you one seed whenever you harvest a plant like a mushroom or marble melon.
 Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ###### No Changelog Yet
 
-### [Cyclops Windows](https://github.com/Nagorogan/My-Subnautica-Mods/files/8672560/CyclopsWindows.zip)
+### [Cyclops Windows](https://github.com/Nagorogan/My-Subnautica-Mods/files/8672605/CyclopsWindows.zip)
 
 Moves the cyclops lockers to the other side of the wall, replacing them with some super sweet windows. Got a cool button to toggle the windows too
 ![image](https://user-images.githubusercontent.com/97289845/165867823-b09aecdd-6cc8-4f7b-9292-608a6b5032a3.png)
