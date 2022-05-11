@@ -43,9 +43,11 @@ Moves the cyclops lockers to the other side of the wall, replacing them with som
 ###### No Changelog Yet
 
 
-### [Invincible Docked Vehicles](https://github.com/Nagorogan/My-Subnautica-Mods/files/8647952/InvincibleDockedVehicles.zip)
+### ~~[Invincible Docked Vehicles](https://github.com/Nagorogan/My-Subnautica-Mods/files/8647952/InvincibleDockedVehicles.zip)
 
-Makes vehicles invincible when they're docked. More of a bandaid fix for a few bugs in game, but this is the only way I can think of to get them fixed for now at least.
+~~Makes vehicles invincible when they're docked. More of a bandaid fix for a few bugs in game, but this is the only way I can think of to get them fixed for now at least.
+
+#### currently in quarantine, for some reason it bugs out the seamoth completely and effectively softlocks the game. No Clue why, just don't use it.
 
 ###### No Dependencies
 ###### No Changelog
