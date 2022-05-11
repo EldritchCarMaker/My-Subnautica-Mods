@@ -3,12 +3,19 @@ using Logger = QModManager.Utility.Logger;
 using System;
 using System.Reflection;
 using UnityEngine;
+using SMLHelper.V2.Utility;
+using System.IO;
+using UnityEngine.UI;
+using UWE;
+using System.Collections;
 
 namespace CyclopsWindows
 {
     [HarmonyPatch(typeof(SubRoot))]
     internal class SubRootPatches 
     {
+        static readonly string AssetsFolder = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
+
         [HarmonyPatch(nameof(SubRoot.Awake))]
         [HarmonyPostfix]
         private static void Postfix(SubRoot __instance)
@@ -31,8 +38,26 @@ namespace CyclopsWindows
 
             button.AddComponent<CyclopsWindows.MonoBehaviours.WindowButton>();
 
-            GameObject.Destroy(button.GetComponent<CyclopsVehicleStorageTerminalButton>());
+            Component component = button.GetComponent<CyclopsVehicleStorageTerminalButton>();
+            if(component != null) GameObject.Destroy(component);
+
+            component = button.GetComponent<Image>();
+            if (component != null) GameObject.Destroy(component);
+
             button.name = "WindowButton";
+
+            Atlas.Sprite myAtlas = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "window_toggle_full_alt.png"));
+            var texture = myAtlas.texture;
+            var sprite = UnityEngine.Sprite.Create(texture, new Rect(0f, 0f, texture.width, texture.height), Vector2.one * 0.5f);
+
+            var child = button.gameObject.transform.GetChild(0);
+            if (child != null)
+            {
+                var image = child.gameObject.GetComponent<UnityEngine.UI.Image>();
+
+                if (image != null)
+                    image.sprite = sprite;
+            }
         }
     }
 }
