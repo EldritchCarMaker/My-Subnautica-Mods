@@ -40,7 +40,7 @@ Moves the cyclops lockers to the other side of the wall, replacing them with som
 ![image](https://user-images.githubusercontent.com/97289845/165867823-b09aecdd-6cc8-4f7b-9292-608a6b5032a3.png)
 
 
-###### No Changelog Yet
+###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/CyclopsWindows/Changelog.md)
 
 
 ### ~~[Invincible Docked Vehicles](https://github.com/Nagorogan/My-Subnautica-Mods/files/8647952/InvincibleDockedVehicles.zip)~~
