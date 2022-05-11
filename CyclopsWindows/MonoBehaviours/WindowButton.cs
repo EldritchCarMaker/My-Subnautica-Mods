@@ -10,9 +10,14 @@ namespace CyclopsWindows.MonoBehaviours
 {
     internal class WindowButton : MonoBehaviour, IPointerClickHandler
     {
+        private SubRootMarker marker;
+        public void Awake()
+        {
+            marker = GetComponentInParent<SubRootMarker>();
+        }
         public void OnPointerClick(PointerEventData eventData)
         {
-            GetComponentInParent<SubRootMarker>().FlipLockers();
+            marker.FlipLockers();
         }
     }
 }
