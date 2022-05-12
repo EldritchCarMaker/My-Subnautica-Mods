@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeedsFromHarvesting", "Seed
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvincibleDockedVehicles", "InvincibleDockedVehicles\InvincibleDockedVehicles.csproj", "{6222E2BB-E639-49F9-BC84-0A73A86F3F75}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarpChip", "Warp Chip\WarpChip.csproj", "{A4B7246F-D436-496F-9004-555D24DA1929}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,10 @@ Global
 		{6222E2BB-E639-49F9-BC84-0A73A86F3F75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6222E2BB-E639-49F9-BC84-0A73A86F3F75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6222E2BB-E639-49F9-BC84-0A73A86F3F75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4B7246F-D436-496F-9004-555D24DA1929}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4B7246F-D436-496F-9004-555D24DA1929}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4B7246F-D436-496F-9004-555D24DA1929}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4B7246F-D436-496F-9004-555D24DA1929}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

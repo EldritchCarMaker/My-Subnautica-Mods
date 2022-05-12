@@ -1,0 +1,15 @@
+﻿{
+  "Id": "WarpChip",
+  "DisplayName": "Warp Chip",
+  "Author": "Nagorrogan",
+  "Version": "1.1.0",
+  "Enable": true,
+  "AssemblyName": "WarpChip.dll",
+  "VersionDependencies": {
+    "SMLHelper": "2.9.6"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/CyclopsWindows/mod.json"
+  },
+  "Game": "Subnautica"
+}
