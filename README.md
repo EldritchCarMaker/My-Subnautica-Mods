@@ -7,6 +7,7 @@ Increases the width and height of the cyclops lockers by a configurable amount (
 Dependencies: [AutosortLockers](https://www.nexusmods.com/subnautica/mods/31), [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ###### No Changelog yet
 
+
 ### [Remote Control Vehicles](https://github.com/Nagorogan/My-Subnautica-Mods/files/8592900/RemoteControlVehicles.zip)
 
 
@@ -16,8 +17,16 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), [More 
 
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/RemoteControlVehicles/Changelog.md)
 
-### [Cyclops Vehicle Upgrade Console](https://github.com/Nagorogan/My-Subnautica-Mods/files/8592921/CyclopsVehicleUpgradeConsole.zip)
 
+### [Warp Chip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8684210/WarpChip.zip)
+
+adds a new equippable chip that warps you forward a slight distance, blueprint unlocks by scanning a warper. Key is configurable, distance is 15 out of base and 10 in base. Cooldown is 5 seconds but is shortened if you don't teleport the full distance.
+
+Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
+###### No Changelog yet
+
+
+### [Cyclops Vehicle Upgrade Console](https://github.com/Nagorogan/My-Subnautica-Mods/files/8592921/CyclopsVehicleUpgradeConsole.zip)
 
 Improves the vehicle management terminal inside the cyclops (the terminal above the docking bay) to also function as a vehicle upgrade console. Meaning you can change the color and name of your vehicle. More importantly, allows you to fabricate a new seamoth/prawn suit directly inside the cyclops' empty docking bay. Requires the resources be in your inventory, currently doesn't support easy craft's pulling of resources from other containers. Also doesn't currently show resources required, both will be done later hopefully.
 ![image](https://user-images.githubusercontent.com/97289845/165867628-8a745e4e-f160-4af1-aa8e-3d53e392f5f8.png)
