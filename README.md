@@ -82,6 +82,14 @@ Dependencies: [SmlHelperZero](https://www.nexusmods.com/subnauticabelowzero/mods
 ###### No Changelog yet
 
 
+### [Flying SeaTruck](https://github.com/Nagorogan/My-Subnautica-Mods/files/8684202/FlyingSeaTruck.zip)
+
+adds a module that lets the seatruck fly, has a config for whether the seatruck drops to the ground when not piloted or stays in air
+
+Dependencies: [SmlHelperZero](https://www.nexusmods.com/subnauticabelowzero/mods/34)
+###### No Changelog yet
+
+
 ### [PlayerToolChanges_BZ.zip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8309959/PlayerToolChanges_BZ.zip):
 
 Allows you to configure the stats of most tools in game. Must re-equip tool for changes to take effect. Has option for Air bladder changes, currently unused and too lazy to remove. Just pretend the air bladder config doesn't exist.
