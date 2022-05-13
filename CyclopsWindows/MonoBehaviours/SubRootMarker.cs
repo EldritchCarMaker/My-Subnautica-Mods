@@ -10,7 +10,6 @@ namespace CyclopsWindows
     public class SubRootMarker : MonoBehaviour
     {
         private static readonly FMODAsset deployBeaconSound = GetFmodAsset("event:/sub/cyclops/load_decoy");
-
         public void FlipLockers()
         {
             CyclopsLocker singleLocker = GetComponentInChildren<CyclopsLocker>();

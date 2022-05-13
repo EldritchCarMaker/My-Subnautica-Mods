@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvincibleDockedVehicles", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarpChip", "Warp Chip\WarpChip.csproj", "{A4B7246F-D436-496F-9004-555D24DA1929}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlyingSeaTruck", "FlyingSeaTruck\FlyingSeaTruck.csproj", "{6EC0CDB6-85A5-4315-940F-00CA967AC8F7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +95,10 @@ Global
 		{A4B7246F-D436-496F-9004-555D24DA1929}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4B7246F-D436-496F-9004-555D24DA1929}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4B7246F-D436-496F-9004-555D24DA1929}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EC0CDB6-85A5-4315-940F-00CA967AC8F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EC0CDB6-85A5-4315-940F-00CA967AC8F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EC0CDB6-85A5-4315-940F-00CA967AC8F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EC0CDB6-85A5-4315-940F-00CA967AC8F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
