@@ -40,6 +40,17 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 
 Gives you one seed whenever you harvest a plant like a mushroom or marble melon. Don't need to knife them if you just want to keep the farm sustained. If you want to expand the farm, still need to knife them to get all 4 seeds though. This mod also stops you from planting fully grown plants like the marble melon, now you need to plant the seeds instead. There is a config for this but if you set it to false you can just plant and harvest rapidly to duplicate as many seeds as you want. 
 
+
+Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
+###### No Changelog Yet
+
+
+### [Sound Commands](https://github.com/Nagorogan/My-Subnautica-Mods/files/8691179/SoundCommand.zip)
+
+Mostly for mod making, adds three commands to try out sounds. [Link to SN1 sounds](https://github.com/Nagorogan/ECCLibrary/blob/main/Wiki/Resources/SN/FMODEventPathsSN1.txt). Just copy paste one of those after the command PlaySound and it'll play the sound. For loops, use PlayLoopSound and StopLoopSound or else the sound will just go on forever. 
+
+example: PlayLoopSound event:/sub/base/nuke_gen_loop
+
 Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ###### No Changelog Yet
 
