@@ -26,7 +26,7 @@ namespace WarpChip
 
             ConsoleCommandsHandler.Main.RegisterConsoleCommand("PlaySound", typeof(QMod), nameof(PlaySound));
             ConsoleCommandsHandler.Main.RegisterConsoleCommand("PlayLoopSound", typeof(QMod), nameof(PlayLoopSound));
-            ConsoleCommandsHandler.Main.RegisterConsoleCommand("StopLoopSound", typeof(QMod), nameof(StopLoopSound));
+            ConsoleCommandsHandler.Main.RegisterConsoleCommand("StopSounds", typeof(QMod), nameof(StopSounds));
 
             Logger.Log(Logger.Level.Info, "Patched successfully!");
         }
@@ -57,19 +57,12 @@ namespace WarpChip
                 }
             }
         }
-        public static void StopLoopSound(string n)
+        public static void StopSounds()
         {
-            Logger.Log(Logger.Level.Info, "Stopping loop", null, true); 
-            if (n != null)
+            Logger.Log(Logger.Level.Info, "Stopping sounds", null, true);
+            foreach (FMOD_CustomLoopingEmitter loop in playingSounds)
             {
-                FMODAsset sound = Utility.GetFmodAsset(n);
-
-                if (sound == null) return;
-                
-                foreach(FMOD_CustomLoopingEmitter loop in playingSounds)
-                {
-                    if(loop.asset == sound) loop.Stop();
-                }
+                loop.Stop();
             }
         }
 
