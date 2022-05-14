@@ -37,6 +37,7 @@ namespace WarpChip
             {
                 FMODAsset sound = Utility.GetFmodAsset(n);
                 if (sound != null) Utils.PlayFMODAsset(sound, Player.main.transform);
+                if (sound == null) { ErrorMessage.AddMessage("Could not find sound"); return; }
             }
         }
         public static void PlayLoopSound(string n)
@@ -46,7 +47,7 @@ namespace WarpChip
             {
                 FMODAsset sound = Utility.GetFmodAsset(n);
 
-                if (sound == null) return;
+                if (sound == null) { ErrorMessage.AddMessage("Could not find sound"); return; }
 
                 FMOD_CustomLoopingEmitter loop = AddLoopingEmitter(sound);
 
