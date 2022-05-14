@@ -45,7 +45,7 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ###### No Changelog Yet
 
 
-### [Sound Commands](https://github.com/Nagorogan/My-Subnautica-Mods/files/8691295/SoundCommand.zip)
+### [Sound Commands](https://github.com/Nagorogan/My-Subnautica-Mods/files/8693262/SoundCommand.zip)
 
 Mostly for mod making, adds three commands to try out sounds. [Link to SN1 sounds](https://github.com/Nagorogan/ECCLibrary/blob/main/Wiki/Resources/SN/FMODEventPathsSN1.txt). Just copy paste one of those after the command PlaySound and it'll play the sound. For loops, use PlayLoopSound and StopLoopSound or else the sound will just go on forever. 
 
@@ -63,11 +63,9 @@ Moves the cyclops lockers to the other side of the wall, replacing them with som
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/CyclopsWindows/Changelog.md)
 
 
-### ~~[Invincible Docked Vehicles](https://github.com/Nagorogan/My-Subnautica-Mods/files/8647952/InvincibleDockedVehicles.zip)~~
+### [Invincible Docked Vehicles](https://github.com/Nagorogan/My-Subnautica-Mods/files/8693264/InvincibleDockedVehicles.zip)
 
-~~Makes vehicles invincible when they're docked. More of a bandaid fix for a few bugs in game, but this is the only way I can think of to get them fixed for now at least.~~
-
-#### currently in quarantine, for some reason it bugs out the seamoth completely and effectively softlocks the game. No Clue why, just don't use it.
+Makes vehicles invincible when they're docked. More of a bandaid fix for a few bugs in game, but this is the only way I can think of to get them fixed for now at least.
 
 ###### No Dependencies
 ###### No Changelog
