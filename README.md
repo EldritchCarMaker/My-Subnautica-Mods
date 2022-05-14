@@ -68,7 +68,7 @@ Moves the cyclops lockers to the other side of the wall, replacing them with som
 Makes vehicles invincible when they're docked. More of a bandaid fix for a few bugs in game, but this is the only way I can think of to get them fixed for now at least.
 
 ###### No Dependencies
-###### No Changelog
+###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/InvincibleDockedVehicles/Changelog.md)
 
 ### [Drooping Stingers Nerf](https://github.com/Nagorogan/My-Subnautica-Mods/files/8227628/DroopingStingersNerf.zip):
 
