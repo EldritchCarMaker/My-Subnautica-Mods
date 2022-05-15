@@ -30,6 +30,8 @@ namespace EquippableItemIcons.API
         public delegate void ToggleEvent();
         public ToggleEvent Deactivate;
         public ToggleEvent Activate;
+        public ToggleEvent OnEquip;
+        public ToggleEvent OnUnEquip;
 
         public delegate bool AllowedEvent();
         public AllowedEvent CanActivate;
@@ -91,8 +93,14 @@ namespace EquippableItemIcons.API
             if (AutomaticSetup)
             {
                 var temp = UtilityStuffs.Utility.EquipmentHasItem(techType, equipmentType);
-                if (temp != equipped) Registries.UpdatePositions();
+                if (temp != equipped)
+                {
+                    Registries.UpdatePositions();
+                    if (temp && OnEquip != null) OnEquip.Invoke();
+                    else if(!temp && OnUnEquip != null) OnUnEquip.Invoke();
+                }
                 equipped = temp;
+                container.transform.eulerAngles = new Vector3(0, 180, 180);//for some reason the angle would be off unless I set it here
             }
         }
         public void Update()
