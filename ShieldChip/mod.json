@@ -1,0 +1,15 @@
+﻿{
+  "Id": "ShieldChip",
+  "DisplayName": "Shield Chip",
+  "Author": "Nagorrogan",
+  "Version": "1.0.0",
+  "Enable": true,
+  "AssemblyName": "ShieldChip.dll",
+  "VersionDependencies": {
+    "SMLHelper": "2.9.6"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/ShieldChip/mod.json"
+  },
+  "Game": "Subnautica"
+}

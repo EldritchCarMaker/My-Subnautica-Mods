@@ -39,6 +39,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarpChip", "WarpChip\WarpCh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpyWatch", "SpyWatch\SpyWatch.csproj", "{9C751ECB-4E38-4389-8042-C86A2C96F521}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EquippableItemIcons", "EquippableItemIcons\EquippableItemIcons.csproj", "{3984ABC3-4152-487E-BBF9-DA129D2327B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShieldChip", "ShieldChip\ShieldChip.csproj", "{E91ABB4B-B08D-4ADD-9093-BCCDA2BC8134}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -117,6 +121,14 @@ Global
 		{9C751ECB-4E38-4389-8042-C86A2C96F521}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C751ECB-4E38-4389-8042-C86A2C96F521}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C751ECB-4E38-4389-8042-C86A2C96F521}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3984ABC3-4152-487E-BBF9-DA129D2327B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3984ABC3-4152-487E-BBF9-DA129D2327B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3984ABC3-4152-487E-BBF9-DA129D2327B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3984ABC3-4152-487E-BBF9-DA129D2327B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E91ABB4B-B08D-4ADD-9093-BCCDA2BC8134}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E91ABB4B-B08D-4ADD-9093-BCCDA2BC8134}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E91ABB4B-B08D-4ADD-9093-BCCDA2BC8134}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E91ABB4B-B08D-4ADD-9093-BCCDA2BC8134}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

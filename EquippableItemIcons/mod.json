@@ -1,0 +1,15 @@
+﻿{
+  "Id": "EquippableItemIcons",
+  "DisplayName": "Equippable Item Icons",
+  "Author": "Nagorrogan",
+  "Version": "1.0.0",
+  "Enable": true,
+  "AssemblyName": "EquippableItemIcons.dll",
+  "VersionDependencies": {
+    "SMLHelper": "2.9.6"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/EquippableItemIcons/mod.json"
+  },
+  "Game": "Subnautica"
+}
