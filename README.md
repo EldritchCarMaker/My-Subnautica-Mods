@@ -28,6 +28,15 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ###### No Changelog yet
 
 
+### [Spy Watch](https://github.com/Nagorogan/My-Subnautica-Mods/files/8695704/SpyWatch.zip)
+
+
+Adds a new equippable watch(hud chip) that allows you to go invisible for a short amount of time. Creatures shouldn't be able to detect you while invisible, but if something saw you first they may still try to attack. The key is configurable, and after equipping the watch an icon should show up in the bottom right near the quickslots. When using the watch, the icon will slowly drain and this is your indication of how long you have left to be invisible.
+
+
+Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
+###### No Changelog yet
+
 ### [Cyclops Vehicle Upgrade Console](https://github.com/Nagorogan/My-Subnautica-Mods/files/8592921/CyclopsVehicleUpgradeConsole.zip)
 
 
