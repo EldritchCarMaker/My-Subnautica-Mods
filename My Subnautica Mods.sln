@@ -35,6 +35,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundCommand", "SoundComman
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PickupableVehicles", "PickupableVehicles\PickupableVehicles.csproj", "{855FB262-7E85-4752-8380-6ADC65733D46}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarpChip", "WarpChip\WarpChip.csproj", "{A4B7246F-D436-496F-9004-555D24DA1929}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpyWatch", "SpyWatch\SpyWatch.csproj", "{9C751ECB-4E38-4389-8042-C86A2C96F521}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,6 +109,14 @@ Global
 		{855FB262-7E85-4752-8380-6ADC65733D46}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{855FB262-7E85-4752-8380-6ADC65733D46}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{855FB262-7E85-4752-8380-6ADC65733D46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4B7246F-D436-496F-9004-555D24DA1929}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4B7246F-D436-496F-9004-555D24DA1929}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4B7246F-D436-496F-9004-555D24DA1929}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4B7246F-D436-496F-9004-555D24DA1929}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C751ECB-4E38-4389-8042-C86A2C96F521}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C751ECB-4E38-4389-8042-C86A2C96F521}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C751ECB-4E38-4389-8042-C86A2C96F521}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C751ECB-4E38-4389-8042-C86A2C96F521}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
