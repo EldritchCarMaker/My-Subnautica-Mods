@@ -107,7 +107,7 @@ Dependencies: [SmlHelperZero](https://www.nexusmods.com/subnauticabelowzero/mods
 ###### No Changelog yet
 
 
-### [Flying SeaTruck](https://github.com/Nagorogan/My-Subnautica-Mods/files/8684202/FlyingSeaTruck.zip)
+### [Flying SeaTruck](https://github.com/Nagorogan/My-Subnautica-Mods/files/8694119/FlyingSeaTruck.zip)
 
 adds a module that lets the seatruck fly, has a config for whether the seatruck drops to the ground when not piloted or stays in air
 
