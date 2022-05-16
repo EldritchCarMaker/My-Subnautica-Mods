@@ -174,4 +174,6 @@ An API for creating new items and icons for said items. Very configurable, ask o
 [BurstFins.zip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8697839/BurstFins.zip) - Mostly a test mod to try API with other equippables, but mostly functions as an upgrade to ultra glide fins - press button for short lasting speed boost
 
 
+
+# Thanks!
 Huge thanks to the subnautica modding discord, which is probably where you came from, for helping me with the vast majority if not all of these mods. Wouldn't have them without major help from people there.
