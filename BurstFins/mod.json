@@ -1,0 +1,15 @@
+﻿{
+  "Id": "BurstFins",
+  "DisplayName": "Burst Fins",
+  "Author": "Nagorrogan",
+  "Version": "1.0.0",
+  "Enable": true,
+  "AssemblyName": "BurstFins.dll",
+  "VersionDependencies": {
+    "SMLHelper": "2.9.6"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/BurstFins/mod.json"
+  },
+  "Game": "Subnautica"
+}

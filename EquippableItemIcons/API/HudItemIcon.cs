@@ -12,20 +12,21 @@ namespace EquippableItemIcons.API
     {
         public string name;
         public Atlas.Sprite sprite;
-        public Atlas.Sprite backgroundSprite;
+        public TechType techType;
 
         public GameObject container;
         public GameObject itemIconObject;
         public uGUI_ItemIcon itemIcon;
+        public bool active = false;
 
         //whether the mod handles icon animation itself or if its handled here
         public bool AutomaticSetup = true;
 
         public bool equipped = false;
-        public TechType techType;
         public EquipmentType equipmentType = EquipmentType.Chip;
-        public bool active = false;
         public bool iconActive = false;
+        public bool InvertIcon = true;
+        public bool playSounds = true;
 
         public delegate void ToggleEvent();
         public ToggleEvent Deactivate;
@@ -37,13 +38,22 @@ namespace EquippableItemIcons.API
         public AllowedEvent CanActivate;
         public AllowedEvent IsIconActive;
 
+        public FMODAsset ActivateSound;
+        public FMODAsset DeactivateSound;
+
         public KeyCode activateKey = KeyCode.None;
+        public Atlas.Sprite backgroundSprite;
 
         public float MaxCharge = 100;
         public float MinCharge = 0;
         public float ChargeRate = 20;
         public float DrainRate = 5;
         public float charge;
+        public bool OnceOff = false;
+        public float RechargeDelay = 0;
+
+
+        private float TimeCharge = 0;
 
         public HudItemIcon(string name, Atlas.Sprite sprite, TechType itemTechType)
         {
@@ -71,17 +81,27 @@ namespace EquippableItemIcons.API
             itemIcon.CreateBackground();
             itemIcon.SetBackgroundSprite(backgroundSprite);
 
+            if(ActivateSound == null)
+            {
+                ActivateSound = UtilityStuffs.Utility.GetFmodAsset("");
+            }
+            if (DeactivateSound == null)
+            {
+                DeactivateSound = UtilityStuffs.Utility.GetFmodAsset("");
+            }
+
+            if (InvertIcon)
+                container.transform.eulerAngles = new Vector3(0, 180, 180);
+
             if (!AutomaticSetup)
             {
                 iconActive = equipped;
                 container.SetActive(iconActive);
-                Registries.RegisterHudItemIcon(this);
+                Registries.UpdatePositions();
                 Logger.Log(Logger.Level.Info, $"Finished setup of {name}");
                 return;
             }
 
-
-            container.transform.eulerAngles = new Vector3(0, 180, 180);
 
             itemIcon.SetProgress(1, FillMethod.Vertical);
 
@@ -89,7 +109,7 @@ namespace EquippableItemIcons.API
 
             iconActive = equipped;
             container.SetActive(iconActive);
-            Registries.RegisterHudItemIcon(this);
+            Registries.UpdatePositions();
             Logger.Log(Logger.Level.Info, $"Finished setup of {name}");
         }
 
@@ -107,6 +127,7 @@ namespace EquippableItemIcons.API
                 equipped = temp;
                 container.transform.eulerAngles = new Vector3(0, 180, 180);//for some reason the angle would be off unless I set it here
             }
+            Registries.UpdatePositions();
         }
         public void Update()
         {
@@ -118,8 +139,7 @@ namespace EquippableItemIcons.API
             {
                 if (active)
                 {
-                    Deactivate?.Invoke();
-                    active = false;
+                    HandleDeactivation();
                 }
                 return;
             }
@@ -129,28 +149,34 @@ namespace EquippableItemIcons.API
             {
                 if (!active)
                 {
-                    Activate?.Invoke();
-                    active = true;
+                    HandleActivation();
                 }
                 else
                 {
-                    Deactivate?.Invoke();
-                    active = false;
+                    HandleDeactivation();
                 }
             }
-
-            if (active)
+            if(OnceOff)
             {
-                charge = Mathf.Max(charge - (DrainRate * Time.deltaTime), 0);
-                if (charge <= 0)
+                if(Time.time >= TimeCharge)
                 {
-                    Deactivate?.Invoke();
-                    active = false;
+                    charge = Mathf.Min(charge + (ChargeRate * Time.deltaTime), MaxCharge);
                 }
             }
-            else if (charge < MaxCharge)
+            else
             {
-                charge = Mathf.Min(charge + (ChargeRate * Time.deltaTime), MaxCharge);
+                if (active)
+                {
+                    charge = Mathf.Max(charge - (DrainRate * Time.deltaTime), 0);
+                    if (charge <= 0)
+                    {
+                        HandleDeactivation();
+                    }
+                }
+                else if (charge < MaxCharge)
+                {
+                    charge = Mathf.Min(charge + (ChargeRate * Time.deltaTime), MaxCharge);
+                }
             }
             UpdateFill();
         }
@@ -163,6 +189,39 @@ namespace EquippableItemIcons.API
             this.itemIcon.background.material.SetFloat(ShaderPropertyID._FillValue, (100f / (this.MaxCharge / this.charge)) - 50f);
             //percent minus 50 because for some reason this value is offset. 50 is max, -50 is minimum. 
             this.itemIcon.foreground.material.SetFloat(ShaderPropertyID._FillValue, (100f / (this.MaxCharge / this.charge)) - 50f);
+        }
+        private void HandleActivation()
+        {
+            Activate?.Invoke();
+            if (OnceOff)
+            {
+                charge -= DrainRate;
+                TimeCharge = Time.time + RechargeDelay;
+            }
+            else
+            {
+                active = true;
+            }
+            if (QMod.config.SoundsActive && playSounds && ActivateSound)
+            {
+                Utils.PlayFMODAsset(ActivateSound);
+            }
+        }
+        private void HandleDeactivation()
+        {
+            Deactivate?.Invoke();
+            if (OnceOff)
+            {
+                //I'm sure I'll add stuff here later
+            }
+            else
+            {
+                active = false;
+            }
+            if(QMod.config.SoundsActive && playSounds && DeactivateSound)
+            {
+                Utils.PlayFMODAsset(DeactivateSound);
+            }
         }
     }
 }

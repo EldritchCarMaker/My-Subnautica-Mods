@@ -31,7 +31,7 @@ namespace WarpChip
 
         public void Awake()
         {
-            itemIcon = new HudItemIcon("WarpChipIcon", ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "WarpChipIcon.png")), WarpChipItem.thisTechType);
+            itemIcon = new HudItemIcon("WarpChipIcon", ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "WarpChipIconRotate.png")), WarpChipItem.thisTechType);
             itemIcon.Deactivate += Deactivate;
             itemIcon.Activate += TryTeleport;
             itemIcon.activateKey = QMod.config.ControlKey;
@@ -39,7 +39,7 @@ namespace WarpChip
             itemIcon.MaxCharge = 5;
             itemIcon.ChargeRate = 1;
             itemIcon.DrainRate = 5;
-
+            itemIcon.OnceOff = true;
             Registries.RegisterHudItemIcon(itemIcon);
 
             player = GetComponent<Player>();
@@ -87,6 +87,7 @@ namespace WarpChip
             fxController.StartTeleport();
             CoroutineHost.StartCoroutine(TeleportFX());
             Utils.PlayFMODAsset(teleportSound, transform.position);
+            itemIcon.charge = itemIcon.MaxCharge / (maxDistance / distance);
         }
 
         public static IEnumerator TeleportFX()

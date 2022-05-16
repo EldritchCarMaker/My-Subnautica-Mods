@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UWE;
+using Logger = QModManager.Utility.Logger;
 
 namespace EquippableItemIcons.API
 {
@@ -16,6 +17,7 @@ namespace EquippableItemIcons.API
         private static bool CoroutineActive = false;
         public static void RegisterHudItemIcon(HudItemIcon icon)
         {
+            Logger.Log(Logger.Level.Info, $"Recieved HudItemIcon: {icon.name}", null, true); 
             if (hudItemIcons.Contains(icon))
             {
                 QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Warn, $"Blocked duplicate icon: {icon.name}");
@@ -28,6 +30,7 @@ namespace EquippableItemIcons.API
         public static void UpdatePositions()
         {
             if (CoroutineActive) return;
+
             activeIcons.Clear();
             foreach(HudItemIcon icon in hudItemIcons)
             {
@@ -59,7 +62,6 @@ namespace EquippableItemIcons.API
                 return;
             }
 
-
             uGUI_QuickSlots quickSlots = uGUI.main.quickSlots;
             /*foreach (HudItemIcon icon in activeIcons)
             {
@@ -73,11 +75,11 @@ namespace EquippableItemIcons.API
             var rightPos = quickSlots.GetPosition(quickSlots.icons.Length);
             int count = 0;
             var UseRightSide = true;
-            foreach (HudItemIcon icon in hudItemIcons)
+            foreach (HudItemIcon icon in activeIcons)
             {
                 icon.container.transform.localPosition = !UseRightSide
-                    ? new Vector2(leftPos.x - 20 * (count / 2), leftPos.y)
-                    : new Vector2(rightPos.x + 40 * ((count + 1) / 2), rightPos.y);
+                    ? new Vector2(leftPos.x - (80 * (count - 1 / 2)), leftPos.y)
+                    : new Vector2(rightPos.x + 10 + (80 * ((count) / 2)), rightPos.y);
                 UseRightSide = !UseRightSide;
                 count++;
             }

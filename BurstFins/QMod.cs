@@ -8,12 +8,12 @@ using SMLHelper.V2.Options.Attributes;
 using SMLHelper.V2.Handlers;
 using System.IO;
 
-namespace EquippableItemIcons
+namespace BurstFins
 {
     [QModCore]
     public static class QMod
     {
-        public static Config config { get; } = OptionsPanelHandler.Main.RegisterModOptions<Config>();
+        internal static Config config { get; } = OptionsPanelHandler.Main.RegisterModOptions<Config>();
         [QModPatch]
         public static void Patch()
         {
@@ -23,13 +23,15 @@ namespace EquippableItemIcons
             Harmony harmony = new Harmony(CyclopsLockers);
             harmony.PatchAll(assembly);
 
+            new BurstFinsItem().Patch();
+
             Logger.Log(Logger.Level.Info, "Patched successfully!");
         }
     }
-    [Menu("Equippable Item Icons")]
+    [Menu("BurstFins")]
     public class Config : ConfigFile
     {
-        [Toggle("Sounds", Tooltip = "Toggles whether sounds are played through this mod. Be aware, other mods may still play sounds on their on accord, this can not change those")]
-        public bool SoundsActive = true;
+        [Keybind("Burst Fins Key", Tooltip = "Press this key while you have the Burst Fins equipped to activate them")]
+        public KeyCode BurstFinsKey = KeyCode.F;
     }
 }
