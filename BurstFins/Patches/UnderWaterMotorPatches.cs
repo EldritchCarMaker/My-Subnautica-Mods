@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HarmonyLib;
+using UnityEngine;
+using Logger = QModManager.Utility.Logger;
 
 namespace BurstFins.Patches
 {
@@ -24,6 +26,22 @@ namespace BurstFins.Patches
             else if(mono && mono.hudItemIcon != null && mono.hudItemIcon.equipped)
             {
                 __result = __result + 2.5f;
+            }
+        }
+        [HarmonyPatch(nameof(UnderwaterMotor.UpdateMove))]
+        [HarmonyPostfix]
+        public static void MotorPostfix(UnderwaterMotor __instance, ref Vector3 __result)
+        {
+            var mono = Player.main.GetComponent<BurstFinsMono>();
+            if (mono && mono.hudItemIcon != null && mono.hudItemIcon.active)
+            {
+                var num = __result;
+                num = new Vector3(num.x * 1.025f, num.y * 1.025f, num.z * 1.025f);
+
+                __instance.rb.velocity = num;
+                __instance.vel = num;
+
+                __result = num;
             }
         }
     }

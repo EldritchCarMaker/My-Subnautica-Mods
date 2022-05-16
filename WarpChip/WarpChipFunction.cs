@@ -17,7 +17,6 @@ namespace WarpChip
     internal class WarpChipFunction : MonoBehaviour
     {
         private Player player;
-        private float timeNextTeleport = 0;
 
         private static readonly FMODAsset teleportSound = Utility.GetFmodAsset("event:/creature/warper/portal_open");
 
@@ -39,6 +38,8 @@ namespace WarpChip
             itemIcon.MaxCharge = 5;
             itemIcon.ChargeRate = 1;
             itemIcon.DrainRate = 5;
+            itemIcon.ActivateSound = teleportSound;
+            itemIcon.DeactivateSound = null;
             itemIcon.OnceOff = true;
             Registries.RegisterHudItemIcon(itemIcon);
 
@@ -59,7 +60,7 @@ namespace WarpChip
         }
         public void TryTeleport()
         {
-            if(Time.time >= timeNextTeleport && player != null && !player.isPiloting && player.mode == Player.Mode.Normal)
+            if(player != null && !player.isPiloting && player.mode == Player.Mode.Normal)
             {
                 Teleport();
             }
@@ -81,12 +82,9 @@ namespace WarpChip
 
             float cooldownTime = teleportCooldown / (maxDistance / distance);
 
-            timeNextTeleport = Time.time + cooldownTime;
-
             TeleportScreenFXController fxController = MainCamera.camera.GetComponent<TeleportScreenFXController>();
             fxController.StartTeleport();
             CoroutineHost.StartCoroutine(TeleportFX());
-            Utils.PlayFMODAsset(teleportSound, transform.position);
             itemIcon.charge = itemIcon.MaxCharge / (maxDistance / distance);
         }
 
@@ -102,7 +100,7 @@ namespace WarpChip
         }
         public bool CanActivate()
         {
-            return Time.time >= timeNextTeleport && itemIcon.charge == itemIcon.MaxCharge && player != null && !player.isPiloting && player.mode == Player.Mode.Normal;
+            return itemIcon.charge == itemIcon.MaxCharge && player != null && !player.isPiloting && player.mode == Player.Mode.Normal;
         }
     }
 }

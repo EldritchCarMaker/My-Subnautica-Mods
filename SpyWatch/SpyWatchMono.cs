@@ -140,6 +140,7 @@ namespace SpyWatch
         {
             foreach (Renderer renderer in player.transform.Find("body").GetComponentsInChildren<Renderer>())
             {
+                if (renderer.GetComponentInParent<PlayerTool>() != null) continue;
                 /*
                 if (!materials.ContainsValue(renderer.gameObject))
                 {

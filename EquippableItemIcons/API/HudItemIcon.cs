@@ -10,36 +10,38 @@ namespace EquippableItemIcons.API
 {
     public class HudItemIcon
     {
-        public string name;
-        public Atlas.Sprite sprite;
-        public TechType techType;
+        public string name;//self explanatory
+        public Atlas.Sprite sprite;//foreground sprite of item icon
+        public TechType techType;//used to determine if item is equipped or not
 
-        public GameObject container;
+        public GameObject container;//try to avoid touching these if AutomaticSetup is true, otherwise go ham
         public GameObject itemIconObject;
         public uGUI_ItemIcon itemIcon;
-        public bool active = false;
+        public bool active = false;//whether the item is currently being used, not the same as equipped or icon active. Also avoid touching if using AutomaticSetup
 
-        //whether the mod handles icon animation itself or if its handled here
+        //whether we handle the item's charge, activation, and icon animation, or your mod does
         public bool AutomaticSetup = true;
 
-        public bool equipped = false;
-        public EquipmentType equipmentType = EquipmentType.Chip;
-        public bool iconActive = false;
-        public bool InvertIcon = true;
-        public bool playSounds = true;
+        public bool equipped = false;//if item is equipped by player
+        public EquipmentType equipmentType = EquipmentType.Chip;//the item slot its equipped into
+        public bool iconActive = false;//if the icon is currently showing
+        public bool InvertIcon = true;//if the container should be rotated upside down, used so that the animation fades from top to bottom rather than bottom to top. If true, the sprite should be rotated 180 degrees to compensate
+        public bool playSounds = true;//whether this item plays sounds or not, overriden by the mod config
+        public bool fadeBackground = true;//whether the background sprite also fades, or if its only the foreground sprite
 
-        public delegate void ToggleEvent();
-        public ToggleEvent Deactivate;
-        public ToggleEvent Activate;
-        public ToggleEvent OnEquip;
-        public ToggleEvent OnUnEquip;
+        public delegate void ToggleEvent();//any event with returns void
+        public ToggleEvent Deactivate;//stop the functionality of item
+        public ToggleEvent Activate;//the actual functionality of item, when its activated what does it do?
+        public ToggleEvent OnEquip;//in case you need to do something special when item is equipped
+        public ToggleEvent OnUnEquip;// case you need to do something special when item is unequipped
 
-        public delegate bool AllowedEvent();
-        public AllowedEvent CanActivate;
-        public AllowedEvent IsIconActive;
+        public delegate bool AllowedEvent();//any event that returns a bool
+        public AllowedEvent CanActivate;//used to tell if the item can currently be activated or not. Has a default, but good for extra conditions specific to the item
+        public AllowedEvent IsIconActive;//used for if there's a specific condition for when the icon should/shouldn't be active, has a default 
 
-        public FMODAsset ActivateSound;
-        public FMODAsset DeactivateSound;
+        public FMODAsset ActivateSound;//sound that plays when item is activated, has default
+        public FMODAsset DeactivateSound;//sound that plays when item is deactivated, has default
+        public FMODAsset ActivateFailSound;//sound that plays when item can't be activated, has default
 
         public KeyCode activateKey = KeyCode.None;
         public Atlas.Sprite backgroundSprite;
@@ -81,17 +83,12 @@ namespace EquippableItemIcons.API
             itemIcon.CreateBackground();
             itemIcon.SetBackgroundSprite(backgroundSprite);
 
-            if(ActivateSound == null)
-            {
-                ActivateSound = UtilityStuffs.Utility.GetFmodAsset("");
-            }
-            if (DeactivateSound == null)
-            {
-                DeactivateSound = UtilityStuffs.Utility.GetFmodAsset("");
-            }
-
             if (InvertIcon)
                 container.transform.eulerAngles = new Vector3(0, 180, 180);
+
+            if (ActivateSound == null) ActivateSound = UtilityStuffs.Utility.GetFmodAsset("event:/sub/cyclops/install_mod");
+            if (DeactivateSound == null) DeactivateSound = UtilityStuffs.Utility.GetFmodAsset("event:/tools/battery_die");
+            if (ActivateFailSound == null) ActivateFailSound = UtilityStuffs.Utility.GetFmodAsset("event:/tools/transfuser/fail");
 
             if (!AutomaticSetup)
             {
@@ -125,7 +122,9 @@ namespace EquippableItemIcons.API
                     else if(!temp && OnUnEquip != null) OnUnEquip.Invoke();
                 }
                 equipped = temp;
-                container.transform.eulerAngles = new Vector3(0, 180, 180);//for some reason the angle would be off unless I set it here
+
+                if(InvertIcon)
+                    container.transform.eulerAngles = new Vector3(0, 180, 180);//for some reason the angle would be off unless I set it here
             }
             Registries.UpdatePositions();
         }
@@ -144,8 +143,7 @@ namespace EquippableItemIcons.API
                 return;
             }
 
-
-            if (Input.GetKeyDown(activateKey) && CanActivate.Invoke())
+            if (Input.GetKeyDown(activateKey) && (CanActivate != null? CanActivate.Invoke() : CanActivateDefault()))
             {
                 if (!active)
                 {
@@ -154,6 +152,14 @@ namespace EquippableItemIcons.API
                 else
                 {
                     HandleDeactivation();
+                }
+            }
+            else if(Input.GetKeyDown(activateKey))
+            {
+                if (QMod.config.SoundsActive && playSounds && ActivateFailSound)
+                {
+                    Logger.Log(Logger.Level.Info, "Playing fail sound", null, true);
+                    Utils.PlayFMODAsset(ActivateFailSound);
                 }
             }
             if(OnceOff)
@@ -188,10 +194,19 @@ namespace EquippableItemIcons.API
 
             this.itemIcon.background.material.SetFloat(ShaderPropertyID._FillValue, (100f / (this.MaxCharge / this.charge)) - 50f);
             //percent minus 50 because for some reason this value is offset. 50 is max, -50 is minimum. 
-            this.itemIcon.foreground.material.SetFloat(ShaderPropertyID._FillValue, (100f / (this.MaxCharge / this.charge)) - 50f);
+            if(fadeBackground)
+                this.itemIcon.foreground.material.SetFloat(ShaderPropertyID._FillValue, (100f / (this.MaxCharge / this.charge)) - 50f);
         }
         private void HandleActivation()
         {
+            if (OnceOff && charge < DrainRate)
+            {
+                if (QMod.config.SoundsActive && playSounds && ActivateFailSound)
+                {
+                    Utils.PlayFMODAsset(ActivateFailSound);
+                }
+                return;
+            }
             Activate?.Invoke();
             if (OnceOff)
             {
@@ -222,6 +237,11 @@ namespace EquippableItemIcons.API
             {
                 Utils.PlayFMODAsset(DeactivateSound, Player.main.transform);
             }
+        }
+        private bool CanActivateDefault()
+        {
+            Player player = Player.main;
+            return player != null && !player.isPiloting && player.mode == Player.Mode.Normal;
         }
     }
 }
