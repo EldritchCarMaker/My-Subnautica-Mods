@@ -61,11 +61,25 @@ namespace EquippableItemIcons.API
 
 
             uGUI_QuickSlots quickSlots = uGUI.main.quickSlots;
+            /*foreach (HudItemIcon icon in activeIcons)
+            {
+                icon.container.transform.localPosition = activeIcons.Count % 2 == 0 
+                    ? quickSlots.GetPosition(0) - new Vector2(20 * (activeIcons.Count / 2), 0) //even
+                    : quickSlots.GetPosition(quickSlots.icons.Length) + new Vector2(40 * ((activeIcons.Count + 1 )/ 2), 0); //odd
+            }*/
+
+
+            var leftPos = quickSlots.GetPosition(0);
+            var rightPos = quickSlots.GetPosition(quickSlots.icons.Length);
+            int count = 0;
+            var UseRightSide = true;
             foreach (HudItemIcon icon in hudItemIcons)
             {
-                icon.container.transform.localPosition = hudItemIcons.Count % 2 == 0 
-                    ? quickSlots.GetPosition(0) - new Vector2(40 * (activeIcons.Count / 2), 0) 
-                    : quickSlots.GetPosition(quickSlots.icons.Length) + new Vector2(20 * ((activeIcons.Count + 1 )/ 2), 0);
+                icon.container.transform.localPosition = !UseRightSide
+                    ? new Vector2(leftPos.x - 20 * (count / 2), leftPos.y)
+                    : new Vector2(rightPos.x + 40 * ((count + 1) / 2), rightPos.y);
+                UseRightSide = !UseRightSide;
+                count++;
             }
         }
         private static IEnumerator WaitForQuickSlots()

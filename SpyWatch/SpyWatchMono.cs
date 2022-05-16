@@ -113,7 +113,11 @@ namespace SpyWatch
         public void FixedUpdate()
         {
             if (FixedFramesSinceCheck >= 10)
+            {
                 itemIcon.UpdateEquipped();
+                FixedFramesSinceCheck = 0;
+            }
+
             FixedFramesSinceCheck++;
         }
         public void Deactivate()

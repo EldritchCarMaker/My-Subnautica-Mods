@@ -27,6 +27,7 @@ namespace WarpChip
         private const float teleportWallOffset = 1;//used so that you don't teleport partially inside of a wall, puts you slightly away from the wall
 
         public HudItemIcon itemIcon;
+        public int FramesSinceCheck = 0;
 
         public void Awake()
         {
@@ -43,7 +44,19 @@ namespace WarpChip
 
             player = GetComponent<Player>();
         }
-
+        public void Update()
+        {
+            itemIcon.Update();
+        }
+        public void FixedUpdate()
+        {
+            if(FramesSinceCheck >= 10)
+            {
+                itemIcon.UpdateEquipped();
+                FramesSinceCheck = 0;
+            }
+            FramesSinceCheck++;
+        }
         public void TryTeleport()
         {
             if(Time.time >= timeNextTeleport && player != null && !player.isPiloting && player.mode == Player.Mode.Normal)
