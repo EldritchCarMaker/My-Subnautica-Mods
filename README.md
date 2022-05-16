@@ -163,5 +163,15 @@ Dependencies: [SmlHelperZero](https://www.nexusmods.com/subnauticabelowzero/mods
 
 
 
+# Beta Testing mods/updates
+
+[EquippableItemIcons.zip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8697836/EquippableItemIcons.zip)
+An API for creating new items and icons for said items. Very configurable, ask on discord for information on how to use. Still in beta, but currently mostly functional.
+
+[WarpChip.zip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8697828/WarpChip.zip) - Update to use EquippableItemIcons API
+[ShieldChip.zip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8697831/ShieldChip.zip) - Similar to other chips, but this one adds personal shield
+[SpyWatch.zip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8697835/SpyWatch.zip) - Update to use EquippableItemIcons API
+[BurstFins.zip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8697839/BurstFins.zip) - Mostly a test mod to try API with other equippables, but mostly functions as an upgrade to ultra glide fins - press button for short lasting speed boost
+
 
 Huge thanks to the subnautica modding discord, which is probably where you came from, for helping me with the vast majority if not all of these mods. Wouldn't have them without major help from people there.
