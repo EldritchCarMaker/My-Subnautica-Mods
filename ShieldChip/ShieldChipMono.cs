@@ -14,7 +14,7 @@ namespace ShieldChip
 {
     internal class ShieldChipMono : MonoBehaviour
     {
-        public HudItemIcon hudItemIcon = new HudItemIcon();
+        public HudItemIcon hudItemIcon = new HudItemIcon("ShieldChipIcon", ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "ShieldChipIconRotate.png")), ShieldChipItem.thisTechType);
         public Player player;
         public int FixedUpdatesSinceCheck = 0;
 
@@ -33,7 +33,6 @@ namespace ShieldChip
             hudItemIcon.activateKey = QMod.config.ShieldChipKey;
             hudItemIcon.techType = ShieldChipItem.thisTechType;
 
-            hudItemIcon.makeIcon();
         }
         public void Update()
         {

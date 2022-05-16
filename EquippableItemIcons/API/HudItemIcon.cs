@@ -45,8 +45,13 @@ namespace EquippableItemIcons.API
         public float DrainRate = 5;
         public float charge;
 
-
-        public void makeIcon()
+        public HudItemIcon(string name, Atlas.Sprite sprite, TechType itemTechType)
+        {
+            this.name = name;
+            this.sprite = sprite;
+            techType = itemTechType;
+        }
+        internal void makeIcon()
         {
             uGUI_QuickSlots quickSlots = uGUI.main.quickSlots;
 
@@ -113,7 +118,7 @@ namespace EquippableItemIcons.API
             {
                 if (active)
                 {
-                    Deactivate.Invoke();
+                    Deactivate?.Invoke();
                     active = false;
                 }
                 return;
@@ -124,12 +129,12 @@ namespace EquippableItemIcons.API
             {
                 if (!active)
                 {
-                    Activate.Invoke();
+                    Activate?.Invoke();
                     active = true;
                 }
                 else
                 {
-                    Deactivate.Invoke();
+                    Deactivate?.Invoke();
                     active = false;
                 }
             }
@@ -139,7 +144,7 @@ namespace EquippableItemIcons.API
                 charge = Mathf.Max(charge - (DrainRate * Time.deltaTime), 0);
                 if (charge <= 0)
                 {
-                    Deactivate.Invoke();
+                    Deactivate?.Invoke();
                     active = false;
                 }
             }

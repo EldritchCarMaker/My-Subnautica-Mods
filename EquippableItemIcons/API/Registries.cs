@@ -14,15 +14,15 @@ namespace EquippableItemIcons.API
         private static List<HudItemIcon> hudItemIcons = new List<HudItemIcon>();
         private static List<HudItemIcon> activeIcons = new List<HudItemIcon>();
         private static bool CoroutineActive = false;
-
         public static void RegisterHudItemIcon(HudItemIcon icon)
         {
             if (hudItemIcons.Contains(icon))
             {
-                QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Warn, $"Blocked duplicate icon {icon.name}");
+                QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Warn, $"Blocked duplicate icon: {icon.name}");
                 return;
             }
             hudItemIcons.Add(icon);
+            icon.makeIcon();
             UpdatePositions();
         }
         public static void UpdatePositions()
