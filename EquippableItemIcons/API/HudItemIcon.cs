@@ -204,7 +204,7 @@ namespace EquippableItemIcons.API
             }
             if (QMod.config.SoundsActive && playSounds && ActivateSound)
             {
-                Utils.PlayFMODAsset(ActivateSound);
+                Utils.PlayFMODAsset(ActivateSound, Player.main.transform);
             }
         }
         private void HandleDeactivation()
@@ -220,7 +220,7 @@ namespace EquippableItemIcons.API
             }
             if(QMod.config.SoundsActive && playSounds && DeactivateSound)
             {
-                Utils.PlayFMODAsset(DeactivateSound);
+                Utils.PlayFMODAsset(DeactivateSound, Player.main.transform);
             }
         }
     }

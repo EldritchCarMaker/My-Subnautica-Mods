@@ -16,8 +16,10 @@ namespace BurstFins.Patches
             var mono = Player.main.GetComponent<BurstFinsMono>();
             if (mono && mono.hudItemIcon != null && mono.hudItemIcon.active)
             {
-                __result = __result + 2.5f;
-                __result = __result * 2f;
+                var num = __result;
+                num = num + 2.5f;
+                num = num * 2f;
+                __result = num;
             }
             else if(mono && mono.hudItemIcon != null && mono.hudItemIcon.equipped)
             {

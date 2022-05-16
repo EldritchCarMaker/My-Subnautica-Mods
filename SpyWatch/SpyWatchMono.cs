@@ -49,6 +49,8 @@ namespace SpyWatch
             itemIcon.activateKey = QMod.config.SpyWatchKey;
             itemIcon.CanActivate += CanActivate;
             itemIcon.backgroundSprite = sprite;
+            itemIcon.ActivateSound = Utility.GetFmodAsset(EnableCloakSoundPath);
+            itemIcon.DeactivateSound = Utility.GetFmodAsset(DisableCloakSoundPath);
             Registries.RegisterHudItemIcon(itemIcon);
 
             itemIcon.UpdateEquipped();
@@ -122,7 +124,6 @@ namespace SpyWatch
         }
         public void Deactivate()
         {
-            Utils.PlayFMODAsset(Utility.GetFmodAsset(DisableCloakSoundPath), transform);
             foreach (Renderer renderer in player.GetComponentsInChildren<Renderer>())
             {
 
@@ -137,7 +138,6 @@ namespace SpyWatch
         }
         public void Activate()
         {
-            Utils.PlayFMODAsset(Utility.GetFmodAsset(EnableCloakSoundPath), transform);
             foreach (Renderer renderer in player.transform.Find("body").GetComponentsInChildren<Renderer>())
             {
                 /*

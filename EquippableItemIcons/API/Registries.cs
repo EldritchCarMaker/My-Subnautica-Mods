@@ -78,7 +78,7 @@ namespace EquippableItemIcons.API
             foreach (HudItemIcon icon in activeIcons)
             {
                 icon.container.transform.localPosition = !UseRightSide
-                    ? new Vector2(leftPos.x - (80 * (count - 1 / 2)), leftPos.y)
+                    ? new Vector2(leftPos.x - (80 * ((count - 1) / 2)), leftPos.y)
                     : new Vector2(rightPos.x + 10 + (80 * ((count) / 2)), rightPos.y);
                 UseRightSide = !UseRightSide;
                 count++;
