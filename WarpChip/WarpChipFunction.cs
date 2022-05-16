@@ -1,7 +1,11 @@
-﻿using System;
+﻿using EquippableItemIcons.API;
+using SMLHelper.V2.Utility;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -22,8 +26,21 @@ namespace WarpChip
         private const float teleportCooldown = 5;
         private const float teleportWallOffset = 1;//used so that you don't teleport partially inside of a wall, puts you slightly away from the wall
 
+        public HudItemIcon itemIcon;
+
         public void Awake()
         {
+            itemIcon = new HudItemIcon("WarpChipIcon", ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "WarpChipIcon.png")), WarpChipItem.thisTechType);
+            itemIcon.Deactivate += Deactivate;
+            itemIcon.Activate += TryTeleport;
+            itemIcon.activateKey = QMod.config.ControlKey;
+            itemIcon.CanActivate += CanActivate;
+            itemIcon.MaxCharge = 5;
+            itemIcon.ChargeRate = 1;
+            itemIcon.DrainRate = 5;
+
+            Registries.RegisterHudItemIcon(itemIcon);
+
             player = GetComponent<Player>();
         }
 
@@ -64,6 +81,14 @@ namespace WarpChip
             TeleportScreenFXController fxController = MainCamera.camera.GetComponent<TeleportScreenFXController>();
             yield return new WaitForSeconds(0.25f);
             fxController.StopTeleport();
+        }
+        public void Deactivate()
+        {
+
+        }
+        public bool CanActivate()
+        {
+            return Time.time >= timeNextTeleport && itemIcon.charge == itemIcon.MaxCharge && player != null && !player.isPiloting && player.mode == Player.Mode.Normal;
         }
     }
 }

@@ -64,8 +64,8 @@ namespace EquippableItemIcons.API
             foreach (HudItemIcon icon in hudItemIcons)
             {
                 icon.container.transform.localPosition = hudItemIcons.Count % 2 == 0 
-                    ? quickSlots.GetPosition(0) - new Vector2(20 * (hudItemIcons.Count / 2), 0) 
-                    : quickSlots.GetPosition(quickSlots.icons.Length) + new Vector2(20 * ((hudItemIcons.Count + 1 )/ 2), 0);
+                    ? quickSlots.GetPosition(0) - new Vector2(40 * (activeIcons.Count / 2), 0) 
+                    : quickSlots.GetPosition(quickSlots.icons.Length) + new Vector2(20 * ((activeIcons.Count + 1 )/ 2), 0);
             }
         }
         private static IEnumerator WaitForQuickSlots()

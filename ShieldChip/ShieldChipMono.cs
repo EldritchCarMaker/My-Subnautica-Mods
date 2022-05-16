@@ -32,6 +32,7 @@ namespace ShieldChip
             hudItemIcon.IsIconActive += IsIconActive;
             hudItemIcon.activateKey = QMod.config.ShieldChipKey;
             hudItemIcon.techType = ShieldChipItem.thisTechType;
+            Registries.RegisterHudItemIcon(hudItemIcon);
 
         }
         public void Update()

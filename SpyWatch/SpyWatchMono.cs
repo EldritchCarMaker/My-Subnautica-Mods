@@ -12,6 +12,7 @@ using UnityEngine.UI;
 using UtilityStuffs;
 using Logger = QModManager.Utility.Logger;
 using UWE;
+using EquippableItemIcons.API;
 
 namespace SpyWatch
 {
@@ -24,14 +25,7 @@ namespace SpyWatch
         private const string EnableCloakSoundPath = "event:/sub/cyclops/install_mod";//found it
         private const string DisableCloakSoundPath = "event:/tools/builder/remove";
 
-        public const float MaxCharge = 100;
-        public const float DrainRate = 5;
-        public const float ChargeRate = 20;
-
-        public float charge = MaxCharge;
-
-        public bool active = false;
-        private bool equipped = false;
+        public HudItemIcon itemIcon;
 
         internal int FixedFramesSinceCheck = 0;
 
@@ -47,13 +41,27 @@ namespace SpyWatch
             {
                 materials.Add(renderer.materials, renderer.gameObject);
             }
-            UpdateEquipped();
+            var sprite = ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "SpyWatchIconRotate.png"));
 
-            CoroutineHost.StartCoroutine(SetUpIcons());
+            itemIcon = new HudItemIcon("spyWatchIcon", sprite, SpyWatchItem.thisTechType);
+            itemIcon.Deactivate += Deactivate;
+            itemIcon.Activate += Activate;
+            itemIcon.activateKey = QMod.config.SpyWatchKey;
+            itemIcon.CanActivate += CanActivate;
+            itemIcon.backgroundSprite = sprite;
+            Registries.RegisterHudItemIcon(itemIcon);
+
+            itemIcon.UpdateEquipped();
+
+            //CoroutineHost.StartCoroutine(SetUpIcons());
+        }
+        public bool CanActivate()
+        {
+            return !player.isPiloting && !player.GetPDA().isOpen;
         }
         private IEnumerator SetUpIcons()
         {
-            var sprite = ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "SpyWatchIconRotate.png"));
+
 
             yield return new WaitUntil(() => uGUI.main != null && uGUI.main.quickSlots != null && uGUI.main.quickSlots.gameObject != null && uGUI.main.quickSlots.icons != null);
             uGUI_QuickSlots quickSlots = uGUI.main.quickSlots;
@@ -71,11 +79,11 @@ namespace SpyWatch
 
             WatchIcon = bg_object.AddComponent<uGUI_ItemIcon>();
             WatchIcon.Init(null, container.transform, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f));
-            WatchIcon.SetForegroundSprite(sprite);
+            //WatchIcon.SetForegroundSprite(sprite);
             WatchIcon.SetForegroundBlending(Blending.AlphaBlend);
 
             WatchIcon.CreateBackground();
-            WatchIcon.SetBackgroundSprite(sprite);
+            //WatchIcon.SetBackgroundSprite(sprite);
 
 
             WatchIcon.SetProgress(1, FillMethod.Vertical);
@@ -98,59 +106,14 @@ namespace SpyWatch
             container.SetActive(false);
         }
 
-        public void UpdateEquipped()
-        {
-            equipped = Utility.EquipmentHasItem(SpyWatchItem.thisTechType);
-        }
-
         public void Update()
         {
-            if (!equipped)
-            {
-                if(active) Deactivate();
-                if(container) 
-                    container.SetActive(false);
-                return;
-            }
-            if (container)
-                container.SetActive(true);
-
-            if (Input.GetKeyDown(QMod.config.SpyWatchKey) && !player.isPiloting && !Player.main.GetPDA().isOpen)
-            {
-                if(!active)
-                    Activate();
-                else
-                    Deactivate();
-            }
-
-            if (active)
-            {
-                charge = Mathf.Max(charge - (DrainRate * Time.deltaTime), 0);
-                if(charge <= 0)
-                {
-                    Deactivate();
-                }
-            }
-            else if(charge < MaxCharge)
-            {
-                charge = Mathf.Min(charge + (ChargeRate * Time.deltaTime), MaxCharge);
-            }
-            UpdateFill();
-        }
-        public void UpdateFill()
-        {
-            if (WatchIcon == null || WatchIcon.foreground == null || WatchIcon.background == null) return;
-
-            WatchIcon.SetProgress(0, FillMethod.Vertical);
-
-            WatchIcon.background.material.SetFloat(ShaderPropertyID._FillValue, (100f / (MaxCharge / charge)) - 50f);
-            //percent minus 50 because for some reason this value is offset. 50 is max, -50 is minimum. 
-            WatchIcon.foreground.material.SetFloat(ShaderPropertyID._FillValue, (100f / (MaxCharge / charge)) - 50f);
+            itemIcon.Update();
         }
         public void FixedUpdate()
         {
             if (FixedFramesSinceCheck >= 10)
-                UpdateEquipped();
+                itemIcon.UpdateEquipped();
             FixedFramesSinceCheck++;
         }
         public void Deactivate()
@@ -167,7 +130,6 @@ namespace SpyWatch
                     }
                 }
             }
-            active = false;
         }
         public void Activate()
         {
@@ -205,7 +167,6 @@ namespace SpyWatch
 
                 renderer.materials = mats;
             }
-            active = true;
         }
     }
 }
