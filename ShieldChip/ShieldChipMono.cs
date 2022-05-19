@@ -45,6 +45,16 @@ namespace ShieldChip
 
             SetUpShield();
         }
+        public void Update()
+        {
+            shieldIntensity = Mathf.MoveTowards(shieldIntensity, shieldGoToIntensity, Time.deltaTime / 2f);
+            shieldFX.material.SetFloat(ShaderPropertyID._Intensity, shieldIntensity);
+            shieldFX.material.SetFloat(ShaderPropertyID._ImpactIntensity, shieldImpactIntensity);
+            if (Mathf.Approximately(shieldIntensity, 0f) && shieldGoToIntensity == 0f)
+            {
+                shieldFX.gameObject.SetActive(false);
+            }
+        }
         public void SetUpShield()
         {
             shield_on_loop = ScriptableObject.CreateInstance<FMODAsset>();
