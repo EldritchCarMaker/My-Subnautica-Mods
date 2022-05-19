@@ -40,20 +40,6 @@ namespace BurstFins
             
             Registries.RegisterHudItemIcon(hudItemIcon);
         }
-        
-        public void Update()
-        {
-            hudItemIcon.Update();
-        }
-        public void FixedUpdate()
-        {
-            if(FixedUpdatesSinceCheck > 20)
-            {
-                FixedUpdatesSinceCheck = 0;
-                hudItemIcon.UpdateEquipped();
-            }
-            FixedUpdatesSinceCheck++;
-        }
         public bool CanActivate()
         {
             return !player.isPiloting && !player.GetPDA().isOpen;

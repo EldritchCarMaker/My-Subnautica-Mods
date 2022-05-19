@@ -110,25 +110,31 @@ namespace EquippableItemIcons.API
             Logger.Log(Logger.Level.Info, $"Finished setup of {name}");
         }
 
-        public void UpdateEquipped()
+        internal void UpdateEquipped()
         {
             if (AutomaticSetup)
             {
                 var temp = UtilityStuffs.Utility.EquipmentHasItem(techType, equipmentType);
                 if (temp != equipped)
                 {
-                    Registries.UpdatePositions();
                     if (temp && OnEquip != null) OnEquip.Invoke();
                     else if(!temp && OnUnEquip != null) OnUnEquip.Invoke();
                 }
                 equipped = temp;
 
-                if(InvertIcon)
-                    container.transform.eulerAngles = new Vector3(0, 180, 180);//for some reason the angle would be off unless I set it here
+                if (InvertIcon)
+                {
+                    if(container != null && container.transform != null) {
+                        container.transform.eulerAngles = new Vector3(0, 180, 180);//for some reason the angle would be off unless I set it here
+                    }
+                    else
+                    {
+                        Logger.Log(Logger.Level.Warn, $"icon Container null: {container == null}, {(container == null ? "" : $"Transform null: {container.transform != null}, " )} If you get this message, ping Nagorrogan in the subnautica modding discord and send the log file to me");
+                    }
+                }
             }
-            Registries.UpdatePositions();
         }
-        public void Update()
+        internal void Update()
         {
             iconActive = IsIconActive != null? IsIconActive.Invoke() : equipped;
             if (container)
@@ -241,7 +247,7 @@ namespace EquippableItemIcons.API
         private bool CanActivateDefault()
         {
             Player player = Player.main;
-            return player != null && !player.isPiloting && player.mode == Player.Mode.Normal;
+            return player != null && !player.isPiloting && player.mode == Player.Mode.Normal && !player.GetPDA().isOpen;
         }
     }
 }

@@ -6,7 +6,8 @@
   "Enable": true,
   "AssemblyName": "BurstFins.dll",
   "VersionDependencies": {
-    "SMLHelper": "2.9.6"
+    "SMLHelper": "2.9.6",
+    "EquippableItemIcons" :  "1.0.0"
   },
   "VersionChecker": {
     "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/BurstFins/mod.json"

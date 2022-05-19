@@ -39,8 +39,6 @@ namespace ShieldChip
             hudItemIcon.backgroundSprite = sprite;
             hudItemIcon.Activate += Activate;
             hudItemIcon.Deactivate += Deactivate;
-            hudItemIcon.CanActivate += CanActivate;
-            hudItemIcon.IsIconActive += IsIconActive;
             hudItemIcon.activateKey = QMod.config.ShieldChipKey;
             hudItemIcon.techType = ShieldChipItem.thisTechType;
             Registries.RegisterHudItemIcon(hudItemIcon);
@@ -77,33 +75,6 @@ namespace ShieldChip
             shieldFX.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
             
         }
-        
-        public void Update()
-        {
-            hudItemIcon.Update();
-
-            if (shieldFX != null && shieldFX.gameObject.activeSelf)
-            {
-                shieldImpactIntensity = Mathf.MoveTowards(shieldImpactIntensity, 0f, Time.deltaTime / 4f);
-                shieldIntensity = Mathf.MoveTowards(shieldIntensity, shieldGoToIntensity, Time.deltaTime / 2f);
-                shieldFX.material.SetFloat(ShaderPropertyID._Intensity, shieldIntensity);
-                shieldFX.material.SetFloat(ShaderPropertyID._ImpactIntensity, shieldImpactIntensity);
-
-                if (Mathf.Approximately(shieldIntensity, 0f) && shieldGoToIntensity == 0f)
-                {
-                    shieldFX.gameObject.SetActive(false);
-                }
-            }
-        }
-        public void FixedUpdate()
-        {
-            if(FixedUpdatesSinceCheck > 20)
-            {
-                FixedUpdatesSinceCheck = 0;
-                hudItemIcon.UpdateEquipped();
-            }
-            FixedUpdatesSinceCheck++;
-        }
         public void Deactivate()
         {
             sfx.Stop();
@@ -118,14 +89,6 @@ namespace ShieldChip
             shieldFX.gameObject.SetActive(true);
             player.liveMixin.shielded = true;
             shieldGoToIntensity = 1f;
-        }
-        public bool CanActivate()
-        {
-            return !player.isPiloting && !player.GetPDA().isOpen;
-        }
-        public bool IsIconActive()
-        {
-            return hudItemIcon.equipped;
         }
     }
 }

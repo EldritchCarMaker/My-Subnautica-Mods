@@ -45,19 +45,6 @@ namespace WarpChip
 
             player = GetComponent<Player>();
         }
-        public void Update()
-        {
-            itemIcon.Update();
-        }
-        public void FixedUpdate()
-        {
-            if(FramesSinceCheck >= 10)
-            {
-                itemIcon.UpdateEquipped();
-                FramesSinceCheck = 0;
-            }
-            FramesSinceCheck++;
-        }
         public void TryTeleport()
         {
             if(player != null && !player.isPiloting && player.mode == Player.Mode.Normal)

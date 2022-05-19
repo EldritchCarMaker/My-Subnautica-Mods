@@ -12,8 +12,8 @@ namespace EquippableItemIcons.API
 {
     public static class Registries
     {
-        private static List<HudItemIcon> hudItemIcons = new List<HudItemIcon>();
-        private static List<HudItemIcon> activeIcons = new List<HudItemIcon>();
+        internal static List<HudItemIcon> hudItemIcons = new List<HudItemIcon>();
+        internal static List<HudItemIcon> activeIcons = new List<HudItemIcon>();
         private static bool CoroutineActive = false;
         public static void RegisterHudItemIcon(HudItemIcon icon)
         {
