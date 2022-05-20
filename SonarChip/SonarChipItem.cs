@@ -1,25 +1,26 @@
-﻿using System;
+﻿using SMLHelper.V2.Assets;
+using SMLHelper.V2.Crafting;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Sprite = Atlas.Sprite;
+using RecipeData = SMLHelper.V2.Crafting.TechData;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Sprite = Atlas.Sprite;
-using SMLHelper.V2.Assets;
-using SMLHelper.V2.Crafting;
 using SMLHelper.V2.Utility;
 using UnityEngine;
 
-namespace ShieldChip
+namespace SonarChip
 {
-    internal class ShieldChipItem : Equipable
+    internal class SonarChipItem : Equipable
     {
         public static TechType thisTechType;
-        public static Sprite sprite = ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "ShieldChipItem.png"));
+
         public override string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
 
-        public ShieldChipItem() : base("ShieldChipItem", "Shield Chip", "Allows use of a short lasting personal shield")
+        public SonarChipItem() : base("SonarChip", "Sonar Chip", "Allows use of a sonar ping")
         {
             OnFinishedPatching += () =>
             {
@@ -28,7 +29,7 @@ namespace ShieldChip
         }
 
         public override EquipmentType EquipmentType => EquipmentType.Chip;
-        public override TechType RequiredForUnlock => TechType.CyclopsShieldModule;
+        public override TechType RequiredForUnlock => TechType.SeamothSonarModule;
         public override TechGroup GroupForPDA => TechGroup.Personal;
         public override TechCategory CategoryForPDA => TechCategory.Equipment;
         public override CraftTree.Type FabricatorType => CraftTree.Type.Fabricator;
@@ -37,19 +38,18 @@ namespace ShieldChip
         public override QuickSlotType QuickSlotType => QuickSlotType.Passive;
         protected override Sprite GetItemSprite()
         {
-            return sprite;
+            return ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "SonarChipIcon.png"));
         }
 
-        protected override TechData GetBlueprintRecipe()
+        protected override RecipeData GetBlueprintRecipe()
         {
-            return new TechData()
+            return new RecipeData()
             {
                 craftAmount = 1,
                 Ingredients = new List<Ingredient>(new Ingredient[]
                     {
-                        new Ingredient(TechType.PrecursorIonCrystal, 2),
-                        new Ingredient(TechType.Kyanite, 2),
-                        new Ingredient(TechType.PrecursorIonPowerCell, 1)
+                        new Ingredient(TechType.Magnetite, 2),
+                        new Ingredient(TechType.CopperWire, 1)
                     }
                 )
             };

@@ -13,11 +13,11 @@ using UnityEngine.SceneManagement;
 using UWE;
 using Logger = QModManager.Utility.Logger;
 
-namespace ShieldChip
+namespace ShieldSuit
 {
-    internal class ShieldChipMono : MonoBehaviour
+    internal class ShieldSuitMono : MonoBehaviour
     {
-        public HudItemIcon hudItemIcon = new HudItemIcon("ShieldChipIcon", ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "ShieldChipIconRotate.png")), ShieldChipItem.thisTechType);
+        public HudItemIcon hudItemIcon = new HudItemIcon("ShieldSuitItem", ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "ShieldSuitIconRotate.png")), ShieldSuitItem.thisTechType);
         public Player player;
         public int FixedUpdatesSinceCheck = 0;
 
@@ -32,21 +32,25 @@ namespace ShieldChip
         public void Awake()
         {
             player = GetComponent<Player>();
+            SetUpShield();
 
-            hudItemIcon.name = "ShieldChipIcon";
-            var sprite = ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "ShieldChipIconRotate.png"));
+            var sprite = ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "ShieldSuitIconRotate.png"));
             hudItemIcon.sprite = sprite;
             hudItemIcon.backgroundSprite = sprite;
+            hudItemIcon.equipmentType = EquipmentType.Body;
             hudItemIcon.Activate += Activate;
             hudItemIcon.Deactivate += Deactivate;
-            hudItemIcon.activateKey = QMod.config.ShieldChipKey;
-            hudItemIcon.techType = ShieldChipItem.thisTechType;
+            hudItemIcon.activateKey = QMod.config.ShieldSuitKey;
+            hudItemIcon.DeactivateSound = null;
+
             Registries.RegisterHudItemIcon(hudItemIcon);
 
-            SetUpShield();
         }
         public void Update()
         {
+            if (shieldFX == null || shieldFX.material == null || shieldFX.gameObject == null) return;
+
+
             shieldIntensity = Mathf.MoveTowards(shieldIntensity, shieldGoToIntensity, Time.deltaTime / 2f);
             shieldFX.material.SetFloat(ShaderPropertyID._Intensity, shieldIntensity);
             shieldFX.material.SetFloat(ShaderPropertyID._ImpactIntensity, shieldImpactIntensity);

@@ -7,8 +7,8 @@
     <ProjectGuid>{E91ABB4B-B08D-4ADD-9093-BCCDA2BC8134}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ShieldChip</RootNamespace>
-    <AssemblyName>ShieldChip</AssemblyName>
+    <RootNamespace>ShieldSuit</RootNamespace>
+    <AssemblyName>ShieldSuit</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -81,8 +81,8 @@
     <Compile Include="Patches\PlayerPatch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QMod.cs" />
-    <Compile Include="ShieldChipMono.cs" />
-    <Compile Include="ShieldChipItem.cs" />
+    <Compile Include="ShieldSuitMono.cs" />
+    <Compile Include="ShieldSuitItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="mod.json" />
