@@ -17,33 +17,23 @@ namespace BurstFins
 {
     internal class BurstFinsMono : MonoBehaviour
     {
+        //creates a new hud item icon
         public HudItemIcon hudItemIcon = new HudItemIcon("BurstFinsIcon", SpriteManager.Get(TechType.UltraGlideFins), BurstFinsItem.thisTechType);
-        public Player player;
-        public int FixedUpdatesSinceCheck = 0;
 
         public void Awake()
         {
-            player = GetComponent<Player>();
-
             var sprite = SpriteManager.Get(TechType.UltraGlideFins);
-            sprite.size = new Vector2(-sprite.size.x, sprite.size.y);
+            sprite.size = new Vector2(-sprite.size.x, sprite.size.y);//tried to flip it upside down, didn't work too well there obviously
             
-            hudItemIcon.sprite = sprite;
-            hudItemIcon.backgroundSprite = sprite;
-            hudItemIcon.activateKey = QMod.config.BurstFinsKey;
-            hudItemIcon.techType = BurstFinsItem.thisTechType;
-            hudItemIcon.equipmentType = EquipmentType.Foots;
-            hudItemIcon.DrainRate = 20;
+            hudItemIcon.backgroundSprite = sprite;//self explanatory
+
+            hudItemIcon.activateKey = QMod.config.BurstFinsKey;//set the activate key to the config key
+
+            hudItemIcon.equipmentType = EquipmentType.Foots;//fins use the foot slot, set it here
+
+            hudItemIcon.DrainRate = 20;//want this to be short lasting, only lasts for 5 seconds here. Max is 100, drain is 20 per second, 5 seconds of use.
             
-            Registries.RegisterHudItemIcon(hudItemIcon);
-        }
-        public bool CanActivate()
-        {
-            return !player.isPiloting && !player.GetPDA().isOpen;
-        }
-        public bool IsIconActive()
-        {
-            return hudItemIcon.equipped;
+            Registries.RegisterHudItemIcon(hudItemIcon);//where all the magic happens
         }
     }
 }
