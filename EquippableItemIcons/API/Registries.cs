@@ -12,8 +12,8 @@ namespace EquippableItemIcons.API
 {
     public static class Registries
     {
-        private static List<HudItemIcon> hudItemIcons = new List<HudItemIcon>();
-        private static List<HudItemIcon> activeIcons = new List<HudItemIcon>();
+        internal static List<HudItemIcon> hudItemIcons = new List<HudItemIcon>();
+        internal static List<HudItemIcon> activeIcons = new List<HudItemIcon>();
         private static bool CoroutineActive = false;
         public static void RegisterHudItemIcon(HudItemIcon icon)
         {
@@ -78,7 +78,7 @@ namespace EquippableItemIcons.API
             foreach (HudItemIcon icon in activeIcons)
             {
                 icon.container.transform.localPosition = !UseRightSide
-                    ? new Vector2(leftPos.x - 60 - (80 * ((count - 1) / 2)), leftPos.y)
+                    ? new Vector2(leftPos.x - 80 - (80 * ((count - 1) / 2)), leftPos.y)
                     : new Vector2(rightPos.x + 10 + (80 * ((count) / 2)), rightPos.y);
                 UseRightSide = !UseRightSide;
                 count++;

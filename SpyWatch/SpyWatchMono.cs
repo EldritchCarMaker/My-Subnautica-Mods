@@ -53,8 +53,6 @@ namespace SpyWatch
             itemIcon.DeactivateSound = Utility.GetFmodAsset(DisableCloakSoundPath);
             Registries.RegisterHudItemIcon(itemIcon);
 
-            itemIcon.UpdateEquipped();
-
             //CoroutineHost.StartCoroutine(SetUpIcons());
         }
         public bool CanActivate()
@@ -106,21 +104,6 @@ namespace SpyWatch
 
 
             container.SetActive(false);
-        }
-
-        public void Update()
-        {
-            itemIcon.Update();
-        }
-        public void FixedUpdate()
-        {
-            if (FixedFramesSinceCheck >= 10)
-            {
-                itemIcon.UpdateEquipped();
-                FixedFramesSinceCheck = 0;
-            }
-
-            FixedFramesSinceCheck++;
         }
         public void Deactivate()
         {

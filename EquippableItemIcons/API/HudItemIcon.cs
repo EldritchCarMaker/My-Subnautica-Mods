@@ -39,9 +39,9 @@ namespace EquippableItemIcons.API
         public AllowedEvent CanActivate;//used to tell if the item can currently be activated or not. Has a default, but good for extra conditions specific to the item
         public AllowedEvent IsIconActive;//used for if there's a specific condition for when the icon should/shouldn't be active, has a default 
 
-        public FMODAsset ActivateSound;//sound that plays when item is activated, has default
-        public FMODAsset DeactivateSound;//sound that plays when item is deactivated, has default
-        public FMODAsset ActivateFailSound;//sound that plays when item can't be activated, has default
+        public FMODAsset ActivateSound = UtilityStuffs.Utility.GetFmodAsset("event:/sub/cyclops/install_mod");//sound that plays when item is activated
+        public FMODAsset DeactivateSound = UtilityStuffs.Utility.GetFmodAsset("event:/tools/battery_die");//sound that plays when item is deactivated
+        public FMODAsset ActivateFailSound = UtilityStuffs.Utility.GetFmodAsset("event:/tools/transfuser/fail");//sound that plays when item can't be activated
 
         public KeyCode activateKey = KeyCode.None;
         public Atlas.Sprite backgroundSprite;
@@ -86,10 +86,6 @@ namespace EquippableItemIcons.API
             if (InvertIcon)
                 container.transform.eulerAngles = new Vector3(0, 180, 180);
 
-            if (ActivateSound == null) ActivateSound = UtilityStuffs.Utility.GetFmodAsset("event:/sub/cyclops/install_mod");
-            if (DeactivateSound == null) DeactivateSound = UtilityStuffs.Utility.GetFmodAsset("event:/tools/battery_die");
-            if (ActivateFailSound == null) ActivateFailSound = UtilityStuffs.Utility.GetFmodAsset("event:/tools/transfuser/fail");
-
             if (!AutomaticSetup)
             {
                 iconActive = equipped;
@@ -110,25 +106,32 @@ namespace EquippableItemIcons.API
             Logger.Log(Logger.Level.Info, $"Finished setup of {name}");
         }
 
-        public void UpdateEquipped()
+        internal void UpdateEquipped()
         {
             if (AutomaticSetup)
             {
                 var temp = UtilityStuffs.Utility.EquipmentHasItem(techType, equipmentType);
                 if (temp != equipped)
                 {
-                    Registries.UpdatePositions();
                     if (temp && OnEquip != null) OnEquip.Invoke();
                     else if(!temp && OnUnEquip != null) OnUnEquip.Invoke();
                 }
                 equipped = temp;
 
-                if(InvertIcon)
-                    container.transform.eulerAngles = new Vector3(0, 180, 180);//for some reason the angle would be off unless I set it here
+                if (InvertIcon)
+                {
+                    if(container != null && container.transform != null) {
+                        container.transform.eulerAngles = new Vector3(0, 180, 180);//for some reason the angle would be off unless I set it here
+                    }
+                    else
+                    {
+                        //I still want to know about this, but it also is run every time when the game quits so I only want to know outside of the game being quit
+                        //Logger.Log(Logger.Level.Warn, $"icon Container null: {container == null}, {(container == null ? "" : $"Transform null: {container.transform != null}, " )} If you get this message, ping Nagorrogan in the subnautica modding discord and send the log file to me");
+                    }
+                }
             }
-            Registries.UpdatePositions();
         }
-        public void Update()
+        internal void Update()
         {
             iconActive = IsIconActive != null? IsIconActive.Invoke() : equipped;
             if (container)
@@ -241,7 +244,7 @@ namespace EquippableItemIcons.API
         private bool CanActivateDefault()
         {
             Player player = Player.main;
-            return player != null && !player.isPiloting && player.mode == Player.Mode.Normal;
+            return player != null && !player.isPiloting && player.mode == Player.Mode.Normal && !player.GetPDA().isOpen;
         }
     }
 }

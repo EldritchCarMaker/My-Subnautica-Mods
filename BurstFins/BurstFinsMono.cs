@@ -25,34 +25,17 @@ namespace BurstFins
         {
             player = GetComponent<Player>();
 
-            hudItemIcon.name = "ShieldChipIcon"; 
             var sprite = SpriteManager.Get(TechType.UltraGlideFins);
             sprite.size = new Vector2(-sprite.size.x, sprite.size.y);
             
             hudItemIcon.sprite = sprite;
             hudItemIcon.backgroundSprite = sprite;
-            hudItemIcon.CanActivate += CanActivate;
-            hudItemIcon.IsIconActive += IsIconActive;
             hudItemIcon.activateKey = QMod.config.BurstFinsKey;
             hudItemIcon.techType = BurstFinsItem.thisTechType;
             hudItemIcon.equipmentType = EquipmentType.Foots;
             hudItemIcon.DrainRate = 20;
             
             Registries.RegisterHudItemIcon(hudItemIcon);
-        }
-        
-        public void Update()
-        {
-            hudItemIcon.Update();
-        }
-        public void FixedUpdate()
-        {
-            if(FixedUpdatesSinceCheck > 20)
-            {
-                FixedUpdatesSinceCheck = 0;
-                hudItemIcon.UpdateEquipped();
-            }
-            FixedUpdatesSinceCheck++;
         }
         public bool CanActivate()
         {

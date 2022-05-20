@@ -4,17 +4,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using Logger = QModManager.Utility.Logger;
+using UtilityStuffs;
 
-namespace ShieldSuit.Patches
+namespace SonarChip
 {
     [HarmonyPatch(typeof(Player))]
     internal class PlayerPatch
     {
-        [HarmonyPatch(nameof(Player.Awake))]
-        public static void Postfix(Player __instance)
+        [HarmonyPatch(nameof(Player.Start))]
+        [HarmonyPostfix]
+        public static void StartPostfix(Player __instance)
         {
-            __instance.gameObject.EnsureComponent<ShieldSuitMono>();
+            __instance.gameObject.EnsureComponent<SonarChipMono>();
         }
     }
 }

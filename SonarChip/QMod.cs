@@ -2,13 +2,13 @@
 using HarmonyLib;
 using QModManager.API.ModLoading;
 using Logger = QModManager.Utility.Logger;
-using UnityEngine;
+
 using SMLHelper.V2.Json;
 using SMLHelper.V2.Options.Attributes;
 using SMLHelper.V2.Handlers;
-using System.IO;
+using UnityEngine;
 
-namespace ShieldSuit
+namespace SonarChip
 {
     [QModCore]
     public static class QMod
@@ -23,15 +23,15 @@ namespace ShieldSuit
             Harmony harmony = new Harmony(CyclopsLockers);
             harmony.PatchAll(assembly);
 
-            new ShieldSuitItem().Patch();
+            new SonarChipItem().Patch();
 
             Logger.Log(Logger.Level.Info, "Patched successfully!");
         }
     }
-    [Menu("Shield Suit")]
+    [Menu("Sonar Chip")]
     public class Config : ConfigFile
     {
-        [Keybind("Shield Suit Key", Tooltip = "Press this key while you have a Shield Suit equipped to toggle it")]
-        public KeyCode ShieldSuitKey = KeyCode.F;
+        [Keybind("Sonar Key", Tooltip = "Press this key while you have a Sonar Chip equipped to let out a sonar ping")]
+        public KeyCode ControlKey = KeyCode.J;
     }
 }
