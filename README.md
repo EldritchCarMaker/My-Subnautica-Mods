@@ -18,23 +18,57 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), [More 
 
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/RemoteControlVehicles/Changelog.md)
 
+### [Equippable Item Icons](https://github.com/Nagorogan/My-Subnautica-Mods/files/8748398/EquippableItemIcons.zip)
 
-### [Warp Chip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8694122/WarpChip.zip)
 
+An API for creating new items and icons for said items. Very configurable, ask on discord for information on how to use. Still in progress, but it's basically done apart from adding new things and making sure its bug free.
 
-adds a new equippable chip that warps you forward a slight distance, blueprint unlocks by scanning a warper. Key is configurable, distance is 15 out of base and 10 in base. Cooldown is 5 seconds but is shortened if you don't teleport the full distance.
+Any mod that uses this API will have an icon next to the quickslots for each equipped item with a special icon. This icon may or may not drain, depending on the mod it comes from.
 
 Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ###### No Changelog yet
 
 
-### [Spy Watch](https://github.com/Nagorogan/My-Subnautica-Mods/files/8695704/SpyWatch.zip)
+### [Warp Chip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8748395/WarpChip.zip)
+
+
+adds a new equippable chip that warps you forward a slight distance, blueprint unlocks by scanning a warper. Key is configurable, distance is 15m out of base and 10m in base. Cooldown is 5 seconds but is shortened if you don't teleport the full distance.
+
+Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), Equippable Item Icons
+###### No Changelog yet
+
+
+### [Spy Watch](https://github.com/Nagorogan/My-Subnautica-Mods/files/8748397/SpyWatch.zip)
 
 
 Adds a new equippable watch(hud chip) that allows you to go invisible for a short amount of time. Creatures shouldn't be able to detect you while invisible, but if something saw you first they may still try to attack. The key is configurable, and after equipping the watch an icon should show up in the bottom right near the quickslots. When using the watch, the icon will slowly drain and this is your indication of how long you have left to be invisible.
 
 
-Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
+Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), equippable item icons
+###### No Changelog yet
+
+
+### [Burst Fins](https://github.com/Nagorogan/My-Subnautica-Mods/files/8748400/BurstFins.zip)
+
+Adds a new set of fins as an upgrade to the ultra glide fins. These ones have a short lasting but quick charging battery that can allow for short bursts of incredible speed even while using the seaglide
+
+Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), equippable item icons
+###### No Changelog yet
+
+
+### [Shield Suit](https://github.com/Nagorogan/My-Subnautica-Mods/files/8748405/ShieldSuit.zip)
+
+Adds a new suit that allows for the use of a toggleable personal shield. Doesn't last forever, but lasts long enough and recharges pretty quickly. 
+
+Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), equippable item icons
+###### No Changelog yet
+
+
+### [Sonar Chip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8748406/SonarChip.zip)
+
+Adds a new equippable chip that can be activated to let out a sonar burst. Has five charges that slowly regenerate and has a one second delay after use before recharge will begin.
+
+Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), equippable item icons
 ###### No Changelog yet
 
 ### [Cyclops Vehicle Upgrade Console](https://github.com/Nagorogan/My-Subnautica-Mods/files/8592921/CyclopsVehicleUpgradeConsole.zip)
@@ -162,24 +196,8 @@ Dependencies: [SmlHelperZero](https://www.nexusmods.com/subnauticabelowzero/mods
 ###### No Changelog yet
 
 
-
-# Beta Testing mods/updates
-
-### [EquippableItemIcons.zip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8702950/EquippableItemIcons.zip)
-
-An API for creating new items and icons for said items. Very configurable, ask on discord for information on how to use. Still in beta, but currently mostly functional. 
-Required for the mods below.
-
-
-
-
-[WarpChip.zip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8702942/WarpChip.zip) - Update to use EquippableItemIcons API
-
-[ShieldChip.zip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8702937/ShieldChip.zip) - Similar to other chips, but this one adds personal shield
-
-[SpyWatch.zip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8702940/SpyWatch.zip) - Update to use EquippableItemIcons API
-
-[BurstFins.zip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8702949/BurstFins.zip) - Mostly a test mod to try API with other equippables, but mostly functions as an upgrade to ultra glide fins - press button for short lasting speed boost
+### old versions 
+[ShieldChip.zip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8702937/ShieldChip.zip) - old version of shield suit from before I turned it into a suit, its just more buggy, less refined, and is a hud chip rather than a suit. Please use the shield suit instead, but if you really want a hud chip rather than a suit, here you are. I will not be providing updates to this mod as I don't even have the code for it anymore, it was all replaced by the shield suit. You're lucky I even have this much here
 
 
 
