@@ -55,6 +55,13 @@ namespace EquippableItemIcons.API
         public float RechargeDelay = 0;
 
 
+        public float MaxIconFill = 50;//hard to explain. When icon fades it goes from this value up from the center down to the next value down from the center
+        //mid point of fade is always 0
+        //top point of fade will be this value
+        //try to keep it as close to filling the icon as possible, otherwise it may look like the icon isn't changing despite the charge draining
+        public float MinIconFill = -50;
+        //bottom point of fade will be this value. Generally fine to keep here, this tends to reach bottom of screen anyway
+
         private float TimeCharge = 0;
 
         public HudItemIcon(string name, Atlas.Sprite sprite, TechType itemTechType)
@@ -195,10 +202,13 @@ namespace EquippableItemIcons.API
 
             this.itemIcon.SetProgress(0, FillMethod.Vertical);
 
-            this.itemIcon.background.material.SetFloat(ShaderPropertyID._FillValue, (100f / (this.MaxCharge / this.charge)) - 50f);
+            float chargePercent = 100f / (this.MaxCharge / this.charge);
+            float fillValue = Mathf.Lerp(MinIconFill, MaxIconFill, chargePercent / 100);
+
+            this.itemIcon.foreground.material.SetFloat(ShaderPropertyID._FillValue, fillValue);
             //percent minus 50 because for some reason this value is offset. 50 is max, -50 is minimum. 
             if(fadeBackground)
-                this.itemIcon.foreground.material.SetFloat(ShaderPropertyID._FillValue, (100f / (this.MaxCharge / this.charge)) - 50f);
+                this.itemIcon.background.material.SetFloat(ShaderPropertyID._FillValue, fillValue);
         }
         private void HandleActivation()
         {

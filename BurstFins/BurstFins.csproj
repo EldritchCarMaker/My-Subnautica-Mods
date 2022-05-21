@@ -87,11 +87,10 @@
     <Compile Include="BurstFinsMono.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\ShieldChipIconRotate.png" />
-    <Content Include="Assets\ShieldChipItem.png" />
+    <None Include="mod.json" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="mod.json" />
+    <Folder Include="Assets\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

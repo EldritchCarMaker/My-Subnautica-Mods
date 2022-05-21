@@ -16,7 +16,6 @@ namespace ShieldSuit
     internal class ShieldSuitItem : Equipable
     {
         public static TechType thisTechType;
-        public static Sprite sprite = ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "ShieldSuitItem.png"));
         public override string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
 
         public ShieldSuitItem() : base("ShieldSuitItem", "Shield Suit", "suit that allows use of a short lasting, but quick charging, personal shield")
@@ -28,6 +27,7 @@ namespace ShieldSuit
         }
 
         public override EquipmentType EquipmentType => EquipmentType.Body;
+        public override Vector2int SizeInInventory => new Vector2int(2, 2);
         public override TechType RequiredForUnlock => TechType.CyclopsShieldModule;
         public override TechGroup GroupForPDA => TechGroup.Personal;
         public override TechCategory CategoryForPDA => TechCategory.Equipment;
@@ -37,7 +37,7 @@ namespace ShieldSuit
         public override QuickSlotType QuickSlotType => QuickSlotType.Passive;
         protected override Sprite GetItemSprite()
         {
-            return sprite;
+            return ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "ShieldSuitItem.png"));
         }
 
         protected override TechData GetBlueprintRecipe()

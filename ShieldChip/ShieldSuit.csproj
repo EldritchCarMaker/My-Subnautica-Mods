@@ -88,8 +88,8 @@
     <None Include="mod.json" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\ShieldChipIconRotate.png" />
-    <Content Include="Assets\ShieldChipItem.png" />
+    <Content Include="Assets\ShieldSuitIconRotate.png" />
+    <Content Include="Assets\ShieldSuitItem.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

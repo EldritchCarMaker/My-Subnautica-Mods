@@ -42,6 +42,7 @@ namespace ShieldSuit
             hudItemIcon.Deactivate += Deactivate;
             hudItemIcon.activateKey = QMod.config.ShieldSuitKey;
             hudItemIcon.DeactivateSound = null;
+            hudItemIcon.MaxIconFill = 60;
 
             Registries.RegisterHudItemIcon(hudItemIcon);
 

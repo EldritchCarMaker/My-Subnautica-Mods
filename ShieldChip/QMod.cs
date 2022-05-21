@@ -18,9 +18,9 @@ namespace ShieldSuit
         public static void Patch()
         {
             var assembly = Assembly.GetExecutingAssembly();
-            var CyclopsLockers = ($"Nagorogan_{assembly.GetName().Name}");
-            Logger.Log(Logger.Level.Info, $"Patching {CyclopsLockers}");
-            Harmony harmony = new Harmony(CyclopsLockers);
+            var name = ($"Nagorogan_{assembly.GetName().Name}");
+            Logger.Log(Logger.Level.Info, $"Patching {name}");
+            Harmony harmony = new Harmony(name);
             harmony.PatchAll(assembly);
 
             new ShieldSuitItem().Patch();
