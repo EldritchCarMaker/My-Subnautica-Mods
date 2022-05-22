@@ -45,7 +45,7 @@ Adds a new equippable watch(hud chip) that allows you to go invisible for a shor
 
 
 Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), equippable item icons
-###### No Changelog yet
+###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/SpyWatch/Changelog.md)
 
 
 ### [Burst Fins](https://github.com/Nagorogan/My-Subnautica-Mods/files/8748400/BurstFins.zip)
