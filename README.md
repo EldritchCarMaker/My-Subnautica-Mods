@@ -18,7 +18,7 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), [More 
 
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/RemoteControlVehicles/Changelog.md)
 
-### [Equippable Item Icons](https://github.com/Nagorogan/My-Subnautica-Mods/files/8748639/EquippableItemIcons.zip)
+### [Equippable Item Icons](https://github.com/Nagorogan/My-Subnautica-Mods/files/8748640/EquippableItemIcons.zip)
 
 
 An API for creating new items and icons for said items. Very configurable, ask on discord for information on how to use. Still in progress, but it's basically done apart from adding new things and making sure its bug free.
