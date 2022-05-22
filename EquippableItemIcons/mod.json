@@ -2,7 +2,7 @@
   "Id": "EquippableItemIcons",
   "DisplayName": "Equippable Item Icons",
   "Author": "Nagorrogan",
-  "Version": "1.1.0",
+  "Version": "1.1.1",
   "Enable": true,
   "AssemblyName": "EquippableItemIcons.dll",
   "VersionDependencies": {
