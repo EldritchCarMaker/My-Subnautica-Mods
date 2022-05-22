@@ -3,3 +3,5 @@
 **1.1.2:** changed recipe to be more natural
 
 **1.1.3:** fixed bug with cooldown not being accurate. Was due to old code interacting badly with new code, had to fix it
+
+**1.1.4:** changed to work with update for EquippableItemIcons
