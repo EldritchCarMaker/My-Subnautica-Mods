@@ -64,12 +64,13 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), equipp
 ###### No Changelog yet
 
 
-### [Sonar Chip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8748406/SonarChip.zip)
+### [Sonar Chip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8748667/SonarChip.zip)
+
 
 Adds a new equippable chip that can be activated to let out a sonar burst. Has five charges that slowly regenerate and has a one second delay after use before recharge will begin.
 
 Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), equippable item icons
-###### No Changelog yet
+###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/SonarChip/Changelog.md)
 
 ### [Cyclops Vehicle Upgrade Console](https://github.com/Nagorogan/My-Subnautica-Mods/files/8592921/CyclopsVehicleUpgradeConsole.zip)
 
