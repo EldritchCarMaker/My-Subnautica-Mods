@@ -26,7 +26,7 @@ An API for creating new items and icons for said items. Very configurable, ask o
 Any mod that uses this API will have an icon next to the quickslots for each equipped item with a special icon. This icon may or may not drain, depending on the mod it comes from.
 
 Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
-###### No Changelog yet
+###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/EquippableItemIcons/Changelog.md)
 
 
 ### [Warp Chip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8748395/WarpChip.zip)
