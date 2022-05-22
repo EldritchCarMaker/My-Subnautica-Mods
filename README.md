@@ -18,7 +18,7 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), [More 
 
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/RemoteControlVehicles/Changelog.md)
 
-### [Equippable Item Icons](https://github.com/Nagorogan/My-Subnautica-Mods/files/8748640/EquippableItemIcons.zip)
+### [Equippable Item Icons](https://github.com/Nagorogan/My-Subnautica-Mods/files/8750098/EquippableItemIcons.zip)
 
 
 An API for creating new items and icons for said items. Very configurable, ask on discord for information on how to use. Still in progress, but it's basically done apart from adding new things and making sure its bug free.
@@ -29,7 +29,7 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/EquippableItemIcons/Changelog.md)
 
 
-### [Warp Chip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8749994/WarpChip.zip)
+### [Warp Chip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8750096/WarpChip.zip)
 
 
 adds a new equippable chip that warps you forward a slight distance, blueprint unlocks by scanning a warper. Key is configurable, distance is 15m out of base and 10m in base. Cooldown is 5 seconds but is shortened if you don't teleport the full distance.
@@ -48,12 +48,13 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), equipp
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/SpyWatch/Changelog.md)
 
 
-### [Burst Fins](https://github.com/Nagorogan/My-Subnautica-Mods/files/8748400/BurstFins.zip)
+### [Burst Fins](https://github.com/Nagorogan/My-Subnautica-Mods/files/8750102/BurstFins.zip)
+
 
 Adds a new set of fins as an upgrade to the ultra glide fins. These ones have a short lasting but quick charging battery that can allow for short bursts of incredible speed even while using the seaglide
 
 Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), equippable item icons
-###### No Changelog yet
+###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/BurstFins/Changelog.md)
 
 
 ### [Shield Suit](https://github.com/Nagorogan/My-Subnautica-Mods/files/8748405/ShieldSuit.zip)
@@ -64,7 +65,7 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), equipp
 ###### No Changelog yet
 
 
-### [Sonar Chip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8748667/SonarChip.zip)
+### [Sonar Chip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8750095/SonarChip.zip)
 
 
 Adds a new equippable chip that can be activated to let out a sonar burst. Has five charges that slowly regenerate and has a one second delay after use before recharge will begin.
