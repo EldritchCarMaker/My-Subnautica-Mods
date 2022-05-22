@@ -2,12 +2,12 @@
   "Id": "WarpChip",
   "DisplayName": "Warp Chip",
   "Author": "Nagorrogan",
-  "Version": "1.1.3",
+  "Version": "1.1.4",
   "Enable": true,
   "AssemblyName": "WarpChip.dll",
   "VersionDependencies": {
     "SMLHelper": "2.9.6",
-    "EquippableItemIcons": "1.1.0"
+    "EquippableItemIcons": "1.2.0"
   },
   "VersionChecker": {
     "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/WarpChip/mod.json"

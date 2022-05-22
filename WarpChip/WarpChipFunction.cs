@@ -40,7 +40,7 @@ namespace WarpChip
             itemIcon.DrainRate = 0;
             itemIcon.ActivateSound = teleportSound;
             itemIcon.DeactivateSound = null;
-            itemIcon.OnceOff = true;
+            itemIcon.activationType = HudItemIcon.ActivationType.OnceOff;
             Registries.RegisterHudItemIcon(itemIcon);
 
             player = GetComponent<Player>();

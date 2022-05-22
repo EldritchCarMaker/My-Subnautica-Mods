@@ -31,7 +31,7 @@ namespace SonarChip
             itemIcon.DrainRate = 1;
             itemIcon.ActivateSound = UtilityStuffs.Utility.GetFmodAsset("event:/sub/seamoth/sonar_loop");
             itemIcon.DeactivateSound = null;
-            itemIcon.OnceOff = true;
+            itemIcon.activationType = HudItemIcon.ActivationType.OnceOff;
             Registries.RegisterHudItemIcon(itemIcon);
 
             player = GetComponent<Player>();

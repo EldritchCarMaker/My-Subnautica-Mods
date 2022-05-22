@@ -33,5 +33,7 @@ namespace BurstFins
     {
         [Keybind("Burst Fins Key", Tooltip = "Press this key while you have the Burst Fins equipped to activate them")]
         public KeyCode BurstFinsKey = KeyCode.F;
+        [Toggle("Held", Tooltip = "Toggles whether the activation key should be pressed or held to use the fins")]
+        public bool HeldKey = true;
     }
 }

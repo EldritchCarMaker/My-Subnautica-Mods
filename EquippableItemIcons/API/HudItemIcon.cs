@@ -51,9 +51,15 @@ namespace EquippableItemIcons.API
         public float ChargeRate = 20;
         public float DrainRate = 5;
         public float charge;
-        public bool OnceOff = false;
         public float RechargeDelay = 0;
 
+        public enum ActivationType
+        {
+            Toggle,
+            OnceOff,
+            Held
+        }
+        public ActivationType activationType = ActivationType.Toggle;
 
         public float MaxIconFill = 50;//hard to explain. When icon fades it goes from this value up from the center down to the next value down from the center
         //mid point of fade is always 0
@@ -141,8 +147,10 @@ namespace EquippableItemIcons.API
         internal void Update()
         {
             iconActive = IsIconActive != null? IsIconActive.Invoke() : equipped;
+
             if (container)
                 container.SetActive(iconActive);
+
 
             if (!equipped)
             {
@@ -153,25 +161,44 @@ namespace EquippableItemIcons.API
                 return;
             }
 
-            if (Input.GetKeyDown(activateKey) && (CanActivate != null? CanActivate.Invoke() : CanActivateDefault()))
+            if(activationType == ActivationType.Held)
             {
-                if (!active)
+                if(Input.GetKey(activateKey))
                 {
-                    HandleActivation();
+                    if (!active && (CanActivate != null ? CanActivate.Invoke() : CanActivateDefault()))
+                        HandleActivation();
                 }
                 else
                 {
-                    HandleDeactivation();
+                    if(active)
+                        HandleDeactivation();
                 }
             }
-            else if(Input.GetKeyDown(activateKey))
+            else
             {
-                if (QMod.config.SoundsActive && playSounds && ActivateFailSound)
+                bool KeyDown = Input.GetKeyDown(activateKey);
+                if (KeyDown && (CanActivate != null ? CanActivate.Invoke() : CanActivateDefault()))
                 {
-                    Utils.PlayFMODAsset(ActivateFailSound);
+                    if (!active)
+                    {
+                        HandleActivation();
+                    }
+                    else
+                    {
+                        HandleDeactivation();
+                    }
+                }
+                else if (KeyDown)
+                {
+                    if (QMod.config.SoundsActive && playSounds && ActivateFailSound)
+                    {
+                        Utils.PlayFMODAsset(ActivateFailSound);
+                    }
                 }
             }
-            if(OnceOff)
+
+
+            if(activationType == ActivationType.OnceOff)
             {
                 if(Time.time >= TimeCharge)
                 {
@@ -193,6 +220,7 @@ namespace EquippableItemIcons.API
                     charge = Mathf.Min(charge + (ChargeRate * Time.deltaTime), MaxCharge);
                 }
             }
+
             UpdateFill();
         }
         public void UpdateFill()
@@ -211,7 +239,7 @@ namespace EquippableItemIcons.API
         }
         private void HandleActivation()
         {
-            if (OnceOff && charge < DrainRate)
+            if (activationType == ActivationType.OnceOff && charge < DrainRate)
             {
                 if (QMod.config.SoundsActive && playSounds && ActivateFailSound)
                 {
@@ -220,7 +248,7 @@ namespace EquippableItemIcons.API
                 return;
             }
             Activate?.Invoke();
-            if (OnceOff)
+            if (activationType == ActivationType.OnceOff)
             {
                 charge -= DrainRate;
                 TimeCharge = Time.time + RechargeDelay;
@@ -237,9 +265,11 @@ namespace EquippableItemIcons.API
         private void HandleDeactivation()
         {
             Deactivate?.Invoke();
-            if (OnceOff)
+            if (activationType == ActivationType.OnceOff)
             {
                 //I'm sure I'll add stuff here later
+
+                //and I never did
             }
             else
             {
