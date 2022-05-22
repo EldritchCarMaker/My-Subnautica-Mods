@@ -2,7 +2,7 @@
   "Id": "SpyWatch",
   "DisplayName": "Spy Watch",
   "Author": "Nagorrogan",
-  "Version": "1.1.0",
+  "Version": "1.1.1",
   "Enable": true,
   "AssemblyName": "SpyWatch.dll",
   "VersionDependencies": {

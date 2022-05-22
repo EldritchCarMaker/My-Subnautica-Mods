@@ -168,7 +168,6 @@ namespace EquippableItemIcons.API
             {
                 if (QMod.config.SoundsActive && playSounds && ActivateFailSound)
                 {
-                    Logger.Log(Logger.Level.Info, "Playing fail sound", null, true);
                     Utils.PlayFMODAsset(ActivateFailSound);
                 }
             }

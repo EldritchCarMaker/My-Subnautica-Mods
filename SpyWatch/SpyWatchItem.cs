@@ -19,7 +19,7 @@ namespace SpyWatch
         public static Sprite sprite = ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "SpyWatchItem.png"));
         public override string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
 
-        public SpyWatchItem() : base("SpyWatchItem", "Spy Watch", "Allows short length invisibility")
+        public SpyWatchItem() : base("SpyWatchItem", "Spy Watch", "Allows short length invisibility using membrain dna")
         {
             OnFinishedPatching += () =>
             {
@@ -28,7 +28,7 @@ namespace SpyWatch
         }
 
         public override EquipmentType EquipmentType => EquipmentType.Chip;
-        public override TechType RequiredForUnlock => TechType.PrecursorPrisonIonGenerator;
+        public override TechType RequiredForUnlock => TechType.AdvancedWiringKit;
         public override TechGroup GroupForPDA => TechGroup.Personal;
         public override TechCategory CategoryForPDA => TechCategory.Equipment;
         public override CraftTree.Type FabricatorType => CraftTree.Type.Fabricator;
@@ -47,9 +47,10 @@ namespace SpyWatch
                 craftAmount = 1,
                 Ingredients = new List<Ingredient>(new Ingredient[]
                     {
-                        new Ingredient(TechType.PrecursorIonCrystal, 2),
-                        new Ingredient(TechType.Kyanite, 2),
-                        new Ingredient(TechType.PrecursorIonPowerCell, 1)
+                        new Ingredient(TechType.Glass, 1),
+                        new Ingredient(TechType.MembrainTreeSeed, 1),
+                        new Ingredient(TechType.AdvancedWiringKit, 1),
+                        new Ingredient(TechType.Battery, 1)
                     }
                 )
             };
