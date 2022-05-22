@@ -37,7 +37,7 @@ namespace WarpChip
             itemIcon.CanActivate += CanActivate;
             itemIcon.MaxCharge = 5;
             itemIcon.ChargeRate = 1;
-            itemIcon.DrainRate = 5;
+            itemIcon.DrainRate = 0;
             itemIcon.ActivateSound = teleportSound;
             itemIcon.DeactivateSound = null;
             itemIcon.OnceOff = true;
@@ -72,7 +72,7 @@ namespace WarpChip
             TeleportScreenFXController fxController = MainCamera.camera.GetComponent<TeleportScreenFXController>();
             fxController.StartTeleport();
             CoroutineHost.StartCoroutine(TeleportFX());
-            itemIcon.charge = itemIcon.MaxCharge / (maxDistance / distance);
+            itemIcon.charge = itemIcon.MaxCharge - (itemIcon.MaxCharge / (maxDistance / distance));
         }
 
         public static IEnumerator TeleportFX()
