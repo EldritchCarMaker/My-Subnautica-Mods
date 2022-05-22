@@ -49,8 +49,8 @@ namespace WarpChip
                 Ingredients = new List<Ingredient>(new Ingredient[]
                     {
                         new Ingredient(TechType.PrecursorIonCrystal, 2),
-                        new Ingredient(TechType.Kyanite, 2),
-                        new Ingredient(TechType.PrecursorIonPowerCell, 1)
+                        new Ingredient(TechType.ComputerChip, 1),
+                        new Ingredient(TechType.PrecursorIonBattery, 1)
                     }
                 )
             };
