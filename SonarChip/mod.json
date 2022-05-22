@@ -2,7 +2,7 @@
   "Id": "SonarChip",
   "DisplayName": "Sonar Chip",
   "Author": "Nagorrogan",
-  "Version": "1.0.0",
+  "Version": "1.0.1",
   "Enable": true,
   "AssemblyName": "SonarChip.dll",
   "VersionDependencies": {

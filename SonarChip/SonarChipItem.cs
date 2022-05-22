@@ -29,7 +29,7 @@ namespace SonarChip
         }
 
         public override EquipmentType EquipmentType => EquipmentType.Chip;
-        public override TechType RequiredForUnlock => TechType.SeamothSonarModule;
+        public override TechType RequiredForUnlock => TechType.BaseMapRoom;
         public override TechGroup GroupForPDA => TechGroup.Personal;
         public override TechCategory CategoryForPDA => TechCategory.Equipment;
         public override CraftTree.Type FabricatorType => CraftTree.Type.Fabricator;
@@ -49,6 +49,7 @@ namespace SonarChip
                 Ingredients = new List<Ingredient>(new Ingredient[]
                     {
                         new Ingredient(TechType.Magnetite, 2),
+                        new Ingredient(TechType.SpikePlantSeed, 1),
                         new Ingredient(TechType.CopperWire, 1)
                     }
                 )
