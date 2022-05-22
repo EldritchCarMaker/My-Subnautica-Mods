@@ -1,3 +1,5 @@
 **1.1.0:** first proper release
 
 **1.1.1:** removed log used for debugging
+
+**1.2.0:** changed `OnceOff` field to now be an enum for activation type, and added new `held` option for things that are neither toggles nor once offs
