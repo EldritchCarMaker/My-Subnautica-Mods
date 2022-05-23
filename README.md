@@ -104,7 +104,7 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ### [Sound Commands](https://github.com/Nagorogan/My-Subnautica-Mods/files/8694124/SoundCommand.zip)
 
 
-Mostly for mod making, adds three commands to try out sounds. [Link to SN1 sounds](https://github.com/Nagorogan/ECCLibrary/blob/main/Wiki/Resources/SN/FMODEventPathsSN1.txt). Just copy paste one of those after the command PlaySound and it'll play the sound. For loops, use PlayLoopSound and StopLoopSound or else the sound will just go on forever. 
+Mostly for mod making, adds three commands to try out sounds. [Link to SN1 sounds](https://github.com/Nagorogan/ECCLibrary/blob/main/Wiki/Resources/SN/FMODEventPathsSN1.txt). Just copy paste one of those after the command PlaySound and it'll play the sound. For loops, use PlayLoopSound and StopSounds or else the sound will just go on forever. 
 
 example: PlayLoopSound event:/sub/base/nuke_gen_loop
 
