@@ -26,25 +26,37 @@ namespace WarpChip
         private const float teleportWallOffset = 1;//used so that you don't teleport partially inside of a wall, puts you slightly away from the wall
 
         public HudItemIcon itemIcon;
+        public bool UpgradedItemEquipped = false;
         public int FramesSinceCheck = 0;
 
         public void Awake()
         {
             itemIcon = new HudItemIcon("WarpChipIcon", ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "WarpChipIconRotate.png")), WarpChipItem.thisTechType);
-            itemIcon.Deactivate += Deactivate;
             itemIcon.Activate += TryTeleport;
             itemIcon.activateKey = QMod.config.ControlKey;
-            itemIcon.CanActivate += CanActivate;
             itemIcon.MaxCharge = 5;
             itemIcon.ChargeRate = 1;
             itemIcon.DrainRate = 0;
             itemIcon.ActivateSound = teleportSound;
             itemIcon.DeactivateSound = null;
+            itemIcon.CanActivate += CanActivate;
+            itemIcon.SecondaryTechTypes.Add(UltimateWarpChip.thisTechType);
             itemIcon.activationType = HudItemIcon.ActivationType.OnceOff;
             Registries.RegisterHudItemIcon(itemIcon);
 
             player = GetComponent<Player>();
         }
+        public void UpdateEquipped(string slot, InventoryItem item)
+        {
+            UpgradedItemEquipped = Utility.EquipmentHasItem(UltimateWarpChip.thisTechType);
+        }
+        public void Start()
+        {
+            Inventory.main.equipment.onEquip += UpdateEquipped;
+            Inventory.main.equipment.onUnequip += UpdateEquipped;
+            UpdateEquipped(null, null);
+        }
+
         public void TryTeleport()
         {
             if(player != null && !player.isPiloting && player.mode == Player.Mode.Normal)
@@ -67,12 +79,17 @@ namespace WarpChip
             Transform aimingTransform = player.camRoot.GetAimingTransform();
             player.SetPosition(player.transform.position + aimingTransform.forward * distance);
 
-            float cooldownTime = teleportCooldown / (maxDistance / distance);
-
             TeleportScreenFXController fxController = MainCamera.camera.GetComponent<TeleportScreenFXController>();
             fxController.StartTeleport();
             CoroutineHost.StartCoroutine(TeleportFX());
-            itemIcon.charge = itemIcon.MaxCharge - (itemIcon.MaxCharge / (maxDistance / distance));
+
+            if (itemIcon != null)
+            {
+                if (!UpgradedItemEquipped)
+                    itemIcon.charge -= Mathf.Lerp(0f, itemIcon.MaxCharge, (100f / (maxDistance / distance)) / 100f);//fix
+                else//don't work right when not going full distance. Even when going half, just uses full charge
+                    itemIcon.charge -= Mathf.Lerp(0f, itemIcon.MaxCharge, (100f / (maxDistance / distance)) / 100f) / 2f;//fix
+            }
         }
 
         public static IEnumerator TeleportFX()
@@ -81,13 +98,11 @@ namespace WarpChip
             yield return new WaitForSeconds(0.25f);
             fxController.StopTeleport();
         }
-        public void Deactivate()
-        {
-
-        }
         public bool CanActivate()
         {
-            return itemIcon.charge == itemIcon.MaxCharge && player != null && !player.isPiloting && player.mode == Player.Mode.Normal;
+            if (!UpgradedItemEquipped)
+                return itemIcon.charge == itemIcon.MaxCharge && player != null && !player.isPiloting && player.mode == Player.Mode.Normal;
+            return itemIcon.charge >= itemIcon.MaxCharge / 2 && player != null && !player.isPiloting && player.mode == Player.Mode.Normal;
         }
     }
 }

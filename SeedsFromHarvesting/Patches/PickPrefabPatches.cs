@@ -16,7 +16,9 @@ namespace SeedsFromHarvesting.Patches
         {
             TechType techType = __instance.pickTech;
 
-            if(techType == TechType.Melon)
+            Vector2int size = CraftData.GetItemSize(techType);
+
+            if (techType == TechType.Melon && Inventory.Get().HasRoomFor(size.x, size.y))
             {
                 TechType harvestOutputData = CraftData.GetHarvestOutputData(techType);
 

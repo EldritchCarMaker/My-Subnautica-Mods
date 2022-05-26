@@ -34,12 +34,17 @@ namespace EquippableItemIcons.API
             activeIcons.Clear();
             foreach(HudItemIcon icon in hudItemIcons)
             {
+                if(icon == null)
+                {
+                    hudItemIcons.Remove(icon);
+                    continue;
+                }
+
                 if (icon.iconActive)
                 {
                     activeIcons.Add(icon);
-                    icon.container.SetActive(true);
                 }
-                else { icon.container.SetActive(false); }
+                icon.container.SetActive(false);
             }
 
 
@@ -63,12 +68,9 @@ namespace EquippableItemIcons.API
             }
 
             uGUI_QuickSlots quickSlots = uGUI.main.quickSlots;
-            /*foreach (HudItemIcon icon in activeIcons)
-            {
-                icon.container.transform.localPosition = activeIcons.Count % 2 == 0 
-                    ? quickSlots.GetPosition(0) - new Vector2(20 * (activeIcons.Count / 2), 0) //even
-                    : quickSlots.GetPosition(quickSlots.icons.Length) + new Vector2(40 * ((activeIcons.Count + 1 )/ 2), 0); //odd
-            }*/
+
+
+            bool quickSlotsInUse = quickSlots.target is QuickSlots;
 
 
             var leftPos = quickSlots.GetPosition(0);
@@ -77,6 +79,8 @@ namespace EquippableItemIcons.API
             var UseRightSide = true;
             foreach (HudItemIcon icon in activeIcons)
             {
+                icon.container.SetActive(quickSlotsInUse);
+
                 icon.container.transform.localPosition = !UseRightSide
                     ? new Vector2(leftPos.x - 80 - (80 * ((count - 1) / 2)), leftPos.y)
                     : new Vector2(rightPos.x + 10 + (80 * ((count) / 2)), rightPos.y);

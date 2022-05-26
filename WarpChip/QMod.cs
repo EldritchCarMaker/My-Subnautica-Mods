@@ -26,6 +26,8 @@ namespace WarpChip
             WarpChipItem warpChipItem = new WarpChipItem();
             warpChipItem.Patch();
 
+            new UltimateWarpChip().Patch();
+
             Logger.Log(Logger.Level.Info, "Patched successfully!");
         }
     }

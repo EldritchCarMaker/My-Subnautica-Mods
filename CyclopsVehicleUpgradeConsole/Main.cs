@@ -96,6 +96,10 @@ namespace CyclopsVehicleUpgradeConsole
                 {
                     child.SetActive(true);
                 }
+                else if(child.name.Equals("WindowButton"))
+                {
+                    child.SetActive(true);
+                }
                 else
                 {
                     child.SetActive(false);
@@ -120,6 +124,10 @@ namespace CyclopsVehicleUpgradeConsole
                 if(child.name.Equals("SwapButton"))
                 {
                     child.GetComponent<SwapButton>().colorScreenActive = true;
+                }
+                else if (child.name.Equals("WindowButton"))
+                {
+                    child.SetActive(true);
                 }
                 else
                 {

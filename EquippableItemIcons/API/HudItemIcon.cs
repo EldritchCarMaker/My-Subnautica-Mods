@@ -46,6 +46,8 @@ namespace EquippableItemIcons.API
         public KeyCode activateKey = KeyCode.None;
         public Atlas.Sprite backgroundSprite;
 
+        public List<TechType> SecondaryTechTypes = new List<TechType>();//for if multiple item techtypes should use the same icon
+
         public float MaxCharge = 100;
         public float MinCharge = 0;
         public float ChargeRate = 20;
@@ -124,6 +126,19 @@ namespace EquippableItemIcons.API
             if (AutomaticSetup)
             {
                 var temp = UtilityStuffs.Utility.EquipmentHasItem(techType, equipmentType);
+
+                if(SecondaryTechTypes != null && SecondaryTechTypes.Count > 0)
+                {
+                    foreach (TechType type in SecondaryTechTypes)
+                    {
+                        if(UtilityStuffs.Utility.EquipmentHasItem(type, equipmentType))
+                        {
+                            temp = true;
+                            break;
+                        }
+                    }
+                }
+
                 if (temp != equipped)
                 {
                     if (temp && OnEquip != null) OnEquip.Invoke();
@@ -147,10 +162,6 @@ namespace EquippableItemIcons.API
         internal void Update()
         {
             iconActive = IsIconActive != null? IsIconActive.Invoke() : equipped;
-
-            if (container)
-                container.SetActive(iconActive);
-
 
             if (!equipped)
             {
