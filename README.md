@@ -18,7 +18,7 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), [More 
 
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/RemoteControlVehicles/Changelog.md)
 
-### [Equippable Item Icons](https://github.com/Nagorogan/My-Subnautica-Mods/files/8750098/EquippableItemIcons.zip)
+### [Equippable Item Icons](https://github.com/Nagorogan/My-Subnautica-Mods/files/8781235/EquippableItemIcons.zip)
 
 
 An API for creating new items and icons for said items. Very configurable, ask on discord for information on how to use. Still in progress, but it's basically done apart from adding new things and making sure its bug free.
@@ -29,7 +29,8 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/EquippableItemIcons/Changelog.md)
 
 
-### [Warp Chip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8750096/WarpChip.zip)
+### [Warp Chip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8781239/WarpChip.zip)
+
 
 
 adds a new equippable chip that warps you forward a slight distance, blueprint unlocks by scanning a warper. Key is configurable, distance is 15m out of base and 10m in base. Cooldown is 5 seconds but is shortened if you don't teleport the full distance.
@@ -73,7 +74,8 @@ Adds a new equippable chip that can be activated to let out a sonar burst. Has f
 Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), equippable item icons
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/SonarChip/Changelog.md)
 
-### [Cyclops Vehicle Upgrade Console](https://github.com/Nagorogan/My-Subnautica-Mods/files/8592921/CyclopsVehicleUpgradeConsole.zip)
+### [Cyclops Vehicle Upgrade Console](https://github.com/Nagorogan/My-Subnautica-Mods/files/8781241/CyclopsVehicleUpgradeConsole.zip)
+
 
 
 Improves the vehicle management terminal inside the cyclops (the terminal above the docking bay) to also function as a vehicle upgrade console. Meaning you can change the color and name of your vehicle. More importantly, allows you to fabricate a new seamoth/prawn suit directly inside the cyclops' empty docking bay. Requires the resources be in your inventory, currently doesn't support easy craft's pulling of resources from other containers. Also doesn't currently show resources required, both will be done later hopefully.
@@ -91,7 +93,7 @@ Allows you to pick up vehicles. Has a config for whether it needs a special modu
 Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ###### No Changelog yet
 
-### [Seeds From Harvesting](https://github.com/Nagorogan/My-Subnautica-Mods/files/8599742/SeedsFromHarvesting.zip)
+### [Seeds From Harvesting](https://github.com/Nagorogan/My-Subnautica-Mods/files/8781242/SeedsFromHarvesting.zip)
 
 
 Gives you one seed whenever you harvest a plant like a mushroom or marble melon. Don't need to knife them if you just want to keep the farm sustained. If you want to expand the farm, still need to knife them to get all 4 seeds though. This mod also stops you from planting fully grown plants like the marble melon, now you need to plant the seeds instead. There is a config for this but if you set it to false you can just plant and harvest rapidly to duplicate as many seeds as you want. 
