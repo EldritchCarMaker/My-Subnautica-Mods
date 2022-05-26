@@ -98,7 +98,7 @@ Gives you one seed whenever you harvest a plant like a mushroom or marble melon.
 
 
 Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
-###### No Changelog Yet
+###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/SeedsFromHarvesting/Changelog.md)
 
 
 ### [Sound Commands](https://github.com/Nagorogan/My-Subnautica-Mods/files/8694124/SoundCommand.zip)
