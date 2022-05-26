@@ -25,30 +25,30 @@ namespace WarpChip
         private const float teleportCooldown = 5;
         private const float teleportWallOffset = 1;//used so that you don't teleport partially inside of a wall, puts you slightly away from the wall
 
-        public HudItemIcon itemIcon;
-        public bool UpgradedItemEquipped = false;
+        public ActivatedEquippableItem itemIcon;
+        //public bool UpgradedItemEquipped = false;
         public int FramesSinceCheck = 0;
 
         public void Awake()
         {
-            itemIcon = new HudItemIcon("WarpChipIcon", ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "WarpChipIconRotate.png")), WarpChipItem.thisTechType);
-            itemIcon.Activate += TryTeleport;
+            itemIcon = new ActivatedEquippableItem("WarpChipIcon", ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "WarpChipIconRotate.png")), WarpChipItem.thisTechType);
+            itemIcon.DetailedActivate += TryTeleport;
             itemIcon.activateKey = QMod.config.ControlKey;
             itemIcon.MaxCharge = 5;
             itemIcon.ChargeRate = 1;
             itemIcon.DrainRate = 0;
             itemIcon.ActivateSound = teleportSound;
             itemIcon.DeactivateSound = null;
-            itemIcon.CanActivate += CanActivate;
+            itemIcon.DetailedCanActivate += CanActivate;
             itemIcon.SecondaryTechTypes.Add(UltimateWarpChip.thisTechType);
-            itemIcon.activationType = HudItemIcon.ActivationType.OnceOff;
+            itemIcon.activationType = ActivatedEquippableItem.ActivationType.OnceOff;
             Registries.RegisterHudItemIcon(itemIcon);
 
             player = GetComponent<Player>();
         }
         public void UpdateEquipped(string slot, InventoryItem item)
         {
-            UpgradedItemEquipped = Utility.EquipmentHasItem(UltimateWarpChip.thisTechType);
+            //UpgradedItemEquipped = Utility.EquipmentHasItem(UltimateWarpChip.thisTechType);
         }
         public void Start()
         {
@@ -57,15 +57,15 @@ namespace WarpChip
             UpdateEquipped(null, null);
         }
 
-        public void TryTeleport()
+        public void TryTeleport(List<TechType> techTypes)
         {
             if(player != null && !player.isPiloting && player.mode == Player.Mode.Normal)
             {
-                Teleport();
+                Teleport(techTypes.Contains(UltimateWarpChip.thisTechType));
             }
         }
 
-        public void Teleport()
+        public void Teleport(bool ultimateChipEquipped)
         {
             float maxDistance = player.IsInside() ? teleportDistanceInside : teleportDistanceOutside;
 
@@ -85,7 +85,7 @@ namespace WarpChip
 
             if (itemIcon != null)
             {
-                if (!UpgradedItemEquipped)
+                if (!ultimateChipEquipped)
                     itemIcon.charge -= Mathf.Lerp(0f, itemIcon.MaxCharge, (100f / (maxDistance / distance)) / 100f);//fix
                 else//don't work right when not going full distance. Even when going half, just uses full charge
                     itemIcon.charge -= Mathf.Lerp(0f, itemIcon.MaxCharge, (100f / (maxDistance / distance)) / 100f) / 2f;//fix
@@ -98,9 +98,9 @@ namespace WarpChip
             yield return new WaitForSeconds(0.25f);
             fxController.StopTeleport();
         }
-        public bool CanActivate()
+        public bool CanActivate(List<TechType> techTypes)
         {
-            if (!UpgradedItemEquipped)
+            if (!techTypes.Contains(UltimateWarpChip.thisTechType))
                 return itemIcon.charge == itemIcon.MaxCharge && player != null && !player.isPiloting && player.mode == Player.Mode.Normal;
             return itemIcon.charge >= itemIcon.MaxCharge / 2 && player != null && !player.isPiloting && player.mode == Player.Mode.Normal;
         }

@@ -39,7 +39,13 @@ namespace EquippableItemIcons
         {
             foreach(HudItemIcon icon in Registries.hudItemIcons)
             {
-                if(icon.AutomaticSetup) icon.Update();
+                if (icon.AutomaticSetup) 
+                { 
+                    if(icon is ActivatedEquippableItem equippableItem)
+                        equippableItem.Update();
+
+                    icon.Update();
+                }
             }
             if(FramesSinceCheck >= 5)
             {

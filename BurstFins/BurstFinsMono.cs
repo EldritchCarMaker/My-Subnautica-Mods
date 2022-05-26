@@ -18,7 +18,7 @@ namespace BurstFins
     internal class BurstFinsMono : MonoBehaviour
     {
         //creates a new hud item icon
-        public HudItemIcon hudItemIcon = new HudItemIcon("BurstFinsIcon", SpriteManager.Get(TechType.UltraGlideFins), BurstFinsItem.thisTechType);
+        public ActivatedEquippableItem hudItemIcon = new ActivatedEquippableItem("BurstFinsIcon", SpriteManager.Get(TechType.UltraGlideFins), BurstFinsItem.thisTechType);
 
         public void Awake()
         {
@@ -38,7 +38,7 @@ namespace BurstFins
 
             if(QMod.config.HeldKey)
             {
-                hudItemIcon.activationType = HudItemIcon.ActivationType.Held;
+                hudItemIcon.activationType = ActivatedEquippableItem.ActivationType.Held;
                 //default is toggle, don't need an else statement
             }
             
