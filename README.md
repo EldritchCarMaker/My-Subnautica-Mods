@@ -110,8 +110,19 @@ Mostly for mod making, adds three commands to try out sounds. [Link to SN1 sound
 
 example: PlayLoopSound event:/sub/base/nuke_gen_loop
 
+
 Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ###### No Changelog Yet
+
+
+### [Recharger Chips](https://github.com/Nagorogan/My-Subnautica-Mods/files/8789377/RechargerChips.zip)
+
+Three new chips! Each will slowly charge any batteries stored within your inventory. One uses solar power to do it, another thermal, the final uses both.
+
+
+Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
+###### No Changelog Yet
+
 
 ### [Cyclops Windows](https://github.com/Nagorogan/My-Subnautica-Mods/files/8672605/CyclopsWindows.zip)
 
