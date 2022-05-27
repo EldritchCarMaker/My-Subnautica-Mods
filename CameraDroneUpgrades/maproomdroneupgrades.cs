@@ -10,12 +10,15 @@ using Logger = QModManager.Utility.Logger;
 
 namespace CameraDroneUpgrades
 {
-    internal class maproomdroneupgrades : MonoBehaviour
+    public class maproomdroneupgrades : MonoBehaviour
     {
-        public MapRoomCamera camera;
-        public MapRoomScreen screen;
-        public MapRoomFunctionality functionality;
-        public List<TechType> equippedUpgrades = new List<TechType>();
+        public MapRoomCamera camera { get; internal set; }
+        public MapRoomScreen screen { get; internal set; }
+        public MapRoomFunctionality functionality { get; internal set; }
+
+
+        public readonly List<TechType> equippedUpgrades = new List<TechType>();//don't touch
+
         public void Awake()
         {
             camera = GetComponent<MapRoomCamera>();
