@@ -60,8 +60,10 @@ namespace EquippableItemIcons.API
 
         private float TimeCharge = 0;
 
-        public new void Update()
+        internal /*override*/new void Update()
         {
+            iconActive = IsIconActive != null ? IsIconActive.Invoke() : equipped;
+
             if (!equipped)
             {
                 if (active)
@@ -75,7 +77,7 @@ namespace EquippableItemIcons.API
             {
                 if (Input.GetKey(activateKey))
                 {
-                    if (!active && (CanActivate != null ? CanActivate.Invoke() : CanActivateDefault()))
+                    if (!active && (DetailedCanActivate != null ? DetailedCanActivate.Invoke(equippedTechTypes) : CanActivate != null ? CanActivate.Invoke() : CanActivateDefault()))
                         HandleActivation();
                 }
                 else

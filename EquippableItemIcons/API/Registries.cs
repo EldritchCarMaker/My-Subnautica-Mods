@@ -17,7 +17,7 @@ namespace EquippableItemIcons.API
         private static bool CoroutineActive = false;
         public static void RegisterHudItemIcon(HudItemIcon icon)
         {
-            Logger.Log(Logger.Level.Info, $"Recieved HudItemIcon: {icon.name}", null, true); 
+            Logger.Log(Logger.Level.Info, $"Recieved HudItemIcon: {icon.name}"); 
             if (hudItemIcons.Contains(icon))
             {
                 QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Warn, $"Blocked duplicate icon: {icon.name}");

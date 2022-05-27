@@ -132,7 +132,7 @@ namespace EquippableItemIcons.API
                 }
             }
         }
-        internal void Update()
+        internal /*virtual*/ void Update()
         {
             iconActive = IsIconActive != null ? IsIconActive.Invoke() : equipped;
         }
