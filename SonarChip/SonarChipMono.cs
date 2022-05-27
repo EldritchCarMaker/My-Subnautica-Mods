@@ -18,11 +18,11 @@ namespace SonarChip
     {
         private Player player;
 
-        public HudItemIcon itemIcon;
+        public ActivatedEquippableItem itemIcon;
 
         public void Awake()
         {
-            itemIcon = new HudItemIcon("SonarChipIcon", ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "SonarChipIconRotate.png")), SonarChipItem.thisTechType);
+            itemIcon = new ActivatedEquippableItem("SonarChipIcon", ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "SonarChipIconRotate.png")), SonarChipItem.thisTechType);
             itemIcon.Activate += Activate;
             itemIcon.activateKey = QMod.config.ControlKey;
             itemIcon.MaxCharge = 5;
@@ -31,7 +31,7 @@ namespace SonarChip
             itemIcon.DrainRate = 1;
             itemIcon.ActivateSound = UtilityStuffs.Utility.GetFmodAsset("event:/sub/seamoth/sonar_loop");
             itemIcon.DeactivateSound = null;
-            itemIcon.activationType = HudItemIcon.ActivationType.OnceOff;
+            itemIcon.activationType = ActivatedEquippableItem.ActivationType.OnceOff;
             Registries.RegisterHudItemIcon(itemIcon);
 
             player = GetComponent<Player>();

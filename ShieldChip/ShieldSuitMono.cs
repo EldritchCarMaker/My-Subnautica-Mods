@@ -17,7 +17,7 @@ namespace ShieldSuit
 {
     internal class ShieldSuitMono : MonoBehaviour
     {
-        public HudItemIcon hudItemIcon = new HudItemIcon("ShieldSuitItem", ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "ShieldSuitIconRotate.png")), ShieldSuitItem.thisTechType);
+        public ActivatedEquippableItem hudItemIcon = new ActivatedEquippableItem("ShieldSuitItem", ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "ShieldSuitIconRotate.png")), ShieldSuitItem.thisTechType);
         public Player player;
         public int FixedUpdatesSinceCheck = 0;
 
