@@ -29,7 +29,6 @@ namespace RechargerChips.Items
         }
 
         public override EquipmentType EquipmentType => EquipmentType.Chip;
-        public override TechType RequiredForUnlock => TechType.SolarPanel;
         public override TechGroup GroupForPDA => TechGroup.Personal;
         public override TechCategory CategoryForPDA => TechCategory.Equipment;
         public override CraftTree.Type FabricatorType => CraftTree.Type.Fabricator;
@@ -38,7 +37,7 @@ namespace RechargerChips.Items
         public override QuickSlotType QuickSlotType => QuickSlotType.Passive;
         protected override Sprite GetItemSprite()
         {
-            return ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "WarpChipIcon.png"));
+            return ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "chip_solar.png"));
         }
 
         protected override RecipeData GetBlueprintRecipe()

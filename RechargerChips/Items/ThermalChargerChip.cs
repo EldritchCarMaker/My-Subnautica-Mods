@@ -34,7 +34,7 @@ namespace RechargerChips.Items
         public override QuickSlotType QuickSlotType => QuickSlotType.Passive;
         protected override Sprite GetItemSprite()
         {
-            return ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "WarpChipIcon.png"));
+            return ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "chip_thermal.png"));
         }
 
         protected override RecipeData GetBlueprintRecipe()

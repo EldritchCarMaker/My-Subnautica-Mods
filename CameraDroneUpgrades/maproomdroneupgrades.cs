@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using Logger = QModManager.Utility.Logger;
 
 namespace CameraDroneUpgrades
 {
@@ -52,7 +53,7 @@ namespace CameraDroneUpgrades
                 upgrade.update?.Invoke();
                 if(equippedUpgrades.Contains(upgrade.techType))
                 {
-
+                    upgrade.equippedUpdate?.Invoke();
                     if(upgrade.activationType == CameraDroneUpgrade.ActivationType.OnceOff)
                     {
                         if (Input.GetKeyDown(upgrade.key))
@@ -63,7 +64,7 @@ namespace CameraDroneUpgrades
                             else
                                 upgrade.deactivate?.Invoke();
                         }
-                        return;
+                        continue;
                     }
                     if (upgrade.activationType == CameraDroneUpgrade.ActivationType.Held && Input.GetKey(upgrade.key))
                     {

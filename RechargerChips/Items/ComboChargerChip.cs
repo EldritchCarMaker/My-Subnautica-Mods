@@ -28,13 +28,13 @@ namespace RechargerChips.Items
         public override TechType RequiredForUnlock => ThermalChargerChip.thisTechType;
         public override TechGroup GroupForPDA => TechGroup.Personal;
         public override TechCategory CategoryForPDA => TechCategory.Equipment;
-        public override CraftTree.Type FabricatorType => CraftTree.Type.Fabricator;
-        public override string[] StepsToFabricatorTab => new string[] { "Personal", "Equipment" };
+        public override CraftTree.Type FabricatorType => CraftTree.Type.Workbench;
+        public override string[] StepsToFabricatorTab => new string[] {};
         public override float CraftingTime => 3f;
         public override QuickSlotType QuickSlotType => QuickSlotType.Passive;
         protected override Sprite GetItemSprite()
         {
-            return ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "WarpChipIcon.png"));
+            return ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "chip_solar_thermal.png"));
         }
 
         protected override RecipeData GetBlueprintRecipe()

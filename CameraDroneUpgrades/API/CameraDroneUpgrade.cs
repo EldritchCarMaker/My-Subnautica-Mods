@@ -27,6 +27,7 @@ namespace CameraDroneUpgrades.API
         public Action activate;
         public Action deactivate;
         public Action update;
+        public Action equippedUpdate; //only called when equipped, as opposed to normal update which is always called
         public Action setUp;
         public Craftable item;
         public string name;

@@ -12,14 +12,14 @@ using UnityEngine;
 using Sprite = Atlas.Sprite;
 using TechData = SMLHelper.V2.Crafting.TechData;
 
-namespace CameraDroneShieldUpgrade.Items
+namespace CameraDroneRepairUpgrade.Items
 {
-    internal class MapRoomCameraShieldUpgrade : Craftable
+    internal class MapRoomCameraRepairUpgrade : Craftable
     {
         public static TechType thisTechType;
         public override string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
 
-        public MapRoomCameraShieldUpgrade() : base("MapRoomCameraShieldUpgrade", "Drone Shield Upgrade", "Allows drones to use a small energy shield")
+        public MapRoomCameraRepairUpgrade() : base("MapRoomCameraRepairUpgrade", "Drone Repair Upgrade", "Allows drones to repair objects they're looking at")
         {
             OnFinishedPatching += () =>
             {
@@ -35,7 +35,7 @@ namespace CameraDroneShieldUpgrade.Items
         public override float CraftingTime => 3f;
         protected override Sprite GetItemSprite()
         {
-            return ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "ShieldUpgrade.png"));
+            return ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "RepairUpgrade.png"));
         }
 
         protected override TechData GetBlueprintRecipe()
@@ -45,7 +45,7 @@ namespace CameraDroneShieldUpgrade.Items
                 craftAmount = 1,
                 Ingredients = new List<Ingredient>(new Ingredient[]
                     {
-                        new Ingredient(TechType.Polyaniline, 1),
+                        new Ingredient(TechType.Welder, 1),
                         new Ingredient(TechType.ComputerChip, 1),
                         new Ingredient(TechType.WiringKit, 1)
                     }
