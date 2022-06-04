@@ -1,1 +1,3 @@
 **1.0.1:** Fixed some bugs with the player not being placed back where they should be
+
+**1.2.0:** Added new remote control item. It allows on-the-go use of scanner room camera drones including a small inventory for upgrades to pair with the Camera Drone Upgrades mods. Doesn't have a model but whatever. 
