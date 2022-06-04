@@ -26,6 +26,7 @@ namespace CameraDroneUpgrades.API
         public KeyCode key = KeyCode.F;
         public Action activate;
         public Action deactivate;
+        public Action unEquip;//called when camera is exited, camera must be set back as if upgrade was never used.
         public Action update;
         public Action equippedUpdate; //only called when equipped, as opposed to normal update which is always called
         public Action setUp;

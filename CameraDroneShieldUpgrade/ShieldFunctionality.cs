@@ -27,6 +27,7 @@ namespace CameraDroneShieldUpgrade
             upgrade.update += Update;
             upgrade.activate += Activate;
             upgrade.deactivate += Deactivate;
+            upgrade.unEquip += UnEquip;
             upgrade.key = QMod.config.shieldKey;
 
             shield_on_loop = ScriptableObject.CreateInstance<FMODAsset>();
@@ -69,6 +70,12 @@ namespace CameraDroneShieldUpgrade
             {
                 shieldFX.gameObject.SetActive(false);
             }
+        }
+        public void UnEquip()
+        {
+            if(shieldFX)
+                GameObject.Destroy(shieldFX.gameObject);
+            upgrade.camera.liveMixin.shielded = false;
         }
         public void Deactivate()
         {

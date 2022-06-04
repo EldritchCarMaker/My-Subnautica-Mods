@@ -88,8 +88,13 @@ namespace EquippableItemIcons.API
             }
             else
             {
-                bool KeyDown = Input.GetKeyDown(activateKey);
-                if (KeyDown && (DetailedCanActivate != null ? DetailedCanActivate.Invoke(equippedTechTypes) : CanActivate != null ? CanActivate.Invoke() : CanActivateDefault()))
+                bool keyPressed = Input.GetKeyDown(activateKey);
+
+                bool canActivate = DetailedCanActivate != null ? DetailedCanActivate.Invoke(equippedTechTypes) : CanActivate != null ? CanActivate.Invoke() : CanActivateDefault();
+
+                bool shouldPlaySound = CanActivateDefault();//sound was annoying when it was played with pda, seamoth, etc
+
+                if (keyPressed && canActivate)
                 {
                     if (!active)
                     {
@@ -100,9 +105,9 @@ namespace EquippableItemIcons.API
                         HandleDeactivation();
                     }
                 }
-                else if (KeyDown)
+                else if (keyPressed)
                 {
-                    if (QMod.config.SoundsActive && playSounds && ActivateFailSound)
+                    if (QMod.config.SoundsActive && playSounds && ActivateFailSound && shouldPlaySound)
                     {
                         Utils.PlayFMODAsset(ActivateFailSound);
                     }
@@ -197,7 +202,7 @@ namespace EquippableItemIcons.API
                 Utils.PlayFMODAsset(DeactivateSound, Player.main.transform);
             }
         }
-        private bool CanActivateDefault()
+        public bool CanActivateDefault()
         {
             Player player = Player.main;
             return player != null && !player.isPiloting && player.mode == Player.Mode.Normal && !player.GetPDA().isOpen;

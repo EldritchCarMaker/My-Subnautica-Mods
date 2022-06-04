@@ -9,17 +9,17 @@ using SMLHelper.V2.Handlers;
 using System.IO;
 using System.Collections.Generic;
 using SMLHelper.V2.Assets;
+using CameraDroneSpeedUpgrade.Items;
 using CameraDroneUpgrades.API;
 
-namespace CameraDroneUpgrades
+namespace CameraDroneSpeedUpgrade
 {
     [QModCore]
     public static class QMod
     {
         private static Assembly assembly = Assembly.GetExecutingAssembly();
         private static string modPath = Path.GetDirectoryName(assembly.Location);
-
-        internal static Config Config { get; } = OptionsPanelHandler.Main.RegisterModOptions<Config>();
+        public static Config config { get; } = OptionsPanelHandler.Main.RegisterModOptions<Config>();
 
         [QModPatch]
         public static void Patch()
@@ -29,13 +29,19 @@ namespace CameraDroneUpgrades
             Harmony harmony = new Harmony(CyclopsLockers);
             harmony.PatchAll(assembly);
 
+            var item = new MapRoomCameraSpeedUpgrade();
+            item.Patch();
+
+            var Speed = new SpeedFunctionality();
+            Speed.upgrade = Registrations.RegisterDroneUpgrade("DroneSpeedUpgrade", item, Speed.SetUp);
+
             Logger.Log(Logger.Level.Info, "Patched successfully!");
         }
     }
-    [Menu("Camera Drone Upgrades")]
+    [Menu("Camera Drone Speed Upgrade")]
     public class Config : ConfigFile
     {
-        [Keybind("Scan Key", Tooltip = "When using a camera drone, hold this key to begin scanning an object")]
-        public KeyCode scanKey = KeyCode.F;
+        [Keybind("Speed key", Tooltip = "keybind for using speed boost for drones")]
+        public KeyCode speedKey = KeyCode.F;
     }
 }

@@ -9,6 +9,7 @@ using SMLHelper.V2.Handlers;
 using RemoteControlVehicles;
 using UnityEngine;
 using MoreCyclopsUpgrades.API;
+using RemoteControlVehicles.Items;
 
 namespace RemoteControlVehicles
 {
@@ -29,6 +30,8 @@ namespace RemoteControlVehicles
 
             var module = new CyclopsRemoteControlModule();
             module.Patch();
+
+            new DroneControlRemote().Patch();
 
             MCUServices.Register.CyclopsUpgradeHandler((SubRoot cyclops) =>
             {

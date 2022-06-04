@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using Logger = QModManager.Utility.Logger;
+using CameraDroneUpgrades.DroneScanning;
+using UWE;
 
 namespace CameraDroneUpgrades
 {
@@ -16,17 +18,25 @@ namespace CameraDroneUpgrades
         public MapRoomScreen screen { get; internal set; }
         public MapRoomFunctionality functionality { get; internal set; }
 
+        public static maproomdroneupgrades currentManager { get; internal set; }
 
         public readonly List<TechType> equippedUpgrades = new List<TechType>();//don't touch
 
         public void Awake()
         {
+            if(currentManager != null) Destroy(currentManager);
+
+            currentManager = this;
+
+            ScanFunctionality.scanEmitter= ScanFunctionality.AddLoopingEmitter(ScanFunctionality.scanLoop, gameObject);
+
             camera = GetComponent<MapRoomCamera>();
             screen = camera?.screen;
             functionality = screen?.mapRoomFunctionality;
             if(functionality == null)
             {
                 Destroy(this);
+                return;
             }
             CountUpgrades(null);
             functionality.storageContainer.container.onAddItem += CountUpgrades;
@@ -40,6 +50,8 @@ namespace CameraDroneUpgrades
         }
         public void CountUpgrades(InventoryItem _)
         {
+            if (functionality == null) return;
+
             equippedUpgrades.Clear();
             foreach(CameraDroneUpgrade upgrade in Registrations.upgrades)
             {
@@ -49,11 +61,47 @@ namespace CameraDroneUpgrades
                 }
             }
         }
+        public void OnExitCamera()
+        {
+            foreach (CameraDroneUpgrade upgrade in Registrations.upgrades)
+            {
+                if (upgrade.active)
+                {
+                    upgrade.deactivate?.Invoke();
+                    upgrade.active = false;
+                }
+                upgrade.update?.Invoke();
+                upgrade.unEquip?.Invoke();
+            }
+            uGUI_ScannerIcon.main.icon.backgroundColorNormal = ScanFunctionality.vanillaColor;
+        }
         public void Update()
         {
-            foreach(CameraDroneUpgrade upgrade in Registrations.upgrades)
+            if(camera.IsControlled())
+            {
+                var obj = ScanFunctionality.UpdateScanIcon(gameObject);
+                if (obj && Input.GetKey(QMod.Config.scanKey) && ScanFunctionality.Scan(gameObject, obj))
+                {
+                    camera.energyMixin.ConsumeEnergy(0.5f * Time.deltaTime);
+                }
+            }
+
+            ScanFunctionality.UpdateSounds();
+
+            foreach (CameraDroneUpgrade upgrade in Registrations.upgrades)
             {
                 upgrade.update?.Invoke();
+
+                if(!camera.IsControlled())
+                {
+                    if(upgrade.active)
+                    {
+                        upgrade.deactivate?.Invoke();
+                        upgrade.active = false;
+                    }
+                    continue;
+                }
+
                 if(equippedUpgrades.Contains(upgrade.techType))
                 {
                     upgrade.equippedUpdate?.Invoke();

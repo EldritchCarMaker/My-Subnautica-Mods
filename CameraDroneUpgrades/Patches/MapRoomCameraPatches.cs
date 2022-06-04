@@ -13,11 +13,16 @@ namespace CameraDroneUpgrades.Patches
         [HarmonyPatch(nameof(MapRoomCamera.ControlCamera))]
         public static void Postfix(MapRoomCamera __instance)
         {
-            if(__instance.screen != null)
+            if (__instance.screen != null)
             {
                 var upgrades = __instance.gameObject.EnsureComponent<maproomdroneupgrades>();
                 upgrades.CountUpgrades(null);
             }
+        }
+        [HarmonyPatch(nameof(MapRoomCamera.FreeCamera))]
+        public static void Prefix()
+        {
+            maproomdroneupgrades.currentManager?.OnExitCamera();
         }
     }
 }

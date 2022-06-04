@@ -6,10 +6,11 @@
   "Enable": true,
   "AssemblyName": "CameraDroneFlightUpgrade.dll",
   "VersionDependencies": {
-    "SMLHelper": "2.9.6"
+    "SMLHelper": "2.9.6",
+    "CameraDroneUpgrades": "1.0.0"
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/CameraDroneFlightUpgrade/mod.json"
+    "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/CameraDroneFlightModule/mod.json"
   },
   "Game": "Subnautica"
 }
