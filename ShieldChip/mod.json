@@ -2,7 +2,7 @@
   "Id": "ShieldSuit",
   "DisplayName": "Shield Suit",
   "Author": "Nagorrogan",
-  "Version": "1.1.0",
+  "Version": "1.1.1",
   "Enable": true,
   "AssemblyName": "ShieldSuit.dll",
   "VersionDependencies": {
