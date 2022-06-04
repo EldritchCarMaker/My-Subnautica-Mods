@@ -17,6 +17,7 @@ Adds three new items to the game; a hud chip, a common vehicle module(usuable fo
 Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), [More Cyclops Upgrades](https://github.com/PrimeSonic/PrimeSonicSubnauticaMods/releases/tag/Aug5_2021)
 
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/RemoteControlVehicles/Changelog.md)
+###### [To Do List](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/RemoteControlVehicles/ToDoList.md)
 
 ### [Equippable Item Icons](https://github.com/Nagorogan/My-Subnautica-Mods/files/8839016/EquippableItemIcons.zip)
 
