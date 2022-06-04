@@ -132,7 +132,7 @@ uses Camera Drone Upgrades to add an upgrade module that allows drones to toggle
 
 Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), Camera Drone Upgrades
 ###### No Changelog Yet
-###### [To Do List]()
+###### [To Do List](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/CameraDroneStealthUpgrade/ToDoList.md)
 
 
 ### [Cyclops Vehicle Upgrade Console](https://github.com/Nagorogan/My-Subnautica-Mods/files/8781241/CyclopsVehicleUpgradeConsole.zip)
