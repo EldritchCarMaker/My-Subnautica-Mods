@@ -9,7 +9,7 @@ Dependencies: [AutosortLockers](https://www.nexusmods.com/subnautica/mods/31), [
 ###### No Changelog yet
 
 
-### [Remote Control Vehicles](https://github.com/Nagorogan/My-Subnautica-Mods/files/8592900/RemoteControlVehicles.zip)
+### [Remote Control Vehicles](https://github.com/Nagorogan/My-Subnautica-Mods/files/8839018/RemoteControlVehicles.zip)
 
 
 Adds three new items to the game; a hud chip, a common vehicle module(usuable for seamoth and prawn), and a cyclops module. Both modules allow you to remotely control the vehicle it's equipped in but you do need the hud chip equipped to use either. Only one remote controlable vehicle is allowed of each type. Only one cyclops can be equipped with the module, and only one prawn/seamoth can be equipped with the module. 
@@ -18,7 +18,7 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), [More 
 
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/RemoteControlVehicles/Changelog.md)
 
-### [Equippable Item Icons](https://github.com/Nagorogan/My-Subnautica-Mods/files/8781235/EquippableItemIcons.zip)
+### [Equippable Item Icons](https://github.com/Nagorogan/My-Subnautica-Mods/files/8839016/EquippableItemIcons.zip)
 
 
 An API for creating new items and icons for said items. Very configurable, ask on discord for information on how to use. Still in progress, but it's basically done apart from adding new things and making sure its bug free.
@@ -58,7 +58,8 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), equipp
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/BurstFins/Changelog.md)
 
 
-### [Shield Suit](https://github.com/Nagorogan/My-Subnautica-Mods/files/8748405/ShieldSuit.zip)
+### [Shield Suit](https://github.com/Nagorogan/My-Subnautica-Mods/files/8839019/ShieldSuit.zip)
+
 
 Adds a new suit that allows for the use of a toggleable personal shield. Doesn't last forever, but lasts long enough and recharges pretty quickly. 
 
@@ -73,6 +74,66 @@ Adds a new equippable chip that can be activated to let out a sonar burst. Has f
 
 Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), equippable item icons
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/SonarChip/Changelog.md)
+
+
+### [Camera Drone Upgrades](https://github.com/Nagorogan/My-Subnautica-Mods/files/8839021/CameraDroneUpgrades.zip)
+
+Another API for improving the camera drones. This mod by default also adds scanning functionality to all drones, without requiring an upgrade to be equipped.
+Any mod that uses this API will use an upgrade module that must be inserted into the scanner room upgrades slot in order for the drones to be able to use the upgrades.
+
+#### [All In One Package](https://github.com/Nagorogan/My-Subnautica-Mods/files/8839023/All-In-One.zip)
+
+This zip file contains every single camera drone mod I have made up until the point of writing this. Just for if you don't feel like downloading each one individually.
+
+Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
+###### No Changelog Yet
+
+
+### [Camera Drone Flight Upgrade](https://github.com/Nagorogan/My-Subnautica-Mods/files/8839025/CameraDroneFlightUpgrade.zip) 
+
+
+uses Camera Drone Upgrades to add an upgrade module that allows drones to fly and have a hover.
+
+Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), Camera Drone Upgrades
+###### No Changelog Yet
+
+
+### [Camera Drone Repair Upgrade](https://github.com/Nagorogan/My-Subnautica-Mods/files/8839026/CameraDroneRepairUpgrade.zip)
+
+
+uses Camera Drone Upgrades to add an upgrade module that allows drones to repair objects they are looking at.
+
+Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), Camera Drone Upgrades
+###### No Changelog Yet
+
+
+### [Camera Drone Shield Upgrade](https://github.com/Nagorogan/My-Subnautica-Mods/files/8839028/CameraDroneShieldUpgrade.zip)
+
+
+uses Camera Drone Upgrades to add an upgrade module that allows drones to use a small personal shield.
+
+Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), Camera Drone Upgrades
+###### No Changelog Yet
+
+
+### [Camera Drone Speed Upgrade](https://github.com/Nagorogan/My-Subnautica-Mods/files/8839032/CameraDroneSpeedUpgrade.zip)
+
+
+uses Camera Drone Upgrades to add an upgrade module that allows drones to use a speed boost at the cost of energy drain.
+
+Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), Camera Drone Upgrades
+###### No Changelog Yet
+
+
+### [Camera Drone Stealth Upgrade](https://github.com/Nagorogan/My-Subnautica-Mods/files/8839034/CameraDroneStealthUpgrade.zip)
+
+
+uses Camera Drone Upgrades to add an upgrade module that allows drones to toggle a stealth mode, in which creatures can't target them or grab them. If a creature already detects the drone before activating stealth, it might continue to attack the drone though. 
+
+Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), Camera Drone Upgrades
+###### No Changelog Yet
+###### [To Do List]()
+
 
 ### [Cyclops Vehicle Upgrade Console](https://github.com/Nagorogan/My-Subnautica-Mods/files/8781241/CyclopsVehicleUpgradeConsole.zip)
 
