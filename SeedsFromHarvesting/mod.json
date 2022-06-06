@@ -2,7 +2,7 @@
   "Id": "SeedsFromHarvesting",
   "DisplayName": "Seeds From Harvesting",
   "Author": "Nagorrogan",
-  "Version": "1.0.1",
+  "Version": "1.0.2",
   "Enable": true,
   "AssemblyName": "SeedsFromHarvesting.dll",
   "VersionDependencies": {

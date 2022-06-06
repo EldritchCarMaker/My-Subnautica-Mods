@@ -2,7 +2,7 @@
   "Id": "RemoteControlVehicles",
   "DisplayName": "Remote Control Vehicles",
   "Author": "Nagorrogan",
-  "Version": "1.1.0",
+  "Version": "1.1.1",
   "Enable": true,
   "AssemblyName": "RemoteControlVehicles.dll",
   "VersionDependencies": {

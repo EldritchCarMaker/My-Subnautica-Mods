@@ -2,7 +2,7 @@
   "Id": "InvincibleDockedVehicles",
   "DisplayName": "Invincible Docked Vehicles",
   "Author": "Nagorrogan",
-  "Version": "1.0.0",
+  "Version": "1.0.1",
   "Enable": true,
   "AssemblyName": "InvincibleDockedVehicles.dll",
   "VersionChecker": {

@@ -2,7 +2,7 @@
   "Id": "PlayerToolChanges_SN",
   "DisplayName": "Player Tool Changes SN",
   "Author": "Nagorrogan",
-  "Version": "1.2.0",
+  "Version": "1.2.1",
   "Enable": true,
   "AssemblyName": "PlayerToolChanges_SN.dll",
   "VersionDependencies": {
