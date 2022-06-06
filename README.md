@@ -30,7 +30,7 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/EquippableItemIcons/Changelog.md)
 
 
-### [Warp Chip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8781239/WarpChip.zip)
+### [Warp Chip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8841482/WarpChip.zip)
 
 
 
@@ -40,7 +40,7 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), Equipp
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/WarpChip/Changelog.md)
 
 
-### [Spy Watch](https://github.com/Nagorogan/My-Subnautica-Mods/files/8748635/SpyWatch.zip)
+### [Spy Watch](https://github.com/Nagorogan/My-Subnautica-Mods/files/8841483/SpyWatch.zip)
 
 
 Adds a new equippable watch(hud chip) that allows you to go invisible for a short amount of time. Creatures shouldn't be able to detect you while invisible, but if something saw you first they may still try to attack. The key is configurable, and after equipping the watch an icon should show up in the bottom right near the quickslots. When using the watch, the icon will slowly drain and this is your indication of how long you have left to be invisible.
@@ -50,7 +50,7 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), equipp
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/SpyWatch/Changelog.md)
 
 
-### [Burst Fins](https://github.com/Nagorogan/My-Subnautica-Mods/files/8750102/BurstFins.zip)
+### [Burst Fins](https://github.com/Nagorogan/My-Subnautica-Mods/files/8841485/BurstFins.zip)
 
 
 Adds a new set of fins as an upgrade to the ultra glide fins. These ones have a short lasting but quick charging battery that can allow for short bursts of incredible speed even while using the seaglide
@@ -59,7 +59,7 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), equipp
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/BurstFins/Changelog.md)
 
 
-### [Shield Suit](https://github.com/Nagorogan/My-Subnautica-Mods/files/8839019/ShieldSuit.zip)
+### [Shield Suit](https://github.com/Nagorogan/My-Subnautica-Mods/files/8841489/ShieldSuit.zip)
 
 
 Adds a new suit that allows for the use of a toggleable personal shield. Doesn't last forever, but lasts long enough and recharges pretty quickly. 
@@ -68,7 +68,7 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), equipp
 ###### No Changelog yet
 
 
-### [Sonar Chip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8750095/SonarChip.zip)
+### [Sonar Chip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8841490/SonarChip.zip)
 
 
 Adds a new equippable chip that can be activated to let out a sonar burst. Has five charges that slowly regenerate and has a one second delay after use before recharge will begin.
