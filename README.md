@@ -19,12 +19,17 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), [More 
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/RemoteControlVehicles/Changelog.md)
 ###### [To Do List](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/RemoteControlVehicles/ToDoList.md)
 
+
 ### [Equippable Item Icons](https://github.com/Nagorogan/My-Subnautica-Mods/files/8839016/EquippableItemIcons.zip)
 
 
 An API for creating new items and icons for said items. Very configurable, ask on discord for information on how to use. Still in progress, but it's basically done apart from adding new things and making sure its bug free.
 
 Any mod that uses this API will have an icon next to the quickslots for each equipped item with a special icon. This icon may or may not drain, depending on the mod it comes from.
+
+#### [All-In-One Package](https://github.com/Nagorogan/My-Subnautica-Mods/files/8841583/All-In-One.zip)
+
+This file has every single mod I have made that utilizes Equippable Item Icons. Easier to use this than download each individually if you just want them all.
 
 Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/EquippableItemIcons/Changelog.md)
@@ -77,12 +82,13 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), equipp
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/SonarChip/Changelog.md)
 
 
-### [Camera Drone Upgrades](https://github.com/Nagorogan/My-Subnautica-Mods/files/8839021/CameraDroneUpgrades.zip)
+### [Camera Drone Upgrades](https://github.com/Nagorogan/My-Subnautica-Mods/files/8841573/CameraDroneUpgrades.zip)
+
 
 Another API for improving the camera drones. This mod by default also adds scanning functionality to all drones, without requiring an upgrade to be equipped.
 Any mod that uses this API will use an upgrade module that must be inserted into the scanner room upgrades slot in order for the drones to be able to use the upgrades.
 
-#### [All In One Package](https://github.com/Nagorogan/My-Subnautica-Mods/files/8839023/All-In-One.zip)
+#### [All In One Package](https://github.com/Nagorogan/My-Subnautica-Mods/files/8841571/All-In-One.zip)
 
 This zip file contains every single camera drone mod I have made up until the point of writing this. Just for if you don't feel like downloading each one individually.
 
@@ -90,7 +96,16 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ###### No Changelog Yet
 
 
-### [Camera Drone Flight Upgrade](https://github.com/Nagorogan/My-Subnautica-Mods/files/8839025/CameraDroneFlightUpgrade.zip) 
+### [Camera Drone Defense Upgrade](https://github.com/Nagorogan/My-Subnautica-Mods/files/8841609/CameraDroneDefenseUpgrade.zip)
+
+
+uses Camera Drone Upgrades to add an upgrade module that allows drones to automatically shock creatures that attempt to grab the drone.
+
+Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), Camera Drone Upgrades
+###### No Changelog Yet
+
+
+### [Camera Drone Flight Upgrade](https://github.com/Nagorogan/My-Subnautica-Mods/files/8841593/CameraDroneFlightUpgrade.zip)
 
 
 uses Camera Drone Upgrades to add an upgrade module that allows drones to fly and have a hover.
@@ -99,7 +114,7 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), Camera
 ###### No Changelog Yet
 
 
-### [Camera Drone Repair Upgrade](https://github.com/Nagorogan/My-Subnautica-Mods/files/8839026/CameraDroneRepairUpgrade.zip)
+### [Camera Drone Repair Upgrade](https://github.com/Nagorogan/My-Subnautica-Mods/files/8841596/CameraDroneRepairUpgrade.zip)
 
 
 uses Camera Drone Upgrades to add an upgrade module that allows drones to repair objects they are looking at.
@@ -108,7 +123,7 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), Camera
 ###### No Changelog Yet
 
 
-### [Camera Drone Shield Upgrade](https://github.com/Nagorogan/My-Subnautica-Mods/files/8839028/CameraDroneShieldUpgrade.zip)
+### [Camera Drone Shield Upgrade](https://github.com/Nagorogan/My-Subnautica-Mods/files/8841597/CameraDroneShieldUpgrade.zip)
 
 
 uses Camera Drone Upgrades to add an upgrade module that allows drones to use a small personal shield.
@@ -117,7 +132,7 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), Camera
 ###### No Changelog Yet
 
 
-### [Camera Drone Speed Upgrade](https://github.com/Nagorogan/My-Subnautica-Mods/files/8839032/CameraDroneSpeedUpgrade.zip)
+### [Camera Drone Speed Upgrade](https://github.com/Nagorogan/My-Subnautica-Mods/files/8841598/CameraDroneSpeedUpgrade.zip)
 
 
 uses Camera Drone Upgrades to add an upgrade module that allows drones to use a speed boost at the cost of energy drain.
@@ -126,7 +141,16 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), Camera
 ###### No Changelog Yet
 
 
-### [Camera Drone Stealth Upgrade](https://github.com/Nagorogan/My-Subnautica-Mods/files/8839034/CameraDroneStealthUpgrade.zip)
+### [Camera Drone Stasis Upgrade](https://github.com/Nagorogan/My-Subnautica-Mods/files/8841603/CameraDroneStasisUpgrade.zip)
+
+
+uses Camera Drone Upgrades to add an upgrade module that allows drones to Deploy a stasis bubble around them. Drones are also immune to the stasis bubble while they have this module equipped.
+
+Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), Camera Drone Upgrades
+###### No Changelog Yet
+
+
+### [Camera Drone Stealth Upgrade](https://github.com/Nagorogan/My-Subnautica-Mods/files/8841600/CameraDroneStealthUpgrade.zip)
 
 
 uses Camera Drone Upgrades to add an upgrade module that allows drones to toggle a stealth mode, in which creatures can't target them or grab them. If a creature already detects the drone before activating stealth, it might continue to attack the drone though. 
