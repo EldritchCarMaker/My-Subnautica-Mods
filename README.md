@@ -1,6 +1,6 @@
 # Subnautica Mods
  
-### [Better Cyclops Lockers](https://github.com/Nagorogan/My-Subnautica-Mods/files/8239047/BetterCyclopsLockers.zip):
+### [Better Cyclops Lockers](https://github.com/Nagorogan/My-Subnautica-Mods/files/8841539/BetterCyclopsLockers.zip)
 
 
 Increases the width and height of the cyclops lockers by a configurable amount (1-15 each on nexus, 1-100 each from this file. I trust github users a bit more, please don't disappoint.) and allows the lockers to function as an autosort target meaning that any placed autosortlocker within the cyclops can automatically deposit to the lockers. 
@@ -9,7 +9,7 @@ Dependencies: [AutosortLockers](https://www.nexusmods.com/subnautica/mods/31), [
 ###### No Changelog yet
 
 
-### [Remote Control Vehicles](https://github.com/Nagorogan/My-Subnautica-Mods/files/8839018/RemoteControlVehicles.zip)
+### [Remote Control Vehicles](https://github.com/Nagorogan/My-Subnautica-Mods/files/8841541/RemoteControlVehicles.zip)
 
 
 Adds three new items to the game; a hud chip, a common vehicle module(usuable for seamoth and prawn), and a cyclops module. Both modules allow you to remotely control the vehicle it's equipped in but you do need the hud chip equipped to use either. Only one remote controlable vehicle is allowed of each type. Only one cyclops can be equipped with the module, and only one prawn/seamoth can be equipped with the module. 
@@ -136,7 +136,7 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), Camera
 ###### [To Do List](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/CameraDroneStealthUpgrade/ToDoList.md)
 
 
-### [Cyclops Vehicle Upgrade Console](https://github.com/Nagorogan/My-Subnautica-Mods/files/8781241/CyclopsVehicleUpgradeConsole.zip)
+### [Cyclops Vehicle Upgrade Console](https://github.com/Nagorogan/My-Subnautica-Mods/files/8841543/CyclopsVehicleUpgradeConsole.zip)
 
 
 
@@ -148,14 +148,15 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/CyclopsVehicleUpgradeConsole/Changelog.md)
 
 
-### [Pickupable Vehicles](https://github.com/Nagorogan/My-Subnautica-Mods/files/8694117/PickupableVehicles.zip)
+### [Pickupable Vehicles](https://github.com/Nagorogan/My-Subnautica-Mods/files/8841545/PickupableVehicles.zip)
+
 
 Allows you to pick up vehicles. Has a config for whether it needs a special module to be equipped or if it's just an innate ability. Can change the inventory size of them. Warning: Picking up/dropping the prawn is quite buggy and thus is not allowed by default. You can enable this, but its not recommended for now. Just stick with the seamoth.
 
 Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ###### No Changelog yet
 
-### [Seeds From Harvesting](https://github.com/Nagorogan/My-Subnautica-Mods/files/8781242/SeedsFromHarvesting.zip)
+### [Seeds From Harvesting](https://github.com/Nagorogan/My-Subnautica-Mods/files/8841548/SeedsFromHarvesting.zip)
 
 
 Gives you one seed whenever you harvest a plant like a mushroom or marble melon. Don't need to knife them if you just want to keep the farm sustained. If you want to expand the farm, still need to knife them to get all 4 seeds though. This mod also stops you from planting fully grown plants like the marble melon, now you need to plant the seeds instead. There is a config for this but if you set it to false you can just plant and harvest rapidly to duplicate as many seeds as you want. 
@@ -165,7 +166,7 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/SeedsFromHarvesting/Changelog.md)
 
 
-### [Sound Commands](https://github.com/Nagorogan/My-Subnautica-Mods/files/8694124/SoundCommand.zip)
+### [Sound Commands](https://github.com/Nagorogan/My-Subnautica-Mods/files/8841549/SoundCommand.zip)
 
 
 Mostly for mod making, adds three commands to try out sounds. [Link to SN1 sounds](https://github.com/Nagorogan/ECCLibrary/blob/main/Wiki/Resources/SN/FMODEventPathsSN1.txt). Just copy paste one of those after the command PlaySound and it'll play the sound. For loops, use PlayLoopSound and StopSounds or else the sound will just go on forever. 
@@ -177,7 +178,8 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ###### No Changelog Yet
 
 
-### [Recharger Chips](https://github.com/Nagorogan/My-Subnautica-Mods/files/8789377/RechargerChips.zip)
+### [Recharger Chips](https://github.com/Nagorogan/My-Subnautica-Mods/files/8841551/RechargerChips.zip)
+
 
 Three new chips! Each will slowly charge any batteries stored within your inventory. One uses solar power to do it, another thermal, the final uses both.
 
@@ -186,7 +188,7 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ###### No Changelog Yet
 
 
-### [Cyclops Windows](https://github.com/Nagorogan/My-Subnautica-Mods/files/8672605/CyclopsWindows.zip)
+### [Cyclops Windows](https://github.com/Nagorogan/My-Subnautica-Mods/files/8841553/CyclopsWindows.zip)
 
 
 Moves the cyclops lockers to the other side of the wall, replacing them with some super sweet windows. Got a cool button to toggle the windows too
@@ -196,7 +198,7 @@ Moves the cyclops lockers to the other side of the wall, replacing them with som
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/CyclopsWindows/Changelog.md)
 
 
-### [Invincible Docked Vehicles](https://github.com/Nagorogan/My-Subnautica-Mods/files/8693264/InvincibleDockedVehicles.zip)
+### [Invincible Docked Vehicles](https://github.com/Nagorogan/My-Subnautica-Mods/files/8841554/InvincibleDockedVehicles.zip)
 
 
 Makes vehicles invincible when they're docked. More of a bandaid fix for a few bugs in game, but this is the only way I can think of to get them fixed for now at least.
@@ -209,7 +211,7 @@ Makes vehicles invincible when they're docked. More of a bandaid fix for a few b
 
 Decreases the damage drooping stingers do while also fixing the bug that causes them to near instantly kill things.
 
-### [Player Tool Changes_SN](https://github.com/Nagorogan/My-Subnautica-Mods/files/8309958/PlayerToolChanges_SN.zip):
+### [Player Tool Changes_SN](https://github.com/Nagorogan/My-Subnautica-Mods/files/8841555/PlayerToolChanges_SN.zip)
 
 
 Allows you to configure the stats of most tools in game. Must re-equip tool for changes to take effect.
@@ -217,7 +219,8 @@ Allows you to configure the stats of most tools in game. Must re-equip tool for 
 Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/PlayerToolChanges_SN/Changelog.md)
 
-### [Adaptive Teleporting Costs](https://github.com/Nagorogan/My-Subnautica-Mods/files/8386445/AdaptiveTeleportingCosts.zip) :
+
+### [Adaptive Teleporting Costs](https://github.com/Nagorogan/My-Subnautica-Mods/files/8841556/AdaptiveTeleportingCosts.zip)
 
 
 Changes the FCS quantum teleporter to drain power based on distance teleported rather than simply if the teleporter is in the same base or not. Also lets you configure the min and max costs and the scaling rate of cost over distance.
