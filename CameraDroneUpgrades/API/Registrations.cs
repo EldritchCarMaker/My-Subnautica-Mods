@@ -11,9 +11,9 @@ namespace CameraDroneUpgrades.API
     public static class Registrations
     {
         public static List<CameraDroneUpgrade> upgrades = new List<CameraDroneUpgrade>();
-        public static CameraDroneUpgrade RegisterDroneUpgrade(string name, Craftable item, Action setupmethod)
+        public static CameraDroneUpgrade RegisterDroneUpgrade(string name, TechType type, Action setupmethod)
         {
-            var upgrade = new CameraDroneUpgrade(name, item, setupmethod);
+            var upgrade = new CameraDroneUpgrade(name, type, setupmethod);
             Logger.Log(Logger.Level.Info, $"Recieved CameraDroneUpgrade: {name}");
             if (upgrades.Contains(upgrade))
             {
@@ -22,6 +22,10 @@ namespace CameraDroneUpgrades.API
             }
             upgrades.Add(upgrade);
             return upgrade;
+        }
+        public static CameraDroneUpgrade RegisterDroneUpgrade(string name, Craftable item, Action setupmethod)
+        {
+            return RegisterDroneUpgrade(name, item.TechType, setupmethod);
         }
     }
 }

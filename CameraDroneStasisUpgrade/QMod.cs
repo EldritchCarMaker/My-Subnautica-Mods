@@ -9,10 +9,10 @@ using SMLHelper.V2.Handlers;
 using System.IO;
 using System.Collections.Generic;
 using SMLHelper.V2.Assets;
-using CameraDroneShieldUpgrade.Items;
+using CameraDroneStasisUpgrade.Items;
 using CameraDroneUpgrades.API;
 
-namespace CameraDroneShieldUpgrade
+namespace CameraDroneStasisUpgrade
 {
     [QModCore]
     public static class QMod
@@ -29,19 +29,19 @@ namespace CameraDroneShieldUpgrade
             Harmony harmony = new Harmony(CyclopsLockers);
             harmony.PatchAll(assembly);
 
-            var item = new MapRoomCameraShieldUpgrade();
+            var item = new MapRoomCameraStasisUpgrade();
             item.Patch();
 
-            var shield = new ShieldFunctionality();
-            shield.upgrade = Registrations.RegisterDroneUpgrade("DroneShieldUpgrade", item.TechType, shield.SetUp);
+            var stasis = new StasisFunctionality();
+            stasis.upgrade = Registrations.RegisterDroneUpgrade("DroneSpeedUpgrade", item.TechType, stasis.SetUp);
 
             Logger.Log(Logger.Level.Info, "Patched successfully!");
         }
     }
-    [Menu("Camera Drone Shield Upgrade")]
+    [Menu("Camera Drone Stasis Upgrade")]
     public class Config : ConfigFile
     {
-        [Keybind("Shield", Tooltip = "keybind for toggling a shield for camera drones")]
-        public KeyCode shieldKey = KeyCode.X;
+        [Keybind("Stasis key", Tooltip = "keybind for activating a stasis sphere")]
+        public KeyCode stasisKey = KeyCode.F;
     }
 }

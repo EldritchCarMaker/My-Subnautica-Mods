@@ -33,7 +33,7 @@ namespace CameraDroneFlightUpgrade
             item.Patch();
 
             var shield = new FlightFunctionality();
-            shield.upgrade = Registrations.RegisterDroneUpgrade("DroneFlightUpgrade", item, shield.SetUp);
+            shield.upgrade = Registrations.RegisterDroneUpgrade("DroneFlightUpgrade", item.TechType, shield.SetUp);
 
             Logger.Log(Logger.Level.Info, "Patched successfully!");
         }

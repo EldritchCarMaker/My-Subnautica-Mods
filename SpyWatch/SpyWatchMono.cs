@@ -70,6 +70,8 @@ namespace SpyWatch
             foreach (Renderer renderer in player.transform.Find("body").GetComponentsInChildren<Renderer>())
             {
                 if (renderer.GetComponentInParent<PlayerTool>() != null) continue;
+
+                else if ((bool)(renderer.transform.parent?.name.Contains("PDA"))) continue;
                 /*
                 if (!materials.ContainsValue(renderer.gameObject))
                 {

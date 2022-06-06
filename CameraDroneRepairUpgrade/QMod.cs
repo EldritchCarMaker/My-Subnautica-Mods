@@ -33,7 +33,7 @@ namespace CameraDroneRepairUpgrade
             item.Patch();
 
             var shield = new RepairFunctionality();
-            shield.upgrade = Registrations.RegisterDroneUpgrade("DroneRepairUpgrade", item, shield.SetUp);
+            shield.upgrade = Registrations.RegisterDroneUpgrade("DroneRepairUpgrade", item.TechType, shield.SetUp);
 
             Logger.Log(Logger.Level.Info, "Patched successfully!");
         }

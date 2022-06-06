@@ -2,12 +2,12 @@
   "Id": "SonarChip",
   "DisplayName": "Sonar Chip",
   "Author": "Nagorrogan",
-  "Version": "1.0.2",
+  "Version": "1.0.3",
   "Enable": true,
   "AssemblyName": "SonarChip.dll",
   "VersionDependencies": {
     "SMLHelper": "2.9.6",
-    "EquippableItemIcons": "1.2.0"
+    "EquippableItemIcons": "1.2.2"
   },
   "VersionChecker": {
     "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/SonarChip/mod.json"

@@ -33,7 +33,7 @@ namespace CameraDroneSpeedUpgrade
             item.Patch();
 
             var Speed = new SpeedFunctionality();
-            Speed.upgrade = Registrations.RegisterDroneUpgrade("DroneSpeedUpgrade", item, Speed.SetUp);
+            Speed.upgrade = Registrations.RegisterDroneUpgrade("DroneSpeedUpgrade", item.TechType, Speed.SetUp);
 
             Logger.Log(Logger.Level.Info, "Patched successfully!");
         }

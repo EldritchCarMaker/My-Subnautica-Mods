@@ -33,7 +33,7 @@ namespace CameraDroneStealthUpgrade
             item.Patch();
 
             var Stealth = new StealthFunctionality();
-            Stealth.upgrade = Registrations.RegisterDroneUpgrade("DroneStealthUpgrade", item, Stealth.SetUp);
+            Stealth.upgrade = Registrations.RegisterDroneUpgrade("DroneStealthUpgrade", item.TechType, Stealth.SetUp);
 
             Logger.Log(Logger.Level.Info, "Patched successfully!");
         }

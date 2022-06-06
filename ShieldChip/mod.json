@@ -2,12 +2,12 @@
   "Id": "ShieldSuit",
   "DisplayName": "Shield Suit",
   "Author": "Nagorrogan",
-  "Version": "1.1.1",
+  "Version": "1.1.2",
   "Enable": true,
   "AssemblyName": "ShieldSuit.dll",
   "VersionDependencies": {
     "SMLHelper": "2.9.6",
-    "EquippableItemIcons": "1.1.0"
+    "EquippableItemIcons": "1.2.2"
   },
   "VersionChecker": {
     "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/ShieldChip/mod.json"

@@ -1,0 +1,16 @@
+﻿{
+  "Id": "CameraDroneDefenseUpgrade",
+  "DisplayName": "Camera Drone Defense Upgrade",
+  "Author": "Nagorrogan",
+  "Version": "1.0.0",
+  "Enable": true,
+  "AssemblyName": "CameraDroneDefenseUpgrade.dll",
+  "VersionDependencies": {
+    "SMLHelper": "2.9.6",
+    "CameraDroneUpgrades": "1.0.2"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/CameraDroneDefenseUpgrade/mod.json"
+  },
+  "Game": "Subnautica"
+}
