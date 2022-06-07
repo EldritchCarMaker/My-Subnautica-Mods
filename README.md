@@ -218,6 +218,10 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 Moves the cyclops lockers to the other side of the wall, replacing them with some super sweet windows. Got a cool button to toggle the windows too
 ![image](https://user-images.githubusercontent.com/97289845/165867823-b09aecdd-6cc8-4f7b-9292-608a6b5032a3.png)
 
+picture of button location
+![image](https://user-images.githubusercontent.com/97289845/172463513-9cda71e9-63cc-4949-8c07-05e2aecfd2fb.png)
+
+
 
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/CyclopsWindows/Changelog.md)
 
