@@ -1,1 +1,1 @@
-**1.0.6:** fixed errors appearing in log due to unassigned field
+**1.0.7:** fixed errors appearing in log due to unassigned field
