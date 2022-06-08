@@ -82,8 +82,12 @@ namespace EquippableItemIcons.API
             if (!AutomaticSetup)
             {
                 iconActive = equipped;
-                container.SetActive(iconActive);
-                Registries.UpdatePositions();
+
+                if (container == null)
+                    Logger.Log(Logger.Level.Error, $"{name} has a null container after attempting to set it up. This will probably cause issues.");
+                else
+                    container.SetActive(iconActive);
+
                 Logger.Log(Logger.Level.Info, $"Finished setup of {name}");
                 return;
             }
@@ -94,8 +98,11 @@ namespace EquippableItemIcons.API
             equipped = UtilityStuffs.Utility.EquipmentHasItem(techType, equipmentType);
 
             iconActive = equipped;
-            container.SetActive(iconActive);
-            Registries.UpdatePositions();
+            if(container == null) 
+                Logger.Log(Logger.Level.Error, $"{name} has a null container after attempting to set it up. This will probably cause issues.");
+            else
+                container.SetActive(iconActive);
+
             Logger.Log(Logger.Level.Info, $"Finished setup of {name}");
         }
 

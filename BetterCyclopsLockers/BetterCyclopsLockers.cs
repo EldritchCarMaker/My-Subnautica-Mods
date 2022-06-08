@@ -2,6 +2,7 @@
 using Logger = QModManager.Utility.Logger;
 using System;
 using System.Reflection;
+using AutosortLockers;
 
 namespace BetterCyclopsLockers
 {
@@ -23,11 +24,11 @@ namespace BetterCyclopsLockers
         }
     }
     
-    [HarmonyPatch(typeof(AutosortLockers.AutosortTarget), "Update")]
+    [HarmonyPatch(typeof(AutosortTarget), "Update")]
     internal class AutosortLockersUpdatePatch
     {
         [HarmonyPrefix]
-        private static bool UpdatePrefix(AutosortLockers.AutosortTarget __instance)
+        private static bool UpdatePrefix(AutosortTarget __instance)
         {
             var locker = __instance.GetComponent<CyclopsLocker>();
             if (locker != null) // if the current instance has a CyclopsLocker component, then it's a cyclops locker
@@ -37,16 +38,30 @@ namespace BetterCyclopsLockers
             return true;
         }
     }
-    [HarmonyPatch(typeof(AutosortLockers.AutosortTarget), "Save")]
+    [HarmonyPatch(typeof(AutosortTarget), "Save")]
     internal class AutosortLockersSavePatch
     {
         [HarmonyPrefix]
-        private static bool SavePrefix(AutosortLockers.AutosortTarget __instance)
+        private static bool SavePrefix(AutosortTarget __instance)
         {
             var locker = __instance.GetComponent<CyclopsLocker>();
             if (locker != null) // if the current instance has a CyclopsLocker component, then it's a cyclops locker
             {
                 return false; // prevent the code from executing
+            }
+            return true;
+        }
+    }
+    [HarmonyPatch(typeof(AutosortTarget), "AddItem")]
+    internal class StopCoroutinePatch
+    {
+        private static bool Prefix(AutosortTarget __instance, Pickupable item)
+        {
+            if (__instance.TryGetComponent(out CyclopsLocker locker))
+            {
+                __instance.container.container.AddItem(item);
+
+                return false; 
             }
             return true;
         }

@@ -65,12 +65,14 @@ namespace WarpChip
             chargingIcon.ReleasedCharging += ReturnToBase;
             chargingIcon.MinChargeRequiredToTrigger = chargingIcon.MaxCharge;
             chargingIcon.AutoReleaseOnMaxCharge = true;
-            Registries.RegisterHudItemIcon(chargingIcon);
-
 
             chargingIcon.container = itemIcon.container;
             chargingIcon.itemIconObject = itemIcon.itemIconObject;
             chargingIcon.itemIcon = itemIcon.itemIcon;
+
+            Registries.RegisterHudItemIcon(chargingIcon);
+
+
         }
         public void Update()
         {
