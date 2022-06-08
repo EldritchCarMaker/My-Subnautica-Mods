@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\ActivatedEquippableItem.cs" />
+    <Compile Include="API\ChargableEquippableItem.cs" />
     <Compile Include="API\HudItemIcon.cs" />
     <Compile Include="API\Registries.cs" />
     <Compile Include="HudItemIconManager.cs" />

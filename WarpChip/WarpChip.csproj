@@ -85,9 +85,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QMod.cs" />
     <Compile Include="Patches\ScanPatch.cs" />
-    <Compile Include="UltimateWarpChip.cs" />
+    <Compile Include="Items\UltimateWarpChip.cs" />
     <Compile Include="WarpChipFunction.cs" />
-    <Compile Include="WarpChipItem.cs" />
+    <Compile Include="Items\WarpChipItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="mod.json" />

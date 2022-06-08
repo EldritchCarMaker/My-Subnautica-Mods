@@ -10,6 +10,8 @@ namespace EquippableItemIcons.API
 {
     public class HudItemIcon
     {
+        public bool ShouldMakeIcon = true;
+
         public string name;//self explanatory
         public Atlas.Sprite sprite;//foreground sprite of item icon
         public TechType techType;//used to determine if item is equipped or not
@@ -20,6 +22,7 @@ namespace EquippableItemIcons.API
 
         //whether we handle the item's charge, activation, and icon animation, or your mod does
         public bool AutomaticSetup = true;
+        public bool AutoIconFade = true;//do we automatically fade the icon or do we leave it up to you
 
         public bool equipped = false;//if item is equipped by player
         public List<TechType> equippedTechTypes = new List<TechType>();
@@ -48,6 +51,13 @@ namespace EquippableItemIcons.API
         }
         internal void makeIcon()
         {
+            if(!ShouldMakeIcon)
+            {
+                iconActive = false;
+                Logger.Log(Logger.Level.Info, $"{name} elected to forego icon, no creation.");
+                return;
+            }
+
             uGUI_QuickSlots quickSlots = uGUI.main.quickSlots;
 
             container = new GameObject(name + "Container");

@@ -40,8 +40,10 @@ namespace EquippableItemIcons
             foreach(HudItemIcon icon in Registries.hudItemIcons)
             {
                 if (icon.AutomaticSetup) 
-                { 
-                    if(icon is ActivatedEquippableItem equippableItem)
+                {
+                    if (icon is ChargableEquippableItem item)
+                        item.Update();
+                    else if (icon is ActivatedEquippableItem equippableItem)
                         equippableItem.Update();
 
                     icon.Update();

@@ -25,8 +25,9 @@ namespace RemoteControlVehicles
             Logger.Log(Logger.Level.Info, $"Patching {af}");
             Harmony harmony = new Harmony(af);
             harmony.PatchAll(assembly);
+
             new TeleportVehicleModule().Patch();
-            new RemoteControlHudChip().Patch();
+            //new RemoteControlHudChip().Patch();
 
             var module = new CyclopsRemoteControlModule();
             module.Patch();

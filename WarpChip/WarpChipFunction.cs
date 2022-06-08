@@ -26,10 +26,18 @@ namespace WarpChip
         private const float teleportWallOffset = 1;//used so that you don't teleport partially inside of a wall, puts you slightly away from the wall
 
         public ActivatedEquippableItem itemIcon;
+        public ChargableEquippableItem chargingIcon;
         //public bool UpgradedItemEquipped = false;
         public int FramesSinceCheck = 0;
+        bool justTeleportedToBase = false;
 
         public void Awake()
+        {
+            SetUpIcons();
+
+            player = GetComponent<Player>();
+        }
+        public void SetUpIcons()
         {
             itemIcon = new ActivatedEquippableItem("WarpChipIcon", ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "WarpChipIconRotate.png")), WarpChipItem.thisTechType);
             itemIcon.DetailedActivate += TryTeleport;
@@ -40,25 +48,43 @@ namespace WarpChip
             itemIcon.ActivateSound = teleportSound;
             itemIcon.DeactivateSound = null;
             itemIcon.DetailedCanActivate += CanActivate;
+            itemIcon.OnKeyDown = false;
             itemIcon.SecondaryTechTypes.Add(UltimateWarpChip.thisTechType);
             itemIcon.activationType = ActivatedEquippableItem.ActivationType.OnceOff;
+            itemIcon.AutoIconFade = false;
             Registries.RegisterHudItemIcon(itemIcon);
 
-            player = GetComponent<Player>();
+            chargingIcon = new ChargableEquippableItem("WarpChargeIcon", null, WarpChipItem.thisTechType);
+            chargingIcon.ChargingReleasedSound = teleportSound;
+            chargingIcon.ChargingStartSound = null;
+            chargingIcon.SecondaryTechTypes.Add(UltimateWarpChip.thisTechType);
+            chargingIcon.ShouldMakeIcon = false;
+            chargingIcon.activateKey = QMod.config.ControlKey;
+            chargingIcon.AutoIconFade = false;
+            chargingIcon.IsIconActive += () => false;
+            chargingIcon.ReleasedCharging += ReturnToBase;
+            chargingIcon.MinChargeRequiredToTrigger = chargingIcon.MaxCharge;
+            chargingIcon.AutoReleaseOnMaxCharge = true;
+            Registries.RegisterHudItemIcon(chargingIcon);
+
+
+            chargingIcon.container = itemIcon.container;
+            chargingIcon.itemIconObject = itemIcon.itemIconObject;
+            chargingIcon.itemIcon = itemIcon.itemIcon;
         }
-        public void UpdateEquipped(string slot, InventoryItem item)
+        public void Update()
         {
-            //UpgradedItemEquipped = Utility.EquipmentHasItem(UltimateWarpChip.thisTechType);
-        }
-        public void Start()
-        {
-            Inventory.main.equipment.onEquip += UpdateEquipped;
-            Inventory.main.equipment.onUnequip += UpdateEquipped;
-            UpdateEquipped(null, null);
+            if (chargingIcon.charge >= 5f) chargingIcon.UpdateFill();
+            else itemIcon.UpdateFill();
         }
 
         public void TryTeleport(List<TechType> techTypes)
         {
+            if(justTeleportedToBase)
+            {
+                justTeleportedToBase = false;
+                return;
+            }
             if(player != null && !player.isPiloting && player.mode == Player.Mode.Normal)
             {
                 Teleport(techTypes.Contains(UltimateWarpChip.thisTechType));
@@ -79,23 +105,22 @@ namespace WarpChip
             Transform aimingTransform = player.camRoot.GetAimingTransform();
             player.SetPosition(player.transform.position + aimingTransform.forward * distance);
 
-            TeleportScreenFXController fxController = MainCamera.camera.GetComponent<TeleportScreenFXController>();
-            fxController.StartTeleport();
             CoroutineHost.StartCoroutine(TeleportFX());
 
             if (itemIcon != null)
             {
                 if (!ultimateChipEquipped)
-                    itemIcon.charge -= Mathf.Lerp(0f, itemIcon.MaxCharge, (100f / (maxDistance / distance)) / 100f);//fix
-                else//don't work right when not going full distance. Even when going half, just uses full charge
-                    itemIcon.charge -= Mathf.Lerp(0f, itemIcon.MaxCharge, (100f / (maxDistance / distance)) / 100f) / 2f;//fix
+                    itemIcon.charge -= Mathf.Lerp(0f, itemIcon.MaxCharge, (100f / (maxDistance / distance)) / 100f);
+                else
+                    itemIcon.charge -= Mathf.Lerp(0f, itemIcon.MaxCharge, (100f / (maxDistance / distance)) / 100f) / 2f;
             }
         }
 
-        public static IEnumerator TeleportFX()
+        public static IEnumerator TeleportFX(float delay = 0.25f)
         {
             TeleportScreenFXController fxController = MainCamera.camera.GetComponent<TeleportScreenFXController>();
-            yield return new WaitForSeconds(0.25f);
+            fxController.StartTeleport();
+            yield return new WaitForSeconds(delay);
             fxController.StopTeleport();
         }
         public bool CanActivate(List<TechType> techTypes)
@@ -103,6 +128,39 @@ namespace WarpChip
             if (!techTypes.Contains(UltimateWarpChip.thisTechType))
                 return itemIcon.charge == itemIcon.MaxCharge && player != null && !player.isPiloting && player.mode == Player.Mode.Normal;
             return itemIcon.charge >= itemIcon.MaxCharge / 2 && player != null && !player.isPiloting && player.mode == Player.Mode.Normal;
+        }
+
+        public bool IsChargeIconActive()
+        {
+            return chargingIcon.charge > 5f;
+        }
+        public void ReturnToBase()
+        {
+            if(player.currentSub && player.CheckSubValid(player.currentSub))
+            {
+                RespawnPoint respawn = player.currentSub.gameObject.GetComponentInChildren<RespawnPoint>();
+                if (respawn)
+                {
+                    player.SetPosition(respawn.GetSpawnPosition());
+                    justTeleportedToBase = true;
+                    CoroutineHost.StartCoroutine(TeleportFX(1));
+                    return;
+                }
+            }
+
+            if (player.lastValidSub && player.CheckSubValid(player.lastValidSub))
+            {
+                RespawnPoint respawn = player.lastValidSub.gameObject.GetComponentInChildren<RespawnPoint>();
+                if (respawn)
+                {
+                    player.SetPosition(respawn.GetSpawnPosition());
+                    player.SetCurrentSub(player.lastValidSub);
+                    justTeleportedToBase = true; 
+                    CoroutineHost.StartCoroutine(TeleportFX(1));
+                    return;
+                }
+            }
+            ErrorMessage.AddMessage("Teleport failed, no safe location found");
         }
     }
 }

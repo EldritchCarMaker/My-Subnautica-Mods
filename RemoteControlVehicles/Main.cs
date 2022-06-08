@@ -94,119 +94,7 @@ namespace RemoteControlVehicles
             text2 = textTransform.Find("DistanceText").gameObject.GetComponent<Text>();
             hud.SetActive(false);
         }
-
-        [HarmonyPatch(typeof(Player), nameof(Player.Update))]
-        [HarmonyPostfix]
-        public static void StartControl(Player __instance)
-        {
-            if (Input.GetKeyUp(QMod.config.ControlKey))
-            {
-                if (!PlayerHasChip()) return;
-
-                if (vehicle == null)
-                {
-                    ErrorMessage.AddMessage("No vehicle available to control");
-                    return;
-                }
-
-                if (isActive)
-                {
-                    ErrorMessage.AddMessage("Already controlling vehicle");
-                    return;
-                }
-
-                if (QMod.config.MustBeInBase && !__instance.IsInSub())
-                {
-                    ErrorMessage.AddMessage("Must be in safe location to control vehicle");
-                    return;
-                }
-
-                if (__instance.currChair != null || __instance.currentMountedVehicle != null)
-                {
-                    ErrorMessage.AddMessage("Already controlling vehicle");
-                    return;
-                }
-
-                sub = Player.main.currentSub;
-                position = Player.main.transform.position;
-
-                if(sub != null)
-                {
-                    subPosition = sub.transform.position;
-                }
-
-                text1.text = vehicle.subName.GetName();
-
-                hud.SetActive(true);
-                hud.transform.Find("Connecting").gameObject.SetActive(true);
-                blackScreen.SetActive(true);
-                Image image = blackScreen.GetComponent<Image>();
-                Color color = image.color;
-                color.a = 1;
-                image.color = color;
-
-                CoroutineHost.StartCoroutine(WaitForWorld(__instance));
-            }
-            if (Input.GetKeyUp(QMod.config.cyclopsControlKey))
-            {
-                if (!PlayerHasChip()) return;
-
-                if (CyclopsRemoteControlHandler.TrackedSub == null)
-                {
-                    ErrorMessage.AddMessage("No cyclops available to control");
-                    return;
-                }
-
-                if (isActive)
-                {
-                    ErrorMessage.AddMessage("Already controlling vehicle");
-                    return;
-                }
-
-                if (QMod.config.MustBeInBase && !__instance.IsInSub())
-                {
-                    ErrorMessage.AddMessage("Must be in safe location to control vehicle");
-                    return;
-                }
-
-                if(__instance.currChair != null || __instance.currentMountedVehicle != null)
-                {
-                    ErrorMessage.AddMessage("Already controlling vehicle");
-                    return;
-                }
-
-                sub = Player.main.currentSub;
-                position = Player.main.transform.position;
-
-                if(sub != null)
-                {
-                    subPosition = Player.main.currentSub.transform.position;
-                }
-                
-                //subPosition = sub.transform.position;
-
-                hud.SetActive(true);
-                hud.transform.Find("Connecting").gameObject.SetActive(true);
-                blackScreen.SetActive(true);
-                Image image = blackScreen.GetComponent<Image>();
-                Color color = image.color;
-                color.a = 1;
-                image.color = color;
-
-
-                CoroutineHost.StartCoroutine(WaitForWorld(__instance, true));
-            }
-
-            if (isActive)
-            {
-                __instance.transform.Find("body").gameObject.SetActive(false);
-            }
-            else
-            {
-                __instance.transform.Find("body").gameObject.SetActive(true);
-            }
-        }
-        public static bool PlayerHasChip()
+        /*public static bool PlayerHasChip()
         {
             List<string> chipSlots = new List<string>(); 
             Inventory.main.equipment.GetSlots(EquipmentType.Chip, chipSlots);
@@ -221,7 +109,7 @@ namespace RemoteControlVehicles
                 }
             }
             return false;
-        }
+        }*/
         public static IEnumerator WaitForWorld(Player player, bool isCyclops = false)
         {
             if (!isCyclops)

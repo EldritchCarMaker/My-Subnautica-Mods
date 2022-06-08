@@ -11,7 +11,7 @@ namespace EquippableItemIcons.API
     {
         public ActivatedEquippableItem(string name, Atlas.Sprite sprite, TechType itemTechType) : base(name, sprite, itemTechType)
         {
-
+            //for items that have an ability that can be used
         }
         public bool active = false;//whether the item is currently being used, not the same as equipped or icon active. Also avoid touching if using AutomaticSetup
 
@@ -57,6 +57,7 @@ namespace EquippableItemIcons.API
             Held
         }
         public ActivationType activationType = ActivationType.Toggle;
+        public bool OnKeyDown = true; //for toggle and once off, whether it is activated on key down or key up
 
         private float TimeCharge = 0;
 
@@ -88,7 +89,7 @@ namespace EquippableItemIcons.API
             }
             else
             {
-                bool keyPressed = Input.GetKeyDown(activateKey);
+                bool keyPressed = OnKeyDown? Input.GetKeyDown(activateKey) : Input.GetKeyUp(activateKey);
 
                 bool canActivate = DetailedCanActivate != null ? DetailedCanActivate.Invoke(equippedTechTypes) : CanActivate != null ? CanActivate.Invoke() : CanActivateDefault();
 
@@ -138,7 +139,8 @@ namespace EquippableItemIcons.API
                 }
             }
 
-            UpdateFill();
+            if(AutoIconFade)
+                UpdateFill();
         }
         public void UpdateFill()
         {
