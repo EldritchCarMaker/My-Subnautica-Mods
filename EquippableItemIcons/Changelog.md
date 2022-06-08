@@ -7,3 +7,5 @@
 **1.2.1:** added ability to mark secondary tech types
 
 **1.3.0:** added new class for items that should be charged up before being released as well as added a few toggles for maximizing the control over each individual item
+
+**1.3.1:** Added logs for when icons have a null container.
