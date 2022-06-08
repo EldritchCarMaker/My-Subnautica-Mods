@@ -1,6 +1,6 @@
 # Subnautica Mods
  
-### [Better Cyclops Lockers](https://github.com/Nagorogan/My-Subnautica-Mods/files/8841539/BetterCyclopsLockers.zip)
+### [Better Cyclops Lockers](https://github.com/Nagorogan/My-Subnautica-Mods/files/8865334/BetterCyclopsLockers.zip)
 
 
 Increases the width and height of the cyclops lockers by a configurable amount (1-15 each on nexus, 1-100 each from this file. I trust github users a bit more, please don't disappoint.) and allows the lockers to function as an autosort target meaning that any placed autosortlocker within the cyclops can automatically deposit to the lockers. 
@@ -9,7 +9,7 @@ Dependencies: [AutosortLockers](https://www.nexusmods.com/subnautica/mods/31), [
 ###### No Changelog yet
 
 
-### [Remote Control Vehicles](https://github.com/Nagorogan/My-Subnautica-Mods/files/8841541/RemoteControlVehicles.zip)
+### [Remote Control Vehicles](https://github.com/Nagorogan/My-Subnautica-Mods/files/8865335/RemoteControlVehicles.zip)
 
 
 Adds three new items to the game; a hud chip, a common vehicle module(usuable for seamoth and prawn), and a cyclops module. Both modules allow you to remotely control the vehicle it's equipped in but you do need the hud chip equipped to use either. Only one remote controlable vehicle is allowed of each type. Only one cyclops can be equipped with the module, and only one prawn/seamoth can be equipped with the module. 
@@ -20,7 +20,7 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), [More 
 ###### [To Do List](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/RemoteControlVehicles/ToDoList.md)
 
 
-### [Equippable Item Icons](https://github.com/Nagorogan/My-Subnautica-Mods/files/8839016/EquippableItemIcons.zip)
+### [Equippable Item Icons](https://github.com/Nagorogan/My-Subnautica-Mods/files/8865337/EquippableItemIcons.zip)
 
 
 An API for creating new items and icons for said items. Very configurable, ask on discord for information on how to use. Still in progress, but it's basically done apart from adding new things and making sure its bug free.
@@ -35,8 +35,7 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/EquippableItemIcons/Changelog.md)
 
 
-### [Warp Chip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8841482/WarpChip.zip)
-
+### [Warp Chip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8865338/WarpChip.zip)
 
 
 adds a new equippable chip that warps you forward a slight distance, blueprint unlocks by scanning a warper. Key is configurable, distance is 15m out of base and 10m in base. Cooldown is 5 seconds but is shortened if you don't teleport the full distance.
