@@ -52,5 +52,8 @@ namespace RemoteControlVehicles
         public KeyCode cyclopsControlKey = KeyCode.U;
 
         public bool MustBeInBase = true;
+
+        public int remoteStorageWidth = 2;
+        public int remoteStorageHeight = 2;
     }
 }

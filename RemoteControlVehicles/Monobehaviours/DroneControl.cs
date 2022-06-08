@@ -21,7 +21,7 @@ namespace RemoteControlVehicles.Monobehaviours
 
         public override void Awake()
         {
-            if(GetComponent<AirBladder>() != null) Destroy(GetComponent<AirBladder>());
+            if(TryGetComponent(out AirBladder blad)) Destroy(blad);
 
             base.Awake();
             pickupable = GetComponent<Pickupable>();
@@ -59,6 +59,8 @@ namespace RemoteControlVehicles.Monobehaviours
                 root.SetActive(true);
                 container.enabled = true;
             }
+
+            container.Resize(QMod.config.remoteStorageWidth, QMod.config.remoteStorageHeight);
 
             functionality.storageContainer = container;
 

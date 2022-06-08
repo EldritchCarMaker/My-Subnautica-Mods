@@ -21,7 +21,7 @@ namespace RemoteControlVehicles.Items
 
         public override string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
 
-        public DroneControlRemote() : base("DroneControlRemote", "Drone Control Remote", "Allows on-the-go remote control over vehicles and scanner room drones")
+        public DroneControlRemote() : base("DroneControlRemote", "Remote Control Remote", "Allows on-the-go remote control over vehicles and scanner room camera drones")
         {
             OnFinishedPatching += () =>
             {

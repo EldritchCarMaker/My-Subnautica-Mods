@@ -20,11 +20,12 @@ namespace EquippableItemIcons.API
             Logger.Log(Logger.Level.Info, $"Recieved HudItemIcon: {icon.name}"); 
             if (hudItemIcons.Contains(icon))
             {
-                QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Warn, $"Blocked duplicate icon: {icon.name}");
+                Logger.Log(Logger.Level.Warn, $"Blocked duplicate icon: {icon.name}");
                 return;
             }
             hudItemIcons.Add(icon);
             icon.makeIcon();
+            if(icon.container == null) Logger.Log(Logger.Level.Warn, $"{icon.name} has a null container. Unsure what problems this could cause exactly, but it could be an issue.");
             UpdatePositions();
         }
         public static void UpdatePositions()
@@ -44,7 +45,7 @@ namespace EquippableItemIcons.API
                 {
                     activeIcons.Add(icon);
                 }
-                icon.container.SetActive(false);
+                icon.container?.SetActive(false);
             }
 
 
@@ -79,6 +80,12 @@ namespace EquippableItemIcons.API
             var UseRightSide = true;
             foreach (HudItemIcon icon in activeIcons)
             {
+                if (!icon.container)
+                {
+                    activeIcons.Remove(icon);
+                    continue;
+                }
+
                 icon.container.SetActive(quickSlotsInUse);
 
                 icon.container.transform.localPosition = !UseRightSide
