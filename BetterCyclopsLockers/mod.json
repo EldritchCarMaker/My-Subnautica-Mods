@@ -2,7 +2,7 @@
   "Id": "BetterCyclopsLockers",
   "DisplayName": "Better Cyclops Lockers",
   "Author": "Nagorrogan",
-  "Version": "1.0.6",
+  "Version": "1.0.7",
   "Enable": true,
   "AssemblyName": "BetterCyclopsLockers.dll",
   "Dependencies": [ "AutosortLockersSML" ],
