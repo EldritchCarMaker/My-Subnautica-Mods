@@ -12,7 +12,7 @@ Dependencies: [AutosortLockers](https://www.nexusmods.com/subnautica/mods/31), [
 ### [Remote Control Vehicles](https://github.com/Nagorogan/My-Subnautica-Mods/files/8865335/RemoteControlVehicles.zip)
 
 
-Adds three new items to the game; a hud chip, a common vehicle module(usuable for seamoth and prawn), and a cyclops module. Both modules allow you to remotely control the vehicle it's equipped in but you do need the hud chip equipped to use either. Only one remote controlable vehicle is allowed of each type. Only one cyclops can be equipped with the module, and only one prawn/seamoth can be equipped with the module. 
+Adds three new items to the game; a remote control, a common vehicle module(usuable for seamoth and prawn), and a cyclops module. Both modules allow you to remotely control the vehicle it's equipped in but you do need to use the remote control to control them. Only one remote controllable vehicle is allowed of each type. ie; Only one cyclops can be equipped with the module, and only one prawn/seamoth can be equipped with the module. 
 
 Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), [More Cyclops Upgrades](https://github.com/PrimeSonic/PrimeSonicSubnauticaMods/releases/tag/Aug5_2021)
 
