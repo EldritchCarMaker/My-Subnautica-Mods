@@ -38,7 +38,7 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ### [Warp Chip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8865338/WarpChip.zip)
 
 
-adds a new equippable chip that warps you forward a slight distance, blueprint unlocks by scanning a warper. Key is configurable, distance is 15m out of base and 10m in base. Cooldown is 5 seconds but is shortened if you don't teleport the full distance.
+adds a new equippable chip that warps you forward a slight distance, blueprint unlocks by scanning a warper. Key is configurable, distance is 15m out of base and 10m in base. Cooldown is 5 seconds but is shortened if you don't teleport the full distance. Can also hold the warp key for about 5 seconds in order to teleport back to the last base you entered (including cyclops).
 
 Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), Equippable Item Icons
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/WarpChip/Changelog.md)
