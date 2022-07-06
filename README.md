@@ -315,6 +315,9 @@ Huge thanks to the subnautica modding discord, which is probably where you came 
 I give permission to anyone and everyone to modify and or distribute my mods and the files contained within, under the following restrictions. 
 
 I only ask that 
+
 1; do not upload my files to nexus mods, even if modified. 
+
 2; please give credit to me as the original author if possible. 
+
 3; if I ask for you to remove one of my mods that you have put up somewhere, please do so.
