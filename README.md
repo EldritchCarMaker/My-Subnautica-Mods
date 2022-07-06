@@ -321,3 +321,5 @@ I only ask that
 2; please give credit to me as the original author if possible. 
 
 3; if I ask for you to remove one of my mods that you have put up somewhere, please do so.
+
+In addition, I simply ask that if you upload one of my mods somewhere, let me know. You can do this by messaging me on discord (EldritchCarMaker#8108), or letting me know through github. Discord is preferable.
