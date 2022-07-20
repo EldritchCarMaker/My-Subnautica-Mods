@@ -41,11 +41,11 @@ namespace EquippableItemIcons
             {
                 if (icon.AutomaticSetup) 
                 {
-                    if (icon is ChargableEquippableItem item)
+                    if (icon is ChargableEquippableItem item)//these shouldn't be necessary, but for some reason it doesn't update properly without them
                         item.Update();
                     else if (icon is ActivatedEquippableItem equippableItem)
                         equippableItem.Update();
-
+                    
                     icon.Update();
                 }
             }
