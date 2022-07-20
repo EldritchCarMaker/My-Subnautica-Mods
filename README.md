@@ -1,9 +1,5 @@
 # Subnautica Mods
  
-### Deconstructable vehicles
-
-Allows you to deconstruct vehicles using the cyclop- nah just kidding this mod doesn't exist (yet)
-
 ### [Better Cyclops Lockers](https://github.com/Nagorogan/My-Subnautica-Mods/files/8884799/BetterCyclopsLockers.zip)
 
 
