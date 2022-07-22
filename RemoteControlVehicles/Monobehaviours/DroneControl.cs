@@ -75,7 +75,23 @@ namespace RemoteControlVehicles.Monobehaviours
         }
         public override bool OnRightHandDown()
         {
-            screen.OnHandClick(Player.main.armsController.guiHand);
+            if (QMod.config.MustBeInBase && !Player.main.currentSub && !Player.main.currentEscapePod)
+            {
+                ErrorMessage.AddMessage("Must be in safe place to control drone");
+                return true;
+            }
+
+            screen.currentIndex = screen.NormalizeIndex(screen.currentIndex);
+
+            MapRoomCamera mapRoomCamera = screen.FindCamera();
+            if (mapRoomCamera)
+            {
+                mapRoomCamera.ControlCamera(Player.main, screen);
+                screen.currentCamera = mapRoomCamera;
+            }
+            else
+                ErrorMessage.AddMessage("Can't find drone to control");
+
             return base.OnRightHandDown();
         }
         public override bool OnAltDown()

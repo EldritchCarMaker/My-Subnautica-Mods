@@ -20,9 +20,11 @@ namespace WarpChip
 
         private static readonly FMODAsset teleportSound = Utility.GetFmodAsset("event:/creature/warper/portal_open");
 
-        private const float teleportDistanceOutside = 15;
-        private const float teleportDistanceInside = 10;
-        private const float teleportCooldown = 5;
+        private float teleportDistanceOutside => Mathf.Clamp(QMod.config.DefaultWarpDistanceOutside, 0, MaxTeleportDistance);
+        private float teleportDistanceInside => Mathf.Clamp(QMod.config.DefaultWarpDistanceInside, 0, MaxTeleportDistance);
+        private float teleportCooldown => Mathf.Clamp(QMod.config.DefaultWarpCooldown, 0.1f, 20);
+
+        private const float MaxTeleportDistance = 25;
         private const float teleportWallOffset = 1;//used so that you don't teleport partially inside of a wall, puts you slightly away from the wall
 
         public ActivatedEquippableItem itemIcon;
@@ -43,7 +45,7 @@ namespace WarpChip
             itemIcon.DetailedActivate += TryTeleport;
             itemIcon.activateKey = QMod.config.ControlKey;
             itemIcon.MaxCharge = 5;
-            itemIcon.ChargeRate = 1;
+            itemIcon.ChargeRate = itemIcon.MaxCharge / teleportCooldown;
             itemIcon.DrainRate = 0;
             itemIcon.ActivateSound = teleportSound;
             itemIcon.DeactivateSound = null;
@@ -162,6 +164,27 @@ namespace WarpChip
                     return;
                 }
             }
+
+            if(QMod.config.CanTeleportToLifepod)
+            {
+                if(player.lastEscapePod && (QMod.config.MaxDistanceToTeleportToLifepod == 0 || (player.lastEscapePod.transform.position - player.transform.position).magnitude <= QMod.config.MaxDistanceToTeleportToLifepod))
+                {
+                    ErrorMessage.AddMessage("Can't find safe base, teleporting to lifepod");
+                    player.lastEscapePod.RespawnPlayer();
+                    justTeleportedToBase = true;
+                    CoroutineHost.StartCoroutine(TeleportFX(1));
+                    return;
+                }
+                else if(QMod.config.TeleportToLifepodOnOldSave && EscapePod.main && (QMod.config.MaxDistanceToTeleportToLifepod == 0 || (EscapePod.main.transform.position - player.transform.position).magnitude <= QMod.config.MaxDistanceToTeleportToLifepod))
+                {
+                    ErrorMessage.AddMessage("Can't find safe base, teleporting to lifepod");
+                    EscapePod.main.RespawnPlayer();
+                    justTeleportedToBase = true;
+                    CoroutineHost.StartCoroutine(TeleportFX(1));
+                    return;
+                }
+            }
+
             ErrorMessage.AddMessage("Teleport failed, no safe location found");
         }
     }
