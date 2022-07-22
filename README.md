@@ -9,7 +9,7 @@ Dependencies: [AutosortLockers](https://www.nexusmods.com/subnautica/mods/31), [
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/BetterCyclopsLockers/Changelog.md)
 
 
-### [Remote Control Vehicles](https://github.com/Nagorogan/My-Subnautica-Mods/files/8865335/RemoteControlVehicles.zip)
+### [Remote Control Vehicles](https://github.com/Nagorogan/My-Subnautica-Mods/files/9166554/RemoteControlVehicles.zip)
 
 
 Adds three new items to the game; a remote control, a common vehicle module(usuable for seamoth and prawn), and a cyclops module. Both modules allow you to remotely control the vehicle it's equipped in but you do need to use the remote control to control them. Only one remote controllable vehicle is allowed of each type. ie; Only one cyclops can be equipped with the module, and only one prawn/seamoth can be equipped with the module. 
@@ -35,10 +35,10 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/EquippableItemIcons/Changelog.md)
 
 
-### [Warp Chip](https://github.com/Nagorogan/My-Subnautica-Mods/files/8865338/WarpChip.zip)
+### [Warp Chip](https://github.com/Nagorogan/My-Subnautica-Mods/files/9166585/WarpChip.zip)
 
 
-adds a new equippable chip that warps you forward a slight distance, blueprint unlocks by scanning a warper. Key is configurable, distance is 15m out of base and 10m in base. Cooldown is 5 seconds but is shortened if you don't teleport the full distance. Can also hold the warp key for about 5 seconds in order to teleport back to the last base you entered (including cyclops).
+adds a new equippable chip that warps you forward a slight distance, blueprint unlocks by scanning a warper. Key is configurable, distance is 15m out of base and 10m in base(configurable). Cooldown is 5 seconds (configurable) but is shortened if you don't teleport the full distance. Can also hold the warp key for about 5 seconds in order to teleport back to the last base you entered (including cyclops, and config for including lifepod).
 
 Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), Equippable Item Icons
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/WarpChip/Changelog.md)
