@@ -9,3 +9,5 @@
 **1.2.0:** added ultimate warp chip, uses half the charge as the original which leads to effectively having two charges
 
 **1.3.0:** added ability to hold the warp button in order to teleport to your last entered base
+
+**1.4.0:** added configs for control over being able to teleport to lifepod or not. One config changes if you can teleport to lifepod at all. One changes if you can teleport to it even without entering it this play session. One lets you set a max distance you can be from the lifepod before you can teleport to it (don't want to accidentally teleport to it from the middle of the lava zone, do we?). As well as three configs for the exact details of normal chip function including default cooldown and range.
