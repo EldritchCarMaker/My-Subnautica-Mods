@@ -29,7 +29,7 @@ Any mod that uses this API will have an icon next to the quickslots for each equ
 
 #### [All-In-One Package](https://github.com/Nagorogan/My-Subnautica-Mods/files/8841583/All-In-One.zip)
 
-This file has every single mod I have made that utilizes Equippable Item Icons. Easier to use this than download each individually if you just want them all.
+This file has every single mod I have made that utilizes Equippable Item Icons. Easier to use this than download each individually if you just want them all. Does not work with vortex/mod managers
 
 Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/EquippableItemIcons/Changelog.md)
