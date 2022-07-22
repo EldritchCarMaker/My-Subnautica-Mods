@@ -82,8 +82,6 @@
     <Compile Include="API\Registrations.cs" />
     <Compile Include="DroneScanning\ScanFunctionality.cs" />
     <Compile Include="maproomdroneupgrades.cs" />
-    <Compile Include="MultiStorageClasses\MultiStorageItemsContainer.cs" />
-    <Compile Include="MultiStorageClasses\MultiStorageStorageContainer.cs" />
     <Compile Include="Patches\MapRoomCameraPatches.cs" />
     <Compile Include="Patches\MapRoomFunctionalityPatches.cs" />
     <Compile Include="Patches\uGUI_ScannerIconPatch.cs" />
