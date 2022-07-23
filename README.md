@@ -81,13 +81,15 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), equipp
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/SonarChip/Changelog.md)
 
 
-### [Camera Drone Upgrades](https://github.com/Nagorogan/My-Subnautica-Mods/files/8841573/CameraDroneUpgrades.zip)
+### [Camera Drone Upgrades](https://github.com/Nagorogan/My-Subnautica-Mods/files/9173380/CameraDroneUpgrades.zip)
+
 
 
 Another API for improving the camera drones. This mod by default also adds scanning functionality to all drones, without requiring an upgrade to be equipped.
 Any mod that uses this API will use an upgrade module that must be inserted into the scanner room upgrades slot in order for the drones to be able to use the upgrades.
 
-#### [All In One Package](https://github.com/Nagorogan/My-Subnautica-Mods/files/8841571/All-In-One.zip)
+#### [All In One Package](https://github.com/Nagorogan/My-Subnautica-Mods/files/9173381/CameraDroneShieldUpgrade.zip)
+
 
 This zip file contains every single camera drone mod I have made up until the point of writing this. Just for if you don't feel like downloading each one individually. Does not work with vortex/mod managers
 
