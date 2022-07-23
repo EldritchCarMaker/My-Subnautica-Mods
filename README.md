@@ -94,7 +94,7 @@ Any mod that uses this API will use an upgrade module that must be inserted into
 This zip file contains every single camera drone mod I have made up until the point of writing this. Just for if you don't feel like downloading each one individually. Does not work with vortex/mod managers
 
 Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
-###### No Changelog Yet
+###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/CameraDroneUpgrades/Changelog.md)
 
 
 ### [Camera Drone Defense Upgrade](https://github.com/Nagorogan/My-Subnautica-Mods/files/8841609/CameraDroneDefenseUpgrade.zip)
