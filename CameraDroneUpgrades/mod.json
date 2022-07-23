@@ -2,7 +2,7 @@
   "Id": "CameraDroneUpgrades",
   "DisplayName": "CameraDroneUpgrades",
   "Author": "Nagorrogan",
-  "Version": "1.0.3",
+  "Version": "1.0.4",
   "Enable": true,
   "AssemblyName": "CameraDroneUpgrades.dll",
   "VersionDependencies": {

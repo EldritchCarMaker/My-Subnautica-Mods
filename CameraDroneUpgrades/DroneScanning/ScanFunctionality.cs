@@ -121,18 +121,26 @@ namespace CameraDroneUpgrades.DroneScanning
 
         public static void UpdateSounds()
         {
-            if (Time.time <= timeLastScan + 1f)
+            if (Time.time <= timeLastScan + 0.5f)
                 StartScanLoopSound();
             else 
                 StopScanLoopSound();
         }
         public static void StartScanLoopSound()
         {
-            if (!soundPlaying && scanEmitter) scanEmitter.Play(); 
+            if (!soundPlaying && scanEmitter)
+            {
+                scanEmitter.Play();
+                soundPlaying = true;
+            }
         }
         public static void StopScanLoopSound()
         {
-            if (soundPlaying && scanEmitter) scanEmitter.Stop();
+            if (soundPlaying && scanEmitter)
+            {
+                scanEmitter.Stop();
+                soundPlaying = false;
+            }
         }
     }
 }
