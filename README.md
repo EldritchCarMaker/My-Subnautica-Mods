@@ -161,11 +161,12 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), Camera
 ###### [To Do List](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/CameraDroneStealthUpgrade/ToDoList.md)
 
 
-### [Cyclops Vehicle Upgrade Console](https://github.com/Nagorogan/My-Subnautica-Mods/files/8841543/CyclopsVehicleUpgradeConsole.zip)
+### [Cyclops Vehicle Upgrade Console](https://github.com/Nagorogan/My-Subnautica-Mods/files/9175085/CyclopsVehicleUpgradeConsole.zip)
 
 
 
-Improves the vehicle management terminal inside the cyclops (the terminal above the docking bay) to also function as a vehicle upgrade console. Meaning you can change the color and name of your vehicle. More importantly, allows you to fabricate a new seamoth/prawn suit directly inside the cyclops' empty docking bay. Requires the resources be in your inventory, currently doesn't support easy craft's pulling of resources from other containers. Also doesn't currently show resources required, both will be done later hopefully.
+
+Improves the vehicle management terminal inside the cyclops (the terminal above the docking bay) to also function as a vehicle upgrade console. Meaning you can change the color and name of your vehicle. More importantly, allows you to fabricate a new seamoth/prawn suit directly inside the cyclops' empty docking bay. Supports easy craft's pulling of resources from other containers. Also adds in a button on the left of the terminal to allow you to deconstruct any vehicle currently docked in the cyclops, giving your resources back.
 ![image](https://user-images.githubusercontent.com/97289845/165867628-8a745e4e-f160-4af1-aa8e-3d53e392f5f8.png)
 ![image](https://user-images.githubusercontent.com/97289845/165867694-2cc86abf-111d-4a5b-ac9b-5e67d6e89154.png)
 
@@ -312,6 +313,8 @@ Dependencies: [SmlHelperZero](https://www.nexusmods.com/subnauticabelowzero/mods
 
 # Thanks!
 Huge thanks to the subnautica modding discord, which is probably where you came from, for helping me with the vast majority if not all of these mods. Wouldn't have them without major help from people there.
+
+Many icons and sprites were made by Tom Stone#0118 and Akari - アカリ#1302 on discord, so thanks to them for the great icons used in my mods!
 
 ## Permissions and stuffs
 I give permission to anyone and everyone to modify and or distribute my mods and the files contained within, under the following restrictions. 
