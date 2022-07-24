@@ -73,11 +73,13 @@
   <ItemGroup>
     <Compile Include="Helpers.cs" />
     <Compile Include="Main.cs" />
+    <Compile Include="Monobehaviours\DeconstructVehicleButton.cs" />
     <Compile Include="Monobehaviours\MakeVehicleButton.cs" />
     <Compile Include="Monobehaviours\SwapButton.cs" />
     <Compile Include="Patches\SubrootPatches.cs" />
     <Compile Include="Patches\uGUI_CraftingMenuPatches.cs" />
     <Compile Include="Patches\VehicleDockingBayPatches.cs" />
+    <Compile Include="Patches\VFXConstructingPatches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QMod.cs" />
     <Compile Include="VehicleConsoleCreation.cs" />
@@ -88,6 +90,7 @@
   <ItemGroup>
     <Content Include="Assets\PageChangerBackground.png" />
     <Content Include="Assets\PageChangerNoBackground.png" />
+    <Content Include="Assets\VehicleDeconIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

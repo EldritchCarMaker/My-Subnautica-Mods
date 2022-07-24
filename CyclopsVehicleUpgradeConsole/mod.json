@@ -2,7 +2,7 @@
   "Id": "CyclopsVehicleUpgradeConsole",
   "DisplayName": "Cyclops Vehicle Upgrade Console",
   "Author": "Nagorrogan",
-  "Version": "1.0.4",
+  "Version": "1.1.0",
   "Enable": true,
   "AssemblyName": "CyclopsVehicleUpgradeConsole.dll",
   "VersionDependencies": {

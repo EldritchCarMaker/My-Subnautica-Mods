@@ -40,6 +40,10 @@ namespace CyclopsVehicleUpgradeConsole
                 {
                     child.SetActive(true);
                 }
+                else if (child.name.Equals("DeconButton"))
+                {
+                    child.SetActive(true);
+                }
                 else
                 {
                     child.SetActive(false);
@@ -66,6 +70,10 @@ namespace CyclopsVehicleUpgradeConsole
                     child.GetComponent<SwapButton>().colorScreenActive = true;
                 }
                 else if (child.name.Equals("WindowButton"))
+                {
+                    child.SetActive(true);
+                }
+                else if (child.name.Equals("DeconButton"))
                 {
                     child.SetActive(true);
                 }
@@ -115,6 +123,7 @@ namespace CyclopsVehicleUpgradeConsole
             //Old_MakeVehicleButtons(cyclopsConsoleGUI.gameObject);
 
             MakeSwapButton(cyclopsConsoleGUI.gameObject);
+            MakeDeconButton(cyclopsConsoleGUI.gameObject);
             New_MakeVehicleButtons(cyclopsConsoleGUI.gameObject);
 
 
@@ -133,6 +142,8 @@ namespace CyclopsVehicleUpgradeConsole
 
             button.transform.position += 0.765f * button.gameObject.transform.right;
             button.transform.position -= 0.05f * button.gameObject.transform.up;
+            button.transform.position += 0.008f * button.transform.forward;
+
 
             button.AddComponent<SwapButton>();
 
@@ -141,6 +152,18 @@ namespace CyclopsVehicleUpgradeConsole
 
             GameObject noVehicleScreen = consoleGUIObject.transform.Find("NoVehicle").gameObject;
             noVehicleScreen.transform.Find("XIcon").gameObject.SetActive(false);
+        }
+        public static void MakeDeconButton(GameObject consoleGUIObject)
+        {
+            GameObject button = GameObject.Instantiate(consoleGUIObject.transform.Find("Seamoth").Find("Modules").gameObject.GetComponent<CyclopsVehicleStorageTerminalButton>().gameObject, consoleGUIObject.transform);
+
+            button.transform.position -= 0.275f * button.gameObject.transform.right;
+            button.transform.position -= 0.128f * button.gameObject.transform.up;
+
+            button.AddComponent<DeconstructVehicleButton>();
+
+            GameObject.Destroy(button.GetComponent<CyclopsVehicleStorageTerminalButton>());
+            button.name = "DeconButton";
         }
 
         public static void New_MakeVehicleButtons(GameObject consoleGUIObject)
