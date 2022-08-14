@@ -19,6 +19,8 @@ namespace RechargerChips
         }
         public List<ChipType> chipTypesEquipped = new List<ChipType>();
 
+        public List<Battery> heldBatteries = new List<Battery>();
+
         public static ChargerChipMono main;
 
         public Dictionary<ChipType, TechType> chipTechTypes = new Dictionary<ChipType,TechType>();
@@ -37,9 +39,13 @@ namespace RechargerChips
             chipTechTypes.Add(ChipType.Combo, ComboChargerChip.thisTechType);
 
             UpdateEquipped();
+            UpdateBatteries(null);
 
             Inventory.main.equipment.onAddItem += EquipmentChanged;
             Inventory.main.equipment.onRemoveItem += EquipmentChanged;
+
+            Inventory.main.container.onAddItem += UpdateBatteries;
+            Inventory.main.container.onRemoveItem += UpdateBatteries;
         }
         public void EquipmentChanged(InventoryItem item)
         {
@@ -57,14 +63,22 @@ namespace RechargerChips
                 }
             }
         }
-
-        public void Update()
+        public void UpdateBatteries(InventoryItem item)
         {
+            heldBatteries.Clear();
             GameObject storageRoot = Inventory.main?.storageRoot;
 
             if (storageRoot == null) return;
 
-            Battery[] batteries = storageRoot.GetComponentsInChildren<Battery>(true);
+            Battery[] inventoryBatteries = storageRoot.GetComponentsInChildren<Battery>(true);//yes, metious, I know this isn't ideal but frankly this is more than consistent enough for such a minor thing. 
+            Battery[] handHeldBatteries = Inventory.main.GetHeldObject()?.GetComponentsInChildren<Battery>();
+            heldBatteries.AddRange(inventoryBatteries);
+            heldBatteries.AddRange(handHeldBatteries);
+        }
+
+        public void Update()
+        {
+            
             float chargeAmount = 0;
 
             foreach(ChipType chipType in chipTypesEquipped)
@@ -83,7 +97,7 @@ namespace RechargerChips
                 }
             }
 
-            foreach(Battery battery in batteries)
+            foreach(Battery battery in heldBatteries)
             {
                 float missingCharge = battery.capacity - battery.charge;
 

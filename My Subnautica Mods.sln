@@ -65,6 +65,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CameraDroneStasisUpgrade", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CameraDroneDefenseUpgrade", "CameraDroneDefenseUpgrade\CameraDroneDefenseUpgrade.csproj", "{9EAC1EEA-ED5A-477A-BF80-CE51715CF714}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CyclopsTorpedoes", "CyclopsTorpedoes\CyclopsTorpedoes.csproj", "{29A35C07-81A7-439D-BC18-77BBBD4BBDA1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -195,6 +197,10 @@ Global
 		{9EAC1EEA-ED5A-477A-BF80-CE51715CF714}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9EAC1EEA-ED5A-477A-BF80-CE51715CF714}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9EAC1EEA-ED5A-477A-BF80-CE51715CF714}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29A35C07-81A7-439D-BC18-77BBBD4BBDA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29A35C07-81A7-439D-BC18-77BBBD4BBDA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29A35C07-81A7-439D-BC18-77BBBD4BBDA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29A35C07-81A7-439D-BC18-77BBBD4BBDA1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

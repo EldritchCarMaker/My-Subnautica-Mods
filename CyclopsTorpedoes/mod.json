@@ -1,0 +1,15 @@
+{
+  "Id": "CyclopsTorpedoes",
+  "DisplayName": "Cyclops Torpedoes",
+  "Author": "Nagorrogan",
+  "Version": "1.1.0",
+  "Enable": true,
+  "AssemblyName": "CyclopsTorpedoes.dll",
+  "VersionDependencies": {
+    "SMLHelper": "2.9.6"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/CyclopsTorpedoes/mod.json"
+  },
+  "Game": "Subnautica"
+}
