@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HarmonyLib;
+using UnityEngine;
 
 namespace CyclopsTorpedoes.Patches
 {
@@ -13,10 +14,7 @@ namespace CyclopsTorpedoes.Patches
         [HarmonyPatch(nameof(CraftData.GetEquipmentType))]
         public static void Postfix(TechType techType, ref EquipmentType __result)
         {
-            if (CyclopsExternalCamsPatches.torpedoTypes == null)
-            {
-                CyclopsExternalCamsPatches.torpedoTypes = CraftData.GetPrefabForTechType(TechType.Seamoth).GetComponent<SeaMoth>().torpedoTypes;
-            }
+            CyclopsExternalCamsPatches.RefreshTorpedoTypes(); 
 
             List<TechType> torpedoTT = new List<TechType>();
             foreach(TorpedoType tt in CyclopsExternalCamsPatches.torpedoTypes) torpedoTT.Add(tt.techType);

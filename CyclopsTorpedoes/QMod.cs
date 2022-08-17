@@ -8,6 +8,7 @@ using SMLHelper.V2.Options.Attributes;
 using SMLHelper.V2.Handlers;
 using UnityEngine;
 using System.Collections.Generic;
+using MoreCyclopsUpgrades.API;
 
 namespace CyclopsTorpedoes
 {
@@ -23,6 +24,15 @@ namespace CyclopsTorpedoes
             Logger.Log(Logger.Level.Info, $"Patching {stingers}");
             Harmony harmony = new Harmony(stingers);
             harmony.PatchAll(assembly);
+
+            var module = new TorpedoModule();
+            module.Patch();
+
+            MCUServices.Register.CyclopsUpgradeHandler((SubRoot cyclops) => 
+            { 
+                return new MoreCyclopsUpgrades.API.Upgrades.UpgradeHandler(module.TechType, cyclops);
+            });
+
             Logger.Log(Logger.Level.Info, "Patched successfully!");
         }
     }
@@ -31,6 +41,7 @@ namespace CyclopsTorpedoes
     {
         [Keybind("Torpedo Key", Tooltip = "Press this key while you have the Burst Fins equipped to activate them")]
         public KeyCode torpedoKey = KeyCode.F;
-        public Dictionary<TechType, int> torpedoTypePriority = new Dictionary<TechType, int>();
+        public TechType priorityTorpedoType = TechType.GasTorpedo;
+        public Dictionary<string, int> torpedoTypePriority = new Dictionary<string, int>();
     }
 }
