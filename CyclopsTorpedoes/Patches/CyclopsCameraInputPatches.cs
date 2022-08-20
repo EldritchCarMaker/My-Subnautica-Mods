@@ -31,9 +31,10 @@ namespace CyclopsTorpedoes.Patches
             if (!Input.GetKeyDown(QMod.config.torpedoKey))
                 return;
 
+            /*
             if (!MoreCyclopsUpgrades.API.MCUServices.Find.CyclopsUpgradeHandler(__instance.GetComponentInParent<SubRoot>(), TorpedoModule.thisTechType).HasUpgrade)
                 return;
-
+            */
             RefreshTorpedoTypes();
 
             TorpedoType torpedoType = GetPriorityType();
