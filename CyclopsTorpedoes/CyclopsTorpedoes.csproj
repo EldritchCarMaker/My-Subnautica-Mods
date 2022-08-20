@@ -83,6 +83,8 @@
   <ItemGroup>
     <Compile Include="Patches\CraftDataPatches.cs" />
     <Compile Include="Patches\CyclopsCameraInputPatches.cs" />
+    <Compile Include="Patches\CyclopsDecoyLoadingTubePatches.cs" />
+    <Compile Include="Patches\CyclopsDecoyScreenPatches.cs" />
     <Compile Include="Patches\EquipmentPatches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QMod.cs" />

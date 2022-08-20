@@ -2,7 +2,7 @@
   "Id": "CyclopsTorpedoes",
   "DisplayName": "Cyclops Torpedoes",
   "Author": "Nagorrogan",
-  "Version": "1.1.0",
+  "Version": "0.0.3",
   "Enable": true,
   "AssemblyName": "CyclopsTorpedoes.dll",
   "VersionDependencies": {
