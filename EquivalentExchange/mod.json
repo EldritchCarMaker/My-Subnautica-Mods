@@ -1,0 +1,15 @@
+{
+  "Id": "EquivalentExchange",
+  "DisplayName": "Equivalent Exchange",
+  "Author": "Nagorrogan",
+  "Version": "0.0.1",
+  "Enable": true,
+  "AssemblyName": "EquivalentExchange.dll",
+  "VersionDependencies": {
+    "SMLHelper": "2.9.6"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/EquivalentExchange/mod.json"
+  },
+  "Game": "Subnautica"
+}
