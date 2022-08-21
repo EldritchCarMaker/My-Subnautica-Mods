@@ -8,14 +8,15 @@ using SMLHelper.V2.Options.Attributes;
 using SMLHelper.V2.Handlers;
 using UnityEngine;
 using System.Collections.Generic;
-//using MoreCyclopsUpgrades.API;
+using SMLHelper.V2.Json.Attributes;
 
-namespace CyclopsTorpedoes
+namespace EquivalentExchange
 {
     [QModCore]
     public static class QMod
     {
         //internal static Config config { get; } = OptionsPanelHandler.Main.RegisterModOptions<Config>();
+        internal static SaveData SaveData { get; } = SaveDataHandler.Main.RegisterSaveDataCache<SaveData>();
         [QModPatch]
         public static void Patch()
         {
@@ -25,7 +26,38 @@ namespace CyclopsTorpedoes
             Harmony harmony = new Harmony(stingers);
             harmony.PatchAll(assembly);
 
+            ConsoleCommandsHandler.Main.RegisterConsoleCommand("UnlockExchangeType", typeof(QMod), nameof(UnlockExchangeType));
+            ConsoleCommandsHandler.Main.RegisterConsoleCommand("lockExchangeType", typeof(QMod), nameof(LockExchangeType));
+
             Logger.Log(Logger.Level.Info, "Patched successfully!");
+        }
+
+        public static void UnlockExchangeType(string str)
+        {
+            TechType type = GetTechType(str);
+            if (type == TechType.None) return;
+            SaveData.learntTechTypes.Add(type);
+        }
+        public static void LockExchangeType(string str)
+        {
+            TechType type = GetTechType(str);
+            if (type == TechType.None) return;
+            SaveData.learntTechTypes.Remove(type);
+        }
+        public static TechType GetTechType(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+                return TechType.None;
+
+            // Look for a known TechType
+            if (TechTypeExtensions.FromString(value, out TechType tType, true))
+                return tType;
+
+            //  Not one of the known TechTypes - is it registered with SMLHelper?
+            if (TechTypeHandler.TryGetModdedTechType(value, out TechType custom))
+                return custom;
+
+            return TechType.None;
         }
     }
     /*[Menu("Cyclops Torpedoes")]
@@ -36,4 +68,10 @@ namespace CyclopsTorpedoes
         public TechType priorityTorpedoType = TechType.GasTorpedo;
         public Dictionary<string, int> torpedoTypePriority = new Dictionary<string, int>();
     }*/
+    [FileName("EquivalentExchange")]
+    public class SaveData : SaveDataCache
+    {
+        //public List<string> learntTechTypes = new List<string>();
+        public List<TechType> learntTechTypes = new List<TechType>();
+    }
 }

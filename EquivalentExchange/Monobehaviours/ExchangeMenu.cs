@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SMLHelper.V2.Handlers;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,7 +14,7 @@ namespace EquivalentExchange.Monobehaviours
 		{
 			get
 			{
-				return this.selected;
+				return selected;
 			}
 		}
 
@@ -30,8 +31,8 @@ namespace EquivalentExchange.Monobehaviours
 			TechType techType = key.DecodeKey();
 			if (KnownTech.Contains(techType))
 			{
-				int techTypeTechGroupIdx = this.GetTechTypeTechGroupIdx(techType);
-				this.groupNotificationCounts[techTypeTechGroupIdx]++;
+				int techTypeTechGroupIdx = GetTechTypeTechGroupIdx(techType);
+				groupNotificationCounts[techTypeTechGroupIdx]++;
 			}
 		}
 
@@ -41,8 +42,8 @@ namespace EquivalentExchange.Monobehaviours
 			TechType techType = key.DecodeKey();
 			if (KnownTech.Contains(techType))
 			{
-				int techTypeTechGroupIdx = this.GetTechTypeTechGroupIdx(techType);
-				this.groupNotificationCounts[techTypeTechGroupIdx]--;
+				int techTypeTechGroupIdx = GetTechTypeTechGroupIdx(techType);
+				groupNotificationCounts[techTypeTechGroupIdx]--;
 			}
 		}
 
@@ -69,36 +70,36 @@ namespace EquivalentExchange.Monobehaviours
 			iconGrid = transform.Find("Content").Find("ScrollView").Find("Viewport").Find("ScrollCanvas").GetComponent<uGUI_IconGrid>();
 			content = transform.Find("Content").gameObject;
 
-			foreach(Transform transform in toolbar.transform)
-				if(transform.name == "ToolbarIcon") 
-					Destroy(transform);
+			foreach (Transform transform in toolbar.transform)
+				if (transform.name == "ToolbarIcon")
+					Destroy(transform.gameObject);
 
 			foreach (Transform transform in iconGrid.transform)
 				if (transform.name == "GridIcon")
-					Destroy(transform);
+					Destroy(transform.gameObject);
 
 
 			ExchangeMenu.EnsureTechGroupTechTypeDataInitialized();
-			this.ClearNotificationCounts();
-			this.iconGrid.iconSize = new Vector2(this.iconSize, this.iconSize);
-			this.iconGrid.minSpaceX = this.minSpaceX;
-			this.iconGrid.minSpaceY = this.minSpaceY;
-			this.iconGrid.Initialize(this);
+			ClearNotificationCounts();
+			iconGrid.iconSize = new Vector2(iconSize, iconSize);
+			iconGrid.minSpaceX = minSpaceX;
+			iconGrid.minSpaceY = minSpaceY;
+			iconGrid.Initialize(this);
 			int count = ExchangeMenu.groups.Count;
 			Atlas.Sprite[] array = new Atlas.Sprite[count];
 			for (int i = 0; i < count; i++)
 			{
 				TechGroup value = ExchangeMenu.groups[i];
-				string str = this.techGroupNames.Get(value);
+				string str = techGroupNames.Get(value);
 				array[i] = SpriteManager.Get(SpriteManager.Group.Tab, "group" + str);
 			}
 			object[] array2 = array;
 			toolbar.Initialize(this, array2, null, 15);
-			toolbar.Select(this.selected);
+			toolbar.Select(selected);
 			UpdateItems();
-			KnownTech.onChanged += this.OnChanged;
-			PDAScanner.onAdd = (PDAScanner.OnEntryEvent)Delegate.Combine(PDAScanner.onAdd, new PDAScanner.OnEntryEvent(this.OnLockedAdd));
-			PDAScanner.onRemove = (PDAScanner.OnEntryEvent)Delegate.Combine(PDAScanner.onRemove, new PDAScanner.OnEntryEvent(this.OnLockedRemove));
+			KnownTech.onChanged += OnChanged;
+			PDAScanner.onAdd += OnLockedAdd;
+			PDAScanner.onRemove += OnLockedRemove;
 			NotificationManager.main.Subscribe(this, NotificationManager.Group.Builder, string.Empty);
 		}
 
@@ -111,8 +112,8 @@ namespace EquivalentExchange.Monobehaviours
 		// Token: 0x06003453 RID: 13395 RVA: 0x00120195 File Offset: 0x0011E395
 		private void Start()
 		{
-			Language.main.OnLanguageChanged += this.OnLanguageChanged;
-			this.OnLanguageChanged();
+			Language.main.OnLanguageChanged += OnLanguageChanged;
+			OnLanguageChanged();
 		}
 
 		// Token: 0x06003454 RID: 13396 RVA: 0x001201B3 File Offset: 0x0011E3B3
@@ -124,26 +125,30 @@ namespace EquivalentExchange.Monobehaviours
 		public override void Update()
 		{
 			base.Update();
-			if (this.state && this.openInFrame != Time.frameCount)
+			if (state && openInFrame != Time.frameCount)
 			{
 				bool flag = GameInput.GetButtonDown(GameInput.Button.RightHand);
-				if (this.GetIsLeftMouseBoundToRightHand())
+				if (GetIsLeftMouseBoundToRightHand())
 				{
 					flag = false;
 				}
 				if (GameInput.GetButtonDown(GameInput.Button.UICancel) || flag || !base.focused)
 				{
-					this.Close();
+					Close();
 				}
 			}
+			if(Input.GetKeyDown(KeyCode.K))
+            {
+				Open();
+            }
 		}
 
 		// Token: 0x06003456 RID: 13398 RVA: 0x00120232 File Offset: 0x0011E432
 		private void LateUpdate()
 		{
-			if (this.state)
+			if (state)
 			{
-				//this.UpdateToolbarNotificationNumbers();
+				//UpdateToolbarNotificationNumbers();
 			}
 		}
 
@@ -151,13 +156,13 @@ namespace EquivalentExchange.Monobehaviours
 		private void OnDestroy()
 		{
 			NotificationManager.main.Unsubscribe(this);
-			KnownTech.onChanged -= this.OnChanged;
-			PDAScanner.onAdd = (PDAScanner.OnEntryEvent)Delegate.Remove(PDAScanner.onAdd, new PDAScanner.OnEntryEvent(this.OnLockedAdd));
-			PDAScanner.onRemove = (PDAScanner.OnEntryEvent)Delegate.Remove(PDAScanner.onRemove, new PDAScanner.OnEntryEvent(this.OnLockedRemove));
+			KnownTech.onChanged -= OnChanged;
+			PDAScanner.onAdd -= OnLockedAdd;
+			PDAScanner.onRemove -= OnLockedRemove;
 			Language main = Language.main;
 			if (main)
 			{
-				main.OnLanguageChanged -= this.OnLanguageChanged;
+				main.OnLanguageChanged -= OnLanguageChanged;
 			}
 			ExchangeMenu.singleton = null;
 		}
@@ -166,14 +171,14 @@ namespace EquivalentExchange.Monobehaviours
 		public override void OnSelect(bool lockMovement)
 		{
 			base.OnSelect(lockMovement);
-			GamepadInputModule.current.SetCurrentGrid(this.iconGrid);
+			GamepadInputModule.current.SetCurrentGrid(iconGrid);
 		}
 
 		// Token: 0x06003459 RID: 13401 RVA: 0x001202EC File Offset: 0x0011E4EC
 		public override void OnDeselect()
 		{
 			base.OnDeselect();
-			this.Close();
+			Close();
 		}
 
 		// Token: 0x0600345A RID: 13402 RVA: 0x001202FC File Offset: 0x0011E4FC
@@ -205,53 +210,54 @@ namespace EquivalentExchange.Monobehaviours
 		// Token: 0x0600345D RID: 13405 RVA: 0x0012034A File Offset: 0x0011E54A
 		public void Open()
 		{
-			if (this.state)
+			if (state)
 			{
 				return;
 			}
-			this.UpdateToolbarNotificationNumbers();
+			UpdateToolbarNotificationNumbers();
+			UpdateItems();
 			MainCameraControl.main.SaveLockedVRViewModelAngle();
-			this.SetState(true);
-			this.openInFrame = Time.frameCount;
+			SetState(true);
+			openInFrame = Time.frameCount;
 		}
 
 		// Token: 0x0600345E RID: 13406 RVA: 0x00120377 File Offset: 0x0011E577
 		public void Close()
 		{
-			if (!this.state)
+			if (!state)
 			{
 				return;
 			}
-			this.SetState(false);
+			SetState(false);
 		}
 
 		// Token: 0x0600345F RID: 13407 RVA: 0x00120389 File Offset: 0x0011E589
 		private void OnChanged(HashSet<TechType> techList)
 		{
-			this.UpdateItems();
+			UpdateItems();
 		}
 
 		// Token: 0x06003460 RID: 13408 RVA: 0x00120389 File Offset: 0x0011E589
 		private void OnLockedAdd(PDAScanner.Entry entry)
 		{
-			this.UpdateItems();
+			UpdateItems();
 		}
 
 		// Token: 0x06003461 RID: 13409 RVA: 0x00120389 File Offset: 0x0011E589
 		private void OnLockedRemove(PDAScanner.Entry entry)
 		{
-			this.UpdateItems();
+			UpdateItems();
 		}
 
 		// Token: 0x06003462 RID: 13410 RVA: 0x00120391 File Offset: 0x0011E591
 		public void GetToolbarTooltip(int index, out string tooltipText, List<TooltipIcon> tooltipIcons)
 		{
 			tooltipText = null;
-			if (index < 0 || index >= this.toolbarTooltips.Count)
+			if (index < 0 || index >= toolbarTooltips.Count)
 			{
 				return;
 			}
-			tooltipText = this.toolbarTooltips[index];
+			tooltipText = toolbarTooltips[index];
 		}
 
 		// Token: 0x06003463 RID: 13411 RVA: 0x001203B7 File Offset: 0x0011E5B7
@@ -259,7 +265,7 @@ namespace EquivalentExchange.Monobehaviours
 		{
 			if (button == 0)
 			{
-				this.SetCurrentTab(index);
+				SetCurrentTab(index);
 			}
 		}
 
@@ -267,7 +273,7 @@ namespace EquivalentExchange.Monobehaviours
 		public void GetTooltip(string id, out string tooltipText, List<TooltipIcon> tooltipIcons)
 		{
 			TechType techType;
-			if (this.items.TryGetValue(id, out techType))
+			if (items.TryGetValue(id, out techType))
 			{
 				bool locked = !CrafterLogic.IsCraftRecipeUnlocked(techType);
 				TooltipFactory.BuildTech(techType, locked, out tooltipText, tooltipIcons);
@@ -294,7 +300,7 @@ namespace EquivalentExchange.Monobehaviours
 				return;
 			}
 			TechType techType;
-			if (!this.items.TryGetValue(id, out techType))
+			if (!items.TryGetValue(id, out techType))
 			{
 				return;
 			}
@@ -303,7 +309,7 @@ namespace EquivalentExchange.Monobehaviours
 				return;
 			}
 			GameObject buildPrefab = CraftData.GetBuildPrefab(techType);
-			this.SetState(false);
+			SetState(false);
 			Builder.Begin(buildPrefab);
 		}
 
@@ -317,7 +323,7 @@ namespace EquivalentExchange.Monobehaviours
 		{
 			for (int i = 0; i < ExchangeMenu.groups.Count; i++)
 			{
-				this.toolbar.SetNotificationsAmount(i, this.groupNotificationCounts[i]);
+				toolbar.SetNotificationsAmount(i, groupNotificationCounts[i]);
 			}
 		}
 
@@ -347,7 +353,7 @@ namespace EquivalentExchange.Monobehaviours
 			NotificationManager main = NotificationManager.main;
 			for (int i = 0; i < ExchangeMenu.groups.Count; i++)
 			{
-				this.groupNotificationCounts[i] = 0;
+				groupNotificationCounts[i] = 0;
 			}
 		}
 
@@ -365,19 +371,19 @@ namespace EquivalentExchange.Monobehaviours
 		// Token: 0x0600346D RID: 13421 RVA: 0x00120548 File Offset: 0x0011E748
 		private void CacheToolbarTooltips()
 		{
-			this.toolbarTooltips.Clear();
+			toolbarTooltips.Clear();
 			for (int i = 0; i < ExchangeMenu.groups.Count; i++)
 			{
 				TechGroup value = ExchangeMenu.groups[i];
-				this.toolbarTooltips.Add(TooltipFactory.Label(string.Format("Group{0}", this.techGroupNames.Get(value))));
+				toolbarTooltips.Add(TooltipFactory.Label(string.Format("Group{0}", techGroupNames.Get(value))));
 			}
 		}
 
 		// Token: 0x0600346E RID: 13422 RVA: 0x001205A7 File Offset: 0x0011E7A7
 		private void OnLanguageChanged()
 		{
-			this.title.text = Language.main.Get("CraftingLabel");
-			this.CacheToolbarTooltips();
+			title.text = Language.main.Get("CraftingLabel");
+			CacheToolbarTooltips();
 		}
 
 		// Token: 0x0600346F RID: 13423 RVA: 0x001205CC File Offset: 0x0011E7CC
@@ -402,15 +408,15 @@ namespace EquivalentExchange.Monobehaviours
 		// Token: 0x06003470 RID: 13424 RVA: 0x00120630 File Offset: 0x0011E830
 		private void SetState(bool newState)
 		{
-			if (this.state == newState)
+			if (state == newState)
 			{
 				return;
 			}
-			this.state = newState;
-			if (this.state)
+			state = newState;
+			if (state)
 			{
-				this.canvasScaler.SetAnchor();
-				this.content.SetActive(true);
+				canvasScaler.SetAnchor();
+				content.SetActive(true);
 				if (!base.focused)
 				{
 					base.Select(false);
@@ -423,7 +429,7 @@ namespace EquivalentExchange.Monobehaviours
 				{
 					base.Deselect(null);
 				}
-				this.content.SetActive(false);
+				content.SetActive(false);
 			}
 		}
 
@@ -434,24 +440,41 @@ namespace EquivalentExchange.Monobehaviours
 			{
 				return;
 			}
-			if (index == this.selected)
+			if (index == selected)
 			{
 				return;
 			}
-			this.toolbar.Select(index);
-			this.selected = index;
-			this.UpdateItems();
-			this.iconGrid.UpdateNow();
-			GamepadInputModule.current.SetCurrentGrid(this.iconGrid);
+			toolbar.Select(index);
+			selected = index;
+			UpdateItems();
+			iconGrid.UpdateNow();
+			GamepadInputModule.current.SetCurrentGrid(iconGrid);
 		}
+		
 
 		// Token: 0x06003472 RID: 13426 RVA: 0x001206FC File Offset: 0x0011E8FC
 		private void UpdateItems()
 		{
-			this.iconGrid.Clear();
-			this.items.Clear();
-			TechGroup techGroup = ExchangeMenu.groups[this.selected];
-			List<TechType> techTypesForGroup = this.GetTechTypesForGroup(this.selected);
+			iconGrid.Clear();
+			items.Clear();
+
+			int iteration = 0;
+			foreach (TechType type in QMod.SaveData.learntTechTypes)
+			{
+				items.Add(iteration.ToString(), type);
+				iconGrid.AddItem(iteration.ToString(), SpriteManager.Get(type), SpriteManager.GetBackground(type), false, iteration);
+				iconGrid.RegisterNotificationTarget(iteration.ToString(), NotificationManager.Group.Builder, type.EncodeKey());
+			}
+			/*
+			foreach(string str in QMod.SaveData.learntTechTypes)
+            {
+				TechType tt = GetTechType(str);
+            }*/
+
+			return;
+
+			TechGroup techGroup = ExchangeMenu.groups[selected];
+			List<TechType> techTypesForGroup = GetTechTypesForGroup(selected);
 			int num = 0;
 			for (int i = 0; i < techTypesForGroup.Count; i++)
 			{
@@ -460,9 +483,9 @@ namespace EquivalentExchange.Monobehaviours
 				if (techUnlockState == TechUnlockState.Available || techUnlockState == TechUnlockState.Locked)
 				{
 					string stringForInt = IntStringCache.GetStringForInt(num);
-					this.items.Add(stringForInt, techType);
-					this.iconGrid.AddItem(stringForInt, SpriteManager.Get(techType), SpriteManager.GetBackground(techType), techUnlockState == TechUnlockState.Locked, num);
-					this.iconGrid.RegisterNotificationTarget(stringForInt, NotificationManager.Group.Builder, techType.EncodeKey());
+					items.Add(stringForInt, techType);
+					iconGrid.AddItem(stringForInt, SpriteManager.Get(techType), SpriteManager.GetBackground(techType), techUnlockState == TechUnlockState.Locked, num);
+					iconGrid.RegisterNotificationTarget(stringForInt, NotificationManager.Group.Builder, techType.EncodeKey());
 					num++;
 				}
 			}
@@ -473,21 +496,21 @@ namespace EquivalentExchange.Monobehaviours
 		{
 			if (button == GameInput.Button.UICancel)
 			{
-				this.Close();
+				Close();
 				return true;
 			}
 			if (button == GameInput.Button.UINextTab)
 			{
-				int currentTab = (this.TabOpen + 1) % this.TabCount;
-				this.SetCurrentTab(currentTab);
+				int currentTab = (TabOpen + 1) % TabCount;
+				SetCurrentTab(currentTab);
 				return true;
 			}
 			if (button != GameInput.Button.UIPrevTab)
 			{
 				return false;
 			}
-			int currentTab2 = (this.TabOpen - 1 + this.TabCount) % this.TabCount;
-			this.SetCurrentTab(currentTab2);
+			int currentTab2 = (TabOpen - 1 + TabCount) % TabCount;
+			SetCurrentTab(currentTab2);
 			return true;
 		}
 
