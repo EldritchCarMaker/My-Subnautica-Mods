@@ -154,7 +154,7 @@ namespace EquivalentExchange.Monobehaviours
 		{
 			if (state)
 			{
-				UpdateToolbarNotificationNumbers();
+				//UpdateToolbarNotificationNumbers();
 			}
 		}
 
@@ -220,7 +220,7 @@ namespace EquivalentExchange.Monobehaviours
 			{
 				return;
 			}
-			UpdateToolbarNotificationNumbers();
+			//UpdateToolbarNotificationNumbers();
 			UpdateItems();
 			MainCameraControl.main.SaveLockedVRViewModelAngle();
 			SetState(true);
@@ -305,8 +305,8 @@ namespace EquivalentExchange.Monobehaviours
         {
 			stringBuilder.Append(Environment.NewLine);
 
-			int current = QMod.SaveData.EMCAvailable;
-			int amount = GetCost(techType);
+			float current = QMod.SaveData.EMCAvailable;
+			float amount = GetCost(techType);
 			bool flag = current >= amount || !GameModeUtils.RequiresIngredients();
 
 			if (flag)
@@ -333,7 +333,7 @@ namespace EquivalentExchange.Monobehaviours
 			}
 			stringBuilder.Append("</color>");
 		}
-		public int GetCost(TechType techType, int depth = 0)
+		public float GetCost(TechType techType, int depth = 0)
         {
 			if (QMod.config.BaseMaterialCosts.TryGetValue(techType, out var costs))
 				return costs;
@@ -343,27 +343,27 @@ namespace EquivalentExchange.Monobehaviours
 
 			if (depth > 10) return 5;
 
-			int totalCost = 0;
+			float totalCost = 0;
 
-			var techData = CraftData.Get(techType);
+			var techData = CraftData.Get(techType, true);
 
-			if(techData == null)
+			if (techData == null)
             {
 				return PRICEOFUNMARKEDITEM;
             }
 
 
-			for(var i = 0; i < techData.ingredientCount; i++)
-            {
-				var ingredient = techData.GetIngredient(i-1);
+			for (var i = 0; i < techData.ingredientCount; i++)
+			{
+				var ingredient = techData.GetIngredient(i);
 				if (ingredient != null)
-                {
-					for(var j = 0; j < ingredient.amount; j++)
-						totalCost += GetCost(ingredient.techType, depth+1);
-                }
-            }
+				{
+					for (var j = 0; j < ingredient.amount; j++)
+						totalCost += GetCost(ingredient.techType, depth+1); 
 
-            return totalCost;
+				}
+			}
+            return totalCost * QMod.config.inefficiencyMultiplier;
         }
 
 		// Token: 0x06003465 RID: 13413 RVA: 0x00002319 File Offset: 0x00000519
@@ -388,7 +388,7 @@ namespace EquivalentExchange.Monobehaviours
 			{
 				return;
 			}
-			int cost = GetCost(techType);
+			float cost = GetCost(techType);
 			if(QMod.SaveData.EMCAvailable >= cost)
 			{
 				GameObject gameObject = CraftData.InstantiateFromPrefab(techType, false);
@@ -422,14 +422,14 @@ namespace EquivalentExchange.Monobehaviours
 		{
 		}
 
-		// Token: 0x06003469 RID: 13417 RVA: 0x00120438 File Offset: 0x0011E638
+		/*
 		private void UpdateToolbarNotificationNumbers()
 		{
 			for (int i = 0; i < ExchangeMenu.groups.Count; i++)
 			{
 				toolbar.SetNotificationsAmount(i, groupNotificationCounts[i]);
 			}
-		}
+		}*/
 
 		// Token: 0x0600346A RID: 13418 RVA: 0x00120470 File Offset: 0x0011E670
 		private static void EnsureTechGroupTechTypeDataInitialized()
@@ -587,10 +587,13 @@ namespace EquivalentExchange.Monobehaviours
 			if (TechTypeHandler.TryGetModdedTechType(type.ToString(), out TechType custom))
 				return ExchangeMenuTab.ModdedItems;
 
+			if (CraftData.GetEquipmentType(type) != EquipmentType.None)
+				return ExchangeMenuTab.UnusedTab;
+
 			if (TechTypeExtensions.techTypeKeys.ContainsKey(type))
 				return ExchangeMenuTab.CraftedItems;
 
-			return ExchangeMenuTab.UnusedTab;
+			return ExchangeMenuTab.ModdedItems;
         }
 
 		// Token: 0x06003473 RID: 13427 RVA: 0x001207B8 File Offset: 0x0011E9B8
@@ -691,8 +694,8 @@ namespace EquivalentExchange.Monobehaviours
         {
 			RawMaterials,
 			BiologicalMaterials,
-			UnusedTab,
 			CraftedItems,
+			UnusedTab,//is equipment tab now, just too lazy to change name 
 			ModdedItems
 		}
 		private Dictionary<ExchangeMenuTab, string> groupNames = new Dictionary<ExchangeMenuTab, string>()
@@ -700,7 +703,7 @@ namespace EquivalentExchange.Monobehaviours
 			{ ExchangeMenuTab.RawMaterials, "Raw Materials" },
 			{ ExchangeMenuTab.BiologicalMaterials, "Biological Materials" },
 			{ ExchangeMenuTab.CraftedItems, "Crafted Items" },
-			{ ExchangeMenuTab.UnusedTab, "Currently Unused Tab" },//make into equipment tab. Items that can be equipped somewhere.
+			{ ExchangeMenuTab.UnusedTab, "Equipment" },
 			{ ExchangeMenuTab.ModdedItems, "Modded Items" },
 		};
 
@@ -708,8 +711,8 @@ namespace EquivalentExchange.Monobehaviours
 		{
 			{ TechGroup.BasePieces, ExchangeMenuTab.RawMaterials },
 			{ TechGroup.ExteriorModules, ExchangeMenuTab.BiologicalMaterials },
-			{ TechGroup.InteriorModules, ExchangeMenuTab.CraftedItems },
-			{ TechGroup.InteriorPieces, ExchangeMenuTab.UnusedTab },
+			{ TechGroup.InteriorPieces, ExchangeMenuTab.CraftedItems },
+			{ TechGroup.InteriorModules, ExchangeMenuTab.UnusedTab },
 			{ TechGroup.Miscellaneous, ExchangeMenuTab.ModdedItems },
 		};
 

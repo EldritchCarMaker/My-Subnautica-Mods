@@ -9,6 +9,7 @@ using SMLHelper.V2.Handlers;
 using UnityEngine;
 using System.Collections.Generic;
 using SMLHelper.V2.Json.Attributes;
+using EquivalentExchange.Constructables;
 
 namespace EquivalentExchange
 {
@@ -34,48 +35,34 @@ namespace EquivalentExchange
 
             ConsoleCommandsHandler.Main.RegisterConsoleCommand("AddEMC", typeof(QMod), nameof(AddAmount));
 
+            new ItemResearchStationConstructable().Patch();
+
             Logger.Log(Logger.Level.Info, "Patched successfully!");
         }
         public static void ExchangeUnlockAll()
         {
-            ErrorMessage.AddMessage("Unlocked all base techtypes for exchange");
-            foreach(KeyValuePair<TechType, int> pair in config.BaseMaterialCosts)
-            {
-                if(!SaveData.learntTechTypes.Contains(pair.Key))
-                    SaveData.learntTechTypes.Add(pair.Key);
-            }
-            foreach (KeyValuePair<TechType, int> pair in config.OrganicMaterialsCosts)
-            {
-                if (!SaveData.learntTechTypes.Contains(pair.Key))
-                    SaveData.learntTechTypes.Add(pair.Key);
-            }
+            ErrorMessage.AddMessage("Unlocked all techtypes for exchange");
+            SaveData.learntTechTypes.AddRange(KnownTech.GetAllUnlockables());
         }
         public static void ExchangeLockAll()
         {
-            ErrorMessage.AddMessage("Locked all base techtypes for exchange");
-            foreach (KeyValuePair<TechType, int> pair in config.BaseMaterialCosts)
-            {
-                if (SaveData.learntTechTypes.Contains(pair.Key))
-                    SaveData.learntTechTypes.Remove(pair.Key);
-            }
-            foreach (KeyValuePair<TechType, int> pair in config.OrganicMaterialsCosts)
-            {
-                if (SaveData.learntTechTypes.Contains(pair.Key))
-                    SaveData.learntTechTypes.Remove(pair.Key);
-            }
+            ErrorMessage.AddMessage("Locked all techtypes for exchange");
+            SaveData.learntTechTypes.RemoveRange(0, SaveData.learntTechTypes.Count);
         }
         public static void UnlockExchangeType(string str)
         {
             TechType type = GetTechType(str);
             if (type == TechType.None) return;
-            SaveData.learntTechTypes.Add(type);
+            if(!SaveData.learntTechTypes.Contains(type))
+                SaveData.learntTechTypes.Add(type);
             ErrorMessage.AddMessage($"Unlocked {type}");
         }
         public static void LockExchangeType(string str)
         {
             TechType type = GetTechType(str);
             if (type == TechType.None) return;
-            SaveData.learntTechTypes.Remove(type);
+            if (SaveData.learntTechTypes.Contains(type))
+                SaveData.learntTechTypes.Remove(type);
             ErrorMessage.AddMessage($"Locked {type}");
         }
         public static TechType GetTechType(string value)
@@ -106,8 +93,12 @@ namespace EquivalentExchange
     [Menu("Equivalent Exchange")]
     public class Config : ConfigFile
     {
-        public KeyCode menuKey = KeyCode.K; //todo; add menu entrees. forgot to do that
+        [Keybind("Menu Key 1", Tooltip = "Press both this key and Menu Key 2 at the same time to open the exchange menu")]
+        public KeyCode menuKey = KeyCode.K; 
+        [Keybind("Menu Key 2", Tooltip = "Press both this key and Menu Key 1 at the same time to open the exchange menu")]
         public KeyCode menuKey2 = KeyCode.J;
+
+        public float inefficiencyMultiplier = 1f;
 
         internal Dictionary<TechType, int> BaseMaterialCosts = new Dictionary<TechType, int>()//if you're a modder trying to change this value for your item, please use the ExternalModCompat class
         {
@@ -152,6 +143,6 @@ namespace EquivalentExchange
     {
         //public List<string> learntTechTypes = new List<string>();
         public List<TechType> learntTechTypes = new List<TechType>();
-        public int EMCAvailable = 0;
+        public float EMCAvailable = 0;
     }
 }
