@@ -15,7 +15,7 @@ namespace EquivalentExchange
     [QModCore]
     public static class QMod
     {
-        //internal static Config config { get; } = OptionsPanelHandler.Main.RegisterModOptions<Config>();
+        internal static Config config { get; } = OptionsPanelHandler.Main.RegisterModOptions<Config>();
         internal static SaveData SaveData { get; } = SaveDataHandler.Main.RegisterSaveDataCache<SaveData>();
         [QModPatch]
         public static void Patch()
@@ -63,14 +63,45 @@ namespace EquivalentExchange
         }
         public static void AddAmount(int amount) => SaveData.EMCAvailable += amount;
     }
-    /*[Menu("Cyclops Torpedoes")]
+    [Menu("Equivalent Exchange")]
     public class Config : ConfigFile
     {
-        [Keybind("Torpedo Key", Tooltip = "Press this key while you are controlling the cyclops cameras in order to shoot a torpedo from the cyclops' decoy tube")]
-        public KeyCode torpedoKey = KeyCode.F;
-        public TechType priorityTorpedoType = TechType.GasTorpedo;
-        public Dictionary<string, int> torpedoTypePriority = new Dictionary<string, int>();
-    }*/
+        public KeyCode menuKey = KeyCode.K;
+        internal Dictionary<TechType, int> BaseMaterialCosts = new Dictionary<TechType, int>()
+        {
+            { TechType.CrashPowder, 1 },
+            { TechType.Titanium, 5 },
+            { TechType.Copper, 7 },
+            { TechType.Sulphur, 20 },
+            { TechType.Diamond, 25 },
+            { TechType.Gold, 20 },
+            { TechType.Kyanite, 75 },
+            { TechType.PrecursorIonCrystal, 100 },
+            { TechType.Lead, 7 },
+            { TechType.Lithium, 20 },
+            { TechType.Magnetite, 20 },
+            { TechType.ScrapMetal, 20 },
+            { TechType.Nickel, 30 },
+            { TechType.Quartz, 10 },
+            { TechType.AluminumOxide, 30 },
+            { TechType.Salt, 5 },
+            { TechType.Silver, 10 },
+            { TechType.UraniniteCrystal, 25 },
+            { TechType.AcidMushroom, 7 },
+            { TechType.KooshChunk, 15 },
+            { TechType.CoralChunk, 15 },
+            { TechType.CreepvinePiece, 10 },
+            { TechType.CreepvineSeedCluster, 15 },
+            { TechType.WhiteMushroom, 25 },
+            { TechType.EyesPlantSeed, 15 },
+            { TechType.TreeMushroomPiece, 15 },
+            { TechType.JellyPlant, 25 },
+            { TechType.RedGreenTentacleSeed, 15 },
+            { TechType.SeaCrownSeed, 15 },
+            { TechType.StalkerTooth, 15 },
+            { TechType.JeweledDiskPiece, 10 },
+        };
+    }
     [FileName("EquivalentExchange")]
     public class SaveData : SaveDataCache
     {

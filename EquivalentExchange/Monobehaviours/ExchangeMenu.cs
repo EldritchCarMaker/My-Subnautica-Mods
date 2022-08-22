@@ -9,6 +9,10 @@ namespace EquivalentExchange.Monobehaviours
 {
     public class ExchangeMenu : uGUI_InputGroup, uGUI_IIconGridManager, uGUI_IToolbarManager, uGUI_IButtonReceiver, INotificationListener
 	{
+		public const int PRICEOFUNMARKEDITEM = 100;
+
+
+
 		public bool state { get; private set; }
 
 		public int TabOpen
@@ -359,7 +363,18 @@ namespace EquivalentExchange.Monobehaviours
 			int cost = GetCost(techType);
 			if(QMod.SaveData.EMCAvailable >= cost)
 			{
-				Inventory.main.AddPending(CraftData.GetPrefabForTechType(techType).GetComponent<Pickupable>());
+				GameObject gameObject = CraftData.InstantiateFromPrefab(techType, false);
+				if (gameObject != null)
+				{
+					gameObject.transform.position = MainCamera.camera.transform.position + MainCamera.camera.transform.forward * 3f;
+					CrafterLogic.NotifyCraftEnd(gameObject, techType);
+					Pickupable component = gameObject.GetComponent<Pickupable>();
+					if (component != null && !Inventory.main.Pickup(component, false))
+					{
+						ErrorMessage.AddError(Language.main.Get("InventoryFull"));
+					}
+				}
+
 				QMod.SaveData.EMCAvailable -= cost;
 				FMODUWE.PlayOneShot(uGUI.main.craftingMenu.soundAccept, MainCamera.camera.transform.position, 1f);
 			}

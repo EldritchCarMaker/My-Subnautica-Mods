@@ -81,6 +81,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExternalModCompat.cs" />
     <Compile Include="Monobehaviours\ExchangeMenu.cs" />
     <Compile Include="Patches\uGUI_BuilderMenuPatches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
