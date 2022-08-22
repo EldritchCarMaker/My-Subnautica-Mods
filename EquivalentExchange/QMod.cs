@@ -29,25 +29,63 @@ namespace EquivalentExchange
             ConsoleCommandsHandler.Main.RegisterConsoleCommand("UnlockExchangeType", typeof(QMod), nameof(UnlockExchangeType));
             ConsoleCommandsHandler.Main.RegisterConsoleCommand("lockExchangeType", typeof(QMod), nameof(LockExchangeType));
 
+            ConsoleCommandsHandler.Main.RegisterConsoleCommand("ExchangeUnlockAll", typeof (QMod), nameof(ExchangeUnlockAll));
+            ConsoleCommandsHandler.Main.RegisterConsoleCommand("ExchangeLockAll", typeof(QMod), nameof(ExchangeLockAll));
+
             ConsoleCommandsHandler.Main.RegisterConsoleCommand("AddEMC", typeof(QMod), nameof(AddAmount));
 
             Logger.Log(Logger.Level.Info, "Patched successfully!");
         }
-
+        public static void ExchangeUnlockAll()
+        {
+            ErrorMessage.AddMessage("Unlocked all base techtypes for exchange");
+            foreach(KeyValuePair<TechType, int> pair in config.BaseMaterialCosts)
+            {
+                if(!SaveData.learntTechTypes.Contains(pair.Key))
+                    SaveData.learntTechTypes.Add(pair.Key);
+            }
+            foreach (KeyValuePair<TechType, int> pair in config.OrganicMaterialsCosts)
+            {
+                if (!SaveData.learntTechTypes.Contains(pair.Key))
+                    SaveData.learntTechTypes.Add(pair.Key);
+            }
+        }
+        public static void ExchangeLockAll()
+        {
+            ErrorMessage.AddMessage("Locked all base techtypes for exchange");
+            foreach (KeyValuePair<TechType, int> pair in config.BaseMaterialCosts)
+            {
+                if (SaveData.learntTechTypes.Contains(pair.Key))
+                    SaveData.learntTechTypes.Remove(pair.Key);
+            }
+            foreach (KeyValuePair<TechType, int> pair in config.OrganicMaterialsCosts)
+            {
+                if (SaveData.learntTechTypes.Contains(pair.Key))
+                    SaveData.learntTechTypes.Remove(pair.Key);
+            }
+        }
         public static void UnlockExchangeType(string str)
         {
             TechType type = GetTechType(str);
             if (type == TechType.None) return;
             SaveData.learntTechTypes.Add(type);
+            ErrorMessage.AddMessage($"Unlocked {type}");
         }
         public static void LockExchangeType(string str)
         {
             TechType type = GetTechType(str);
             if (type == TechType.None) return;
             SaveData.learntTechTypes.Remove(type);
+            ErrorMessage.AddMessage($"Locked {type}");
         }
         public static TechType GetTechType(string value)
         {
+            return GetTechType(value, out _);
+        }
+        public static TechType GetTechType(string value, out bool isModded)
+        {
+            isModded = false;
+
             if (string.IsNullOrEmpty(value))
                 return TechType.None;
 
@@ -55,21 +93,24 @@ namespace EquivalentExchange
             if (TechTypeExtensions.FromString(value, out TechType tType, true))
                 return tType;
 
+            isModded = true;
             //  Not one of the known TechTypes - is it registered with SMLHelper?
             if (TechTypeHandler.TryGetModdedTechType(value, out TechType custom))
                 return custom;
 
             return TechType.None;
         }
+
         public static void AddAmount(int amount) => SaveData.EMCAvailable += amount;
     }
     [Menu("Equivalent Exchange")]
     public class Config : ConfigFile
     {
-        public KeyCode menuKey = KeyCode.K;
-        internal Dictionary<TechType, int> BaseMaterialCosts = new Dictionary<TechType, int>()
+        public KeyCode menuKey = KeyCode.K; //todo; add menu entrees. forgot to do that
+        public KeyCode menuKey2 = KeyCode.J;
+
+        internal Dictionary<TechType, int> BaseMaterialCosts = new Dictionary<TechType, int>()//if you're a modder trying to change this value for your item, please use the ExternalModCompat class
         {
-            { TechType.CrashPowder, 1 },
             { TechType.Titanium, 5 },
             { TechType.Copper, 7 },
             { TechType.Sulphur, 20 },
@@ -87,6 +128,10 @@ namespace EquivalentExchange
             { TechType.Salt, 5 },
             { TechType.Silver, 10 },
             { TechType.UraniniteCrystal, 25 },
+        };
+        internal Dictionary<TechType, int> OrganicMaterialsCosts = new Dictionary<TechType, int>()//if you're a modder trying to change this value for your item, please use the ExternalModCompat class
+        {
+            { TechType.CrashPowder, 1 },
             { TechType.AcidMushroom, 7 },
             { TechType.KooshChunk, 15 },
             { TechType.CoralChunk, 15 },

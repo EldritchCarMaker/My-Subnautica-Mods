@@ -17,14 +17,15 @@ namespace EquivalentExchange.Patches
         [HarmonyPatch(nameof(uGUI_BuilderMenu.Start))]
         public static void Postfix(uGUI_BuilderMenu __instance)
         {
-            CoroutineHost.StartCoroutine(MakeExchangeMenu(__instance));
+            if(ExchangeMenu.singleton == null)
+                CoroutineHost.StartCoroutine(MakeExchangeMenu(__instance));
         }
         public static IEnumerator MakeExchangeMenu(uGUI_BuilderMenu origMenu)
         {
             ExchangeMenu exchangeMenu = null;
 
             yield return new WaitForEndOfFrame();
-            while (exchangeMenu == null)
+            while (exchangeMenu == null && ExchangeMenu.singleton == null)
             {
                 var cloneMenu = GameObject.Instantiate(origMenu.gameObject);
                 GameObject.DestroyImmediate(cloneMenu.GetComponent<uGUI_BuilderMenu>());

@@ -10,7 +10,7 @@ namespace EquivalentExchange.Monobehaviours
     public class ExchangeMenu : uGUI_InputGroup, uGUI_IIconGridManager, uGUI_IToolbarManager, uGUI_IButtonReceiver, INotificationListener
 	{
 		public const int PRICEOFUNMARKEDITEM = 100;
-
+		//if you're a modder trying to change this value for your item, please use the ExternalModCompat class
 
 
 		public bool state { get; private set; }
@@ -95,7 +95,7 @@ namespace EquivalentExchange.Monobehaviours
 			for (int i = 0; i < count; i++)
 			{
 				TechGroup value = ExchangeMenu.groups[i];
-				string str = techGroupNames.Get(value);
+				string str = groups[i].ToString();
 				array[i] = SpriteManager.Get(SpriteManager.Group.Tab, "group" + str);
 			}
 			title.text = "EXCHANGE";
@@ -143,7 +143,7 @@ namespace EquivalentExchange.Monobehaviours
 					Close();
 				}
 			}
-			if(Input.GetKeyDown(KeyCode.K))
+			if(Input.GetKeyDown(QMod.config.menuKey) && Input.GetKeyDown(QMod.config.menuKey2))
             {
 				Open();
             }
@@ -333,9 +333,37 @@ namespace EquivalentExchange.Monobehaviours
 			}
 			stringBuilder.Append("</color>");
 		}
-		public int GetCost(TechType techType)
+		public int GetCost(TechType techType, int depth = 0)
         {
-			return 5;
+			if (QMod.config.BaseMaterialCosts.TryGetValue(techType, out var costs))
+				return costs;
+
+			if (QMod.config.OrganicMaterialsCosts.TryGetValue(techType, out var organicCosts))
+				return organicCosts;
+
+			if (depth > 10) return 5;
+
+			int totalCost = 0;
+
+			var techData = CraftData.Get(techType);
+
+			if(techData == null)
+            {
+				return PRICEOFUNMARKEDITEM;
+            }
+
+
+			for(var i = 0; i < techData.ingredientCount; i++)
+            {
+				var ingredient = techData.GetIngredient(i-1);
+				if (ingredient != null)
+                {
+					for(var j = 0; j < ingredient.amount; j++)
+						totalCost += GetCost(ingredient.techType, depth+1);
+                }
+            }
+
+            return totalCost;
         }
 
 		// Token: 0x06003465 RID: 13413 RVA: 0x00002319 File Offset: 0x00000519
@@ -451,7 +479,7 @@ namespace EquivalentExchange.Monobehaviours
 			for (int i = 0; i < ExchangeMenu.groups.Count; i++)
 			{
 				TechGroup value = ExchangeMenu.groups[i];
-				toolbarTooltips.Add(TooltipFactory.Label(string.Format("Group{0}", techGroupNames.Get(value))));
+				toolbarTooltips.Add(TooltipFactory.Label(groupNames[TechGroupForTab[value]]));
 			}
 		}
 
@@ -539,36 +567,31 @@ namespace EquivalentExchange.Monobehaviours
 			int iteration = 0;
 			foreach (TechType type in QMod.SaveData.learntTechTypes)
 			{
+				if ((int)GetTabTypeForTech(type) != selected)
+					continue;
+
 				items.Add(iteration.ToString(), type);
 				iconGrid.AddItem(iteration.ToString(), SpriteManager.Get(type), SpriteManager.GetBackground(type), false, iteration);
 				iconGrid.RegisterNotificationTarget(iteration.ToString(), NotificationManager.Group.Builder, type.EncodeKey());
 				iteration++;
 			}
-			/*
-			foreach(string str in QMod.SaveData.learntTechTypes)
-            {
-				TechType tt = GetTechType(str);
-            }*/
-
-			return;
-
-			TechGroup techGroup = ExchangeMenu.groups[selected];
-			List<TechType> techTypesForGroup = GetTechTypesForGroup(selected);
-			int num = 0;
-			for (int i = 0; i < techTypesForGroup.Count; i++)
-			{
-				TechType techType = techTypesForGroup[i];
-				TechUnlockState techUnlockState = KnownTech.GetTechUnlockState(techType);
-				if (techUnlockState == TechUnlockState.Available || techUnlockState == TechUnlockState.Locked)
-				{
-					string stringForInt = IntStringCache.GetStringForInt(num);
-					items.Add(stringForInt, techType);
-					iconGrid.AddItem(stringForInt, SpriteManager.Get(techType), SpriteManager.GetBackground(techType), techUnlockState == TechUnlockState.Locked, num);
-					iconGrid.RegisterNotificationTarget(stringForInt, NotificationManager.Group.Builder, techType.EncodeKey());
-					num++;
-				}
-			}
 		}
+		private ExchangeMenuTab GetTabTypeForTech(TechType type)
+        {
+			if (QMod.config.BaseMaterialCosts.ContainsKey(type))
+				return ExchangeMenuTab.RawMaterials;
+
+			if (QMod.config.OrganicMaterialsCosts.ContainsKey(type))
+				return ExchangeMenuTab.BiologicalMaterials;
+
+			if (TechTypeHandler.TryGetModdedTechType(type.ToString(), out TechType custom))
+				return ExchangeMenuTab.ModdedItems;
+
+			if (TechTypeExtensions.techTypeKeys.ContainsKey(type))
+				return ExchangeMenuTab.CraftedItems;
+
+			return ExchangeMenuTab.UnusedTab;
+        }
 
 		// Token: 0x06003473 RID: 13427 RVA: 0x001207B8 File Offset: 0x0011E9B8
 		public bool OnButtonDown(GameInput.Button button)
@@ -610,7 +633,7 @@ namespace EquivalentExchange.Monobehaviours
 		private const NotificationManager.Group notificationGroup = NotificationManager.Group.Builder;
 
 		// Token: 0x04002F3E RID: 12094
-		private static ExchangeMenu singleton;
+		public static ExchangeMenu singleton;
 
 		// Token: 0x04002F3F RID: 12095
 		private static readonly List<TechType>[] groupsTechTypes = new List<TechType>[ExchangeMenu.groups.Count];
@@ -663,7 +686,32 @@ namespace EquivalentExchange.Monobehaviours
 		private new int selected;
 
 		// Token: 0x04002F4E RID: 12110
-		private CachedEnumString<TechGroup> techGroupNames = new CachedEnumString<TechGroup>(CraftData.sTechGroupComparer);
+		//private CachedEnumString<TechGroup> techGroupNames = new CachedEnumString<TechGroup>(CraftData.sTechGroupComparer);
+		private enum ExchangeMenuTab
+        {
+			RawMaterials,
+			BiologicalMaterials,
+			UnusedTab,
+			CraftedItems,
+			ModdedItems
+		}
+		private Dictionary<ExchangeMenuTab, string> groupNames = new Dictionary<ExchangeMenuTab, string>()
+        {
+			{ ExchangeMenuTab.RawMaterials, "Raw Materials" },
+			{ ExchangeMenuTab.BiologicalMaterials, "Biological Materials" },
+			{ ExchangeMenuTab.CraftedItems, "Crafted Items" },
+			{ ExchangeMenuTab.UnusedTab, "Currently Unused Tab" },
+			{ ExchangeMenuTab.ModdedItems, "Modded Items" },
+		};
+
+		private Dictionary<TechGroup, ExchangeMenuTab> TechGroupForTab = new Dictionary<TechGroup, ExchangeMenuTab>()
+		{
+			{ TechGroup.BasePieces, ExchangeMenuTab.RawMaterials },
+			{ TechGroup.ExteriorModules, ExchangeMenuTab.BiologicalMaterials },
+			{ TechGroup.InteriorModules, ExchangeMenuTab.CraftedItems },
+			{ TechGroup.InteriorPieces, ExchangeMenuTab.UnusedTab },
+			{ TechGroup.Miscellaneous, ExchangeMenuTab.ModdedItems },
+		};
 
 		// Token: 0x04002F4F RID: 12111
 		private List<string> toolbarTooltips = new List<string>();
