@@ -700,7 +700,7 @@ namespace EquivalentExchange.Monobehaviours
 			{ ExchangeMenuTab.RawMaterials, "Raw Materials" },
 			{ ExchangeMenuTab.BiologicalMaterials, "Biological Materials" },
 			{ ExchangeMenuTab.CraftedItems, "Crafted Items" },
-			{ ExchangeMenuTab.UnusedTab, "Currently Unused Tab" },
+			{ ExchangeMenuTab.UnusedTab, "Currently Unused Tab" },//make into equipment tab. Items that can be equipped somewhere.
 			{ ExchangeMenuTab.ModdedItems, "Modded Items" },
 		};
 
