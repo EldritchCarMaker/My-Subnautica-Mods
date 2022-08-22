@@ -1,6 +1,7 @@
 ﻿using SMLHelper.V2.Handlers;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -62,7 +63,7 @@ namespace EquivalentExchange.Monobehaviours
 			}
 			ExchangeMenu.singleton = this;
 			base.Awake();
-
+			name = "ExchangeMenu";
 
 			canvasScaler = GetComponent<uGUI_CanvasScaler>();
 			title = transform.Find("Content").Find("Title").GetComponent<UnityEngine.UI.Text>();
@@ -93,6 +94,7 @@ namespace EquivalentExchange.Monobehaviours
 				string str = techGroupNames.Get(value);
 				array[i] = SpriteManager.Get(SpriteManager.Group.Tab, "group" + str);
 			}
+			title.text = "EXCHANGE";
 			object[] array2 = array;
 			toolbar.Initialize(this, array2, null, 15);
 			toolbar.Select(selected);
@@ -148,7 +150,7 @@ namespace EquivalentExchange.Monobehaviours
 		{
 			if (state)
 			{
-				//UpdateToolbarNotificationNumbers();
+				UpdateToolbarNotificationNumbers();
 			}
 		}
 
@@ -275,12 +277,62 @@ namespace EquivalentExchange.Monobehaviours
 			TechType techType;
 			if (items.TryGetValue(id, out techType))
 			{
-				bool locked = !CrafterLogic.IsCraftRecipeUnlocked(techType);
-				TooltipFactory.BuildTech(techType, locked, out tooltipText, tooltipIcons);
+				//TooltipFactory.BuildTech(techType, locked, out tooltipText, tooltipIcons);
+				WriteDetails(techType, out tooltipText);
 				return;
 			}
 			tooltipText = null;
 		}
+
+		public void WriteDetails(TechType techType, out string tooltipText)
+        {
+			TooltipFactory.Initialize();
+			StringBuilder stringBuilder = new StringBuilder();
+			string key = techType.AsString(false);
+
+			TooltipFactory.WriteTitle(stringBuilder, Language.main.Get(key));
+			TooltipFactory.WriteDescription(stringBuilder, Language.main.Get(TooltipFactory.techTypeTooltipStrings.Get(techType)));
+
+			WriteCost(techType, stringBuilder);
+
+			tooltipText = stringBuilder.ToString();
+		}
+		public void WriteCost(TechType techType, StringBuilder stringBuilder)
+        {
+			stringBuilder.Append(Environment.NewLine);
+
+			int current = QMod.SaveData.EMCAvailable;
+			int amount = GetCost(techType);
+			bool flag = current >= amount || !GameModeUtils.RequiresIngredients();
+
+			if (flag)
+			{
+				stringBuilder.Append("<color=#94DE00FF>");
+			}
+			else
+			{
+				stringBuilder.Append("<color=#DF4026FF>");
+			}
+
+			stringBuilder.Append("EMC:");
+
+			if (amount > 1)
+			{
+				stringBuilder.Append(" x");
+				stringBuilder.Append(amount);
+			}
+			if (/*current > 0 && current < amount*/ true)
+			{
+				stringBuilder.Append(" (");
+				stringBuilder.Append(current);
+				stringBuilder.Append(")");
+			}
+			stringBuilder.Append("</color>");
+		}
+		public int GetCost(TechType techType)
+        {
+			return 5;
+        }
 
 		// Token: 0x06003465 RID: 13413 RVA: 0x00002319 File Offset: 0x00000519
 		public void OnPointerEnter(string id)
@@ -304,13 +356,22 @@ namespace EquivalentExchange.Monobehaviours
 			{
 				return;
 			}
-			if (!KnownTech.Contains(techType))
+			int cost = GetCost(techType);
+			if(QMod.SaveData.EMCAvailable >= cost)
 			{
-				return;
+				Inventory.main.AddPending(CraftData.GetPrefabForTechType(techType).GetComponent<Pickupable>());
+				QMod.SaveData.EMCAvailable -= cost;
+				FMODUWE.PlayOneShot(uGUI.main.craftingMenu.soundAccept, MainCamera.camera.transform.position, 1f);
 			}
-			GameObject buildPrefab = CraftData.GetBuildPrefab(techType);
-			SetState(false);
-			Builder.Begin(buildPrefab);
+            else
+            {
+				FMODUWE.PlayOneShot(uGUI.main.craftingMenu.soundDeny, MainCamera.camera.transform.position, 1f);
+			}
+			if(iconGrid.icons.TryGetValue(id, out uGUI_IconGrid.IconData iconData))
+            {
+				float duration = 1f + UnityEngine.Random.Range(-0.2f, 0.2f);
+				iconData.icon.PunchScale(5f, 0.5f, duration);
+            }
 		}
 
 		// Token: 0x06003468 RID: 13416 RVA: 0x00002319 File Offset: 0x00000519
@@ -455,6 +516,8 @@ namespace EquivalentExchange.Monobehaviours
 		// Token: 0x06003472 RID: 13426 RVA: 0x001206FC File Offset: 0x0011E8FC
 		private void UpdateItems()
 		{
+			title.text = "EXCHANGE";
+
 			iconGrid.Clear();
 			items.Clear();
 
@@ -464,6 +527,7 @@ namespace EquivalentExchange.Monobehaviours
 				items.Add(iteration.ToString(), type);
 				iconGrid.AddItem(iteration.ToString(), SpriteManager.Get(type), SpriteManager.GetBackground(type), false, iteration);
 				iconGrid.RegisterNotificationTarget(iteration.ToString(), NotificationManager.Group.Builder, type.EncodeKey());
+				iteration++;
 			}
 			/*
 			foreach(string str in QMod.SaveData.learntTechTypes)

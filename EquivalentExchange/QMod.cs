@@ -29,6 +29,8 @@ namespace EquivalentExchange
             ConsoleCommandsHandler.Main.RegisterConsoleCommand("UnlockExchangeType", typeof(QMod), nameof(UnlockExchangeType));
             ConsoleCommandsHandler.Main.RegisterConsoleCommand("lockExchangeType", typeof(QMod), nameof(LockExchangeType));
 
+            ConsoleCommandsHandler.Main.RegisterConsoleCommand("AddEMC", typeof(QMod), nameof(AddAmount));
+
             Logger.Log(Logger.Level.Info, "Patched successfully!");
         }
 
@@ -59,6 +61,7 @@ namespace EquivalentExchange
 
             return TechType.None;
         }
+        public static void AddAmount(int amount) => SaveData.EMCAvailable += amount;
     }
     /*[Menu("Cyclops Torpedoes")]
     public class Config : ConfigFile
@@ -73,5 +76,6 @@ namespace EquivalentExchange
     {
         //public List<string> learntTechTypes = new List<string>();
         public List<TechType> learntTechTypes = new List<TechType>();
+        public int EMCAvailable = 0;
     }
 }
