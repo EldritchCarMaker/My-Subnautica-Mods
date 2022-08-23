@@ -103,10 +103,6 @@ namespace EquivalentExchange.Monobehaviours
 			toolbar.Initialize(this, array2, null, 15);
 			toolbar.Select(selected);
 			UpdateItems();
-			KnownTech.onChanged += OnChanged;
-			PDAScanner.onAdd += OnLockedAdd;
-			PDAScanner.onRemove += OnLockedRemove;
-			NotificationManager.main.Subscribe(this, NotificationManager.Group.Builder, string.Empty);
 		}
 
 		// Token: 0x06003452 RID: 13394 RVA: 0x0012018C File Offset: 0x0011E38C
@@ -161,15 +157,6 @@ namespace EquivalentExchange.Monobehaviours
 		// Token: 0x06003457 RID: 13399 RVA: 0x00120244 File Offset: 0x0011E444
 		private void OnDestroy()
 		{
-			NotificationManager.main.Unsubscribe(this);
-			KnownTech.onChanged -= OnChanged;
-			PDAScanner.onAdd -= OnLockedAdd;
-			PDAScanner.onRemove -= OnLockedRemove;
-			Language main = Language.main;
-			if (main)
-			{
-				main.OnLanguageChanged -= OnLanguageChanged;
-			}
 			ExchangeMenu.singleton = null;
 		}
 
@@ -237,25 +224,6 @@ namespace EquivalentExchange.Monobehaviours
 			SetState(false);
 		}
 
-		// Token: 0x0600345F RID: 13407 RVA: 0x00120389 File Offset: 0x0011E589
-		private void OnChanged(HashSet<TechType> techList)
-		{
-			UpdateItems();
-		}
-
-		// Token: 0x06003460 RID: 13408 RVA: 0x00120389 File Offset: 0x0011E589
-		private void OnLockedAdd(PDAScanner.Entry entry)
-		{
-			UpdateItems();
-		}
-
-		// Token: 0x06003461 RID: 13409 RVA: 0x00120389 File Offset: 0x0011E589
-		private void OnLockedRemove(PDAScanner.Entry entry)
-		{
-			UpdateItems();
-		}
-
-		// Token: 0x06003462 RID: 13410 RVA: 0x00120391 File Offset: 0x0011E591
 		public void GetToolbarTooltip(int index, out string tooltipText, List<TooltipIcon> tooltipIcons)
 		{
 			tooltipText = null;
@@ -624,13 +592,13 @@ namespace EquivalentExchange.Monobehaviours
 
 		// Token: 0x04002F3C RID: 12092
 		private static readonly List<TechGroup> groups = new List<TechGroup>
-	{
-		TechGroup.BasePieces,
-		TechGroup.ExteriorModules,
 		TechGroup.InteriorPieces,
 		TechGroup.InteriorModules,
-		TechGroup.Miscellaneous
-	};
+		{
+			TechGroup.BasePieces,
+			TechGroup.ExteriorModules,
+			TechGroup.Miscellaneous
+		};
 
 		// Token: 0x04002F3D RID: 12093
 		private const NotificationManager.Group notificationGroup = NotificationManager.Group.Builder;
