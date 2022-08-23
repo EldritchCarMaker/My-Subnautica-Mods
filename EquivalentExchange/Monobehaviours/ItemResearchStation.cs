@@ -39,6 +39,9 @@ namespace EquivalentExchange.Monobehaviours
 				this.storageContainer.container.onRemoveItem += this.RemoveItem;
 				this.storageContainer.container.isAllowedToAdd = new IsAllowedToAdd(this.IsAllowedToAdd);
 				this.subscribed = true;
+				storageContainer.hoverText = "Use Item Research Station";
+				storageContainer.storageLabel = "Item Research Station";
+				storageContainer.container._label = "Item Research Station";
 			}
 		}
 

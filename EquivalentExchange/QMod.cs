@@ -100,7 +100,7 @@ namespace EquivalentExchange
 
         public float inefficiencyMultiplier = 1f;
 
-        internal Dictionary<TechType, int> BaseMaterialCosts = new Dictionary<TechType, int>()//if you're a modder trying to change this value for your item, please use the ExternalModCompat class
+        public Dictionary<TechType, int> BaseMaterialCosts = new Dictionary<TechType, int>()//if you're a modder trying to change this value for your item, please use the ExternalModCompat class
         {
             { TechType.Titanium, 5 },
             { TechType.Copper, 7 },
@@ -120,7 +120,7 @@ namespace EquivalentExchange
             { TechType.Silver, 10 },
             { TechType.UraniniteCrystal, 25 },
         };
-        internal Dictionary<TechType, int> OrganicMaterialsCosts = new Dictionary<TechType, int>()//if you're a modder trying to change this value for your item, please use the ExternalModCompat class
+        public Dictionary<TechType, int> OrganicMaterialsCosts = new Dictionary<TechType, int>()//if you're a modder trying to change this value for your item, please use the ExternalModCompat class
         {
             { TechType.CrashPowder, 1 },
             { TechType.AcidMushroom, 7 },

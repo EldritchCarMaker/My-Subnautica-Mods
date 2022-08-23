@@ -94,9 +94,13 @@ namespace EquivalentExchange.Monobehaviours
 			Atlas.Sprite[] array = new Atlas.Sprite[count];
 			for (int i = 0; i < count; i++)
 			{
+				array[i] = GetSpriteForTabType(TechGroupForTab[groups[i]]);
+
+				/*
 				TechGroup value = ExchangeMenu.groups[i];
 				string str = groups[i].ToString();
 				array[i] = SpriteManager.Get(SpriteManager.Group.Tab, "group" + str);
+				*/
 			}
 			title.text = "EXCHANGE";
 			object[] array2 = array;
@@ -104,7 +108,27 @@ namespace EquivalentExchange.Monobehaviours
 			toolbar.Select(selected);
 			UpdateItems();
 		}
+		private Atlas.Sprite GetSpriteForTabType(ExchangeMenuTab tab)
+        {
+			switch(tab)
+            {
+				case ExchangeMenuTab.RawMaterials:
+					return SpriteManager.Get(TechType.Titanium);
 
+				case ExchangeMenuTab.BiologicalMaterials:
+					return SpriteManager.Get(TechType.AcidMushroom);
+
+				case ExchangeMenuTab.CraftedItems:
+					return SpriteManager.Get(TechType.WiringKit);
+
+				case ExchangeMenuTab.UnusedTab:
+					return SpriteManager.Get(TechType.Fins);
+
+				case ExchangeMenuTab.ModdedItems:
+					return SpriteManager.Get(TechType.PrecursorKey_Red);
+			}
+			return SpriteManager.Get(TechType.Seamoth);//random one, idk
+		}
 		// Token: 0x06003452 RID: 13394 RVA: 0x0012018C File Offset: 0x0011E38C
 		private List<TechType> GetTechTypesForGroup(int groupIdx)
 		{
@@ -262,19 +286,19 @@ namespace EquivalentExchange.Monobehaviours
 			StringBuilder stringBuilder = new StringBuilder();
 			string key = techType.AsString(false);
 
-			TooltipFactory.WriteTitle(stringBuilder, Language.main.Get(key));
+			TooltipFactory.WriteTitle(stringBuilder, Language.main.Get(key) + (GameInput.GetButtonHeld(GameInput.Button.Sprint) ? " (5)" : ""));
 			TooltipFactory.WriteDescription(stringBuilder, Language.main.Get(TooltipFactory.techTypeTooltipStrings.Get(techType)));
 
-			WriteCost(techType, stringBuilder);
+			WriteCost(techType, stringBuilder, GameInput.GetButtonHeld(GameInput.Button.Sprint));
 
 			tooltipText = stringBuilder.ToString();
 		}
-		public void WriteCost(TechType techType, StringBuilder stringBuilder)
+		public void WriteCost(TechType techType, StringBuilder stringBuilder, bool isShiftDown = false)
         {
 			stringBuilder.Append(Environment.NewLine);
 
 			float current = QMod.SaveData.EMCAvailable;
-			float amount = GetCost(techType);
+			float amount = isShiftDown ? GetCost(techType) * 5 : GetCost(techType);
 			bool flag = current >= amount || !GameModeUtils.RequiresIngredients();
 
 			if (flag)
@@ -293,7 +317,8 @@ namespace EquivalentExchange.Monobehaviours
 				stringBuilder.Append(" x");
 				stringBuilder.Append(amount);
 			}
-			if (/*current > 0 && current < amount*/ true)
+			if (/*current > 0 && current < amount*/
+				true)
 			{
 				stringBuilder.Append(" (");
 				stringBuilder.Append(current);
@@ -303,6 +328,9 @@ namespace EquivalentExchange.Monobehaviours
 		}
 		public float GetCost(TechType techType, int depth = 0)
         {
+			if (!GameModeUtils.RequiresIngredients())
+				return 0;
+
 			if (QMod.config.BaseMaterialCosts.TryGetValue(techType, out var costs))
 				return costs;
 
@@ -356,20 +384,25 @@ namespace EquivalentExchange.Monobehaviours
 			{
 				return;
 			}
-			float cost = GetCost(techType);
+			float cost = GameInput.GetButtonHeld(GameInput.Button.Sprint) ? GetCost(techType) * 5 : GetCost(techType);
 			if(QMod.SaveData.EMCAvailable >= cost)
 			{
-				GameObject gameObject = CraftData.InstantiateFromPrefab(techType, false);
-				if (gameObject != null)
+				int itemsToSpawn = (GameInput.GetButtonHeld(GameInput.Button.Sprint) ? 5 : 1);
+				for (int i = 0; i < itemsToSpawn; i++)
 				{
-					gameObject.transform.position = MainCamera.camera.transform.position + MainCamera.camera.transform.forward * 3f;
-					CrafterLogic.NotifyCraftEnd(gameObject, techType);
-					Pickupable component = gameObject.GetComponent<Pickupable>();
-					if (component != null && !Inventory.main.Pickup(component, false))
+					GameObject gameObject = CraftData.InstantiateFromPrefab(techType, false);
+					if (gameObject != null)
 					{
-						ErrorMessage.AddError(Language.main.Get("InventoryFull"));
+						gameObject.transform.position = MainCamera.camera.transform.position + MainCamera.camera.transform.forward * 3f;
+						CrafterLogic.NotifyCraftEnd(gameObject, techType);
+						Pickupable component = gameObject.GetComponent<Pickupable>();
+						if (component != null && !Inventory.main.Pickup(component, false))
+						{
+							ErrorMessage.AddError(Language.main.Get("InventoryFull"));
+						}
 					}
 				}
+				
 
 				QMod.SaveData.EMCAvailable -= cost;
 				FMODUWE.PlayOneShot(uGUI.main.craftingMenu.soundAccept, MainCamera.camera.transform.position, 1f);
@@ -592,11 +625,11 @@ namespace EquivalentExchange.Monobehaviours
 
 		// Token: 0x04002F3C RID: 12092
 		private static readonly List<TechGroup> groups = new List<TechGroup>
-		TechGroup.InteriorPieces,
-		TechGroup.InteriorModules,
 		{
 			TechGroup.BasePieces,
 			TechGroup.ExteriorModules,
+			TechGroup.InteriorPieces,
+			TechGroup.InteriorModules,
 			TechGroup.Miscellaneous
 		};
 
