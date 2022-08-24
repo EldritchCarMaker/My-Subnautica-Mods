@@ -2,7 +2,7 @@
   "Id": "ECMModLogger",
   "DisplayName": "ECM Mod Logger",
   "Author": "Nagorrogan",
-  "Version": "0.0.3",
+  "Version": "1.0.0",
   "Enable": true,
   "AssemblyName": "ECMModLogger.dll",
   "VersionDependencies": {
