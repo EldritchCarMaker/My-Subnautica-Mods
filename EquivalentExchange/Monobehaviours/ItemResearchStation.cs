@@ -34,7 +34,6 @@ namespace EquivalentExchange.Monobehaviours
 			if (!this.subscribed)
 			{
 				this.storageContainer.enabled = true;
-				this.storageContainer.container.containerType = ItemsContainerType.Trashcan;
 				this.storageContainer.container.onAddItem += this.AddItem;
 				this.storageContainer.container.onRemoveItem += this.RemoveItem;
 				this.storageContainer.container.isAllowedToAdd = new IsAllowedToAdd(this.IsAllowedToAdd);
@@ -77,7 +76,7 @@ namespace EquivalentExchange.Monobehaviours
 						if(!QMod.SaveData.learntTechTypes.Contains(item.GetTechType()))
 							QMod.SaveData.learntTechTypes.Add(item.GetTechType());
 
-						QMod.SaveData.EMCAvailable += ExchangeMenu.singleton.GetCost(item.GetTechType());
+						QMod.SaveData.EMCAvailable += ExchangeMenu.singleton.GetCost(item.GetTechType(), 0, false);
 						UnityEngine.Object.Destroy(item.gameObject);
 					}
 				}

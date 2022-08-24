@@ -326,9 +326,9 @@ namespace EquivalentExchange.Monobehaviours
 			}
 			stringBuilder.Append("</color>");
 		}
-		public float GetCost(TechType techType, int depth = 0)
+		public float GetCost(TechType techType, int depth = 0, bool useCreative = true)
         {
-			if (!GameModeUtils.RequiresIngredients())
+			if (useCreative && !GameModeUtils.RequiresIngredients())
 				return 0;
 
 			if (QMod.config.BaseMaterialCosts.TryGetValue(techType, out var costs))
