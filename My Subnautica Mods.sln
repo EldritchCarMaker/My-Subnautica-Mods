@@ -69,6 +69,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CyclopsTorpedoes", "Cyclops
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EquivalentExchange", "EquivalentExchange\EquivalentExchange.csproj", "{08E062C7-F4EF-4E8C-AAD3-1E8EA996977A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECM Mod Logger", "ECM Mod Logger\ECM Mod Logger.csproj", "{A4D269E3-4233-4136-85F6-B2DDEB310BF1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -207,6 +209,10 @@ Global
 		{08E062C7-F4EF-4E8C-AAD3-1E8EA996977A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08E062C7-F4EF-4E8C-AAD3-1E8EA996977A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08E062C7-F4EF-4E8C-AAD3-1E8EA996977A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4D269E3-4233-4136-85F6-B2DDEB310BF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4D269E3-4233-4136-85F6-B2DDEB310BF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4D269E3-4233-4136-85F6-B2DDEB310BF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4D269E3-4233-4136-85F6-B2DDEB310BF1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
