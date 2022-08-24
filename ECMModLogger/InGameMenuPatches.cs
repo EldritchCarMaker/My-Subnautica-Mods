@@ -39,8 +39,16 @@ namespace ECMModLogger
             { "SonarChip", "Sonar Chip"},
             { "SoundCommands", "Sound Commands"},
             { "SpyWatch", "Spy Watch"},
-            { "WarpChip", "War pChip"},
+            { "WarpChip", "Warp Chip"},
+            { "CameraDroneSonarMod", "Camera Drone Sonar Mod" },
+            { "cyclopsVehiclebayHUDIcon", "cyclops Vehicle bay HUD Icon" },
+            { "CyclopsHR", "Cyclops Hull Reinforcement" },
+            { "moreEngineEfficiencyModules", "More Engine Efficiency Modules" },
 
+        };
+        public static Dictionary<string, string> specialModsList = new Dictionary<string, string>
+        {
+            { "CyclopsCameraDroneMod", "Seriously, install Cyclops Camera Drones. They got lasers and tractor beams and shit." },
         };
         [HarmonyPatch(nameof(MainMenuRightSide.Start))]
         public static void Postfix()
@@ -50,6 +58,12 @@ namespace ECMModLogger
                 if(!QModManager.API.QModServices.Main.ModPresent(pair.Key))
                     ErrorMessage.AddWarning($"{pair.Value} not found! Please Install it to further enhance your Subnautica experience!");
             }
+            foreach(KeyValuePair<string, string> pair in specialModsList)
+            {
+                if (!QModManager.API.QModServices.Main.ModPresent(pair.Key))
+                    ErrorMessage.AddWarning($"{pair.Key} not found! Please Install it to further enhance your Subnautica experience! {pair.Value}");
+            }
+
         }
     }
 }
