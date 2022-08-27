@@ -63,7 +63,6 @@ namespace ECMModLogger
                 if (!QModManager.API.QModServices.Main.ModPresent(pair.Key))
                     ErrorMessage.AddWarning($"{pair.Key} not found! Please Install it to further enhance your Subnautica experience! {pair.Value}");
             }
-
         }
     }
 }

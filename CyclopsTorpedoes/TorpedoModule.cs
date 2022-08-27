@@ -10,15 +10,15 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using SMLHelper.V2.Utility;
-//using MoreCyclopsUpgrades.API.Upgrades;
+using MoreCyclopsUpgrades.API.Upgrades;
 
 namespace CyclopsTorpedoes
 {
-    internal class TorpedoModule : /*CyclopsUpgrade*/Equipable
+    internal class TorpedoModule : CyclopsUpgrade/*Equipable*/
     {
         public static TechType thisTechType;
         public override string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
-        public TorpedoModule() : base("TorpedoModule", "Cyclops Torpedo Module", "Allows the cyclops to launch torpedoes aiming in the direction of the currently active camera")
+        public TorpedoModule() : base("CyclopsTorpedoModule", "Cyclops Torpedo Module", "Allows the cyclops to launch torpedoes aiming in the direction of the currently active camera")
         {
             OnFinishedPatching += () =>
             {
@@ -31,11 +31,10 @@ namespace CyclopsTorpedoes
         public override float CraftingTime => 3f;
         public override QuickSlotType QuickSlotType => QuickSlotType.Passive;
 
-        public override EquipmentType EquipmentType => EquipmentType.CyclopsModule;
 
         protected override Sprite GetItemSprite()
         {
-            return ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "chip_solar.png"));
+            return ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "cyclops_torpedo_module.png"));
         }
 
         protected override TechData GetBlueprintRecipe()

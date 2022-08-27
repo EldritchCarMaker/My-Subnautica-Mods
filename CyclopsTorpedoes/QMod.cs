@@ -8,7 +8,7 @@ using SMLHelper.V2.Options.Attributes;
 using SMLHelper.V2.Handlers;
 using UnityEngine;
 using System.Collections.Generic;
-//using MoreCyclopsUpgrades.API;
+using MoreCyclopsUpgrades.API;
 
 namespace CyclopsTorpedoes
 {
@@ -25,13 +25,13 @@ namespace CyclopsTorpedoes
             Harmony harmony = new Harmony(stingers);
             harmony.PatchAll(assembly);
 
-            /*var module = new TorpedoModule();
+            var module = new TorpedoModule();
             module.Patch();
 
             MCUServices.Register.CyclopsUpgradeHandler((SubRoot cyclops) => 
             { 
                 return new MoreCyclopsUpgrades.API.Upgrades.UpgradeHandler(module.TechType, cyclops);
-            });*/
+            });
 
             Logger.Log(Logger.Level.Info, "Patched successfully!");
         }
