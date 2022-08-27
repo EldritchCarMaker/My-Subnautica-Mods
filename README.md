@@ -9,6 +9,16 @@ Dependencies: [AutosortLockers](https://www.nexusmods.com/subnautica/mods/31), [
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/BetterCyclopsLockers/Changelog.md)
 
 
+### [Cyclops Torpedoes](https://github.com/Nagorogan/My-Subnautica-Mods/files/9438326/CyclopsTorpedoes.zip)
+
+
+Adds a new cyclops module that allows you to shoot torpedoes from the cyclops. Simply place torpedoes into the Cyclops' decoy tube and then enter the cyclops external cameras. From there, just press the torpedo button and, assuming you have the cyclops module equipped, the cyclops will shoot out the torpedo in whatever direction the camera is facing. Should work with modded torpedoes, although I'm not certain if it works with all of them or just some of them.
+
+Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), [More Cyclops Upgrades](https://github.com/PrimeSonic/PrimeSonicSubnauticaMods/releases/tag/Aug5_2021)
+
+###### No Changelog Yet
+
+
 ### [Remote Control Vehicles](https://github.com/Nagorogan/My-Subnautica-Mods/files/9166554/RemoteControlVehicles.zip)
 
 
