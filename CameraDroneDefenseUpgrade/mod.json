@@ -2,7 +2,7 @@
   "Id": "CameraDroneDefenseUpgrade",
   "DisplayName": "Camera Drone Defense Upgrade",
   "Author": "Nagorrogan",
-  "Version": "1.0.1",
+  "Version": "1.0.2",
   "Enable": true,
   "AssemblyName": "CameraDroneDefenseUpgrade.dll",
   "VersionDependencies": {

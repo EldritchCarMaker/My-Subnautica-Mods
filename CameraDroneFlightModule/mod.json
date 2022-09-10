@@ -2,7 +2,7 @@
   "Id": "CameraDroneFlightUpgrade",
   "DisplayName": "Camera Drone Flight Upgrade",
   "Author": "Nagorrogan",
-  "Version": "1.0.3",
+  "Version": "1.0.4",
   "Enable": true,
   "AssemblyName": "CameraDroneFlightUpgrade.dll",
   "VersionDependencies": {

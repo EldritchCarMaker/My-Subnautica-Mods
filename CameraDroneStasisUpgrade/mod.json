@@ -2,7 +2,7 @@
   "Id": "CameraDroneStasisUpgrade",
   "DisplayName": "Camera Drone Stasis Upgrade",
   "Author": "Nagorrogan",
-  "Version": "1.0.1",
+  "Version": "1.0.2",
   "Enable": true,
   "AssemblyName": "CameraDroneStasisUpgrade.dll",
   "VersionDependencies": {

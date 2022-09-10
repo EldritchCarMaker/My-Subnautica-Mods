@@ -35,7 +35,7 @@ namespace CameraDroneFlightUpgrade.Items
         public override float CraftingTime => 3f;
         protected override Sprite GetItemSprite()
         {
-            return ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "RepairUpgrade.png"));
+            return ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "FlightUpgrade.png"));
         }
 
         protected override TechData GetBlueprintRecipe()
