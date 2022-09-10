@@ -193,6 +193,17 @@ Allows you to pick up vehicles. Has a config for whether it needs a special modu
 Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ###### No Changelog yet
 
+
+### [Miniature Vehicles](https://github.com/Nagorogan/My-Subnautica-Mods/files/9541109/MiniatureVehicles.zip)
+
+
+Adds in a vehicle module that allows you to shrink down to half size while in vehicles
+
+
+Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
+###### No Changelog yet
+
+
 ### [Seeds From Harvesting](https://github.com/Nagorogan/My-Subnautica-Mods/files/8841548/SeedsFromHarvesting.zip)
 
 
