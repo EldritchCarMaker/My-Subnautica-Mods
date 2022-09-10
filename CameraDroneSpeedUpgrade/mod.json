@@ -2,7 +2,7 @@
   "Id": "CameraDroneSpeedUpgrade",
   "DisplayName": "Camera Drone Speed Upgrade",
   "Author": "Nagorrogan",
-  "Version": "1.0.3",
+  "Version": "1.0.4",
   "Enable": true,
   "AssemblyName": "CameraDroneSpeedUpgrade.dll",
   "VersionDependencies": {

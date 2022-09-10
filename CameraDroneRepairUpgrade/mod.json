@@ -2,7 +2,7 @@
   "Id": "CameraDroneRepairUpgrade",
   "DisplayName": "Camera Drone Repair Upgrade",
   "Author": "Nagorrogan",
-  "Version": "1.0.3",
+  "Version": "1.0.4",
   "Enable": true,
   "AssemblyName": "CameraDroneRepairUpgrade.dll",
   "VersionDependencies": {

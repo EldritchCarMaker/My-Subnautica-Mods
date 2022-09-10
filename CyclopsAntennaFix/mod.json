@@ -1,0 +1,15 @@
+{
+  "Id": "CyclopsAntennaFix",
+  "DisplayName": "Cyclops Antenna Fix",
+  "Author": "Nagorrogan",
+  "Version": "1.0.0",
+  "Enable": true,
+  "AssemblyName": "CyclopsAntennaFix.dll",
+  "VersionDependencies": {
+    "SMLHelper": "2.9.6"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/CyclopsAntennaFix/mod.json"
+  },
+  "Game": "Subnautica"
+}
