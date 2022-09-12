@@ -10,6 +10,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using SMLHelper.V2.Json.Attributes;
 using EquivalentExchange.Constructables;
+using System;
 
 namespace EquivalentExchange
 {
@@ -39,10 +40,36 @@ namespace EquivalentExchange
 
             Logger.Log(Logger.Level.Info, "Patched successfully!");
         }
+        public static bool TryUnlockTechType(TechType tt)
+        {
+            if (tt == TechType.None)
+                return false;
+
+            foreach(string str in config.AutoFilterStrings)
+            {
+                if (tt.ToString().ToLower().Contains(str.ToLower()))
+                    return false;
+            }
+
+            if (config.BlackListedTypes.Contains(tt))
+                return false;
+
+            if (tt == TechType.TimeCapsule)//don't want people to be able to mass spawn time capsules, might have an issue with the time capsule server like before
+                return false;
+
+            if (SaveData.learntTechTypes.Contains(tt))
+                return false;
+
+            SaveData.learntTechTypes.Add(tt);
+            return true;
+        }
         public static void ExchangeUnlockAll()
         {
             ErrorMessage.AddMessage("Unlocked all techtypes for exchange");
-            SaveData.learntTechTypes.AddRange(KnownTech.GetAllUnlockables());
+            foreach(string typeString in Enum.GetNames(typeof(TechType)))
+            {
+                TryUnlockTechType(GetTechType(typeString));
+            }
         }
         public static void ExchangeLockAll()
         {
@@ -51,11 +78,9 @@ namespace EquivalentExchange
         }
         public static void UnlockExchangeType(string str)
         {
-            TechType type = GetTechType(str);
-            if (type == TechType.None) return;
-            if(!SaveData.learntTechTypes.Contains(type))
-                SaveData.learntTechTypes.Add(type);
-            ErrorMessage.AddMessage($"Unlocked {type}");
+            var unlocked = TryUnlockTechType(GetTechType(str));
+
+            ErrorMessage.AddMessage(unlocked? $"Unlocked {str}" : $"Could not unlock {str}");
         }
         public static void LockExchangeType(string str)
         {
@@ -136,6 +161,19 @@ namespace EquivalentExchange
             { TechType.SeaCrownSeed, 15 },
             { TechType.StalkerTooth, 15 },
             { TechType.JeweledDiskPiece, 10 },
+        };
+        public List<TechType> BlackListedTypes = new List<TechType>() 
+        { 
+            TechType.ThermalPlant, 
+            TechType.TerraformerFragment,
+            TechType.ThermalPlantFragment,
+            TechType.Fragment,
+            TechType.AquariumFragment
+        };
+        public List<string> AutoFilterStrings = new List<string>()
+        {
+            "fragment",
+            "blueprint",
         };
     }
     [FileName("EquivalentExchange")]

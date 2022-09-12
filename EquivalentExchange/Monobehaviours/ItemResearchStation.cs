@@ -73,8 +73,7 @@ namespace EquivalentExchange.Monobehaviours
 					Pickupable item = waste.inventoryItem.item;
 					if (this.storageContainer.container.RemoveItem(item, true))
 					{
-						if(!QMod.SaveData.learntTechTypes.Contains(item.GetTechType()))
-							QMod.SaveData.learntTechTypes.Add(item.GetTechType());
+						QMod.TryUnlockTechType(item.GetTechType());
 
 						QMod.SaveData.EMCAvailable += ExchangeMenu.singleton.GetCost(item.GetTechType(), 0, false);
 						UnityEngine.Object.Destroy(item.gameObject);

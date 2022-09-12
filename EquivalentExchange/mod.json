@@ -2,7 +2,7 @@
   "Id": "EquivalentExchange",
   "DisplayName": "Equivalent Exchange",
   "Author": "Nagorrogan",
-  "Version": "0.0.1",
+  "Version": "0.0.2",
   "Enable": true,
   "AssemblyName": "EquivalentExchange.dll",
   "VersionDependencies": {
