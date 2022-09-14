@@ -358,6 +358,10 @@ Huge thanks to the subnautica modding discord, which is probably where you came 
 
 Many icons and sprites were made by Tom Stone#0118 and Akari - アカリ#1302 on discord, so thanks to them for the great icons used in my mods!
 
+## Patreon cause someone wanted to donate at one point
+
+https://www.patreon.com/user?u=79717901 I don't even know if they still want to, I just made it so why not link it?
+
 ## Permissions and stuffs
 I give permission to anyone and everyone to modify and or distribute my mods and the files contained within, under the following restrictions. 
 
