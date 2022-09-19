@@ -70,23 +70,21 @@ namespace EquippableItemIcons.API
 
             uGUI_QuickSlots quickSlots = uGUI.main.quickSlots;
 
-
-            bool quickSlotsInUse = quickSlots.target is QuickSlots;
-
-
             var leftPos = quickSlots.GetPosition(0);
             var rightPos = quickSlots.GetPosition(quickSlots.icons.Length);
             int count = 0;
             var UseRightSide = true;
+            List<HudItemIcon> iconsToRemove = new List<HudItemIcon>();
             foreach (HudItemIcon icon in activeIcons)
             {
                 if (!icon.container)
                 {
-                    activeIcons.Remove(icon);
+                    iconsToRemove.Add(icon);
                     continue;
                 }
+                icon.container.transform.localScale = new Vector3(QMod.config.iconSizeScale, QMod.config.iconSizeScale, QMod.config.iconSizeScale);
 
-                icon.container.SetActive(quickSlotsInUse);
+                icon.container.SetActive(quickSlots.target.GetType().IsSubclassOf(icon.targetQuickslotType) || quickSlots.target.GetType() == icon.targetQuickslotType);
 
                 icon.container.transform.localPosition = !UseRightSide
                     ? new Vector2(leftPos.x - 80 - (80 * ((count - 1) / 2)), leftPos.y)
@@ -94,6 +92,10 @@ namespace EquippableItemIcons.API
                 UseRightSide = !UseRightSide;
                 count++;
             }
+            iconsToRemove.ForEach(delegate (HudItemIcon icon)
+            {
+                activeIcons.Remove(icon);
+            });
         }
         private static IEnumerator WaitForQuickSlots()
         {

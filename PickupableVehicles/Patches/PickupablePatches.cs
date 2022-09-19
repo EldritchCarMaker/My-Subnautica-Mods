@@ -20,13 +20,17 @@ namespace PickupableVehicles.Patches
             {
                 dropPosition += 6f * MainCamera.camera.transform.forward;
             }
+            else if(type == TechType.Cyclops)
+            {
+                dropPosition += 15f * MainCamera.camera.transform.forward;
+            }
         }
         [HarmonyPatch(nameof(Pickupable.Drop),
             new[] { typeof(Vector3), typeof(Vector3), typeof(bool) })]
         public static void Postfix(Pickupable __instance)
         {
             TechType type = __instance.GetTechType();
-            if (type == TechType.Seamoth || type == TechType.Exosuit)
+            if (type == TechType.Seamoth || type == TechType.Exosuit || type == TechType.Cyclops)
             {
                 __instance.gameObject.transform.eulerAngles = new Vector3(0, 0, 0);
             }

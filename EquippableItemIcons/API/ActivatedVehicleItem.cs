@@ -7,20 +7,18 @@ using UnityEngine;
 
 namespace EquippableItemIcons.API
 {
-    public class ActivatedEquippableItem : HudItemIcon
+    public class ActivatedVehicleItem : HudItemIcon
     {
-        //todo; add serialization for current charge values for icons, in case someone wants to make a long cooldown
-        //probably lasting 10+ minutes
-        //and doesn't want to be able to save quit to reset it.
-
-        public ActivatedEquippableItem(string name, Atlas.Sprite sprite, TechType itemTechType) : base(name, sprite, itemTechType)
+        public ActivatedVehicleItem(string name, Atlas.Sprite sprite, TechType itemTechType) : base(name, sprite, itemTechType)
         {
-            //for items that have an ability that can be used
+            //for vehicle modules that want an icon 
         }
         public bool active = false;//whether the item is currently being used, not the same as equipped or icon active. Also avoid touching if using AutomaticSetup
 
-        public ToggleEvent Activate;//the actual functionality of item, when its activated what does it do?
-        public ToggleEvent Deactivate;//stop the functionality of item
+        public delegate void VehicleToggleEvent(Vehicle vehicle);
+
+        public VehicleToggleEvent Activate;//the actual functionality of item, when its activated what does it do?
+        public VehicleToggleEvent Deactivate;//stop the functionality of item
 
         public FMODAsset ActivateSound = UtilityStuffs.Utility.GetFmodAsset("event:/sub/cyclops/install_mod");//sound that plays when item is activated
         public FMODAsset DeactivateSound = UtilityStuffs.Utility.GetFmodAsset("event:/tools/battery_die");//sound that plays when item is deactivated
@@ -28,13 +26,14 @@ namespace EquippableItemIcons.API
 
         public bool playSounds = true;//whether this item plays sounds or not, overriden by the mod config
 
+        public delegate bool VehicleAllowedEvent(Vehicle vehicle);
         public AllowedEvent CanActivate;//used to tell if the item can currently be activated or not. Has a default, but good for extra conditions specific to the item
 
-        public delegate bool DetailedAllowedEvent(List<TechType> techTypes);
-        public DetailedAllowedEvent DetailedCanActivate;//same as normal can activate, but this one gives you the techtypes equipped
+        public delegate bool DetailedVehicleAllowedEvent(Vehicle vehicle, List<TechType> techTypes);
+        public DetailedVehicleAllowedEvent DetailedCanActivate;//same as normal can activate, but this one gives you the techtypes equipped
 
-        public delegate void DetailedEvent(List<TechType> techTypes);
-        public DetailedEvent DetailedActivate;
+        public delegate void DetailedVehicleEvent(Vehicle vehicle, List<TechType> techTypes);
+        public DetailedVehicleEvent DetailedActivate;
 
         public float MaxCharge = 100;
         public float MinCharge = 0;
@@ -43,6 +42,7 @@ namespace EquippableItemIcons.API
         public float charge;
         public float RechargeDelay = 0;
 
+        public Vehicle currVehicle => Player.main.currentMountedVehicle;
 
         public float MaxIconFill = 50;//hard to explain. When icon fades it goes from this value up from the center down to the next value down from the center
         //mid point of fade is always 0
@@ -51,24 +51,25 @@ namespace EquippableItemIcons.API
         public float MinIconFill = -50;
         //bottom point of fade will be this value. Generally fine to keep here, this tends to reach bottom of screen anyway
 
-
-        public KeyCode activateKey = KeyCode.None;
-
         public enum ActivationType
         {
             Toggle,
-            OnceOff,
-            Held
+            OnceOff
         }
         public ActivationType activationType = ActivationType.Toggle;
-        public bool OnKeyDown = true; //for toggle and once off, whether it is activated on key down or key up
 
         private float TimeCharge = 0;//for recharge delay
+        internal static void OnModuleUse()
+        {
 
+        }
         internal override void Update()
         {
-            //iconActive = IsIconActive != null ? IsIconActive.Invoke() : equipped;
             base.Update();
+
+            if (Player.main.currentMountedVehicle == null) return;
+
+            UpdateEquipped();
 
             if (!equipped)
             {
@@ -78,48 +79,6 @@ namespace EquippableItemIcons.API
                 }
                 return;
             }
-
-            if (activationType == ActivationType.Held)
-            {
-                if (Input.GetKey(activateKey))
-                {
-                    if (!active && (DetailedCanActivate != null ? DetailedCanActivate.Invoke(equippedTechTypes) : CanActivate != null ? CanActivate.Invoke() : CanActivateDefault()))
-                        HandleActivation();
-                }
-                else
-                {
-                    if (active)
-                        HandleDeactivation();
-                }
-            }
-            else
-            {
-                bool keyPressed = OnKeyDown? Input.GetKeyDown(activateKey) : Input.GetKeyUp(activateKey);
-
-                bool canActivate = DetailedCanActivate != null ? DetailedCanActivate.Invoke(equippedTechTypes) : CanActivate != null ? CanActivate.Invoke() : CanActivateDefault();
-
-                bool shouldPlaySound = CanActivateDefault();//sound was annoying when it was played with pda, seamoth, etc
-
-                if (keyPressed && canActivate)
-                {
-                    if (!active)
-                    {
-                        HandleActivation();
-                    }
-                    else
-                    {
-                        HandleDeactivation();
-                    }
-                }
-                else if (keyPressed)
-                {
-                    if (QMod.config.SoundsActive && playSounds && ActivateFailSound && shouldPlaySound)
-                    {
-                        Utils.PlayFMODAsset(ActivateFailSound);
-                    }
-                }
-            }
-
 
             if (activationType == ActivationType.OnceOff)
             {
@@ -144,8 +103,52 @@ namespace EquippableItemIcons.API
                 }
             }
 
-            if(AutoIconFade)
+            if (AutoIconFade)
                 UpdateFill();
+        }
+        internal override void UpdateEquipped()
+        {
+            if (!AutomaticSetup || currVehicle == null)
+            {
+                return;
+            }
+
+            equippedTechTypes.Clear();
+
+            var temp = currVehicle.modules.GetCount(techType) > 0;
+
+            if (temp) equippedTechTypes.Add(techType);
+
+            if (SecondaryTechTypes != null)
+            {
+                foreach (TechType type in SecondaryTechTypes)
+                {
+                    if (currVehicle.modules.GetCount(type) > 0)
+                    {
+                        temp = true;
+                        equippedTechTypes.Add(type);
+                    }
+                }
+            }
+
+            if (InvertIcon)
+            {
+                if (container != null && container.transform != null)
+                {
+                    container.transform.eulerAngles = new Vector3(0, 180, 180);//for some reason the angle would be off unless I set it here
+                }
+                else
+                {
+                    //I still want to know about this, but it also is run every time when the game quits so I only want to know outside of the game being quit
+                    //Logger.Log(Logger.Level.Warn, $"icon Container null: {container == null}, {(container == null ? "" : $"Transform null: {container.transform != null}, " )} If you get this message, ping Nagorrogan in the subnautica modding discord and send the log file to me");
+                }
+            }
+
+            if (IsEquipped != null)
+            {
+                temp = IsEquipped.Invoke();
+            }
+            equipped = temp;
         }
         public void UpdateFill()
         {
@@ -163,6 +166,12 @@ namespace EquippableItemIcons.API
         }
         internal virtual void HandleActivation()
         {
+            if(currVehicle == null)
+            {
+                ErrorMessage.AddMessage("Activate with null Vehicle!");
+                return;
+            }
+            ErrorMessage.AddMessage("Activated");
             if (activationType == ActivationType.OnceOff && charge < DrainRate)
             {
                 if (QMod.config.SoundsActive && playSounds && ActivateFailSound)
@@ -172,11 +181,11 @@ namespace EquippableItemIcons.API
                 return;
             }
 
-            if (DetailedActivate != null) 
-                DetailedActivate.Invoke(equippedTechTypes);
+            if (DetailedActivate != null)
+                DetailedActivate.Invoke(currVehicle, equippedTechTypes);
             else
-                Activate?.Invoke();
-            
+                Activate?.Invoke(currVehicle);
+
             if (activationType == ActivationType.OnceOff)
             {
                 charge -= DrainRate;
@@ -193,7 +202,7 @@ namespace EquippableItemIcons.API
         }
         internal virtual void HandleDeactivation()
         {
-            Deactivate?.Invoke();
+            Deactivate?.Invoke(currVehicle);
             if (activationType == ActivationType.OnceOff)
             {
                 //I'm sure I'll add stuff here later
@@ -213,7 +222,7 @@ namespace EquippableItemIcons.API
         public virtual bool CanActivateDefault()
         {
             Player player = Player.main;
-            return player != null && !player.isPiloting && player.mode == Player.Mode.Normal && !player.GetPDA().isOpen;
+            return player != null && player.isPiloting && currVehicle != null && !player.GetPDA().isOpen;
         }
-    } 
+    }
 }

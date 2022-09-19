@@ -37,11 +37,17 @@ namespace EquippableItemIcons.API
 
         public delegate bool AllowedEvent();//any event that returns a bool
         public AllowedEvent IsIconActive;//used for if there's a specific condition for when the icon should/shouldn't be active, has a default 
+        public AllowedEvent IsEquipped;//used for if there's a specific condition for when the icon should/shouldn't be considered equipped, has a default 
 
         public Atlas.Sprite backgroundSprite;
 
-        public List<TechType> SecondaryTechTypes = new List<TechType>();//for if multiple item techtypes should use the same icon
+        public Type targetQuickslotType = typeof(QuickSlots);//whether the icon should appear for the player's quickslots, vehicles quickslots, or something else.
+        //typeof(QuickSlots) is the default, which is the player's quickslots
+        //can switch to typeof(Vehicle) to have the icon appear for a vehicles quickslots
+        //may be able to specify a specific vehicle, like typeof(SeaMoth) to only appear for that specific vehicle, although that should be unnecessary as the icon will only appear if it's considered equipped
+        //should also be paired with a unique IsEquipped event to make sure the icon registers being equipped in the vehicle properly
 
+        public List<TechType> SecondaryTechTypes = new List<TechType>();//for if multiple item techtypes should use the same icon
 
         public HudItemIcon(string name, Atlas.Sprite sprite, TechType itemTechType)
         {
@@ -106,50 +112,57 @@ namespace EquippableItemIcons.API
             Logger.Log(Logger.Level.Info, $"Finished setup of {name}");
         }
 
-        internal void UpdateEquipped()
+        internal virtual void UpdateEquipped()
         {
-            if (AutomaticSetup)
+            if (!AutomaticSetup)
             {
-                equippedTechTypes.Clear();
+                return;
+            }
 
-                var temp = UtilityStuffs.Utility.EquipmentHasItem(techType, equipmentType);
+            equippedTechTypes.Clear();
 
-                if (temp) equippedTechTypes.Add(techType);
+            var temp = UtilityStuffs.Utility.EquipmentHasItem(techType, equipmentType);
 
-                if (SecondaryTechTypes != null && SecondaryTechTypes.Count > 0)
+            if (temp) equippedTechTypes.Add(techType);
+
+            if (SecondaryTechTypes != null)
+            {
+                foreach (TechType type in SecondaryTechTypes)
                 {
-                    foreach (TechType type in SecondaryTechTypes)
+                    if (UtilityStuffs.Utility.EquipmentHasItem(type, equipmentType))
                     {
-                        if (UtilityStuffs.Utility.EquipmentHasItem(type, equipmentType))
-                        {
-                            temp = true;
-                            equippedTechTypes.Add(type);
-                        }
-                    }
-                }
-
-                if (temp != equipped)
-                {
-                    if (temp && OnEquip != null) OnEquip.Invoke();
-                    else if (!temp && OnUnEquip != null) OnUnEquip.Invoke();
-                }
-                equipped = temp;
-
-                if (InvertIcon)
-                {
-                    if (container != null && container.transform != null)
-                    {
-                        container.transform.eulerAngles = new Vector3(0, 180, 180);//for some reason the angle would be off unless I set it here
-                    }
-                    else
-                    {
-                        //I still want to know about this, but it also is run every time when the game quits so I only want to know outside of the game being quit
-                        //Logger.Log(Logger.Level.Warn, $"icon Container null: {container == null}, {(container == null ? "" : $"Transform null: {container.transform != null}, " )} If you get this message, ping Nagorrogan in the subnautica modding discord and send the log file to me");
+                        temp = true;
+                        equippedTechTypes.Add(type);
                     }
                 }
             }
+
+            if (temp != equipped)
+            {
+                if (temp && OnEquip != null) OnEquip.Invoke();
+                else if (!temp && OnUnEquip != null) OnUnEquip.Invoke();
+            }
+            equipped = temp;
+
+            if (InvertIcon)
+            {
+                if (container != null && container.transform != null)
+                {
+                    container.transform.eulerAngles = new Vector3(0, 180, 180);//for some reason the angle would be off unless I set it here
+                }
+                else
+                {
+                    //I still want to know about this, but it also is run every time when the game quits so I only want to know outside of the game being quit
+                    //Logger.Log(Logger.Level.Warn, $"icon Container null: {container == null}, {(container == null ? "" : $"Transform null: {container.transform != null}, " )} If you get this message, ping Nagorrogan in the subnautica modding discord and send the log file to me");
+                }
+            }
+
+            if (IsEquipped != null)
+            {
+                equipped = IsEquipped.Invoke();
+            }
         }
-        internal /*virtual*/ void Update()
+        internal virtual void Update()
         {
             iconActive = IsIconActive != null ? IsIconActive.Invoke() : equipped;
         }

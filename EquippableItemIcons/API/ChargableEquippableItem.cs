@@ -53,9 +53,10 @@ namespace EquippableItemIcons.API
 
         public KeyCode activateKey = KeyCode.None;
 
-        internal /*override*/new void Update()
+        internal override void Update()
         {
-            iconActive = IsIconActive != null ? IsIconActive.Invoke() : equipped;
+            //iconActive = IsIconActive != null ? IsIconActive.Invoke() : equipped;
+            base.Update();
 
             if (!equipped || !AutomaticSetup)
                 return;

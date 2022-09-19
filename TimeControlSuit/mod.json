@@ -1,0 +1,16 @@
+﻿{
+  "Id": "TimeControlSuit",
+  "DisplayName": "Time Control Suit",
+  "Author": "Nagorrogan",
+  "Version": "0.0.1",
+  "Enable": true,
+  "AssemblyName": "TimeControlSuit.dll",
+  "VersionDependencies": {
+    "SMLHelper": "2.9.6",
+    "EquippableItemIcons": "1.2.2"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/TimeControlSuit/mod.json"
+  },
+  "Game": "Subnautica"
+}

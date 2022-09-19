@@ -79,6 +79,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Patches\GroundMotorPatches.cs" />
     <Compile Include="Patches\PlayerPatch.cs" />
     <Compile Include="Patches\UnderWaterMotorPatches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

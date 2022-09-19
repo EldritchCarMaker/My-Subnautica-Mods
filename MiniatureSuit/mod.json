@@ -1,0 +1,16 @@
+﻿{
+  "Id": "MiniSuit",
+  "DisplayName": "Mini Suit",
+  "Author": "Nagorrogan",
+  "Version": "0.0.1",
+  "Enable": true,
+  "AssemblyName": "MiniatureSuit.dll",
+  "VersionDependencies": {
+    "SMLHelper": "2.9.6",
+    "EquippableItemIcons": "1.2.2"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/Miniature/mod.json"
+  },
+  "Game": "Subnautica"
+}

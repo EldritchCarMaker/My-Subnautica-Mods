@@ -69,10 +69,12 @@
   <ItemGroup>
     <Compile Include="Patches\ItemSizePatch.cs" />
     <Compile Include="Patches\PickupablePatches.cs" />
+    <Compile Include="Patches\SubRootPatches.cs" />
     <Compile Include="PickupableVehicleModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QMod.cs" />
     <Compile Include="Patches\VehiclePatches.cs" />
+    <Compile Include="ShiftPickuppableMono.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="mod.json" />

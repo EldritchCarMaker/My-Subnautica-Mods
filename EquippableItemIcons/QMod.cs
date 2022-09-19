@@ -31,5 +31,6 @@ namespace EquippableItemIcons
     {
         [Toggle("Sounds", Tooltip = "Toggles whether sounds are played through this mod. Be aware, other mods may still play sounds on their on accord, this can not change those")]
         public bool SoundsActive = true;
+        public float iconSizeScale = 1;
     }
 }
