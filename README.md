@@ -191,7 +191,7 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 Allows you to pick up vehicles. Has a config for whether it needs a special module to be equipped or if it's just an innate ability. Can change the inventory size of them. Warning: Picking up/dropping the prawn is quite buggy and thus is not allowed by default. You can enable this, but its not recommended for now. Just stick with the seamoth. With new update, also allows for picking up and dropping of the cyclops itself! May cause lighting issues, or misc issues so isn't recommended for constant use, more as a "oh no cyclops stuck" fix.
 
 Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
-###### No Changelog yet
+###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/PickupableVehicles/Changelog.md)
 
 ### [Edible Everything](https://github.com/Nagorogan/My-Subnautica-Mods/files/9641187/EdibleEverything.zip)
 
