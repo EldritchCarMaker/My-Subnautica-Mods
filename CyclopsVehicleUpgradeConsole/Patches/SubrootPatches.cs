@@ -26,7 +26,7 @@ namespace CyclopsVehicleUpgradeConsole.Patches
 
             if (cyclopsConsole == null)
             {
-                Logger.Log(Logger.Level.Info, "cyclops console null, returning. Unsure of what issues this could cause.", null, true);
+                Logger.Log(Logger.Level.Warn, "cyclops console null, returning. Unsure of what issues this could cause.", null, true);
                 return;
             }
 
