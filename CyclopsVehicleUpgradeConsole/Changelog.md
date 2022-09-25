@@ -8,3 +8,5 @@
           1; Vehicle creation buttons now show descriptions and resources required, just like they would in the mobile vehicle bay
           2; Vehicle creation now supports easy craft, allowing you to easily create new vehicles without needing the resources directly in your inventory
           3; Now has a button on the left side for deconstructing any docked vehicles, returning your resources to you
+
+**1.1.1:** Simply added a config for whether the vehicle creation buttons are hidden until their vehicle is unlocked or not
