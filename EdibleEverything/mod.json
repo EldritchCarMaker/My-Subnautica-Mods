@@ -1,0 +1,15 @@
+﻿{
+  "Id": "EdibleEverything",
+  "DisplayName": "Edible Everything",
+  "Author": "Nagorrogan",
+  "Version": "1.0.1",
+  "Enable": true,
+  "AssemblyName": "EdibleEverything.dll",
+  "VersionDependencies": {
+    "SMLHelper": "2.9.6"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/EdibleEverything/mod.json"
+  },
+  "Game": "Subnautica"
+}

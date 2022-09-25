@@ -73,6 +73,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECMModLogger", "ECMModLogge
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniatureVehicles", "MiniatureVehicles\MiniatureVehicles.csproj", "{538BBEE5-D983-4F38-A6E8-97589D43EC9F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeablitzTest", "SeablitzTest\SeablitzTest.csproj", "{9D060C6A-DF93-4F0D-8648-395C72B8DF71}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CyclopsAntennaFix", "CyclopsAntennaFix\CyclopsAntennaFix.csproj", "{C483F1D0-F5A2-4DD6-ADE2-EB93B128A442}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarpVehicleModule", "WarpVehicleModule\WarpVehicleModule.csproj", "{B1E440E8-BBFF-48F9-8E76-7AE35AE3807A}"
