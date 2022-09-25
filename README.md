@@ -171,7 +171,7 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), Camera
 ###### [To Do List](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/CameraDroneStealthUpgrade/ToDoList.md)
 
 
-### [Cyclops Vehicle Upgrade Console](https://github.com/Nagorogan/My-Subnautica-Mods/files/9175085/CyclopsVehicleUpgradeConsole.zip)
+### [Cyclops Vehicle Upgrade Console](https://github.com/Nagorogan/My-Subnautica-Mods/files/9641307/CyclopsVehicleUpgradeConsole.zip)
 
 
 
