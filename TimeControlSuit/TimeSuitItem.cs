@@ -47,9 +47,8 @@ namespace TimeControlSuit
                 craftAmount = 1,
                 Ingredients = new List<Ingredient>(new Ingredient[]
                     {
-                        new Ingredient(TechType.AdvancedWiringKit, 1),
+                        new Ingredient(TechType.StasisRifle, 1),
                         new Ingredient(TechType.FiberMesh, 2),
-                        new Ingredient(TechType.Polyaniline, 1),
                         new Ingredient(TechType.PrecursorIonPowerCell, 1)
                     }
                 )

@@ -35,6 +35,7 @@ namespace StasisSuit
             hudItemIcon.CanActivate += canActivate;
             hudItemIcon.DeactivateSound = null;
             hudItemIcon.MaxIconFill = 60;
+            hudItemIcon.ChargeRate = 5;
 
             Registries.RegisterHudItemIcon(hudItemIcon);
 
@@ -47,11 +48,11 @@ namespace StasisSuit
         }
         public void Deactivate()
         {
-            player.transform.localScale = Vector3.one;
+            player.UnfreezeStats();
         }
         public void Activate()
         {
-            player.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            player.FreezeStats();
         }
     }
 }

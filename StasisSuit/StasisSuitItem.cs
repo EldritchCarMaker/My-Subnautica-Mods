@@ -28,7 +28,7 @@ namespace StasisSuit
 
         public override EquipmentType EquipmentType => EquipmentType.Body;
         public override Vector2int SizeInInventory => new Vector2int(2, 2);
-        public override TechType RequiredForUnlock => TechType.PrecursorIonCrystalMatrix;
+        public override TechType RequiredForUnlock => TechType.StasisRifle;
         public override TechGroup GroupForPDA => TechGroup.Personal;
         public override TechCategory CategoryForPDA => TechCategory.Equipment;
         public override CraftTree.Type FabricatorType => CraftTree.Type.Fabricator;
@@ -48,9 +48,8 @@ namespace StasisSuit
                 Ingredients = new List<Ingredient>(new Ingredient[]
                     {
                         new Ingredient(TechType.AdvancedWiringKit, 1),
-                        new Ingredient(TechType.FiberMesh, 2),
-                        new Ingredient(TechType.Polyaniline, 1),
-                        new Ingredient(TechType.PrecursorIonPowerCell, 1)
+                        new Ingredient(TechType.Magnetite, 2),
+                        new Ingredient(TechType.FiberMesh, 2)
                     }
                 )
             };

@@ -49,8 +49,7 @@ namespace MiniatureSuit
                     {
                         new Ingredient(TechType.AdvancedWiringKit, 1),
                         new Ingredient(TechType.FiberMesh, 2),
-                        new Ingredient(TechType.Polyaniline, 1),
-                        new Ingredient(TechType.PrecursorIonPowerCell, 1)
+                        new Ingredient(TechType.PrecursorIonCrystalMatrix, 1)
                     }
                 )
             };
