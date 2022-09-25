@@ -1,16 +1,16 @@
 ﻿{
-  "Id": "MiniSuit",
-  "DisplayName": "Mini Suit",
+  "Id": "StasisSuit",
+  "DisplayName": "Stasis Suit",
   "Author": "Nagorrogan",
   "Version": "0.0.1",
   "Enable": true,
-  "AssemblyName": "MiniatureSuit.dll",
+  "AssemblyName": "StasisSuit.dll",
   "VersionDependencies": {
     "SMLHelper": "2.9.6",
     "EquippableItemIcons": "1.2.2"
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/MiniatureSuit/mod.json"
+    "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/StasisSuit/mod.json"
   },
   "Game": "Subnautica"
 }

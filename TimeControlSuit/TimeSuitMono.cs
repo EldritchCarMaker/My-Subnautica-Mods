@@ -40,7 +40,7 @@ namespace TimeControlSuit
 
             hudItemIcon.MaxCharge = 10;
             hudItemIcon.ChargeRate = 1;
-            hudItemIcon.DrainRate = 2;
+            hudItemIcon.DrainRate = QMod.config.drainRate;
 
             Registries.RegisterHudItemIcon(hudItemIcon);
 

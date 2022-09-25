@@ -8,7 +8,7 @@ using SMLHelper.V2.Options.Attributes;
 using SMLHelper.V2.Handlers;
 using System.IO;
 
-namespace TimeControlSuit
+namespace StasisSuit
 {
     [QModCore]
     public static class QMod
@@ -23,16 +23,15 @@ namespace TimeControlSuit
             Harmony harmony = new Harmony(name);
             harmony.PatchAll(assembly);
 
-            new TimeSuitItem().Patch();
+            new StasisSuitItem().Patch();
 
             Logger.Log(Logger.Level.Info, "Patched successfully!");
         }
     }
-    [Menu("Time Control Suit")]
+    [Menu("Stasis Suit")]
     public class Config : ConfigFile
     {
-        [Keybind("Shield Suit Key", Tooltip = "Press this key while you have a Time Suit equipped to activate it")]
-        public KeyCode TimeSuitKey = KeyCode.F;
-        public float drainRate = 2;
+        [Keybind("Stasis Suit Key", Tooltip = "Press this key while you have a Stasis Suit equipped to use it")]
+        public KeyCode StasisSuitKey = KeyCode.F;
     }
 }
