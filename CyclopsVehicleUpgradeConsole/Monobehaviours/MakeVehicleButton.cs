@@ -22,13 +22,14 @@ namespace CyclopsVehicleUpgradeConsole.Monobehaviours
 
         public TechType vehicleType = TechType.Seamoth;
         public bool colorScreenActive = false;
+        private uGUI_ItemIcon _ItemIcon;
 
         public uGUI_ItemIcon itemIcon { 
             get { 
-                if (itemIcon == null) itemIcon = GetComponent<uGUI_ItemIcon>();
-                return itemIcon;
+                if (_ItemIcon == null) _ItemIcon = GetComponent<uGUI_ItemIcon>();
+                return _ItemIcon;
             } 
-            private set { itemIcon = value; } 
+            private set { _ItemIcon = value; } 
         }
         public void MakeVehicle()
         {
@@ -57,8 +58,9 @@ namespace CyclopsVehicleUpgradeConsole.Monobehaviours
 
             if (QModManager.API.QModServices.Main.ModPresent("EasyCraft"))
             {
-                EasyCraftMethods();
-                return;
+                if(EasyCraftMethods())
+                    return;
+                //if there's some problem when getting/using the easy craft methods, want to just continue with the manual way to do it.
             }
 
 
@@ -70,14 +72,14 @@ namespace CyclopsVehicleUpgradeConsole.Monobehaviours
             CoroutineHost.StartCoroutine(OnCraftingBegin(this.vehicleType, 5f));
         }
 
-        public void EasyCraftMethods()
+        public bool EasyCraftMethods()
         {
             MethodInfo isCraftFulfilled = Helpers.FindMethod(easyCraftAssemblyName, easyCraftMainClass, easyCraftRecipeFulfilledMethodName);
 
             if(isCraftFulfilled == null)
             {
                 Logger.Log(Logger.Level.Error, $"Easy craft installed but can't find method! Missing method: {easyCraftRecipeFulfilledMethodName}");
-                return;
+                return false;
             }
 
             Dictionary<TechType, int> consumable = new Dictionary<TechType, int>();
@@ -87,18 +89,19 @@ namespace CyclopsVehicleUpgradeConsole.Monobehaviours
             {
                 FMODUWE.PlayOneShot(uGUI.main.craftingMenu.soundDeny, MainCamera.camera.transform.position, 1f);
                 ErrorMessage.AddMessage("You don't have the required materials!");
-                return;
+                return false;
             }
 
             MethodInfo consumeResources = Helpers.FindMethod(easyCraftAssemblyName, easyCraftMainClass, easyCraftConsumeMethodName);
             if(consumeResources == null)
             {
                 Logger.Log(Logger.Level.Error, $"Easy craft installed but can't find method! Missing method: {easyCraftConsumeMethodName}");
-                return;
+                return false;
             }
 
             consumeResources.Invoke(null, new object[] { consumable });
             CoroutineHost.StartCoroutine(OnCraftingBegin(this.vehicleType, 5f));
+            return true;
         }
 
         public IEnumerator OnCraftingBegin(TechType techType, float duration)
@@ -133,23 +136,18 @@ namespace CyclopsVehicleUpgradeConsole.Monobehaviours
             VehicleDockingBay vehicleDockingBay = subRoot.GetComponentInChildren<VehicleDockingBay>();
             vehicleDockingBay.DockVehicle(gameObject.GetComponent<Vehicle>());
         }
-        public void Awake()
+        public void UpdateButtonActive(HashSet<TechType> techList)
         {
-
-            //gameObject.transform.GetChild(0).GetComponent<Image>().sprite = GetSprite(this.vehicleType);
+            gameObject.SetActive(!QMod.config.hideUnknown || KnownTech.Contains(vehicleType));
         }
-        private static UnityEngine.Sprite GetSprite(TechType item)
+        public void Start()
         {
-            // Gets the atlas (group of sprites) for item icons
-            Atlas itemAtlas = Atlas.GetAtlas("Items");
-            if (itemAtlas != null)
+            if(QMod.config.hideUnknown)
             {
-                // finds the serial data corresponding to the item and returns the sprite of it if successful.
-                var itemData = itemAtlas.serialData.Find(x => x.name == item.AsString(true));
-                if (itemData != null) return itemData.sprite;
+                KnownTech.onChanged += UpdateButtonActive;
+                UpdateButtonActive(null);
             }
-
-            return null;
+            itemIcon.SetBackgroundSprite(uGUI_CraftNode.backgroundNormal);
         }
     }
 }
