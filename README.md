@@ -185,13 +185,20 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/CyclopsVehicleUpgradeConsole/Changelog.md)
 
 
-### [Pickupable Vehicles](https://github.com/Nagorogan/My-Subnautica-Mods/files/8841545/PickupableVehicles.zip)
+### [Pickupable Vehicles](https://github.com/Nagorogan/My-Subnautica-Mods/files/9641184/PickupableVehicles.zip)
 
 
-Allows you to pick up vehicles. Has a config for whether it needs a special module to be equipped or if it's just an innate ability. Can change the inventory size of them. Warning: Picking up/dropping the prawn is quite buggy and thus is not allowed by default. You can enable this, but its not recommended for now. Just stick with the seamoth.
+Allows you to pick up vehicles. Has a config for whether it needs a special module to be equipped or if it's just an innate ability. Can change the inventory size of them. Warning: Picking up/dropping the prawn is quite buggy and thus is not allowed by default. You can enable this, but its not recommended for now. Just stick with the seamoth. With new update, also allows for picking up and dropping of the cyclops itself! May cause lighting issues, or misc issues so isn't recommended for constant use, more as a "oh no cyclops stuck" fix.
 
 Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ###### No Changelog yet
+
+### [Edible Everything](https://github.com/Nagorogan/My-Subnautica-Mods/files/9641187/EdibleEverything.zip)
+
+joke mod made by request of a friend, turns every pickuppable item into food. May not work fully with every single item consistently, but does work well enough for the vast majority of things.
+
+Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
+###### No Changelog.
 
 
 ### [Miniature Vehicles](https://github.com/Nagorogan/My-Subnautica-Mods/files/9541109/MiniatureVehicles.zip)
