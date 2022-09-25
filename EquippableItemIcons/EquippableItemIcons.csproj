@@ -76,13 +76,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\ActivatedEquippableItem.cs" />
-    <Compile Include="API\ActivatedVehicleItem.cs" />
     <Compile Include="API\ChargableEquippableItem.cs" />
     <Compile Include="API\HudItemIcon.cs" />
     <Compile Include="API\Registries.cs" />
     <Compile Include="HudItemIconManager.cs" />
     <Compile Include="Patches\PlayerPatches.cs" />
-    <Compile Include="Patches\VehiclePatches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QMod.cs" />
     <Compile Include="Utility.cs" />
