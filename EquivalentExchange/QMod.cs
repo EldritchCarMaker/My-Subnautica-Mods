@@ -45,20 +45,20 @@ namespace EquivalentExchange
             if (tt == TechType.None)
                 return false;
 
-            foreach(string str in config.AutoFilterStrings)
-            {
-                if (tt.ToString().ToLower().Contains(str.ToLower()))
-                    return false;
-            }
+            if (tt == TechType.TimeCapsule)//don't want people to be able to mass spawn time capsules, might have an issue with the time capsule server like before
+                return false;
 
             if (config.BlackListedTypes.Contains(tt))
                 return false;
 
-            if (tt == TechType.TimeCapsule)//don't want people to be able to mass spawn time capsules, might have an issue with the time capsule server like before
-                return false;
-
             if (SaveData.learntTechTypes.Contains(tt))
                 return false;
+
+            foreach (string str in config.AutoFilterStrings)
+            {
+                if (tt.ToString().ToLower().Contains(str.ToLower()))
+                    return false;
+            }
 
             SaveData.learntTechTypes.Add(tt);
             return true;
