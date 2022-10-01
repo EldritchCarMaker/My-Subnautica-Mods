@@ -81,6 +81,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeControlSuit", "TimeCont
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StasisSuit", "StasisSuit\StasisSuit.csproj", "{A884359E-D474-4512-A69B-002CAB1B68FE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoFCSDronePort", "NoFCSDronePort\NoFCSDronePort.csproj", "{29D4B25F-7967-4B06-AD2C-7F4A7F9678FE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -243,6 +245,10 @@ Global
 		{A884359E-D474-4512-A69B-002CAB1B68FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A884359E-D474-4512-A69B-002CAB1B68FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A884359E-D474-4512-A69B-002CAB1B68FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29D4B25F-7967-4B06-AD2C-7F4A7F9678FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29D4B25F-7967-4B06-AD2C-7F4A7F9678FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29D4B25F-7967-4B06-AD2C-7F4A7F9678FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29D4B25F-7967-4B06-AD2C-7F4A7F9678FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
