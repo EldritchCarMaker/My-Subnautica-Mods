@@ -12,11 +12,10 @@ namespace ECMModLogger
     {
         public static Dictionary<string, string> modListIDToFriendly = new Dictionary<string, string>
         {
-            { "AdaptiveTeleportingCosts", "Adaptive Teleporting Costs" },
             { "BetterCyclopsLockers", "Better Cyclops Lockers"},
             { "BurstFins", "Burst Fins"},
-            {"CameraDroneDefenseUpgrade", "Camera Drone Defense Upgrade"},
-            {"CameraDroneFlightUpgrade", "Camera Drone Flight Upgrade"},
+            { "CameraDroneDefenseUpgrade", "Camera Drone Defense Upgrade"},
+            { "CameraDroneFlightUpgrade", "Camera Drone Flight Upgrade"},
             { "CameraDroneRepairUpgrade", "Camera Drone Repair Upgrade"},
             { "CameraDroneShieldUpgrade", "Camera Drone Shield Upgrade"},
             { "CameraDroneSpeedUpgrade", "Camera Drone Speed Upgrade"},
@@ -24,7 +23,6 @@ namespace ECMModLogger
             { "CameraDroneStealthUpgrade", "Camera Drone Stealth Upgrade"},
             { "CameraDroneUpgrades", "Camera Drone Upgrades"},
             { "CyclopsTorpedoes", "Cyclops Torpedoes"},
-            { "CyclopsVehicleUpgradeConsole", "Cyclops Vehicle Upgrade Console"},
             { "CyclopsWindows", "Cyclops Windows"},
             { "DroopingStingersNerf", "Drooping Stingers Nerf"},
             { "EquippableItemIcons", "Equippable Item Icons"},
@@ -33,7 +31,6 @@ namespace ECMModLogger
             { "PickupableVehicles", "Pickupable Vehicles"},
             { "PlayerToolChanges_SN", "Player Tool Changes SN"},
             { "RechargerChips", "Recharger Chips"},
-            { "RemoteControlVehicles", "Remote Control Vehicles"},
             { "SeedsFromHarvesting", "Seeds From Harvesting"},
             { "ShieldSuit", "Shield Suit"},
             { "SonarChip", "Sonar Chip"},
@@ -44,11 +41,23 @@ namespace ECMModLogger
             { "cyclopsVehiclebayHUDIcon", "cyclops Vehicle bay HUD Icon" },
             { "CyclopsHR", "Cyclops Hull Reinforcement" },
             { "moreEngineEfficiencyModules", "More Engine Efficiency Modules" },
+            { "CyclopsAntennaFix", "Cyclops Antenna Fix" },
+            { "CyclopsTorpedoes", "Cyclops Torpedoes" },
+            { "EdibleEverything", "Edible Everything" },
+            { "MiniatureSuit", "Miniature Suit" },
+            { "MiniatureVehicles", "Miniature Vehicles" },
+            { "NoFCSDronePort", "No FCS Drone Port" },
+            { "StasisSuit", "Stasis Suit" },
+            { "TimeControlSuit", "Time Control Suit" },
 
         };
         public static Dictionary<string, string> specialModsList = new Dictionary<string, string>
         {
-            { "CyclopsCameraDroneMod", "Seriously, install Cyclops Camera Drones. They got lasers and tractor beams and shit." },
+            { "CyclopsCameraDroneMod", "Seriously, install Cyclops Camera Drones. They got lasers and tractor beams and shit" },
+            { "CyclopsVehicleUpgradeConsole", "This is probably my favorite mod, go get it."},
+            { "ECMModLogger", "Wait what" },
+            { "AdaptiveTeleportingCosts", "Honestly you aren't missing much, really need to rewrite the mod" },
+            { "RemoteControlVehicles", "It's a cool concept but it is quite buggy unfortunately. Still, I like it"},
         };
         [HarmonyPatch(nameof(MainMenuRightSide.Start))]
         public static void Postfix()
