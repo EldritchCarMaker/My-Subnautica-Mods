@@ -247,10 +247,10 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/SeedsFromHarvesting/Changelog.md)
 
 
-### [ECM Mod Logger](https://github.com/Nagorogan/My-Subnautica-Mods/files/9419954/ECMModLogger.zip)
+### [ECM Mod Logger](https://github.com/Nagorogan/My-Subnautica-Mods/files/9690562/ECMModLogger.zip)
 
 
-Keeps track of your most valuable mods, and alerts you to potential problems and flaws in your mod list!
+Keeps track of your most valuable mods, and alerts you to potential problems and flaws in your mod list! Keep your eyes open when starting the game.
 
 
 No Dependencies
