@@ -19,15 +19,32 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), [More 
 ###### No Changelog Yet
 
 
-### [Remote Control Vehicles](https://github.com/Nagorogan/My-Subnautica-Mods/files/9166554/RemoteControlVehicles.zip)
+### [Cyclops Vehicle Upgrade Console](https://github.com/Nagorogan/My-Subnautica-Mods/files/9641307/CyclopsVehicleUpgradeConsole.zip)
 
 
-Adds three new items to the game; a remote control, a common vehicle module(usuable for seamoth and prawn), and a cyclops module. Both modules allow you to remotely control the vehicle it's equipped in but you do need to use the remote control to control them. Only one remote controllable vehicle is allowed of each type. ie; Only one cyclops can be equipped with the module, and only one prawn/seamoth can be equipped with the module. 
+Improves the vehicle management terminal inside the cyclops (the terminal above the docking bay) to also function as a vehicle upgrade console. Meaning you can change the color and name of your vehicle. More importantly, allows you to fabricate a new seamoth/prawn suit directly inside the cyclops' empty docking bay. Supports easy craft's pulling of resources from other containers. Also adds in a button on the left of the terminal to allow you to deconstruct any vehicle currently docked in the cyclops, giving your resources back.
+![image](https://user-images.githubusercontent.com/97289845/180631717-a8fe5e74-df81-4ea1-b855-070497a76f98.png)
+![image](https://user-images.githubusercontent.com/97289845/180631735-876381ca-79b8-4775-96d3-ac04670e7da7.png)
+![image](https://user-images.githubusercontent.com/97289845/180631757-a43c7c33-76dc-4077-855c-cbba4f261c72.png)
 
-Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), [More Cyclops Upgrades](https://github.com/PrimeSonic/PrimeSonicSubnauticaMods/releases/tag/Aug5_2021)
+Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
+###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/CyclopsVehicleUpgradeConsole/Changelog.md)
 
-###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/RemoteControlVehicles/Changelog.md)
-###### [To Do List](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/RemoteControlVehicles/ToDoList.md)
+
+### [Equivalent Exchange](https://github.com/Nagorogan/My-Subnautica-Mods/files/9689313/EquivalentExchange.zip)
+
+
+A very cool mod allowing for transmutation of items into other items. After Picking up an ion cube, you can build the Item Research Station (mod still kinda beta, no real model yet. Temp one for now. Still looks nice tho) which will allow you to deposit items in in order to unlock them for exchange, and gain EMC from them. You can then open the Exchange Menu by pressing the two menu keys at the same time (temporary until I get a model in place) and then admire the beauty of it. Once you're done admiring, you can choose an item from one of the five tabs and, assuming you have the EMC required, spawn that item directly in your inventory. You can also hold shift while selecting an item to create five of those items, at five times the cost. In case you want a *lot* of copper.
+
+The EMC cost for items is calculated based off of their recipes, with unknown items that don't have a recipe havin a default value of 100. This also allows the mod to work almost perfectly with modded items, with the only exceptions being modded items that may not have a recipe attached to them. I have tried to make this mod as balanced as I could, but if you aren't a fan of it, there are many configs in it to change things. You can set an inefficiency multiplier for making items cost slightly more than you get from them. You can change the costs of specific resources, or even fully crafted items if you desire by simply adding an entry into the BaseMaterialCosts config. You can also blacklist certain items from getting unlocked, or blacklist all items with a specific string in their name. This isn't super useful for casual play, but becomes incredibly good for combining with the `ExchangeUnlockAll` command to unlock all items in the exchange menu, and the `nocost` cheat to effectively turn it into a creative menu.
+
+Whats more is this mod also pairs with the FCS mods if you have those installed (no worries if you don't, mod still works), and allows you to convert EMC to alterra credits and back. I tried to make the conversion alright, but admittedly it's not the best conversion, so there's a config for EMC => FCS credit conversion rate if you don't feel like the default rate is fair!
+
+Look how nice the exchange menu is. I'm proud of this thing.
+![image](https://user-images.githubusercontent.com/97289845/193378643-3c588a87-7dfd-4d9a-87b7-3d07acc86dfd.png)
+
+Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
+###### No Changelog Yet
 
 
 ### [Equippable Item Icons](https://github.com/Nagorogan/My-Subnautica-Mods/files/8865337/EquippableItemIcons.zip)
@@ -194,20 +211,6 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), Camera
 ###### [To Do List](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/CameraDroneStealthUpgrade/ToDoList.md)
 
 
-### [Cyclops Vehicle Upgrade Console](https://github.com/Nagorogan/My-Subnautica-Mods/files/9641307/CyclopsVehicleUpgradeConsole.zip)
-
-
-
-
-Improves the vehicle management terminal inside the cyclops (the terminal above the docking bay) to also function as a vehicle upgrade console. Meaning you can change the color and name of your vehicle. More importantly, allows you to fabricate a new seamoth/prawn suit directly inside the cyclops' empty docking bay. Supports easy craft's pulling of resources from other containers. Also adds in a button on the left of the terminal to allow you to deconstruct any vehicle currently docked in the cyclops, giving your resources back.
-![image](https://user-images.githubusercontent.com/97289845/180631717-a8fe5e74-df81-4ea1-b855-070497a76f98.png)
-![image](https://user-images.githubusercontent.com/97289845/180631735-876381ca-79b8-4775-96d3-ac04670e7da7.png)
-![image](https://user-images.githubusercontent.com/97289845/180631757-a43c7c33-76dc-4077-855c-cbba4f261c72.png)
-
-Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
-###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/CyclopsVehicleUpgradeConsole/Changelog.md)
-
-
 ### [Pickupable Vehicles](https://github.com/Nagorogan/My-Subnautica-Mods/files/9641184/PickupableVehicles.zip)
 
 
@@ -307,6 +310,18 @@ Makes vehicles invincible when they're docked. More of a bandaid fix for a few b
 
 ###### No Dependencies
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/InvincibleDockedVehicles/Changelog.md)
+
+
+### [Remote Control Vehicles](https://github.com/Nagorogan/My-Subnautica-Mods/files/9166554/RemoteControlVehicles.zip)
+
+
+Adds three new items to the game; a remote control, a common vehicle module(usuable for seamoth and prawn), and a cyclops module. Both modules allow you to remotely control the vehicle it's equipped in but you do need to use the remote control to control them. Only one remote controllable vehicle is allowed of each type. ie; Only one cyclops can be equipped with the module, and only one prawn/seamoth can be equipped with the module. 
+
+Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), [More Cyclops Upgrades](https://github.com/PrimeSonic/PrimeSonicSubnauticaMods/releases/tag/Aug5_2021)
+
+###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/RemoteControlVehicles/Changelog.md)
+###### [To Do List](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/RemoteControlVehicles/ToDoList.md)
+
 
 ### [Drooping Stingers Nerf](https://github.com/Nagorogan/My-Subnautica-Mods/files/8227628/DroopingStingersNerf.zip):
 
