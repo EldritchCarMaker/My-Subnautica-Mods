@@ -2,7 +2,7 @@
   "Id": "TimeControlSuit",
   "DisplayName": "Time Control Suit",
   "Author": "Nagorrogan",
-  "Version": "0.0.1",
+  "Version": "1.0.0",
   "Enable": true,
   "AssemblyName": "TimeControlSuit.dll",
   "VersionDependencies": {

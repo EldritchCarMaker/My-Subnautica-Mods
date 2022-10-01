@@ -140,7 +140,26 @@ namespace EquivalentExchange.Monobehaviours
 		{
 			Language.main.OnLanguageChanged += OnLanguageChanged;
 			OnLanguageChanged();
-		}
+			if(!QModManager.API.QModServices.Main.ModPresent("FCSAlterraHub"))
+			{
+				return;
+			}
+
+            QMod.TryUnlockTechType(QMod.FCSConvertType);
+            QMod.TryUnlockTechType(QMod.FCSConvertBackType);
+
+			var FCSScreen = ExternalModCompat.SetFCSConvertIcons();
+			if(FCSScreen == null || !(FCSScreen is GameObject gameObject))
+			{
+				return;
+			}
+            var iconTransform = gameObject.transform.Find("Information/ToggleHud/AccountBalanceIcon");
+            if (iconTransform == null) return;
+			QMod.FCSCreditIconSprite = iconTransform.GetComponent<Image>().sprite;
+
+			SMLHelper.V2.Handler.SpriteHandler.RegisterSprite(QMod.FCSConvertType, QMod.FCSCreditIconSprite);
+            SMLHelper.V2.Handler.SpriteHandler.RegisterSprite(QMod.FCSConvertBackType, QMod.FCSCreditIconSprite);
+        }
 
 		// Token: 0x06003454 RID: 13396 RVA: 0x001201B3 File Offset: 0x0011E3B3
 		public bool GetIsLeftMouseBoundToRightHand()
@@ -289,9 +308,12 @@ namespace EquivalentExchange.Monobehaviours
 			TooltipFactory.WriteTitle(stringBuilder, Language.main.Get(key) + (GameInput.GetButtonHeld(GameInput.Button.Sprint) ? " (5)" : ""));
 			TooltipFactory.WriteDescription(stringBuilder, Language.main.Get(TooltipFactory.techTypeTooltipStrings.Get(techType)));
 
-			WriteCost(techType, stringBuilder, GameInput.GetButtonHeld(GameInput.Button.Sprint));
+			if (techType != QMod.FCSConvertBackType)
+				WriteCost(techType, stringBuilder, GameInput.GetButtonHeld(GameInput.Button.Sprint));
+			else
+				WriteFCSCost(techType, stringBuilder, GameInput.GetButtonHeld(GameInput.Button.Sprint));
 
-			tooltipText = stringBuilder.ToString();
+            tooltipText = stringBuilder.ToString();
 		}
 		public void WriteCost(TechType techType, StringBuilder stringBuilder, bool isShiftDown = false)
         {
@@ -326,7 +348,41 @@ namespace EquivalentExchange.Monobehaviours
 			}
 			stringBuilder.Append("</color>");
 		}
-		public float GetCost(TechType techType, int depth = 0, bool useCreative = true)
+		public void WriteFCSCost(TechType techType, StringBuilder stringBuilder, bool isShiftDown = false)
+		{
+            stringBuilder.Append(Environment.NewLine);
+
+			float current = (float)ExternalModCompat.GetFCSCredit();
+            float amount = isShiftDown ? QMod.EMCConvertPerClick * QMod.EMCToFCSCreditRate * 5 : QMod.EMCConvertPerClick * QMod.EMCToFCSCreditRate;
+			bool flag = !GameModeUtils.RequiresIngredients() || current >= amount;
+
+            if (flag)
+            {
+                stringBuilder.Append("<color=#94DE00FF>");
+            }
+            else
+            {
+                stringBuilder.Append("<color=#DF4026FF>");
+            }
+
+            stringBuilder.Append("Credit:");
+
+            if (amount > 1)
+            {
+                stringBuilder.Append(" x");
+                stringBuilder.Append(amount);
+            }
+            if (/*current > 0 && current < amount*/
+                true)
+            {
+                stringBuilder.Append(" (");
+                stringBuilder.Append(current);
+                stringBuilder.Append(")");
+            }
+            stringBuilder.Append("</color>");
+        }
+
+        public float GetCost(TechType techType, int depth = 0, bool useCreative = true, bool useEfficiency = true)
         {
 			if (useCreative && !GameModeUtils.RequiresIngredients())
 				return 0;
@@ -336,6 +392,9 @@ namespace EquivalentExchange.Monobehaviours
 
 			if (QMod.config.OrganicMaterialsCosts.TryGetValue(techType, out var organicCosts))
 				return organicCosts;
+
+			if (techType == QMod.FCSConvertType)
+				return QMod.EMCConvertPerClick;
 
 			if (depth > 10) return 5;
 
@@ -355,11 +414,11 @@ namespace EquivalentExchange.Monobehaviours
 				if (ingredient != null)
 				{
 					for (var j = 0; j < ingredient.amount; j++)
-						totalCost += GetCost(ingredient.techType, depth+1); 
+						totalCost += GetCost(ingredient.techType, depth+1, useCreative, useEfficiency); 
 
 				}
 			}
-            return totalCost * QMod.config.inefficiencyMultiplier;
+            return useEfficiency ? totalCost * QMod.config.inefficiencyMultiplier : totalCost;
         }
 
 		// Token: 0x06003465 RID: 13413 RVA: 0x00002319 File Offset: 0x00000519
@@ -384,25 +443,40 @@ namespace EquivalentExchange.Monobehaviours
 			{
 				return;
 			}
-			float cost = GameInput.GetButtonHeld(GameInput.Button.Sprint) ? GetCost(techType) * 5 : GetCost(techType);
+            if (techType == QMod.FCSConvertBackType)
+            {
+                ExchangeCreditForEMC(id);
+                return;
+            }
+            bool sprintDown = GameInput.GetButtonHeld(GameInput.Button.Sprint);
+            float cost = sprintDown ? GetCost(techType) * 5 : GetCost(techType);
+
 			if(QMod.SaveData.EMCAvailable >= cost)
-			{
-				int itemsToSpawn = (GameInput.GetButtonHeld(GameInput.Button.Sprint) ? 5 : 1);
-				for (int i = 0; i < itemsToSpawn; i++)
+            {
+                if (techType != QMod.FCSConvertType)
+                {
+                    int itemsToSpawn = sprintDown ? 5 : 1;
+                    for (int i = 0; i < itemsToSpawn; i++)
+                    {
+                        GameObject gameObject = CraftData.InstantiateFromPrefab(techType, false);
+                        if (gameObject != null)
+                        {
+                            gameObject.transform.position = MainCamera.camera.transform.position + MainCamera.camera.transform.forward * 3f;
+                            CrafterLogic.NotifyCraftEnd(gameObject, techType);
+                            Pickupable component = gameObject.GetComponent<Pickupable>();
+                            if (component != null && !Inventory.main.Pickup(component, false))
+                            {
+                                ErrorMessage.AddError(Language.main.Get("InventoryFull"));
+                            }
+                        }
+                    }
+                }
+				else
 				{
-					GameObject gameObject = CraftData.InstantiateFromPrefab(techType, false);
-					if (gameObject != null)
-					{
-						gameObject.transform.position = MainCamera.camera.transform.position + MainCamera.camera.transform.forward * 3f;
-						CrafterLogic.NotifyCraftEnd(gameObject, techType);
-						Pickupable component = gameObject.GetComponent<Pickupable>();
-						if (component != null && !Inventory.main.Pickup(component, false))
-						{
-							ErrorMessage.AddError(Language.main.Get("InventoryFull"));
-						}
-					}
+					ExternalModCompat.AddFCSCredit((decimal)cost * QMod.EMCToFCSCreditRate);
+					ErrorMessage.AddMessage($"Added {(decimal)cost * QMod.EMCToFCSCreditRate} alterra credit");
 				}
-				
+
 
 				QMod.SaveData.EMCAvailable -= cost;
 				FMODUWE.PlayOneShot(uGUI.main.craftingMenu.soundAccept, MainCamera.camera.transform.position, 1f);
@@ -417,7 +491,29 @@ namespace EquivalentExchange.Monobehaviours
 				iconData.icon.PunchScale(5f, 0.5f, duration);
             }
 		}
+		public void ExchangeCreditForEMC(string id)
+		{
+			bool sprintDown = GameInput.GetButtonHeld(GameInput.Button.Sprint);
 
+			int cost = sprintDown ? QMod.EMCConvertPerClick * QMod.EMCToFCSCreditRate * 5 : QMod.EMCConvertPerClick * QMod.EMCToFCSCreditRate;
+			if(ExternalModCompat.GetFCSCredit() >= cost)
+			{
+				ExternalModCompat.RemoveFCSCredit(cost);
+				QMod.AddAmount(sprintDown ? QMod.EMCConvertPerClick * 5 : QMod.EMCConvertPerClick);
+                ErrorMessage.AddMessage($"Removed {cost} alterra credit");
+                FMODUWE.PlayOneShot(uGUI.main.craftingMenu.soundAccept, MainCamera.camera.transform.position, 1f);
+            }
+			else
+			{
+                FMODUWE.PlayOneShot(uGUI.main.craftingMenu.soundDeny, MainCamera.camera.transform.position, 1f);
+			}
+
+            if (iconGrid.icons.TryGetValue(id, out uGUI_IconGrid.IconData iconData))
+            {
+                float duration = 1f + UnityEngine.Random.Range(-0.2f, 0.2f);
+                iconData.icon.PunchScale(5f, 0.5f, duration);
+            }
+        }
 		// Token: 0x06003468 RID: 13416 RVA: 0x00002319 File Offset: 0x00000519
 		public void OnSortRequested()
 		{

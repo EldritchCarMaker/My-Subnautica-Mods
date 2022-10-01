@@ -28,7 +28,7 @@ namespace MiniatureSuit
 
         public override EquipmentType EquipmentType => EquipmentType.Body;
         public override Vector2int SizeInInventory => new Vector2int(2, 2);
-        public override TechType RequiredForUnlock => TechType.PrecursorIonCrystalMatrix;
+        public override TechType RequiredForUnlock => TechType.PrecursorIonCrystal;
         public override TechGroup GroupForPDA => TechGroup.Personal;
         public override TechCategory CategoryForPDA => TechCategory.Equipment;
         public override CraftTree.Type FabricatorType => CraftTree.Type.Fabricator;

@@ -73,9 +73,19 @@ namespace EquivalentExchange.Monobehaviours
 					Pickupable item = waste.inventoryItem.item;
 					if (this.storageContainer.container.RemoveItem(item, true))
 					{
-						QMod.TryUnlockTechType(item.GetTechType());
+						float cost = ExchangeMenu.singleton.GetCost(item.GetTechType(), 0, false, false);
+                        if (QMod.TryUnlockTechType(item.GetTechType(), out string reason))
+						{
+							if(QMod.config.researchStationMessages)
+								ErrorMessage.AddMessage($"Unlocked {item.GetTechType()}, gained {cost} EMC");
+						}
+						else
+						{
+                            if (QMod.config.researchStationMessages)
+                                ErrorMessage.AddMessage($"Could not unlock {item.GetTechType()} due to: {reason}, still gained {cost} EMC");
+						}
 
-						QMod.SaveData.EMCAvailable += ExchangeMenu.singleton.GetCost(item.GetTechType(), 0, false);
+						QMod.SaveData.EMCAvailable += cost;
 						UnityEngine.Object.Destroy(item.gameObject);
 					}
 				}

@@ -19,6 +19,20 @@ namespace EquivalentExchange
     {
         internal static Config config { get; } = OptionsPanelHandler.Main.RegisterModOptions<Config>();
         internal static SaveData SaveData { get; } = SaveDataHandler.Main.RegisterSaveDataCache<SaveData>();
+
+
+        public static int EMCToFCSCreditRate => config.EMCToFCSCreditRate;
+        public static int EMCConvertPerClick => config.EMCConvertPerClick;
+        public const string FCSConvertName = "FCS Credit Convert";//name of the convert buttons
+        public static readonly string FCSConvertDesc = $"Convert EMC into Alterra credits at a {EMCConvertPerClick} to {EMCConvertPerClick * EMCToFCSCreditRate} ratio";//description of convert button
+        public static readonly string FCSConvertBackDesc = $"Convert Alterra credits into EMC at a {EMCConvertPerClick * EMCToFCSCreditRate} to {EMCConvertPerClick} ratio";//description of convert back button
+
+
+        //the two tech types for converting emc to alterra credit and back
+        internal static TechType FCSConvertType = TechTypeHandler.AddTechType("FCSConvert", FCSConvertName, FCSConvertDesc);
+        internal static TechType FCSConvertBackType = TechTypeHandler.AddTechType("FCSConvertBack", FCSConvertName, FCSConvertBackDesc);
+        public static Sprite FCSCreditIconSprite;
+
         [QModPatch]
         public static void Patch()
         {
@@ -40,28 +54,48 @@ namespace EquivalentExchange
 
             Logger.Log(Logger.Level.Info, "Patched successfully!");
         }
-        public static bool TryUnlockTechType(TechType tt)
+        public static bool TryUnlockTechType(TechType tt, out string reason)
         {
+            reason = "Could not Find TechType";
+
             if (tt == TechType.None)
+            {
                 return false;
+            }
 
             if (tt == TechType.TimeCapsule)//don't want people to be able to mass spawn time capsules, might have an issue with the time capsule server like before
+            {
                 return false;
+            }
+            reason = "";
 
             if (config.BlackListedTypes.Contains(tt))
+            {
+                reason = "Type was blacklisted";
                 return false;
+            }
 
             if (SaveData.learntTechTypes.Contains(tt))
+            {
+                reason = "Type was already unlocked";
                 return false;
+            }
 
             foreach (string str in config.AutoFilterStrings)
             {
                 if (tt.ToString().ToLower().Contains(str.ToLower()))
+                {
+                    reason = "Type was found in AutoFilterStrings list";
                     return false;
+                }
             }
 
             SaveData.learntTechTypes.Add(tt);
             return true;
+        }
+        public static bool TryUnlockTechType(TechType tt)
+        {
+            return TryUnlockTechType(tt, out _);
         }
         public static void ExchangeUnlockAll()
         {
@@ -78,9 +112,9 @@ namespace EquivalentExchange
         }
         public static void UnlockExchangeType(string str)
         {
-            var unlocked = TryUnlockTechType(GetTechType(str));
+            var unlocked = TryUnlockTechType(GetTechType(str), out string reason);
 
-            ErrorMessage.AddMessage(unlocked? $"Unlocked {str}" : $"Could not unlock {str}");
+            ErrorMessage.AddMessage(unlocked? $"Unlocked {str}" : $"Could not unlock {str} due to: {reason}");
         }
         public static void LockExchangeType(string str)
         {
@@ -122,6 +156,9 @@ namespace EquivalentExchange
         public KeyCode menuKey = KeyCode.K; 
         [Keybind("Menu Key 2", Tooltip = "Press both this key and Menu Key 1 at the same time to open the exchange menu")]
         public KeyCode menuKey2 = KeyCode.J;
+
+        [Toggle("Research Station Messages", Tooltip = "Whether or not the Item Research Station will display messages regarding unlocking/not unlocking items for exchange")]
+        public bool researchStationMessages = false;
 
         public float inefficiencyMultiplier = 1f;
 
@@ -174,7 +211,10 @@ namespace EquivalentExchange
         {
             "fragment",
             "blueprint",
+            "kit",
         };
+        public int EMCToFCSCreditRate = 500;//The ratio of EMC => Alterra Credit
+        public int EMCConvertPerClick = 10;//The EMC amount converted per click
     }
     [FileName("EquivalentExchange")]
     public class SaveData : SaveDataCache

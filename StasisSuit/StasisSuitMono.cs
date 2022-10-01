@@ -17,7 +17,7 @@ namespace StasisSuit
 {
     internal class StasisSuitMono : MonoBehaviour
     {
-        public ActivatedEquippableItem hudItemIcon = new ActivatedEquippableItem("StasisSuitItem", ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "MiniSuitIconRotate.png")), StasisSuitItem.thisTechType);
+        public ActivatedEquippableItem hudItemIcon = new ActivatedEquippableItem("StasisSuitItem", ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "StasisSuitIconRotate.png")), StasisSuitItem.thisTechType);
         public Player player;
 
         public void Awake()
