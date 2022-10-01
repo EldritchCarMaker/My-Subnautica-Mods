@@ -42,8 +42,6 @@ namespace ECMModLogger
             { "CyclopsHR", "Cyclops Hull Reinforcement" },
             { "moreEngineEfficiencyModules", "More Engine Efficiency Modules" },
             { "CyclopsAntennaFix", "Cyclops Antenna Fix" },
-            { "CyclopsTorpedoes", "Cyclops Torpedoes" },
-            { "EdibleEverything", "Edible Everything" },
             { "MiniatureSuit", "Miniature Suit" },
             { "MiniatureVehicles", "Miniature Vehicles" },
             { "NoFCSDronePort", "No FCS Drone Port" },
@@ -58,6 +56,7 @@ namespace ECMModLogger
             { "ECMModLogger", "Wait what" },
             { "AdaptiveTeleportingCosts", "Honestly you aren't missing much, really need to rewrite the mod" },
             { "RemoteControlVehicles", "It's a cool concept but it is quite buggy unfortunately. Still, I like it"},
+            { "EdibleEverything", "or don't, idk. It's just a gag mod. Not gonna remove this message though" },
         };
         [HarmonyPatch(nameof(MainMenuRightSide.Start))]
         public static void Postfix()
