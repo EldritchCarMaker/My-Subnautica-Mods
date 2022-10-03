@@ -38,11 +38,15 @@ namespace EquivalentExchange.Constructables
         {
             if(prefab == null)
             {
-                prefab = CraftData.InstantiateFromPrefab(TechType.Trashcans);
+                var trashPrefab = CraftData.GetPrefabForTechType(TechType.Trashcans);
+                prefab = GameObject.Instantiate(trashPrefab);
                 GameObject.Destroy(prefab.GetComponent<Trashcan>());
                 prefab.AddComponent<ItemResearchStation>();
+                prefab.SetActive(false);
             }
-            return GameObject.Instantiate(prefab);
+            var obj = GameObject.Instantiate(prefab);
+            obj.SetActive(true);
+            return obj;
         }
     }
 }
