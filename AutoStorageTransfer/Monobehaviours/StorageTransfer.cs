@@ -27,8 +27,8 @@ namespace AutoStorageTransfer.Monobehaviours
             }
         }
 
-        protected ItemsContainer _itemsContainer;
-        public ItemsContainer Container 
+        protected IItemsContainer _itemsContainer;
+        public IItemsContainer Container 
         { 
             get 
             { 
@@ -38,16 +38,9 @@ namespace AutoStorageTransfer.Monobehaviours
             } 
         }
 
-        private PrefabIdentifier _prefabIdentifier;
-        public PrefabIdentifier PrefabIdentifier
-        {
-            get
-            {
-                if (_prefabIdentifier == null)
-                    _prefabIdentifier = UWE.Utils.GetComponentInHierarchy<PrefabIdentifier>(gameObject);
-                return _prefabIdentifier;
-            }
-        }
+        private UniqueIdentifier _uniqueIdentifier;
+        public UniqueIdentifier UniqueIdentifier => GetUniqueIdentifier();
+
         public string StorageID;
         public bool IsReciever { get; set; } = true;
 
@@ -55,23 +48,37 @@ namespace AutoStorageTransfer.Monobehaviours
         private Dictionary<InventoryItem, int> SortAttemptsPerItem = new Dictionary<InventoryItem, int>();
         //so that we don't end up with 30 items all doing a bunch of looking around and string comparing constantly, just because they can't find a spot.
         protected float timeLastThoroughSort = 0;
+        public UniqueIdentifier GetUniqueIdentifier()
+        {
+            if (StorageContainer != null)
+                _uniqueIdentifier = StorageContainer.storageRoot;
 
+            if (_uniqueIdentifier == null)
+                _uniqueIdentifier = UWE.Utils.GetComponentInHierarchy<UniqueIdentifier>(gameObject);
+
+            return _uniqueIdentifier;
+        }
 
         public void Start()
         {
-            if(!storageTransfers.Contains(this)) 
-                storageTransfers.Add(this);
-
-            if(TryGetComponent(out SpawnEscapePodSupplies asd))
+            if(!gameObject.activeInHierarchy)
+            {
+                Destroy(this);
+                return;
+            }
+            if (TryGetComponent(out SpawnEscapePodSupplies asd))
             {
                 Destroy(this);//fuck this. This single container is causing problems all on its own. Fuck it.
                 return;
             }
 
-            if (PrefabIdentifier == null) return;//there's not much I can do regarding containers that can't find a prefab identifier. Sucks to suck lul
+            if (!storageTransfers.Contains(this)) 
+                storageTransfers.Add(this);
+
+            if (UniqueIdentifier == null) return;//there's not much I can do regarding containers that can't find a prefab identifier. Sucks to suck lul
 
             QMod.SaveData.OnStartedSaving += OnBeforeSave;
-            if(QMod.SaveData.SavedStorages.TryGetValue(PrefabIdentifier.Id, out SaveInfo saveInfo))
+            if(QMod.SaveData.SavedStorages.TryGetValue(UniqueIdentifier.Id, out SaveInfo saveInfo))
             {
                 StorageID = saveInfo.StorageID;
                 IsReciever = saveInfo.IsReciever;
@@ -81,7 +88,7 @@ namespace AutoStorageTransfer.Monobehaviours
         {
             try//fuck this shit. I'm not dealing with it
             {
-                if (QMod.SaveData.SavedStorages.TryGetValue(PrefabIdentifier.Id, out var saveInfo))
+                if (QMod.SaveData.SavedStorages.TryGetValue(UniqueIdentifier.Id, out var saveInfo))
                 {
                     saveInfo.IsReciever = IsReciever;
                     saveInfo.StorageID = StorageID;
@@ -93,7 +100,7 @@ namespace AutoStorageTransfer.Monobehaviours
                         StorageID = StorageID,
                         IsReciever = IsReciever
                     };
-                    QMod.SaveData.SavedStorages.Add(PrefabIdentifier.id, newSaveInfo);
+                    QMod.SaveData.SavedStorages.Add(UniqueIdentifier.id, newSaveInfo);
                 }
             }
             catch (Exception ex)
@@ -101,7 +108,7 @@ namespace AutoStorageTransfer.Monobehaviours
                 Logger.Log(Logger.Level.Error, $"Error caught when saving storage transfer! Saving will continue for everything except this container's transfer settings.", ex);
                 try
                 {
-                    Logger.Log(Logger.Level.Error, $"Double the try, double the... do? idk, prefab identifier: {_prefabIdentifier}");
+                    Logger.Log(Logger.Level.Error, $"Double the try, double the... do? idk, prefab identifier: {_uniqueIdentifier}");
                 }
                 catch(Exception)
                 {
@@ -131,7 +138,7 @@ namespace AutoStorageTransfer.Monobehaviours
                 storageTransfers.Add(this);
             }
 
-            if (IsReciever || string.IsNullOrEmpty(StorageID) || Container.count <= 0) return;
+            if (IsReciever || string.IsNullOrEmpty(StorageID)) return;
 
             InventoryItem chosenItem = null;
 
@@ -142,9 +149,7 @@ namespace AutoStorageTransfer.Monobehaviours
                 if (SortAttemptsPerItem.TryGetValue(item, out var attempts) && attempts >= 5 && (Time.time < timeLastThoroughSort + THOROUGHSORTCOOLDOWN))
                     continue;
 
-                var size = CraftData.GetItemSize(item.item.GetTechType());
-
-                var reciever = FindTransfer(size, StorageID);
+                var reciever = FindTransfer(item.item, StorageID);
 
                 var usedRecievers = new List<StorageTransfer>();
 
@@ -158,7 +163,7 @@ namespace AutoStorageTransfer.Monobehaviours
                     else
                     {
                         usedRecievers.Add(reciever);
-                        reciever = FindTransfer(size, StorageID, usedRecievers);//if first reciever found can't take item, blacklist it and look again.
+                        reciever = FindTransfer(item.item, StorageID, usedRecievers);//if first reciever found can't take item, blacklist it and look again.
                     }
                 }
 
@@ -174,9 +179,9 @@ namespace AutoStorageTransfer.Monobehaviours
 
             if (SortAttemptsPerItem.ContainsKey(chosenItem))
                 SortAttemptsPerItem.Remove(chosenItem);
-            Container.RemoveItem(chosenItem.item.GetTechType());
+            Container.RemoveItem(chosenItem, true, false);
         }
-        public static StorageTransfer FindTransfer(Vector2int itemSize, string storageID, List<StorageTransfer> ignoreTransfers = null)
+        public static StorageTransfer FindTransfer(Pickupable item, string storageID, List<StorageTransfer> ignoreTransfers = null)
         {
             List<StorageTransfer> transfersToRemove = new List<StorageTransfer>();
 
@@ -199,7 +204,7 @@ namespace AutoStorageTransfer.Monobehaviours
 
                 try
                 {
-                    if (reciever.Container.HasRoomFor((int)itemSize.x, (int)itemSize.y))
+                    if (reciever.Container.HasRoomFor(item, null))
                     {
                         storageTransfer = reciever;
                         break;
@@ -228,6 +233,14 @@ namespace AutoStorageTransfer.Monobehaviours
         public void SetIDString(string ID)
         {
             StorageID = ID;
+        }
+        public void SetContainer(IItemsContainer container)
+        {
+            if (container == null) return;
+
+            if (Container != null) return;//should be no reason to replace existing container
+
+            _itemsContainer = container;
         }
     }
 }
