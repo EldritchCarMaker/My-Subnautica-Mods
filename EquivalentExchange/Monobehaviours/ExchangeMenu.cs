@@ -7,8 +7,8 @@ using UnityEngine.UI;
 
 namespace EquivalentExchange.Monobehaviours
 {
-    public class ExchangeMenu : uGUI_InputGroup, uGUI_IIconGridManager, uGUI_IToolbarManager, uGUI_IButtonReceiver, INotificationListener
-	{
+    public class ExchangeMenu : uGUI_InputGroup, uGUI_IIconGridManager, uGUI_IToolbarManager, uGUI_IButtonReceiver, INotificationListener, EventList<TechType>.IListListener
+    {
 		public const int PRICEOFUNMARKEDITEM = 100;
 		//if you're a modder trying to change this value for your item, please use the ExternalModCompat class
 
@@ -19,7 +19,7 @@ namespace EquivalentExchange.Monobehaviours
 		{
 			get
 			{
-				return selected;
+				return (int)selected;
 			}
 		}
 
@@ -28,27 +28,6 @@ namespace EquivalentExchange.Monobehaviours
 			get
 			{
 				return ExchangeMenu.groups.Count;
-			}
-		}
-
-		void INotificationListener.OnAdd(NotificationManager.Group group, string key)
-		{
-			TechType techType = key.DecodeKey();
-			if (KnownTech.Contains(techType))
-			{
-				int techTypeTechGroupIdx = GetTechTypeTechGroupIdx(techType);
-				groupNotificationCounts[techTypeTechGroupIdx]++;
-			}
-		}
-
-		// Token: 0x0600344F RID: 13391 RVA: 0x0011FFD0 File Offset: 0x0011E1D0
-		void INotificationListener.OnRemove(NotificationManager.Group group, string key)
-		{
-			TechType techType = key.DecodeKey();
-			if (KnownTech.Contains(techType))
-			{
-				int techTypeTechGroupIdx = GetTechTypeTechGroupIdx(techType);
-				groupNotificationCounts[techTypeTechGroupIdx]--;
 			}
 		}
 
@@ -83,6 +62,7 @@ namespace EquivalentExchange.Monobehaviours
 				if (transform.name == "GridIcon")
 					Destroy(transform.gameObject);
 
+			QMod.SaveData.learntTechTypes.AddListener(this);
 
 			ExchangeMenu.EnsureTechGroupTechTypeDataInitialized();
 			ClearNotificationCounts();
@@ -105,9 +85,11 @@ namespace EquivalentExchange.Monobehaviours
 			title.text = "EXCHANGE";
 			object[] array2 = array;
 			toolbar.Initialize(this, array2, null, 15);
-			toolbar.Select(selected);
+			toolbar.Select((int)selected);
 			UpdateItems();
-		}
+            NotificationManager.main.Subscribe(this, notificationGroup, string.Empty);
+        }
+
 		private Atlas.Sprite GetSpriteForTabType(ExchangeMenuTab tab)
         {
 			switch(tab)
@@ -193,7 +175,7 @@ namespace EquivalentExchange.Monobehaviours
 		{
 			if (state)
 			{
-				//UpdateToolbarNotificationNumbers();
+				UpdateToolbarNotificationNumbers();
 			}
 		}
 
@@ -250,7 +232,7 @@ namespace EquivalentExchange.Monobehaviours
 			{
 				return;
 			}
-			//UpdateToolbarNotificationNumbers();
+			UpdateToolbarNotificationNumbers();
 			UpdateItems();
 			MainCameraControl.main.SaveLockedVRViewModelAngle();
 			SetState(true);
@@ -519,14 +501,13 @@ namespace EquivalentExchange.Monobehaviours
 		{
 		}
 
-		/*
 		private void UpdateToolbarNotificationNumbers()
 		{
-			for (int i = 0; i < ExchangeMenu.groups.Count; i++)
+			foreach (ExchangeMenuTab tab in Enum.GetValues(typeof(ExchangeMenuTab)))
 			{
-				toolbar.SetNotificationsAmount(i, groupNotificationCounts[i]);
+				toolbar.SetNotificationsAmount((int)tab, tabNotificationCounts[tab].Count);
 			}
-		}*/
+		}
 
 		// Token: 0x0600346A RID: 13418 RVA: 0x00120470 File Offset: 0x0011E670
 		private static void EnsureTechGroupTechTypeDataInitialized()
@@ -551,22 +532,10 @@ namespace EquivalentExchange.Monobehaviours
 		// Token: 0x0600346B RID: 13419 RVA: 0x001204EC File Offset: 0x0011E6EC
 		private void ClearNotificationCounts()
 		{
-			NotificationManager main = NotificationManager.main;
-			for (int i = 0; i < ExchangeMenu.groups.Count; i++)
+			foreach (ExchangeMenuTab tab in Enum.GetValues(typeof(ExchangeMenuTab)))
 			{
-				groupNotificationCounts[i] = 0;
+				tabNotificationCounts[tab].Clear();
 			}
-		}
-
-		// Token: 0x0600346C RID: 13420 RVA: 0x00120520 File Offset: 0x0011E720
-		private int GetTechTypeTechGroupIdx(TechType inTechType)
-		{
-			int result;
-			if (ExchangeMenu.techTypeToTechGroupIdx.TryGetValue(inTechType, out result))
-			{
-				return result;
-			}
-			throw new ArgumentException("TechType not associated with any of the tech groups.");
 		}
 
 		// Token: 0x0600346D RID: 13421 RVA: 0x00120548 File Offset: 0x0011E748
@@ -641,12 +610,12 @@ namespace EquivalentExchange.Monobehaviours
 			{
 				return;
 			}
-			if (index == selected)
+			if (index == (int)selected)
 			{
 				return;
 			}
 			toolbar.Select(index);
-			selected = index;
+			selected = (ExchangeMenuTab)index;
 			UpdateItems();
 			iconGrid.UpdateNow();
 			GamepadInputModule.current.SetCurrentGrid(iconGrid);
@@ -664,12 +633,14 @@ namespace EquivalentExchange.Monobehaviours
 			int iteration = 0;
 			foreach (TechType type in QMod.SaveData.learntTechTypes)
 			{
-				if ((int)GetTabTypeForTech(type) != selected)
+				if (GetTabTypeForTech(type) != selected)
 					continue;
 
 				items.Add(iteration.ToString(), type);
 				iconGrid.AddItem(iteration.ToString(), SpriteManager.Get(type), SpriteManager.GetBackground(type), false, iteration);
-				iconGrid.RegisterNotificationTarget(iteration.ToString(), NotificationManager.Group.Builder, type.EncodeKey());
+				iconGrid.RegisterNotificationTarget(iteration.ToString(), notificationGroup, type.EncodeKey());
+				if (tabNotificationCounts[selected].Contains(type))
+					NotificationManager.main.Add(notificationGroup, type.EncodeKey());
 				iteration++;
 			}
 		}
@@ -716,8 +687,52 @@ namespace EquivalentExchange.Monobehaviours
 			return true;
 		}
 
-		// Token: 0x04002F3B RID: 12091
-		private const string prefabPath = "ExchangeMenu";
+		public void OnAdd(NotificationManager.Group group, string key)
+		{
+
+		}
+
+		public void OnRemove(NotificationManager.Group group, string key)
+		{
+			if(group != NotificationManager.Group.Undefined)
+				return;
+
+			TechType type = key.DecodeKey();
+
+            foreach (ExchangeMenuTab tab in Enum.GetValues(typeof(ExchangeMenuTab)))
+			{
+				if (tabNotificationCounts[tab].Contains(type))
+				{
+					tabNotificationCounts[tab].Remove(type);
+				}
+			}
+			UpdateToolbarNotificationNumbers();
+		}
+
+		void EventList<TechType>.IListListener.OnAdd(EventList<TechType> sender, TechType item)
+		{
+            tabNotificationCounts[GetTabTypeForTech(item)].Add(item);
+        }
+
+		void EventList<TechType>.IListListener.OnRemove(EventList<TechType> sender, TechType item)
+		{
+			var list = tabNotificationCounts[GetTabTypeForTech(item)];
+			if(list.Contains(item))
+				list.Remove(item);
+        }
+
+        void EventList<TechType>.IListListener.OnClear(EventList<TechType> sender, List<TechType> items)
+		{
+			foreach(var type in items)
+			{
+                var list = tabNotificationCounts[GetTabTypeForTech(type)];
+                if (list.Contains(type))
+                    list.Remove(type);
+            }
+		}
+
+        // Token: 0x04002F3B RID: 12091
+        private const string prefabPath = "ExchangeMenu";
 
 		// Token: 0x04002F3C RID: 12092
 		private static readonly List<TechGroup> groups = new List<TechGroup>
@@ -730,7 +745,7 @@ namespace EquivalentExchange.Monobehaviours
 		};
 
 		// Token: 0x04002F3D RID: 12093
-		private const NotificationManager.Group notificationGroup = NotificationManager.Group.Builder;
+		private const NotificationManager.Group notificationGroup = NotificationManager.Group.Undefined;
 
 		// Token: 0x04002F3E RID: 12094
 		public static ExchangeMenu singleton;
@@ -783,7 +798,7 @@ namespace EquivalentExchange.Monobehaviours
 		private int openInFrame = -1;
 
 		// Token: 0x04002F4D RID: 12109
-		private new int selected;
+		private new ExchangeMenuTab selected;
 
 		// Token: 0x04002F4E RID: 12110
 		//private CachedEnumString<TechGroup> techGroupNames = new CachedEnumString<TechGroup>(CraftData.sTechGroupComparer);
@@ -817,7 +832,14 @@ namespace EquivalentExchange.Monobehaviours
 		private List<string> toolbarTooltips = new List<string>();
 
 		// Token: 0x04002F50 RID: 12112
-		private int[] groupNotificationCounts = new int[ExchangeMenu.groups.Count];
+		private Dictionary<ExchangeMenuTab, List<TechType>> tabNotificationCounts = new Dictionary<ExchangeMenuTab, List<TechType>>()
+		{
+			{ ExchangeMenuTab.RawMaterials, new List<TechType>() },
+            { ExchangeMenuTab.BiologicalMaterials, new List<TechType>() },
+            { ExchangeMenuTab.CraftedItems, new List<TechType>() },
+            { ExchangeMenuTab.UnusedTab, new List<TechType>() },
+            { ExchangeMenuTab.ModdedItems, new List<TechType>() }
+        };
 	}
 
 }

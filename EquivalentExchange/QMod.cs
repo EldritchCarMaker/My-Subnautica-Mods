@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using SMLHelper.V2.Json.Attributes;
 using EquivalentExchange.Constructables;
 using System;
+using System.Collections.ObjectModel;
 
 namespace EquivalentExchange
 {
@@ -108,7 +109,7 @@ namespace EquivalentExchange
         public static void ExchangeLockAll()
         {
             ErrorMessage.AddMessage("Locked all techtypes for exchange");
-            SaveData.learntTechTypes.RemoveRange(0, SaveData.learntTechTypes.Count);
+            SaveData.learntTechTypes.Clear();
         }
         public static void UnlockExchangeType(string str)
         {
@@ -198,6 +199,7 @@ namespace EquivalentExchange
             { TechType.SeaCrownSeed, 15 },
             { TechType.StalkerTooth, 15 },
             { TechType.JeweledDiskPiece, 10 },
+            { TechType.BloodOil, 15 },
         };
         public List<TechType> BlackListedTypes = new List<TechType>() 
         { 
@@ -211,7 +213,7 @@ namespace EquivalentExchange
         {
             "fragment",
             "blueprint",
-            "kit",
+            "_kit",
         };
         public int EMCToFCSCreditRate = 500;//The ratio of EMC => Alterra Credit
         public int EMCConvertPerClick = 10;//The EMC amount converted per click
@@ -220,7 +222,81 @@ namespace EquivalentExchange
     public class SaveData : SaveDataCache
     {
         //public List<string> learntTechTypes = new List<string>();
-        public List<TechType> learntTechTypes = new List<TechType>();
+        public EventList<TechType> learntTechTypes = new EventList<TechType>();
         public float EMCAvailable = 0;
+    }
+    public class EventList<T> : List<T>
+    {
+        public delegate void AddEvent(EventList<T> sender, T addedItem);
+        public delegate void ClearEvent(EventList<T> sender, List<T> items);
+
+        private AddEvent OnAdd;
+        private AddEvent OnRemove;
+        private ClearEvent OnClear;
+        private List<IListListener> listeners = new List<IListListener>();
+        public new void Add(T item)
+        {
+            if(OnAdd != null) OnAdd(this, item);
+
+            foreach (var listener in listeners)
+                listener?.OnAdd(this, item);
+
+            base.Add(item);
+        }
+        public new void Remove(T item)
+        {
+            if (OnRemove != null) OnRemove(this, item);
+
+            foreach(var listener in listeners)
+                listener?.OnRemove(this, item);
+
+            base.Remove(item);
+        }
+        public new void Clear()
+        {
+            if (OnClear != null) OnClear(this, this);
+
+            foreach (var listener in listeners)
+                listener.OnClear(this, this);
+            base.Clear();
+        }
+        public void AddOnAddListener(AddEvent listener)
+        {
+            OnAdd += listener;
+        }
+        public void RemoveOnAddListener(AddEvent listener)
+        {
+            OnAdd -= listener;
+        }
+        public void AddOnRemoveListener(AddEvent listener)
+        {
+            OnRemove += listener;
+        }
+        public void RemoveOnRemoveListener(AddEvent listener)
+        {
+            OnRemove -= listener;
+        }
+        public void AddOnClearListener(ClearEvent listener)
+        {
+            OnClear += listener;
+        }
+        public void RemoveOnClearListener(ClearEvent listener)
+        {
+            OnClear -= listener;
+        }
+        public void AddListener(IListListener listener)
+        {
+            listeners.Add(listener);
+        }
+        public void RemoveListener(IListListener listener)
+        {
+            listeners.Remove(listener);
+        }
+        public interface IListListener
+        {
+            void OnAdd(EventList<T> sender, T item);
+            void OnRemove(EventList<T> sender, T item);
+            void OnClear(EventList<T> sender, List<T> items);
+        }
     }
 }
