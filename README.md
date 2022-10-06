@@ -46,6 +46,13 @@ Look how nice the exchange menu is. I'm proud of this thing.
 Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ###### No Changelog Yet
 
+### [No FCS Drone Port](https://github.com/Nagorogan/My-Subnautica-Mods/files/9727254/NoFCSDronePort.zip)
+
+
+Allows fcs mods to deliver to depots even if they don't have a drone port built. Works with cyclops, meaning you can now have items be delivered directly to your cyclops! or if you just don't like waiting for the drone to get to your base, this mod also solves that problem. Combined with equivalent exchange to act as a way to get alterra credits without an ore consumer you can fully utilize the FCS mods from within your very own cyclops
+
+Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
+###### No Changelog Yet
 
 ### [Equippable Item Icons](https://github.com/Nagorogan/My-Subnautica-Mods/files/8865337/EquippableItemIcons.zip)
 
