@@ -43,6 +43,10 @@ namespace AutoStorageTransfer.Monobehaviours
             if (Targeting.GetTarget(Player.main.gameObject, 2, out var hitObj, out var distance))
             {
                 currentSeenContainer = UWE.Utils.GetComponentInHierarchy<StorageTransfer>(hitObj);
+                if(!currentSeenContainer && hitObj.transform.parent)
+                {
+                    currentSeenContainer = UWE.Utils.GetComponentInHierarchy<StorageTransfer>(hitObj.transform.parent.gameObject);
+                }
             }
             else
                 currentSeenContainer = null;

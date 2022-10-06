@@ -52,6 +52,7 @@ namespace EquivalentExchange
             ConsoleCommandsHandler.Main.RegisterConsoleCommand("AddEMC", typeof(QMod), nameof(AddAmount));
 
             new ItemResearchStationConstructable().Patch();
+            new AutomaticItemConverterConstructable().Patch();
 
             Logger.Log(Logger.Level.Info, "Patched successfully!");
         }
@@ -224,6 +225,7 @@ namespace EquivalentExchange
         //public List<string> learntTechTypes = new List<string>();
         public EventList<TechType> learntTechTypes = new EventList<TechType>();
         public float EMCAvailable = 0;
+        public Dictionary<string, TechType> AutoItemConverters = new Dictionary<string, TechType>();
     }
     public class EventList<T> : List<T>
     {

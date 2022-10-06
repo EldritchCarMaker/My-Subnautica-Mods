@@ -73,7 +73,7 @@ namespace EquivalentExchange.Monobehaviours
 					Pickupable item = waste.inventoryItem.item;
 					if (this.storageContainer.container.RemoveItem(item, true))
 					{
-						float cost = ExchangeMenu.singleton.GetCost(item.GetTechType(), 0, false, false);
+						float cost = ExchangeMenu.GetCost(item.GetTechType(), 0, false, false);
                         if (QMod.TryUnlockTechType(item.GetTechType(), out string reason))
 						{
 							if(QMod.config.researchStationMessages)

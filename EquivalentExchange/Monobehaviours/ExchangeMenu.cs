@@ -364,7 +364,7 @@ namespace EquivalentExchange.Monobehaviours
             stringBuilder.Append("</color>");
         }
 
-        public float GetCost(TechType techType, int depth = 0, bool useCreative = true, bool useEfficiency = true)
+        public static float GetCost(TechType techType, int depth = 0, bool useCreative = true, bool useEfficiency = true)
         {
 			if (useCreative && !GameModeUtils.RequiresIngredients())
 				return 0;
@@ -557,20 +557,12 @@ namespace EquivalentExchange.Monobehaviours
 		}
 
 		// Token: 0x0600346F RID: 13423 RVA: 0x001205CC File Offset: 0x0011E7CC
-		private static ExchangeMenu GetInstance()
+		public static ExchangeMenu GetInstance()
 		{
 			if (ExchangeMenu.singleton == null)
 			{
-				GameObject gameObject = Resources.Load<GameObject>("ExchangeMenu");
-				if (gameObject == null)
-				{
-					Debug.LogError("Cannot find main ExchangeMenu prefab in Resources folder at path 'ExchangeMenu'");
-					Debug.Break();
-					return null;
-				}
-				UnityEngine.Object.Instantiate<GameObject>(gameObject);
-				ExchangeMenu.singleton.state = true;
-				ExchangeMenu.singleton.SetState(false);
+				QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Error, "Tried to access Exchange Menu before being set up");
+				return null;
 			}
 			return ExchangeMenu.singleton;
 		}
