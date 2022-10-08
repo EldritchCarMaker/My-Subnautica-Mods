@@ -12,8 +12,6 @@ namespace AutoStorageTransfer.Monobehaviours
 {
     public class StorageTransfer : MonoBehaviour
     {
-        public const float THOROUGHSORTCOOLDOWN = 5f;
-
         private static List<StorageTransfer> storageTransfers = new List<StorageTransfer>();
 
         private StorageContainer _storageContainer;
@@ -141,12 +139,17 @@ namespace AutoStorageTransfer.Monobehaviours
             if (IsReciever || string.IsNullOrEmpty(StorageID)) return;
 
             InventoryItem chosenItem = null;
+            int itemsChecked = 0;
 
             foreach(var item in Container)//shouldn't be using foreach for this, but fuckit idc. Doesn't change anything at all anyway
             {
                 if (item == null) continue;
 
-                if (SortAttemptsPerItem.TryGetValue(item, out var attempts) && attempts >= 5 && (Time.time < timeLastThoroughSort + THOROUGHSORTCOOLDOWN))
+                if (itemsChecked >= QMod.config.itemChecksBeforeBreak) break;
+
+                itemsChecked++;
+
+                if (SortAttemptsPerItem.TryGetValue(item, out var attempts) && attempts >= 5 && (Time.time < timeLastThoroughSort + QMod.config.thoroughSortCooldown))
                     continue;
 
                 var reciever = FindTransfer(item.item, StorageID);

@@ -30,7 +30,16 @@ namespace EquivalentExchange.Monobehaviours
 				return ExchangeMenu.groups.Count;
 			}
 		}
-
+		public delegate void OnCloseDelegate();
+		public OnCloseDelegate OnClose;
+		public enum IconClickEffectsType
+		{
+			None,
+			ClickAllowed,
+			ClickNotAllowed
+		}
+		public delegate bool OnPointerClickDelegate(TechType clickedType, out IconClickEffectsType iconClick);
+		public List<OnPointerClickDelegate> onPointerClick = new List<OnPointerClickDelegate>();
 		public static bool IsOpen()
 		{
 			return ExchangeMenu.singleton != null && ExchangeMenu.singleton.state;
@@ -425,6 +434,29 @@ namespace EquivalentExchange.Monobehaviours
 			{
 				return;
 			}
+
+			foreach (var listener in onPointerClick)
+			{
+				if (listener(techType, out var onClick))
+					continue;
+
+				if (onClick != IconClickEffectsType.None)
+				{
+                    if (iconGrid.icons.TryGetValue(id, out uGUI_IconGrid.IconData asd))
+                    {
+                        float duration = 1f + UnityEngine.Random.Range(-0.2f, 0.2f);
+                        asd.icon.PunchScale(5f, 0.5f, duration);
+                    }
+
+					if(onClick == IconClickEffectsType.ClickAllowed) 
+						FMODUWE.PlayOneShot(uGUI.main.craftingMenu.soundAccept, MainCamera.camera.transform.position, 1f);
+					else
+                        FMODUWE.PlayOneShot(uGUI.main.craftingMenu.soundDeny, MainCamera.camera.transform.position, 1f);
+                }
+
+				return;
+			}
+
             if (techType == QMod.FCSConvertBackType)
             {
                 ExchangeCreditForEMC(id);
@@ -592,6 +624,8 @@ namespace EquivalentExchange.Monobehaviours
 					base.Deselect(null);
 				}
 				content.SetActive(false);
+				if (OnClose != null)
+					OnClose();
 			}
 		}
 

@@ -30,7 +30,7 @@ namespace AutoStorageTransfer.Monobehaviours
         public override void FixedUpdate()
         {
             base.FixedUpdate();
-            if(Time.time >= timeLastThoroughSort + THOROUGHSORTCOOLDOWN)
+            if(Time.time >= timeLastThoroughSort + QMod.config.thoroughSortCooldown)
             {
                 fakeContainer.GetType().GetMethod("OnDumpClose", AccessTools.all).Invoke(fakeContainer, new[] { Player.main.GetPDA() } );
             }

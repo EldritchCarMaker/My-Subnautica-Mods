@@ -1,10 +1,12 @@
 ﻿using SMLHelper.V2.Utility;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UWE;
 
 namespace EquivalentExchange.Monobehaviours
 {
@@ -17,6 +19,7 @@ namespace EquivalentExchange.Monobehaviours
         private float EMCCost;
 
         private bool isClearing;
+        private bool isListeningForTechType;
 
         private string id;
         public override void Awake()
@@ -35,22 +38,30 @@ namespace EquivalentExchange.Monobehaviours
 
             constructable = GetComponent<Constructable>();
 
-            id = GetComponent<UniqueIdentifier>().id;
+            CoroutineHost.StartCoroutine(WaitForExchangeMenu());
 
             foreach(var oldItem in GetComponentsInChildren<Pickupable>(true))
             {
                 Destroy(oldItem.gameObject);
             }
         }
+        public IEnumerator WaitForExchangeMenu()
+        {
+            yield return new WaitUntil(() => ExchangeMenu.singleton != null);
+            ExchangeMenu.singleton.OnClose += OnExchangeMenuClose;
+            ExchangeMenu.singleton.onPointerClick.Add(OnExchangeMenuClick);
+        }
         public void Start()
         {
+            id = GetComponent<UniqueIdentifier>().id;
+
             LoadSaveData();
             QMod.SaveData.OnStartedSaving += OnStartedSaving;
         }
         public void LoadSaveData()
         {
             if(QMod.SaveData.AutoItemConverters.TryGetValue(id, out var value))
-                SetItemType(value.ToString(), false);
+                SetItemType(value, false);
         }
         private void OnStartedSaving(object sender, EventArgs e)
         {
@@ -163,7 +174,9 @@ namespace EquivalentExchange.Monobehaviours
 
             if(GameInput.GetButtonHeld(GameInput.Button.Sprint))
             {
-                SetItemType();
+                //SetItemType();
+                isListeningForTechType = true;
+                ExchangeMenu.GetInstance().Open();
             }
             else
             {
@@ -173,14 +186,44 @@ namespace EquivalentExchange.Monobehaviours
                 pda.Open(PDATab.Inventory);
             }
         }
+        public bool OnExchangeMenuClick(TechType techType, out ExchangeMenu.IconClickEffectsType iconType)
+        {
+            iconType = ExchangeMenu.IconClickEffectsType.None;
+            if (!isListeningForTechType) return true;
+
+
+            SetItemType(techType);
+
+            isListeningForTechType = false;
+
+            iconType = ExchangeMenu.IconClickEffectsType.ClickAllowed;
+
+            ExchangeMenu.GetInstance().Close();
+
+            return false;
+        }
+        //old route, don't use
         public void SetItemType()
         {
             uGUI.main.userInput.RequestString("Item to convert", "Submit", itemType.ToString(), 20, new uGUI_UserInput.UserInputCallback(OnStringInput));
         }
         private void OnStringInput(string name) => SetItemType(name);
+        //end of old route
+
         private void SetItemType(string name, bool showMessage = true)
         {
             TechType type = QMod.GetTechType(name);
+
+            SetItemType(type, showMessage);
+        }
+        private void SetItemType(TechType type, bool showMessage = true)
+        {
+            if(type == QMod.FCSConvertType || type == QMod.FCSConvertBackType)
+            {
+                if (showMessage)
+                    ErrorMessage.AddMessage("Can't set the item converter to FCS conversions");
+                return;
+            }
 
             itemType = type;
 
@@ -190,11 +233,11 @@ namespace EquivalentExchange.Monobehaviours
 
             if (type == TechType.None)
             {
-                if(showMessage) ErrorMessage.AddMessage($"Could not find TechType {name}, stopping auto conversion");
+                if (showMessage) ErrorMessage.AddMessage("Could not find TechType, stopping auto conversion");
                 return;
             }
 
-            if(!QMod.SaveData.learntTechTypes.Contains(type))
+            if (!QMod.SaveData.learntTechTypes.Contains(type))
             {
                 if (showMessage) ErrorMessage.AddMessage("Can only select items you've unlocked");
                 return;
@@ -203,7 +246,7 @@ namespace EquivalentExchange.Monobehaviours
             if (prefab) Destroy(prefab);
 
             prefab = Instantiate(CraftData.GetPrefabForTechType(type));
-            if(!prefab || !prefab.TryGetComponent(out pickupable))
+            if (!prefab || !prefab.TryGetComponent(out pickupable))
             {
                 if (showMessage) ErrorMessage.AddMessage("How the fuck did you unlock an item that couldn't be picked up? This item isn't valid for this, and stop cheating");
                 return;
@@ -224,6 +267,7 @@ namespace EquivalentExchange.Monobehaviours
             HandReticle.main.SetInteractText("Open Item Converter", $"{Language.main.GetFormat<string, string>("HandReticleAddButtonFormat", "Set Item Type", uGUI.FormatButton(GameInput.Button.Sprint))}");
             HandReticle.main.SetIcon(HandReticle.IconType.Hand, 1f);
         }
+        public void OnExchangeMenuClose() => isListeningForTechType = false;
 
         public FMOD_CustomEmitter openSFX;
 

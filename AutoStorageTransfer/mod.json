@@ -2,7 +2,7 @@
   "Id": "AutoStorageTransfer",
   "DisplayName": "AutoStorageTransfer",
   "Author": "Nagorrogan",
-  "Version": "0.1.1",
+  "Version": "0.1.2",
   "Enable": true,
   "AssemblyName": "AutoStorageTransfer.dll",
   "VersionDependencies": {
