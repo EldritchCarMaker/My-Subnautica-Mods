@@ -1,0 +1,16 @@
+﻿{
+  "Id": "AutoStorageTransferCompatibility",
+  "DisplayName": "AutoStorageTransferCompatibility",
+  "Author": "Nagorrogan",
+  "Version": "0.1.2",
+  "Enable": true,
+  "AssemblyName": "AutoStorageTransferCompatibility.dll",
+  "VersionDependencies": {
+    "SMLHelper": "2.9.6",
+    "FCSAlterraHub": "1.0.0.0"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/AutoStorageTransferCompatibility/mod.json"
+  },
+  "Game": "Subnautica"
+}

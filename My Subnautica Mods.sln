@@ -85,6 +85,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoFCSDronePort", "NoFCSDron
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoStorageTransfer", "AutoStorageTransfer\AutoStorageTransfer.csproj", "{7C3A517D-FC6D-477B-BCD0-CCE243D75ED5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoStorageTransferCompatibility", "AutoStorageTransferCompatibility\AutoStorageTransferCompatibility.csproj", "{D819C3E5-A3FC-4616-A52E-E17B0B712E2D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -255,6 +257,10 @@ Global
 		{7C3A517D-FC6D-477B-BCD0-CCE243D75ED5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C3A517D-FC6D-477B-BCD0-CCE243D75ED5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C3A517D-FC6D-477B-BCD0-CCE243D75ED5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D819C3E5-A3FC-4616-A52E-E17B0B712E2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D819C3E5-A3FC-4616-A52E-E17B0B712E2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D819C3E5-A3FC-4616-A52E-E17B0B712E2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D819C3E5-A3FC-4616-A52E-E17B0B712E2D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
