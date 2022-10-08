@@ -103,10 +103,10 @@ namespace AutoStorageTransfer.Monobehaviours
             }
             catch (Exception ex)
             {
-                Logger.Log(Logger.Level.Error, $"Error caught when saving storage transfer! Saving will continue for everything except this container's transfer settings.", ex);
+                Logger.Log(Logger.Level.Error, $"Error caught when saving storage transfer! Saving will continue for everything except this container's transfer settings.");
                 try
                 {
-                    Logger.Log(Logger.Level.Error, $"Double the try, double the... do? idk, prefab identifier: {_uniqueIdentifier}");
+                    Logger.Log(Logger.Level.Error, $"unique identifier of previous failed save: {_uniqueIdentifier}");
                 }
                 catch(Exception)
                 {
