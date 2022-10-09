@@ -31,7 +31,7 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/CyclopsVehicleUpgradeConsole/Changelog.md)
 
 
-### [Equivalent Exchange](https://github.com/Nagorogan/My-Subnautica-Mods/files/9689313/EquivalentExchange.zip)
+### [Equivalent Exchange](https://github.com/Nagorogan/My-Subnautica-Mods/files/9742478/EquivalentExchange.zip)
 
 
 A very cool mod allowing for transmutation of items into other items. After Picking up an ion cube, you can build the Item Research Station (mod still kinda beta, no real model yet. Temp one for now. Still looks nice tho) which will allow you to deposit items in in order to unlock them for exchange, and gain EMC from them. You can then open the Exchange Menu by pressing the two menu keys at the same time (temporary until I get a model in place) and then admire the beauty of it. Once you're done admiring, you can choose an item from one of the five tabs and, assuming you have the EMC required, spawn that item directly in your inventory. You can also hold shift while selecting an item to create five of those items, at five times the cost. In case you want a *lot* of copper.
@@ -44,7 +44,33 @@ Look how nice the exchange menu is. I'm proud of this thing.
 ![image](https://user-images.githubusercontent.com/97289845/193378643-3c588a87-7dfd-4d9a-87b7-3d07acc86dfd.png)
 
 Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
+###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/EquivalentExchange/Changelog.md)
+
+### [Auto Storage Transfer](https://github.com/Nagorogan/My-Subnautica-Mods/files/9742481/AutoStorageTransfer.zip)
+
+
+a very simple, yet powerful mod that allows you to link storages to automatically transfer to or from each other.
+
+Simply craft the storage transfer controller with some magnetite, and then look at a storage container. From there, you can set it to transmit/recieve, and change the id of it. a storage set to transmitter will send items to any storages set to reciever that have the same id. You can also have multiple storages on transfer and only one on reciever.
+
+Storages can only have one single channel, and the transfers do not have any form of sorting built in. However, this does not mean you can't sort stuff. What this means is that you'll have to be creative. Instead of having a container put all magnetite here and titanium there, you have a container automatically transfer to an [autosort locker](https://www.nexusmods.com/subnautica/mods/31) that then sorts the items, and you can then use auto storage transfer to send those now sorted items somewhere else
+
+This mod also has compatibility with fcs mods, and you can set a base as a reciever and it'll put all items sent to it into the storage disks. To do this, just craft a C48 terminal, look at it with the storage transfer controller, and set the id to whatever you want. Any transmitters on that id will send items directly to any free storage disks.
+
+
+Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ###### No Changelog Yet
+
+
+### [Auto Storage Transfer Compatibility](https://github.com/Nagorogan/My-Subnautica-Mods/files/9742496/AutoStorageTransferCompatibility.zip)
+
+
+This mod pairs alongside Auto Storage Transfer (linked above) and many other mods, including ion cube generator(I'll put a link here later) and even the cyclops reactor mods. Also allows auto storage transfer to work with many extra vanilla items, such as the water filtration unit and the base reactors.
+
+
+Dependencies: Auto Storage Transfer
+###### No Changelog Yet
+
 
 ### [No FCS Drone Port](https://github.com/Nagorogan/My-Subnautica-Mods/files/9727254/NoFCSDronePort.zip)
 
