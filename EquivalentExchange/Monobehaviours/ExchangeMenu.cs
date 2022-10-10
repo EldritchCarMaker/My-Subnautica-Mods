@@ -784,12 +784,12 @@ namespace EquivalentExchange.Monobehaviours
 		}
 		private Dictionary<ExchangeMenuTab, string> groupNames = new Dictionary<ExchangeMenuTab, string>()
         {
-			{ ExchangeMenuTab.RawMaterials, "Raw Materials" },
-			{ ExchangeMenuTab.BiologicalMaterials, "Biological Materials" },
-			{ ExchangeMenuTab.CraftedItems, "Crafted Items" },
-			{ ExchangeMenuTab.Equipment, "Equipment" },
-			{ ExchangeMenuTab.Misc, "Misc" },
-			{ ExchangeMenuTab.ModdedItems, "Modded Items" },
+			{ ExchangeMenuTab.RawMaterials, TooltipFactory.Label("Raw Materials") },
+			{ ExchangeMenuTab.BiologicalMaterials, TooltipFactory.Label("Biological Materials") },
+			{ ExchangeMenuTab.CraftedItems, TooltipFactory.Label("Crafted Items") },
+			{ ExchangeMenuTab.Equipment, TooltipFactory.Label("Equipment") },
+			{ ExchangeMenuTab.Misc, TooltipFactory.Label("Misc") },
+			{ ExchangeMenuTab.ModdedItems, TooltipFactory.Label("Modded Items") },
 		};
 
 
