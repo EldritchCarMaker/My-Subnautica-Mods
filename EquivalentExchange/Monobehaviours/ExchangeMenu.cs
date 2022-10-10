@@ -526,10 +526,14 @@ namespace EquivalentExchange.Monobehaviours
                 iconData.icon.PunchScale(5f, 0.5f, duration);
             }
         }
-		// Token: 0x06003468 RID: 13416 RVA: 0x00002319 File Offset: 0x00000519
+
 		public void OnSortRequested()
 		{
-			UpdateItems();
+			//DON'T FUCKING PUT ANYTHING HERE. LAST TIME I DID, IT BROKE THE ENTIRE MENU. 
+			//QUARANTINE THIS SHIT
+			//PRETEND IT HAS KHARAA
+			//LEAVE
+			//STOP READING
 		}
 
 		private void UpdateToolbarNotificationNumbers()
