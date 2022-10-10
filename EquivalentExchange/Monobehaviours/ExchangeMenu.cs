@@ -9,7 +9,7 @@ namespace EquivalentExchange.Monobehaviours
 {
     public class ExchangeMenu : uGUI_InputGroup, uGUI_IIconGridManager, uGUI_IToolbarManager, uGUI_IButtonReceiver, INotificationListener, EventList<TechType>.IListListener
     {
-		public const int PRICEOFUNMARKEDITEM = 100;
+		public const int PRICEOFUNMARKEDITEM = 50;
 		//if you're a modder trying to change this value for your item, please use the ExternalModCompat class
 
 
@@ -27,7 +27,7 @@ namespace EquivalentExchange.Monobehaviours
 		{
 			get
 			{
-				return ExchangeMenu.groups.Count;
+				return Enum.GetValues(typeof(ExchangeMenuTab)).Length;
 			}
 		}
 		public delegate void OnCloseDelegate();
@@ -73,17 +73,16 @@ namespace EquivalentExchange.Monobehaviours
 
 			QMod.SaveData.learntTechTypes.AddListener(this);
 
-			ExchangeMenu.EnsureTechGroupTechTypeDataInitialized();
 			ClearNotificationCounts();
 			iconGrid.iconSize = new Vector2(iconSize, iconSize);
 			iconGrid.minSpaceX = minSpaceX;
 			iconGrid.minSpaceY = minSpaceY;
 			iconGrid.Initialize(this);
-			int count = ExchangeMenu.groups.Count;
+			int count = TabCount;
 			Atlas.Sprite[] array = new Atlas.Sprite[count];
 			for (int i = 0; i < count; i++)
 			{
-				array[i] = GetSpriteForTabType(TechGroupForTab[groups[i]]);
+				array[i] = GetSpriteForTabType((ExchangeMenuTab)i);
 
 				/*
 				TechGroup value = ExchangeMenu.groups[i];
@@ -112,25 +111,21 @@ namespace EquivalentExchange.Monobehaviours
 				case ExchangeMenuTab.CraftedItems:
 					return SpriteManager.Get(TechType.WiringKit);
 
-				case ExchangeMenuTab.UnusedTab:
+				case ExchangeMenuTab.Equipment:
 					return SpriteManager.Get(TechType.Fins);
+
+				case ExchangeMenuTab.Misc:
+					return SpriteManager.Get(TechType.NutrientBlock);
 
 				case ExchangeMenuTab.ModdedItems:
 					return SpriteManager.Get(TechType.PrecursorKey_Red);
 			}
 			return SpriteManager.Get(TechType.Seamoth);//random one, idk
 		}
-		// Token: 0x06003452 RID: 13394 RVA: 0x0012018C File Offset: 0x0011E38C
-		private List<TechType> GetTechTypesForGroup(int groupIdx)
-		{
-			return ExchangeMenu.groupsTechTypes[groupIdx];
-		}
 
 		// Token: 0x06003453 RID: 13395 RVA: 0x00120195 File Offset: 0x0011E395
 		private void Start()
 		{
-			Language.main.OnLanguageChanged += OnLanguageChanged;
-			OnLanguageChanged();
 			if(!QModManager.API.QModServices.Main.ModPresent("FCSAlterraHub"))
 			{
 				return;
@@ -261,11 +256,11 @@ namespace EquivalentExchange.Monobehaviours
 		public void GetToolbarTooltip(int index, out string tooltipText, List<TooltipIcon> tooltipIcons)
 		{
 			tooltipText = null;
-			if (index < 0 || index >= toolbarTooltips.Count)
+			if (index < 0 || index >= TabCount)
 			{
 				return;
 			}
-			tooltipText = toolbarTooltips[index];
+			tooltipText = groupNames[(ExchangeMenuTab)index];
 		}
 
 		// Token: 0x06003463 RID: 13411 RVA: 0x001203B7 File Offset: 0x0011E5B7
@@ -377,6 +372,9 @@ namespace EquivalentExchange.Monobehaviours
         {
 			if (useCreative && !GameModeUtils.RequiresIngredients())
 				return 0;
+
+			if(QMod.config.ModifiedItemCosts.TryGetValue(techType, out var modifiedCost))
+				return modifiedCost;
 
 			if (QMod.config.BaseMaterialCosts.TryGetValue(techType, out var costs))
 				return costs;
@@ -528,9 +526,14 @@ namespace EquivalentExchange.Monobehaviours
                 iconData.icon.PunchScale(5f, 0.5f, duration);
             }
         }
-		// Token: 0x06003468 RID: 13416 RVA: 0x00002319 File Offset: 0x00000519
+
 		public void OnSortRequested()
 		{
+			//DON'T FUCKING PUT ANYTHING HERE. LAST TIME I DID, IT BROKE THE ENTIRE MENU. 
+			//QUARANTINE THIS SHIT
+			//PRETEND IT HAS KHARAA
+			//LEAVE
+			//STOP READING
 		}
 
 		private void UpdateToolbarNotificationNumbers()
@@ -538,26 +541,6 @@ namespace EquivalentExchange.Monobehaviours
 			foreach (ExchangeMenuTab tab in Enum.GetValues(typeof(ExchangeMenuTab)))
 			{
 				toolbar.SetNotificationsAmount((int)tab, tabNotificationCounts[tab].Count);
-			}
-		}
-
-		// Token: 0x0600346A RID: 13418 RVA: 0x00120470 File Offset: 0x0011E670
-		private static void EnsureTechGroupTechTypeDataInitialized()
-		{
-			if (!ExchangeMenu.groupsTechTypesInitialized)
-			{
-				for (int i = 0; i < ExchangeMenu.groups.Count; i++)
-				{
-					ExchangeMenu.groupsTechTypes[i] = new List<TechType>();
-					List<TechType> list = ExchangeMenu.groupsTechTypes[i];
-					CraftData.GetBuilderGroupTech(ExchangeMenu.groups[i], list, false);
-					for (int j = 0; j < list.Count; j++)
-					{
-						TechType key = list[j];
-						ExchangeMenu.techTypeToTechGroupIdx.Add(key, i);
-					}
-				}
-				ExchangeMenu.groupsTechTypesInitialized = true;
 			}
 		}
 
@@ -570,23 +553,6 @@ namespace EquivalentExchange.Monobehaviours
 			}
 		}
 
-		// Token: 0x0600346D RID: 13421 RVA: 0x00120548 File Offset: 0x0011E748
-		private void CacheToolbarTooltips()
-		{
-			toolbarTooltips.Clear();
-			for (int i = 0; i < ExchangeMenu.groups.Count; i++)
-			{
-				TechGroup value = ExchangeMenu.groups[i];
-				toolbarTooltips.Add(TooltipFactory.Label(groupNames[TechGroupForTab[value]]));
-			}
-		}
-
-		// Token: 0x0600346E RID: 13422 RVA: 0x001205A7 File Offset: 0x0011E7A7
-		private void OnLanguageChanged()
-		{
-			title.text = Language.main.Get("CraftingLabel");
-			CacheToolbarTooltips();
-		}
 
 		// Token: 0x0600346F RID: 13423 RVA: 0x001205CC File Offset: 0x0011E7CC
 		public static ExchangeMenu GetInstance()
@@ -632,7 +598,7 @@ namespace EquivalentExchange.Monobehaviours
 		// Token: 0x06003471 RID: 13425 RVA: 0x0012069C File Offset: 0x0011E89C
 		private void SetCurrentTab(int index)
 		{
-			if (index < 0 || index >= ExchangeMenu.groups.Count)
+			if (index < 0 || index >= TabCount)
 			{
 				return;
 			}
@@ -672,6 +638,9 @@ namespace EquivalentExchange.Monobehaviours
 		}
 		private ExchangeMenuTab GetTabTypeForTech(TechType type)
         {
+			if (QMod.config.MovedItems.TryGetValue(type, out var movedTab))
+				return movedTab;
+
 			if (QMod.config.BaseMaterialCosts.ContainsKey(type))
 				return ExchangeMenuTab.RawMaterials;
 
@@ -682,12 +651,12 @@ namespace EquivalentExchange.Monobehaviours
 				return ExchangeMenuTab.ModdedItems;
 
 			if (CraftData.GetEquipmentType(type) != EquipmentType.None)
-				return ExchangeMenuTab.UnusedTab;
+				return ExchangeMenuTab.Equipment;
 
-			if (TechTypeExtensions.techTypeKeys.ContainsKey(type))
+			if (CraftData.Get(type, true) != null)
 				return ExchangeMenuTab.CraftedItems;
 
-			return ExchangeMenuTab.ModdedItems;
+			return ExchangeMenuTab.Misc;
         }
 
 		// Token: 0x06003473 RID: 13427 RVA: 0x001207B8 File Offset: 0x0011E9B8
@@ -760,30 +729,12 @@ namespace EquivalentExchange.Monobehaviours
         // Token: 0x04002F3B RID: 12091
         private const string prefabPath = "ExchangeMenu";
 
-		// Token: 0x04002F3C RID: 12092
-		private static readonly List<TechGroup> groups = new List<TechGroup>
-		{
-			TechGroup.BasePieces,
-			TechGroup.ExteriorModules,
-			TechGroup.InteriorPieces,
-			TechGroup.InteriorModules,
-			TechGroup.Miscellaneous
-		};
 
 		// Token: 0x04002F3D RID: 12093
 		private const NotificationManager.Group notificationGroup = NotificationManager.Group.Undefined;
 
 		// Token: 0x04002F3E RID: 12094
 		public static ExchangeMenu singleton;
-
-		// Token: 0x04002F3F RID: 12095
-		private static readonly List<TechType>[] groupsTechTypes = new List<TechType>[ExchangeMenu.groups.Count];
-
-		// Token: 0x04002F40 RID: 12096
-		private static Dictionary<TechType, int> techTypeToTechGroupIdx = new Dictionary<TechType, int>();
-
-		// Token: 0x04002F41 RID: 12097
-		private static bool groupsTechTypesInitialized = false;
 
 		// Token: 0x04002F42 RID: 12098
 		[AssertNotNull]
@@ -826,44 +777,33 @@ namespace EquivalentExchange.Monobehaviours
 		// Token: 0x04002F4D RID: 12109
 		private new ExchangeMenuTab selected;
 
-		// Token: 0x04002F4E RID: 12110
-		//private CachedEnumString<TechGroup> techGroupNames = new CachedEnumString<TechGroup>(CraftData.sTechGroupComparer);
-		private enum ExchangeMenuTab
+		public enum ExchangeMenuTab
         {
 			RawMaterials,
 			BiologicalMaterials,
 			CraftedItems,
-			UnusedTab,//is equipment tab now, just too lazy to change name 
+			Equipment,
+			Misc,
 			ModdedItems
 		}
 		private Dictionary<ExchangeMenuTab, string> groupNames = new Dictionary<ExchangeMenuTab, string>()
         {
-			{ ExchangeMenuTab.RawMaterials, "Raw Materials" },
-			{ ExchangeMenuTab.BiologicalMaterials, "Biological Materials" },
-			{ ExchangeMenuTab.CraftedItems, "Crafted Items" },
-			{ ExchangeMenuTab.UnusedTab, "Equipment" },
-			{ ExchangeMenuTab.ModdedItems, "Modded Items" },
+			{ ExchangeMenuTab.RawMaterials, TooltipFactory.Label("Raw Materials") },
+			{ ExchangeMenuTab.BiologicalMaterials, TooltipFactory.Label("Biological Materials") },
+			{ ExchangeMenuTab.CraftedItems, TooltipFactory.Label("Crafted Items") },
+			{ ExchangeMenuTab.Equipment, TooltipFactory.Label("Equipment") },
+			{ ExchangeMenuTab.Misc, TooltipFactory.Label("Misc") },
+			{ ExchangeMenuTab.ModdedItems, TooltipFactory.Label("Modded Items") },
 		};
 
-		private Dictionary<TechGroup, ExchangeMenuTab> TechGroupForTab = new Dictionary<TechGroup, ExchangeMenuTab>()
-		{
-			{ TechGroup.BasePieces, ExchangeMenuTab.RawMaterials },
-			{ TechGroup.ExteriorModules, ExchangeMenuTab.BiologicalMaterials },
-			{ TechGroup.InteriorPieces, ExchangeMenuTab.CraftedItems },
-			{ TechGroup.InteriorModules, ExchangeMenuTab.UnusedTab },
-			{ TechGroup.Miscellaneous, ExchangeMenuTab.ModdedItems },
-		};
 
-		// Token: 0x04002F4F RID: 12111
-		private List<string> toolbarTooltips = new List<string>();
-
-		// Token: 0x04002F50 RID: 12112
 		private Dictionary<ExchangeMenuTab, List<TechType>> tabNotificationCounts = new Dictionary<ExchangeMenuTab, List<TechType>>()
 		{
 			{ ExchangeMenuTab.RawMaterials, new List<TechType>() },
             { ExchangeMenuTab.BiologicalMaterials, new List<TechType>() },
             { ExchangeMenuTab.CraftedItems, new List<TechType>() },
-            { ExchangeMenuTab.UnusedTab, new List<TechType>() },
+            { ExchangeMenuTab.Equipment, new List<TechType>() },
+			{ ExchangeMenuTab.Misc, new List<TechType>() },
             { ExchangeMenuTab.ModdedItems, new List<TechType>() }
         };
 	}

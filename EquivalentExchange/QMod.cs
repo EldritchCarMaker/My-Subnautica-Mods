@@ -12,6 +12,8 @@ using SMLHelper.V2.Json.Attributes;
 using EquivalentExchange.Constructables;
 using System;
 using System.Collections.ObjectModel;
+using EquivalentExchange.Monobehaviours;
+using static EquivalentExchange.Monobehaviours.ExchangeMenu;
 
 namespace EquivalentExchange
 {
@@ -201,6 +203,19 @@ namespace EquivalentExchange
             { TechType.StalkerTooth, 15 },
             { TechType.JeweledDiskPiece, 10 },
             { TechType.BloodOil, 15 },
+        };
+        public Dictionary<TechType, int> ModifiedItemCosts = new Dictionary<TechType, int>()
+        {
+            { TechType.None, 0 },//just so that the config.json file makes an entry, easier to change json when the layout is already made
+        };
+        public Dictionary<TechType, ExchangeMenuTab> MovedItems = new Dictionary<TechType, ExchangeMenuTab>()
+        {
+            { TechType.None, ExchangeMenuTab.RawMaterials },//one useless entry for every tab type, so people know what they're each called
+            { TechType.Accumulator, ExchangeMenuTab.BiologicalMaterials },
+            { TechType.AcidOld, ExchangeMenuTab.CraftedItems },
+            { TechType.AminoAcids, ExchangeMenuTab.Equipment },
+            { TechType.AnalysisTreeOld, ExchangeMenuTab.Misc },
+            { TechType.Aquarium, ExchangeMenuTab.ModdedItems },
         };
         public List<TechType> BlackListedTypes = new List<TechType>() 
         { 
