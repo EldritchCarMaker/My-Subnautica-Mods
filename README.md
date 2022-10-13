@@ -31,7 +31,7 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/CyclopsVehicleUpgradeConsole/Changelog.md)
 
 
-### [Equivalent Exchange](https://github.com/Nagorogan/My-Subnautica-Mods/files/9742478/EquivalentExchange.zip)
+### [Equivalent Exchange](https://github.com/Nagorogan/My-Subnautica-Mods/files/9778603/EquivalentExchange.zip)
 
 
 A very cool mod allowing for transmutation of items into other items. After Picking up an ion cube, you can build the Item Research Station (mod still kinda beta, no real model yet. Temp one for now. Still looks nice tho) which will allow you to deposit items in in order to unlock them for exchange, and gain EMC from them. You can then open the Exchange Menu by pressing the two menu keys at the same time (temporary until I get a model in place) and then admire the beauty of it. Once you're done admiring, you can choose an item from one of the five tabs and, assuming you have the EMC required, spawn that item directly in your inventory. You can also hold shift while selecting an item to create five of those items, at five times the cost. In case you want a *lot* of copper.
