@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace EquivalentExchange.Monobehaviours
 {
+	using SMLHelper.V2.Handlers;
 	using System;
 	using System.Collections.Generic;
 	using UnityEngine;
@@ -95,19 +96,23 @@ namespace EquivalentExchange.Monobehaviours
 		// Token: 0x0600118F RID: 4495 RVA: 0x0005ECD0 File Offset: 0x0005CED0
 		private bool IsAllowedToAdd(Pickupable pickupable, bool verbose)
 		{
+			if (!QMod.config.researchStationFCSFilters) return true;
+
+
 			TechType techType = pickupable.GetTechType();
-			bool flag = Trashcan.nuclearWaste.Contains(techType);
-			if (this.biohazard == flag)
+
+			if (techType.ToString().ToLower() == "debitcard") return true;
+
+			if(TechTypeHandler.TechTypesAddedBy.TryGetValue(techType, out var assembly))
 			{
-				return true;
-			}
-			if (verbose)
-			{
-				string key = this.biohazard ? "TrashcanErrorNotNuclearWaste" : "TrashcanErrorNuclearWaste";
-				ErrorMessage.AddMessage(Language.main.Get(key));
-			}
-			return false;
-		}
+				if(assembly.GetName().Name.Contains("FCS_"))
+				{
+					ErrorMessage.AddMessage("Can't add FCS items to the item research station. Please return them through the FCS pda instead");
+					return false;
+				}
+            }
+            return true;
+        }
 
 		// Token: 0x06001190 RID: 4496 RVA: 0x0005ED24 File Offset: 0x0005CF24
 		private void AddItem(InventoryItem item)
@@ -137,16 +142,6 @@ namespace EquivalentExchange.Monobehaviours
 
 		// Token: 0x04001322 RID: 4898
 		public float destroyInterval = 1f;
-
-		// Token: 0x04001323 RID: 4899
-		public bool biohazard;
-
-		// Token: 0x04001324 RID: 4900
-		private static readonly List<TechType> nuclearWaste = new List<TechType>
-		{
-			TechType.ReactorRod,
-			TechType.DepletedReactorRod
-		};
 
 		// Token: 0x04001325 RID: 4901
 		private bool subscribed;

@@ -164,6 +164,9 @@ namespace EquivalentExchange
         [Toggle("Research Station Messages", Tooltip = "Whether or not the Item Research Station will display messages regarding unlocking/not unlocking items for exchange")]
         public bool researchStationMessages = false;
 
+        [Toggle("Research Station FCS Filters", Tooltip = "Whether or not the Item Research Station will stop you from inputting fcs items such as fcs kits")]
+        public bool researchStationFCSFilters = true;
+
         public float inefficiencyMultiplier = 1f;
 
         public Dictionary<TechType, int> BaseMaterialCosts = new Dictionary<TechType, int>()//if you're a modder trying to change this value for your item, please use the ExternalModCompat class
