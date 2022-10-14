@@ -13,7 +13,7 @@ namespace AutoStorageTransfer.Monobehaviours
     public class StorageTransfer : MonoBehaviour
     {
         private static List<StorageTransfer> storageTransfers = new List<StorageTransfer>();
-
+        
         private StorageContainer _storageContainer;
         public StorageContainer StorageContainer 
         { 
@@ -39,12 +39,13 @@ namespace AutoStorageTransfer.Monobehaviours
         private UniqueIdentifier _uniqueIdentifier;
         public UniqueIdentifier UniqueIdentifier => GetUniqueIdentifier();
 
-        public string StorageID;
-        public bool IsReciever { get; set; } = true;
+        protected string StorageID;
+        public bool IsReciever { get; private set; } = true;
 
 
-        private Dictionary<InventoryItem, int> SortAttemptsPerItem = new Dictionary<InventoryItem, int>();
+        protected Dictionary<InventoryItem, int> SortAttemptsPerItem = new Dictionary<InventoryItem, int>();
         //so that we don't end up with 30 items all doing a bunch of looking around and string comparing constantly, just because they can't find a spot.
+
         protected float timeLastThoroughSort = 0;
         public UniqueIdentifier GetUniqueIdentifier()
         {
@@ -55,6 +56,10 @@ namespace AutoStorageTransfer.Monobehaviours
                 _uniqueIdentifier = UWE.Utils.GetComponentInHierarchy<UniqueIdentifier>(gameObject);
 
             return _uniqueIdentifier;
+        }
+        public string GetStorageID()
+        {
+            return StorageID;
         }
 
         public void Start()
@@ -124,19 +129,26 @@ namespace AutoStorageTransfer.Monobehaviours
         {
             storageTransfers.Remove(this);
         }
+        public virtual bool IsTransferReady()
+        {
+            return StorageContainer || (Container != null);
+        }
         public virtual void FixedUpdate()
         {
-            if(Container == null)
+            if(!IsTransferReady())
             {
                 Destroy(this);
                 return;
             }
+
             if (!storageTransfers.Contains(this))
             {
                 storageTransfers.Add(this);
             }
 
             if (IsReciever || string.IsNullOrEmpty(StorageID)) return;
+
+            if (Container == null) return;
 
             InventoryItem chosenItem = null;
             int itemsChecked = 0;
@@ -158,7 +170,7 @@ namespace AutoStorageTransfer.Monobehaviours
 
                 while (reciever != null)
                 {
-                    if(((IItemsContainer)reciever.Container).AddItem(item))
+                    if(reciever.AddItem(item))
                     {
                         chosenItem = item;
                         break;
@@ -194,7 +206,7 @@ namespace AutoStorageTransfer.Monobehaviours
 
             foreach (StorageTransfer reciever in storageTransfers)
             {
-                if (reciever == null || reciever.Container == null || !reciever.gameObject.activeInHierarchy)
+                if (reciever == null || !reciever.gameObject.activeInHierarchy)
                 {
                     transfersToRemove.Add(reciever);
                     continue;
@@ -207,7 +219,7 @@ namespace AutoStorageTransfer.Monobehaviours
 
                 try
                 {
-                    if (reciever.Container.HasRoomFor(item, null))
+                    if (reciever.HasRoomFor(item))
                     {
                         storageTransfer = reciever;
                         break;
@@ -244,6 +256,14 @@ namespace AutoStorageTransfer.Monobehaviours
             if (Container != null) return;//should be no reason to replace existing container
 
             _itemsContainer = container;
+        }
+        public virtual bool HasRoomFor(Pickupable item)
+        {
+            return Container.HasRoomFor(item, null);
+        }
+        public virtual bool AddItem(InventoryItem item)
+        {
+            return Container.AddItem(item);
         }
     }
 }

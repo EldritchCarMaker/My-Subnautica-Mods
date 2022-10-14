@@ -34,6 +34,15 @@ namespace AutoStorageTransferCompatibility
             if(QModManager.API.QModServices.Main.ModPresent("IonCubeGenerator"))
                 ioncubegeneratorPatches.PatchCubeGen(harmony);
 
+            if (QModManager.API.QModServices.Main.ModPresent("FCSProductionSolutions"))
+                DeepDrillerHeavyDutyPatches.PatchDrill(harmony);
+
+            if (QModManager.API.QModServices.Main.ModPresent("FCSProductionSolutions"))
+                DeepDrillerLightDutyPatches.PatchDrill(harmony);
+
+            if (QModManager.API.QModServices.Main.ModPresent("FCSAlterraHub"))
+                AlterraHubDepotPatches.PatchDepot(harmony);
+
             //alterra gen
 
             Logger.Log(Logger.Level.Info, "Patched successfully!");

@@ -2,7 +2,7 @@
   "Id": "AutoStorageTransferCompatibility",
   "DisplayName": "AutoStorageTransferCompatibility",
   "Author": "Nagorrogan",
-  "Version": "0.0.1",
+  "Version": "1.0.0",
   "Enable": true,
   "AssemblyName": "AutoStorageTransferCompatibility.dll",
   "VersionDependencies": {

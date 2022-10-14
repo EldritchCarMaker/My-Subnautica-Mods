@@ -50,6 +50,12 @@
     <Reference Include="CyclopsNuclearReactor">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Subnautica\Subnautica_Data\Managed\publicized_assemblies\CyclopsNuclearReactor.dll</HintPath>
     </Reference>
+    <Reference Include="FCS_AlterraHub">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Subnautica\Subnautica_Data\Managed\publicized_assemblies\FCS_AlterraHub.dll</HintPath>
+    </Reference>
+    <Reference Include="FCS_ProductionSolutions">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Subnautica\Subnautica_Data\Managed\publicized_assemblies\FCS_ProductionSolutions.dll</HintPath>
+    </Reference>
     <Reference Include="IonCubeGenerator">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Subnautica\Subnautica_Data\Managed\publicized_assemblies\IonCubeGenerator.dll</HintPath>
     </Reference>
@@ -78,9 +84,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MonoBehaviours\FCSDeepDrillerLightTransfer.cs" />
+    <Compile Include="MonoBehaviours\FCSDepotTransfer.cs" />
+    <Compile Include="Patches\AlterraHubDepotPatches.cs" />
     <Compile Include="Patches\BioReactorPatches.cs" />
     <Compile Include="Patches\CyclopsBioReactorPatches.cs" />
     <Compile Include="Patches\CyclopsNukeReactorPatches.cs" />
+    <Compile Include="Patches\DeepDrillerHeavyDutyPatches.cs" />
+    <Compile Include="Patches\DeepDrillerLightDutyPatches.cs" />
     <Compile Include="Patches\ioncubegeneratorPatches.cs" />
     <Compile Include="Patches\NukeReactorPatches.cs" />
     <Compile Include="Patches\ReflectionHelp.cs" />

@@ -29,7 +29,7 @@ namespace AutoStorageTransfer.Monobehaviours
         {
             if(currentSeenContainer == null) return false;
 
-            uGUI.main.userInput.RequestString("ID of storage transfer", "Submit", currentSeenContainer.StorageID, 20, new uGUI_UserInput.UserInputCallback(currentSeenContainer.SetIDString));
+            uGUI.main.userInput.RequestString("ID of storage transfer", "Submit", currentSeenContainer.GetStorageID(), 20, new uGUI_UserInput.UserInputCallback(currentSeenContainer.SetIDString));
             return true;
         }
         public override bool DoesOverrideHand()

@@ -15,7 +15,7 @@ namespace AutoStorageTransfer
     [QModCore]
     public static class QMod
     {
-        internal static Config config { get; } = OptionsPanelHandler.Main.RegisterModOptions<Config>();
+        public static Config config { get; } = OptionsPanelHandler.Main.RegisterModOptions<Config>();
         internal static SaveData SaveData { get; } = SaveDataHandler.Main.RegisterSaveDataCache<SaveData>();
         [QModPatch]
         public static void Patch()
