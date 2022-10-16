@@ -2,7 +2,7 @@
   "Id": "AutoStorageTransferCompatibility",
   "DisplayName": "AutoStorageTransferCompatibility",
   "Author": "EldritchCarMaker",
-  "Version": "1.0.0",
+  "Version": "1.0.1",
   "Enable": true,
   "AssemblyName": "AutoStorageTransferCompatibility.dll",
   "VersionDependencies": {
