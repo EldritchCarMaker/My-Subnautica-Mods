@@ -1,7 +1,7 @@
 ﻿{
   "Id": "StasisSuit",
   "DisplayName": "Stasis Suit",
-  "Author": "Nagorrogan",
+  "Author": "EldritchCarMaker",
   "Version": "1.0.0",
   "Enable": true,
   "AssemblyName": "StasisSuit.dll",
@@ -10,7 +10,7 @@
     "EquippableItemIcons": "1.2.2"
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/StasisSuit/mod.json"
+    "LatestVersionURL": "https://raw.githubusercontent.com/EldritchCarMaker/My-Subnautica-Mods/main/StasisSuit/mod.json"
   },
   "Game": "Subnautica"
 }

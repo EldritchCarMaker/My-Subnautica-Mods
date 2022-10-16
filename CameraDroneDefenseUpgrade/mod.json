@@ -1,7 +1,7 @@
 ﻿{
   "Id": "CameraDroneDefenseUpgrade",
   "DisplayName": "Camera Drone Defense Upgrade",
-  "Author": "Nagorrogan",
+  "Author": "EldritchCarMaker",
   "Version": "1.0.2",
   "Enable": true,
   "AssemblyName": "CameraDroneDefenseUpgrade.dll",
@@ -10,7 +10,7 @@
     "CameraDroneUpgrades": "1.0.3"
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/CameraDroneDefenseUpgrade/mod.json"
+    "LatestVersionURL": "https://raw.githubusercontent.com/EldritchCarMaker/My-Subnautica-Mods/main/CameraDroneDefenseUpgrade/mod.json"
   },
   "Game": "Subnautica"
 }

@@ -15,7 +15,7 @@ namespace DroopingStingersNerf
         public static void Patch()
         {
             var assembly = Assembly.GetExecutingAssembly();
-            var stingers = ($"Nagorogan_{assembly.GetName().Name}");
+            var stingers = ($"EldritchCarMaker_{assembly.GetName().Name}");
             Logger.Log(Logger.Level.Info, $"Patching {stingers}");
             Harmony harmony = new Harmony(stingers);
             harmony.PatchAll(assembly);

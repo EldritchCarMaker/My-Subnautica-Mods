@@ -1,7 +1,7 @@
 ﻿{
   "Id": "BurstFins",
   "DisplayName": "Burst Fins",
-  "Author": "Nagorrogan",
+  "Author": "EldritchCarMaker",
   "Version": "1.2.1",
   "Enable": true,
   "AssemblyName": "BurstFins.dll",
@@ -10,7 +10,7 @@
     "EquippableItemIcons" :  "1.2.2"
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/BurstFins/mod.json"
+    "LatestVersionURL": "https://raw.githubusercontent.com/EldritchCarMaker/My-Subnautica-Mods/main/BurstFins/mod.json"
   },
   "Game": "Subnautica"
 }

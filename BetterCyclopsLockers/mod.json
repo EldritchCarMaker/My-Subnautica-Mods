@@ -1,7 +1,7 @@
 ﻿{
   "Id": "BetterCyclopsLockers",
   "DisplayName": "Better Cyclops Lockers",
-  "Author": "Nagorrogan",
+  "Author": "EldritchCarMaker",
   "Version": "1.0.7",
   "Enable": true,
   "AssemblyName": "BetterCyclopsLockers.dll",
@@ -10,7 +10,7 @@
     "SMLHelper": "2.9.6"
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/BetterCyclopsLockers/mod.json"
+    "LatestVersionURL": "https://raw.githubusercontent.com/EldritchCarMaker/My-Subnautica-Mods/main/BetterCyclopsLockers/mod.json"
   },
   "Game": "Subnautica"
 }

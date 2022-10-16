@@ -21,7 +21,7 @@ namespace AutoStorageTransfer
         public static void Patch()
         {
             var assembly = Assembly.GetExecutingAssembly();
-            var name = ($"Nagorogan_{assembly.GetName().Name}");
+            var name = ($"EldritchCarMaker_{assembly.GetName().Name}");
             Logger.Log(Logger.Level.Info, $"Patching {name}");
             Harmony harmony = new Harmony(name);
             harmony.PatchAll(assembly);

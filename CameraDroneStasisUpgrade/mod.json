@@ -1,7 +1,7 @@
 ﻿{
   "Id": "CameraDroneStasisUpgrade",
   "DisplayName": "Camera Drone Stasis Upgrade",
-  "Author": "Nagorrogan",
+  "Author": "EldritchCarMaker",
   "Version": "1.0.2",
   "Enable": true,
   "AssemblyName": "CameraDroneStasisUpgrade.dll",
@@ -10,7 +10,7 @@
     "CameraDroneUpgrades": "1.0.3"
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/CameraDroneStasisUpgrade/mod.json"
+    "LatestVersionURL": "https://raw.githubusercontent.com/EldritchCarMaker/My-Subnautica-Mods/main/CameraDroneStasisUpgrade/mod.json"
   },
   "Game": "Subnautica"
 }

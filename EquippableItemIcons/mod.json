@@ -1,7 +1,7 @@
 ﻿{
   "Id": "EquippableItemIcons",
   "DisplayName": "Equippable Item Icons",
-  "Author": "Nagorrogan",
+  "Author": "EldritchCarMaker",
   "Version": "1.3.0",
   "Enable": true,
   "AssemblyName": "EquippableItemIcons.dll",
@@ -9,7 +9,7 @@
     "SMLHelper": "2.9.6"
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/EquippableItemIcons/mod.json"
+    "LatestVersionURL": "https://raw.githubusercontent.com/EldritchCarMaker/My-Subnautica-Mods/main/EquippableItemIcons/mod.json"
   },
   "Game": "Subnautica"
 }

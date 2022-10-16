@@ -23,7 +23,7 @@ namespace RepairToolChanges_SN
         public static void Patch()
         {
             var assembly = Assembly.GetExecutingAssembly();
-            var testMod = ($"Nagorogan_{assembly.GetName().Name}");
+            var testMod = ($"EldritchCarMaker_{assembly.GetName().Name}");
             Logger.Log(Logger.Level.Info, $"Patching {testMod}");
             Harmony harmony = new Harmony(testMod);
             harmony.PatchAll(assembly);

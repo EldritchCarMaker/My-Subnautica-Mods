@@ -1,7 +1,7 @@
 ﻿{
   "Id": "CameraDroneSpeedUpgrade",
   "DisplayName": "Camera Drone Speed Upgrade",
-  "Author": "Nagorrogan",
+  "Author": "EldritchCarMaker",
   "Version": "1.0.4",
   "Enable": true,
   "AssemblyName": "CameraDroneSpeedUpgrade.dll",
@@ -10,7 +10,7 @@
     "CameraDroneUpgrades": "1.0.3"
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/CameraDroneSpeedUpgrade/mod.json"
+    "LatestVersionURL": "https://raw.githubusercontent.com/EldritchCarMaker/My-Subnautica-Mods/main/CameraDroneSpeedUpgrade/mod.json"
   },
   "Game": "Subnautica"
 }

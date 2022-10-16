@@ -1,12 +1,12 @@
 {
   "Id": "InvincibleDockedVehicles",
   "DisplayName": "Invincible Docked Vehicles",
-  "Author": "Nagorrogan",
+  "Author": "EldritchCarMaker",
   "Version": "1.0.1",
   "Enable": true,
   "AssemblyName": "InvincibleDockedVehicles.dll",
   "VersionChecker": {
-    "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/InvincibleDockedVehicles/mod.json"
+    "LatestVersionURL": "https://raw.githubusercontent.com/EldritchCarMaker/My-Subnautica-Mods/main/InvincibleDockedVehicles/mod.json"
   },
   "Game": "Subnautica"
 }

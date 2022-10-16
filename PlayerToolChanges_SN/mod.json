@@ -1,7 +1,7 @@
 ﻿{
   "Id": "PlayerToolChanges_SN",
   "DisplayName": "Player Tool Changes SN",
-  "Author": "Nagorrogan",
+  "Author": "EldritchCarMaker",
   "Version": "1.2.1",
   "Enable": true,
   "AssemblyName": "PlayerToolChanges_SN.dll",
@@ -9,7 +9,7 @@
     "SMLHelper": "2.9.6"
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/PlayerToolChanges_SN/mod.json"
+    "LatestVersionURL": "https://raw.githubusercontent.com/EldritchCarMaker/My-Subnautica-Mods/main/PlayerToolChanges_SN/mod.json"
   },
   "Game": "Subnautica"
 }

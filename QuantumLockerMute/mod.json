@@ -1,7 +1,7 @@
 ﻿{
   "Id": "QuantumLockerMute",
   "DisplayName": "Quantum Locker Mute",
-  "Author": "Nagorrogan",
+  "Author": "EldritchCarMaker",
   "Version": "1.0.0",
   "Enable": true,
   "AssemblyName": "QuantumLockerMute.dll",

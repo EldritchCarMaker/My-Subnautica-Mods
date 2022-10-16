@@ -1,7 +1,7 @@
 ﻿{
   "Id": "MiniatureVehicles",
   "DisplayName": "Miniature Vehicles",
-  "Author": "Nagorrogan",
+  "Author": "EldritchCarMaker",
   "Version": "1.0.1",
   "Enable": true,
   "AssemblyName": "MiniatureVehicles.dll",
@@ -9,7 +9,7 @@
     "SMLHelper": "2.9.6"
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/MiniatureVehicles/mod.json"
+    "LatestVersionURL": "https://raw.githubusercontent.com/EldritchCarMaker/My-Subnautica-Mods/main/MiniatureVehicles/mod.json"
   },
   "Game": "Subnautica"
 }

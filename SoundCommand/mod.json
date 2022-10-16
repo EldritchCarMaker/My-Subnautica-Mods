@@ -1,7 +1,7 @@
 ﻿{
   "Id": "SoundCommands",
   "DisplayName": "Sound Commands",
-  "Author": "Nagorrogan",
+  "Author": "EldritchCarMaker",
   "Version": "1.0.2",
   "Enable": true,
   "AssemblyName": "SoundCommand.dll",
@@ -9,7 +9,7 @@
     "SMLHelper": "2.9.6"
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/SoundCommand/mod.json"
+    "LatestVersionURL": "https://raw.githubusercontent.com/EldritchCarMaker/My-Subnautica-Mods/main/SoundCommand/mod.json"
   },
   "Game": "Subnautica"
 }

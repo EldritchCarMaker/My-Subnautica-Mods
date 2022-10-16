@@ -17,7 +17,7 @@ namespace InvincibleDockedVehicles
         public static void Patch()
         {
             var assembly = Assembly.GetExecutingAssembly();
-            var af = ($"Nagorogan_{assembly.GetName().Name}");
+            var af = ($"EldritchCarMaker_{assembly.GetName().Name}");
             Logger.Log(Logger.Level.Info, $"Patching {af}");
             Harmony harmony = new Harmony(af);
             harmony.PatchAll(assembly);

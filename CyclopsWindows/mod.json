@@ -1,7 +1,7 @@
 ﻿{
   "Id": "CyclopsWindows",
   "DisplayName": "Cyclops Windows",
-  "Author": "Nagorrogan",
+  "Author": "EldritchCarMaker",
   "Version": "1.1.1",
   "Enable": true,
   "AssemblyName": "CyclopsWindows.dll",
@@ -9,7 +9,7 @@
     "SMLHelper": "2.9.6"
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/CyclopsWindows/mod.json"
+    "LatestVersionURL": "https://raw.githubusercontent.com/EldritchCarMaker/My-Subnautica-Mods/main/CyclopsWindows/mod.json"
   },
   "Game": "Subnautica"
 }

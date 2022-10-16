@@ -17,7 +17,7 @@ namespace FlyingSeaTruck
         public static void Patch()
         {
             var assembly = Assembly.GetExecutingAssembly();
-            var CyclopsLockers = ($"Nagorogan_{assembly.GetName().Name}");
+            var CyclopsLockers = ($"EldritchCarMaker_{assembly.GetName().Name}");
             Logger.Log(Logger.Level.Info, $"Patching {CyclopsLockers}");
             Harmony harmony = new Harmony(CyclopsLockers);
             harmony.PatchAll(assembly);

@@ -1,7 +1,7 @@
 ﻿{
   "Id": "ShieldSuit",
   "DisplayName": "Shield Suit",
-  "Author": "Nagorrogan",
+  "Author": "EldritchCarMaker",
   "Version": "1.1.2",
   "Enable": true,
   "AssemblyName": "ShieldSuit.dll",
@@ -10,7 +10,7 @@
     "EquippableItemIcons": "1.2.2"
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/ShieldChip/mod.json"
+    "LatestVersionURL": "https://raw.githubusercontent.com/EldritchCarMaker/My-Subnautica-Mods/main/ShieldChip/mod.json"
   },
   "Game": "Subnautica"
 }

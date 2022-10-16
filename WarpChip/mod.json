@@ -1,7 +1,7 @@
 ﻿{
   "Id": "WarpChip",
   "DisplayName": "Warp Chip",
-  "Author": "Nagorrogan",
+  "Author": "EldritchCarMaker",
   "Version": "1.4.0",
   "Enable": true,
   "AssemblyName": "WarpChip.dll",
@@ -10,7 +10,7 @@
     "EquippableItemIcons": "1.3.0"
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/WarpChip/mod.json"
+    "LatestVersionURL": "https://raw.githubusercontent.com/EldritchCarMaker/My-Subnautica-Mods/main/WarpChip/mod.json"
   },
   "Game": "Subnautica"
 }

@@ -153,7 +153,7 @@ namespace EquippableItemIcons.API
                 else
                 {
                     //I still want to know about this, but it also is run every time when the game quits so I only want to know outside of the game being quit
-                    //Logger.Log(Logger.Level.Warn, $"icon Container null: {container == null}, {(container == null ? "" : $"Transform null: {container.transform != null}, " )} If you get this message, ping Nagorrogan in the subnautica modding discord and send the log file to me");
+                    //Logger.Log(Logger.Level.Warn, $"icon Container null: {container == null}, {(container == null ? "" : $"Transform null: {container.transform != null}, " )} If you get this message, ping EldritchCarMaker in the subnautica modding discord and send the log file to me");
                 }
             }
 

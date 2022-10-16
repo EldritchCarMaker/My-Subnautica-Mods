@@ -1,7 +1,7 @@
 {
   "Id": "AdaptiveTeleportingCosts",
   "DisplayName": "Adaptive Teleporting Costs",
-  "Author": "Nagorrogan",
+  "Author": "EldritchCarMaker",
   "Version": "1.0.4",
   "Enable": true,
   "AssemblyName": "AdaptiveTeleportingCosts.dll",

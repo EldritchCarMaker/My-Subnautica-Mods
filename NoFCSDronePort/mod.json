@@ -1,7 +1,7 @@
 ﻿{
   "Id": "NoFCSDronePort",
   "DisplayName": "No FCS Drone Port",
-  "Author": "Nagorrogan",
+  "Author": "EldritchCarMaker",
   "Version": "0.0.1",
   "Enable": true,
   "AssemblyName": "NoFCSDronePort.dll",
@@ -10,7 +10,7 @@
     "FCSAlterraHub": "1.0.0.0"
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/NoFCSDronePort/mod.json"
+    "LatestVersionURL": "https://raw.githubusercontent.com/EldritchCarMaker/My-Subnautica-Mods/main/NoFCSDronePort/mod.json"
   },
   "Game": "Subnautica"
 }

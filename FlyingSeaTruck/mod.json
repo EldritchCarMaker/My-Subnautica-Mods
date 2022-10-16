@@ -1,7 +1,7 @@
 ﻿{
   "Id": "FlyingSeaTruck",
   "DisplayName": "Flying Sea Truck",
-  "Author": "Nagorrogan",
+  "Author": "EldritchCarMaker",
   "Version": "1.0.1",
   "Enable": true,
   "AssemblyName": "FlyingSeaTruck.dll",
@@ -9,7 +9,7 @@
     "SMLHelper": "2.9.6"
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/FlyingSeaTruck/mod.json"
+    "LatestVersionURL": "https://raw.githubusercontent.com/EldritchCarMaker/My-Subnautica-Mods/main/FlyingSeaTruck/mod.json"
   },
   "Game": "BelowZero"
 }

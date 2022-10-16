@@ -1,7 +1,7 @@
 ﻿{
   "Id": "SpyWatch",
   "DisplayName": "Spy Watch",
-  "Author": "Nagorrogan",
+  "Author": "EldritchCarMaker",
   "Version": "1.1.2",
   "Enable": true,
   "AssemblyName": "SpyWatch.dll",
@@ -10,7 +10,7 @@
     "EquippableItemIcons": "1.2.2"
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/SpyWatch/mod.json"
+    "LatestVersionURL": "https://raw.githubusercontent.com/EldritchCarMaker/My-Subnautica-Mods/main/SpyWatch/mod.json"
   },
   "Game": "Subnautica"
 }

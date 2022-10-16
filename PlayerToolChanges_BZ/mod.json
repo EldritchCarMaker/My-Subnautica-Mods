@@ -1,7 +1,7 @@
 ﻿{
   "Id": "PlayerToolChanges_BZ",
   "DisplayName": "Player Tool Changes BZ",
-  "Author": "Nagorrogan",
+  "Author": "EldritchCarMaker",
   "Version": "1.2.0",
   "Enable": true,
   "AssemblyName": "PlayerToolChanges_BZ.dll",
@@ -9,7 +9,7 @@
     "SMLHelper": "2.9.6"
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/PlayerToolChanges_BZ/mod.json"
+    "LatestVersionURL": "https://raw.githubusercontent.com/EldritchCarMaker/My-Subnautica-Mods/main/PlayerToolChanges_BZ/mod.json"
   },
   "Game": "BelowZero"
 }

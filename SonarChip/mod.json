@@ -1,7 +1,7 @@
 ﻿{
   "Id": "SonarChip",
   "DisplayName": "Sonar Chip",
-  "Author": "Nagorrogan",
+  "Author": "EldritchCarMaker",
   "Version": "1.0.3",
   "Enable": true,
   "AssemblyName": "SonarChip.dll",
@@ -10,7 +10,7 @@
     "EquippableItemIcons": "1.2.2"
   },
   "VersionChecker": {
-    "LatestVersionURL": "https://raw.githubusercontent.com/Nagorogan/My-Subnautica-Mods/main/SonarChip/mod.json"
+    "LatestVersionURL": "https://raw.githubusercontent.com/EldritchCarMaker/My-Subnautica-Mods/main/SonarChip/mod.json"
   },
   "Game": "Subnautica"
 }
