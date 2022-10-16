@@ -46,7 +46,7 @@ Look how nice the exchange menu is. I'm proud of this thing.
 Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/EquivalentExchange/Changelog.md)
 
-### [Auto Storage Transfer](https://github.com/Nagorogan/My-Subnautica-Mods/files/9742481/AutoStorageTransfer.zip)
+### [Auto Storage Transfer](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/9795861/AutoStorageTransfer.zip)
 
 
 a very simple, yet powerful mod that allows you to link storages to automatically transfer to or from each other.
@@ -59,17 +59,17 @@ This mod also has compatibility with fcs mods, and you can set a base as a recie
 
 
 Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
-###### No Changelog Yet
+###### [Changelog](https://github.com/EldritchCarMaker/My-Subnautica-Mods/blob/main/AutoStorageTransfer/Changelog.md)
 
 
-### [Auto Storage Transfer Compatibility](https://github.com/Nagorogan/My-Subnautica-Mods/files/9742496/AutoStorageTransferCompatibility.zip)
+### [Auto Storage Transfer Compatibility](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/9795859/AutoStorageTransferCompatibility.zip)
 
 
 This mod pairs alongside Auto Storage Transfer (linked above) and many other mods, including ion cube generator(I'll put a link here later) and even the cyclops reactor mods. Also allows auto storage transfer to work with many extra vanilla items, such as the water filtration unit and the base reactors.
 
 
 Dependencies: Auto Storage Transfer
-###### No Changelog Yet
+###### [Changelog](https://github.com/EldritchCarMaker/My-Subnautica-Mods/blob/main/AutoStorageTransferCompatibility/Changelog.md)
 
 
 ### [No FCS Drone Port](https://github.com/Nagorogan/My-Subnautica-Mods/files/9727254/NoFCSDronePort.zip)
@@ -312,14 +312,14 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ###### No Changelog Yet
 
 
-### [Recharger Chips](https://github.com/Nagorogan/My-Subnautica-Mods/files/8841551/RechargerChips.zip)
+### [Recharger Chips](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/9795844/RechargerChips.zip)
 
 
 Three new chips! Each will slowly charge any batteries stored within your inventory. One uses solar power to do it, another thermal, the final uses both.
 
 
 Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
-###### No Changelog Yet
+###### [Changelog](https://github.com/EldritchCarMaker/My-Subnautica-Mods/blob/main/RechargerChips/Changelog.md)
 
 
 ### [Cyclops Windows](https://github.com/Nagorogan/My-Subnautica-Mods/files/8841553/CyclopsWindows.zip)
@@ -370,15 +370,13 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/PlayerToolChanges_SN/Changelog.md)
 
 
-### [Adaptive Teleporting Costs](https://github.com/Nagorogan/My-Subnautica-Mods/files/8841556/AdaptiveTeleportingCosts.zip)
+### [Adaptive Teleporting Costs](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/9795838/AdaptiveTeleportingCosts.zip)
 
 
 Changes the FCS quantum teleporter to drain power based on distance teleported rather than simply if the teleporter is in the same base or not. Also lets you configure the min and max costs and the scaling rate of cost over distance.
 
-##### Known bugs: teleporting still requires 1500 for out of base and 500 for in base, it just no longer drains this amount
-
 Dependencies: [FCS Home Solutions](http://fcstudioshub.com/subnautica/home-solutions/)
-###### No Changelog yet
+###### [Changelog](https://github.com/EldritchCarMaker/My-Subnautica-Mods/blob/main/SeaDragonHealthBuff/Changelog.md)
 
 # Subnautica Below Zero Mods
 
