@@ -2,7 +2,7 @@
   "Id": "AdaptiveTeleportingCosts",
   "DisplayName": "Adaptive Teleporting Costs",
   "Author": "EldritchCarMaker",
-  "Version": "1.1.0",
+  "Version": "1.1.1",
   "Enable": true,
   "AssemblyName": "AdaptiveTeleportingCosts.dll",
   "VersionDependencies": {

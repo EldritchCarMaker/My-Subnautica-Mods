@@ -16,7 +16,7 @@ namespace AdaptiveTeleportingCosts.Patches
         [HarmonyPatch(nameof(TeleportManager.TeleportPlayer), new Type[] { })]
         public static bool Prefix()
         {
-            var cost = TeleportUtils.GetTeleportCost(TeleportManager._currentTeleporter, TeleportManager._destinationTeleporter);
+            int cost = (int)TeleportUtils.GetTeleportCost(TeleportManager._currentTeleporter, TeleportManager._destinationTeleporter);
 
             TeleportManager._currentTeleporter.PowerManager.ModifyCharge(-cost);
             if(TeleportManager._tab != QTTeleportTypes.Intra) TeleportManager._destinationTeleporter.PowerManager.ModifyCharge(-cost);//don't want to drain power from base twice if both TPs are in same base

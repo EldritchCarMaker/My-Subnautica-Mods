@@ -2,7 +2,7 @@
   "Id": "RechargerChips",
   "DisplayName": "RechargerChips",
   "Author": "EldritchCarMaker",
-  "Version": "1.0.1",
+  "Version": "1.0.2",
   "Enable": true,
   "AssemblyName": "RechargerChips.dll",
   "VersionDependencies": {

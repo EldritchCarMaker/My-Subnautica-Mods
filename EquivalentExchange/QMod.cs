@@ -56,6 +56,7 @@ namespace EquivalentExchange
 
             new ItemResearchStationConstructable().Patch();
             new AutomaticItemConverterConstructable().Patch();
+            new AutoItemConversionChip().Patch();
 
 
             if (QModManager.API.QModServices.Main.ModPresent("EasyCraft"))

@@ -54,6 +54,7 @@ namespace AdaptiveTeleportingCosts.Patches
 
                             //Check if the power bank has enough power
                             var cost = TeleportUtils.GetTeleportCost(bankController, destinationTeleporter);
+
                             if (bankController.PowerManager.PowerAvailable() < cost) continue;
 
                             //Check if a valid destination
@@ -69,6 +70,7 @@ namespace AdaptiveTeleportingCosts.Patches
                             TeleportManager.TeleportPlayer(bankController, destinationTeleporter, Player.main.IsPiloting() ? QTTeleportTypes.Vehicle : QTTeleportTypes.Global);
                             QuickLogger.ModMessage("Teleport SuccessFull");
                             __result =  true;
+                            return false;
                         }
 
                         QuickLogger.ModMessage("Power bank doesn't have enough power for teleporting");

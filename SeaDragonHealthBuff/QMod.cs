@@ -32,5 +32,8 @@ namespace AdaptiveTeleportingCosts
 
         [Slider("Cost per Distance", Format = "{0:F2}", Min = 0.1F, Max = 5f, DefaultValue = 2.0F, Step = 0.5F, Tooltip = "How much energy per meter is used when teleporting. Defaults to 2 energy per meter")]
         public float distanceCostMultiplier = 2.0F;
+
+        [Toggle("Stop FCS PDA voicelines", Tooltip = "Toggles whether or not this mod stops the FCS PDA from playing those loud and annoying voice lines every time its first used")]
+        public bool stopPDAVoice = false;
     }
 }

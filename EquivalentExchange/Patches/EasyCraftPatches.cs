@@ -27,6 +27,8 @@ namespace EquivalentExchange.Patches
 
         public static bool GetPickupCountPrefix(TechType techType, ref int __result)
         {
+            if (!Inventory.main.equipment.equippedCount.TryGetValue(AutoItemConversionChip.techType, out int amount) || amount <= 0) return true;
+
             if (!QMod.SaveData.learntTechTypes.Contains(techType)) return true;
 
             int amountCanConvert = (int)(QMod.SaveData.EMCAvailable / ExchangeMenu.GetCost(techType));
@@ -39,6 +41,8 @@ namespace EquivalentExchange.Patches
 
         public static bool DestroyItemPrefix(TechType techType, ref bool __result, int count = 1)
         {
+            if (!Inventory.main.equipment.equippedCount.TryGetValue(AutoItemConversionChip.techType, out int amount) || amount <= 0) return true;
+
             if (!QMod.SaveData.learntTechTypes.Contains(techType)) return true;
 
             var cost = (ExchangeMenu.GetCost(techType)) * count;

@@ -85,6 +85,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoItemConversionChip.cs" />
     <Compile Include="Constructables\AutomaticItemConverterConstructable.cs" />
     <Compile Include="Constructables\ItemResearchStationConstructable.cs" />
     <Compile Include="ExternalModCompat.cs" />

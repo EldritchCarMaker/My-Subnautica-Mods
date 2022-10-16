@@ -72,8 +72,10 @@ namespace RechargerChips
 
             Battery[] inventoryBatteries = storageRoot.GetComponentsInChildren<Battery>(true);//yes, metious, I know this isn't ideal but frankly this is more than consistent enough for such a minor thing. 
             Battery[] handHeldBatteries = Inventory.main.GetHeldObject()?.GetComponentsInChildren<Battery>();
-            heldBatteries.AddRange(inventoryBatteries);
-            heldBatteries.AddRange(handHeldBatteries);
+            if(inventoryBatteries != null && inventoryBatteries.Length > 0)
+                heldBatteries.AddRange(inventoryBatteries);
+            if(handHeldBatteries != null && handHeldBatteries.Length > 0)
+                heldBatteries.AddRange(handHeldBatteries);
         }
 
         public void Update()

@@ -76,13 +76,18 @@ namespace EquivalentExchange.Monobehaviours
 					{
 						float cost = ExchangeMenu.GetCost(item.GetTechType(), 0, false, false);
 
-						if(item.TryGetComponent(out IBattery battery))
+						var battery = item.GetComponentInChildren<Battery>();
+						if(battery != null)
 						{
-							var percentCharge = battery.charge / battery.capacity;
-							if (QMod.config.researchStationMessages && percentCharge < 1)
-								ErrorMessage.AddMessage($"battery not fully charge, reduced EMC return");
-							cost = cost * percentCharge;
-                        }
+							TechType batteryType;
+							if (battery.TryGetComponent<Pickupable>(out var pickup))
+								batteryType = pickup.GetTechType();
+							else
+								batteryType = CraftData.GetTechType(battery.gameObject);
+
+							var chargePercent = battery.charge / battery.capacity;
+							cost -= (int)(ExchangeMenu.GetCost(batteryType, 0, false, false) * chargePercent);
+						}
 
                         if (QMod.TryUnlockTechType(item.GetTechType(), out string reason))
 						{

@@ -41,7 +41,8 @@
     <Reference Include="Assembly-CSharp_publicized">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Subnautica\Subnautica_Data\Managed\publicized_assemblies\Assembly-CSharp_publicized.dll</HintPath>
     </Reference>
-    <Reference Include="FCS_AlterraHub">
+    <Reference Include="FCS_AlterraHub, Version=1.0.1.52, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Subnautica\QMods\FCS_AlterraHub\FCS_AlterraHub.dll</HintPath>
     </Reference>
     <Reference Include="FCS_HomeSolutions">
@@ -76,6 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdaptiveStatusUpdater.cs" />
+    <Compile Include="Patches\FCSPDAControllerPatches.cs" />
     <Compile Include="Patches\QTDisplayManagerPatches.cs" />
     <Compile Include="Patches\QTPowerManagerPatches.cs" />
     <Compile Include="Patches\QuantumPowerBankSpawnablePatches.cs" />

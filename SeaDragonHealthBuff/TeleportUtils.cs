@@ -21,9 +21,24 @@ namespace AdaptiveTeleportingCosts
         }
         public static float GetTeleportCost(IQuantumTeleporter teleport1, IQuantumTeleporter teleport2)
         {
-            if (!(teleport1 is QuantumTeleporterController controller1) || !(teleport2 is QuantumTeleporterController controller2)) return 0;
+            Transform transform1;
+            Transform transform2;
 
-            return GetTeleportCost(controller1.transform, controller2.transform);
+            if (teleport1 is QuantumTeleporterController controller1)
+                transform1 = controller1.transform;
+            else if (teleport1 is QuantumTeleporterVehiclePadController pad1)
+                transform1 = pad1.transform;
+            else
+                transform1 = Player.main.transform;
+
+            if (teleport2 is QuantumTeleporterController controller2)
+                transform2 = controller2.transform;
+            else if (teleport2 is QuantumTeleporterVehiclePadController pad2)
+                transform2 = pad2.transform;
+            else
+                transform2 = Player.main.transform;
+
+            return GetTeleportCost(transform1, transform2);
         }
     }
 }
