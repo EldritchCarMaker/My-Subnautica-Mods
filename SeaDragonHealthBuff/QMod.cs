@@ -2,11 +2,11 @@ using System.Reflection;
 using HarmonyLib;
 using QModManager.API.ModLoading;
 using Logger = QModManager.Utility.Logger;
-
 using SMLHelper.V2.Json;
 using SMLHelper.V2.Options.Attributes;
 using SMLHelper.V2.Handlers;
-namespace SeaDragonHealthBuff
+
+namespace AdaptiveTeleportingCosts
 {
     [QModCore]
     public static class QMod
@@ -26,7 +26,7 @@ namespace SeaDragonHealthBuff
     [Menu("Adaptive Teleporting Costs")]
     public class Config : ConfigFile
     {
-        public float minimumTeleportCost = 100;
+        public float minimumTeleportCost = 50;
         
         public float maximumTeleportCost = 2000;
 
