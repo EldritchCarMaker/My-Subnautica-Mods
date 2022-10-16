@@ -75,6 +75,15 @@ namespace EquivalentExchange.Monobehaviours
 					if (this.storageContainer.container.RemoveItem(item, true))
 					{
 						float cost = ExchangeMenu.GetCost(item.GetTechType(), 0, false, false);
+
+						if(item.TryGetComponent(out IBattery battery))
+						{
+							var percentCharge = battery.charge / battery.capacity;
+							if (QMod.config.researchStationMessages && percentCharge < 1)
+								ErrorMessage.AddMessage($"battery not fully charge, reduced EMC return");
+							cost = cost * percentCharge;
+                        }
+
                         if (QMod.TryUnlockTechType(item.GetTechType(), out string reason))
 						{
 							if(QMod.config.researchStationMessages)
@@ -138,7 +147,7 @@ namespace EquivalentExchange.Monobehaviours
 		public StorageContainer storageContainer;
 
 		// Token: 0x04001321 RID: 4897
-		public float startDestroyTimeOut = 5f;
+		public float startDestroyTimeOut => storageContainer?.container?.count >= 4 ? 1f : 5f;
 
 		// Token: 0x04001322 RID: 4898
 		public float destroyInterval = 1f;

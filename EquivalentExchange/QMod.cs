@@ -14,6 +14,7 @@ using System;
 using System.Collections.ObjectModel;
 using EquivalentExchange.Monobehaviours;
 using static EquivalentExchange.Monobehaviours.ExchangeMenu;
+using EquivalentExchange.Patches;
 
 namespace EquivalentExchange
 {
@@ -55,6 +56,11 @@ namespace EquivalentExchange
 
             new ItemResearchStationConstructable().Patch();
             new AutomaticItemConverterConstructable().Patch();
+
+
+            if (QModManager.API.QModServices.Main.ModPresent("EasyCraft"))
+                EasyCraftPatches.PatchEasyCraft(harmony);
+
 
             Logger.Log(Logger.Level.Info, "Patched successfully!");
         }
@@ -177,7 +183,7 @@ namespace EquivalentExchange
             { TechType.Diamond, 25 },
             { TechType.Gold, 20 },
             { TechType.Kyanite, 75 },
-            { TechType.PrecursorIonCrystal, 100 },
+            { TechType.PrecursorIonCrystal, 300 },
             { TechType.Lead, 7 },
             { TechType.Lithium, 20 },
             { TechType.Magnetite, 20 },
