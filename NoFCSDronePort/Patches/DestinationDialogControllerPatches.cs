@@ -15,6 +15,7 @@ using FCS_AlterraHub.Mods.AlterraHubDepot.Mono;
 using NoFCSDronePort.Monobehaviours;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine.UI;
+using FCSCommon.Utilities;
 
 namespace NoFCSDronePort.Patches
 {
@@ -32,7 +33,13 @@ namespace NoFCSDronePort.Patches
             }
             foreach (KeyValuePair<string, FcsDevice> keyValuePair in FCSAlterraHubService.PublicAPI.GetRegisteredDevicesOfId(Mod.AlterraHubDepotTabID))
             {
-                AlterraHubDepotController alterraDronePortController = (AlterraHubDepotController)keyValuePair.Value;
+                AlterraHubDepotController alterraDronePortController = keyValuePair.Value as AlterraHubDepotController;
+                if (!alterraDronePortController)
+                {
+                    QuickLogger.Error($"Value is not depot controller! key: {keyValuePair.Key}, value: {keyValuePair.Value}");
+                    continue;
+                }
+
                 if (alterraDronePortController.IsOperational)
                 {
                     GameObject depotPrefab = UnityEngine.Object.Instantiate<GameObject>(AlterraHub.AlterraHubDepotItemPrefab);

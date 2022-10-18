@@ -46,6 +46,14 @@ namespace NoFCSDronePort.Patches
         public static bool Prefix(CheckOutPopupDialogWindow __instance, ref bool __result)
         {
             List<Vector2int> list = new List<Vector2int>();
+
+            if(__instance._cart == null)
+            {
+                QuickLogger.Error("Cart null when trying to make purchase in prefix");
+                __result = false;
+                return false;
+            }
+
             foreach (CartItem cartItem in __instance._cart.GetItems())
             {
                 for (int i = 0; i < cartItem.ReturnAmount; i++)
@@ -75,10 +83,18 @@ namespace NoFCSDronePort.Patches
 
             if (!QMod.config.needDepo)
             {
-                MakeAPurchase(__instance._cart, null, true);
+                __result = MakeAPurchase(__instance._cart, null, true);
                 return false;
             }
             var noDrone = __instance.GetComponent<CheckOutPopupDialogWindowNoDrone>();
+
+            if(!noDrone)
+            {
+                QuickLogger.Error("noDrone component null!");
+                __result = false;
+                return false;
+            }
+
             if (noDrone.SelectedDestination == null)
             {
                 MessageBoxHandler.main.Show(AlterraHub.NoDestinationFound(), FCSMessageButton.OK, null);

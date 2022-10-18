@@ -12,7 +12,7 @@ namespace EquivalentExchange.Constructables
 {
     internal class AutomaticItemConverterConstructable : Buildable
     {
-        public AutomaticItemConverterConstructable() : base("AutomaticItemConverterConstructable", "Automatic Item Converter", "A small container that automatically, and constantly, converts EMC into a single, specified, item")
+        public AutomaticItemConverterConstructable() : base("AutomaticItemConverterConstructable", "Automatic Item Converter", "A small container that automatically, and constantly, converts ECM into a single, specified, item")
         {
         }
         public override TechGroup GroupForPDA { get; } = TechGroup.InteriorModules;

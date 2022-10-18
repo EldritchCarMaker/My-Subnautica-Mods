@@ -15,6 +15,8 @@ using System.Collections.ObjectModel;
 using EquivalentExchange.Monobehaviours;
 using static EquivalentExchange.Monobehaviours.ExchangeMenu;
 using EquivalentExchange.Patches;
+using System.Collections;
+using UWE;
 
 namespace EquivalentExchange
 {
@@ -25,11 +27,11 @@ namespace EquivalentExchange
         internal static SaveData SaveData { get; } = SaveDataHandler.Main.RegisterSaveDataCache<SaveData>();
 
 
-        public static int EMCToFCSCreditRate => config.EMCToFCSCreditRate;
-        public static int EMCConvertPerClick => config.EMCConvertPerClick;
+        public static int ECMToFCSCreditRate => config.ECMToFCSCreditRate;
+        public static int ECMConvertPerClick => config.ECMConvertPerClick;
         public const string FCSConvertName = "FCS Credit Convert";//name of the convert buttons
-        public static readonly string FCSConvertDesc = $"Convert EMC into Alterra credits at a {EMCConvertPerClick} to {EMCConvertPerClick * EMCToFCSCreditRate} ratio";//description of convert button
-        public static readonly string FCSConvertBackDesc = $"Convert Alterra credits into EMC at a {EMCConvertPerClick * EMCToFCSCreditRate} to {EMCConvertPerClick} ratio";//description of convert back button
+        public static readonly string FCSConvertDesc = $"Convert ECM into Alterra credits at a {ECMConvertPerClick} to {ECMConvertPerClick * ECMToFCSCreditRate} ratio";//description of convert button
+        public static readonly string FCSConvertBackDesc = $"Convert Alterra credits into ECM at a {ECMConvertPerClick * ECMToFCSCreditRate} to {ECMConvertPerClick} ratio";//description of convert back button
 
 
         //the two tech types for converting emc to alterra credit and back
@@ -52,11 +54,13 @@ namespace EquivalentExchange
             ConsoleCommandsHandler.Main.RegisterConsoleCommand("ExchangeUnlockAll", typeof (QMod), nameof(ExchangeUnlockAll));
             ConsoleCommandsHandler.Main.RegisterConsoleCommand("ExchangeLockAll", typeof(QMod), nameof(ExchangeLockAll));
 
-            ConsoleCommandsHandler.Main.RegisterConsoleCommand("AddEMC", typeof(QMod), nameof(AddAmount));
+            ConsoleCommandsHandler.Main.RegisterConsoleCommand("AddECM", typeof(QMod), nameof(AddAmount));
+
 
             new ItemResearchStationConstructable().Patch();
             new AutomaticItemConverterConstructable().Patch();
             new AutoItemConversionChip().Patch();
+            new EasyConversionBuildable().Patch();
 
 
             if (QModManager.API.QModServices.Main.ModPresent("EasyCraft"))
@@ -158,7 +162,7 @@ namespace EquivalentExchange
             return TechType.None;
         }
 
-        public static void AddAmount(int amount) => SaveData.EMCAvailable += amount;
+        public static void AddAmount(int amount) => SaveData.ECMAvailable += amount;
     }
     [Menu("Equivalent Exchange")]
     public class Config : ConfigFile
@@ -167,6 +171,12 @@ namespace EquivalentExchange
         public KeyCode menuKey = KeyCode.K; 
         [Keybind("Menu Key 2", Tooltip = "Press both this key and Menu Key 1 at the same time to open the exchange menu")]
         public KeyCode menuKey2 = KeyCode.J;
+
+        [Keybind("Convert Rate Increase", Tooltip = "Press this key to increase the current convert amount by one")]
+        public KeyCode convertIncrease = KeyCode.Q;
+
+        [Keybind("Convert Rate Decrease", Tooltip = "Press this key to decrease the current convert amount by one")]
+        public KeyCode convertDecrease = KeyCode.E;
 
         [Toggle("Research Station Messages", Tooltip = "Whether or not the Item Research Station will display messages regarding unlocking/not unlocking items for exchange")]
         public bool researchStationMessages = false;
@@ -241,15 +251,15 @@ namespace EquivalentExchange
             "blueprint",
             "_kit",
         };
-        public int EMCToFCSCreditRate = 500;//The ratio of EMC => Alterra Credit
-        public int EMCConvertPerClick = 10;//The EMC amount converted per click
+        public int ECMToFCSCreditRate = 500;//The ratio of ECM => Alterra Credit
+        public int ECMConvertPerClick = 10;//The ECM amount converted per click
     }
     [FileName("EquivalentExchange")]
     public class SaveData : SaveDataCache
     {
         //public List<string> learntTechTypes = new List<string>();
         public EventList<TechType> learntTechTypes = new EventList<TechType>();
-        public float EMCAvailable = 0;
+        public float ECMAvailable = 0;
         public Dictionary<string, TechType> AutoItemConverters = new Dictionary<string, TechType>();
     }
     public class EventList<T> : List<T>

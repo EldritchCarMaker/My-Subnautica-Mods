@@ -10,6 +10,16 @@ namespace EquivalentExchange.Patches
 {
     internal class EasyCraftPatches
     {
+        public static bool CanAutoConvert()
+        {
+            return PlayerHasChip() || EasyConversionAntenna.AntennaInRange();
+        }
+        public static bool PlayerHasChip()
+        {
+            if (Inventory.main.equipment.equippedCount.TryGetValue(AutoItemConversionChip.techType, out int amount) && amount > 0) return true;
+            return false;
+        }
+
         public static void PatchEasyCraft(Harmony harmony)
         {
             var prefix = AccessTools.Method(typeof(EasyCraftPatches), nameof(GetPickupCountPrefix));
@@ -27,11 +37,11 @@ namespace EquivalentExchange.Patches
 
         public static bool GetPickupCountPrefix(TechType techType, ref int __result)
         {
-            if (!Inventory.main.equipment.equippedCount.TryGetValue(AutoItemConversionChip.techType, out int amount) || amount <= 0) return true;
+            if (!CanAutoConvert()) return true;
 
             if (!QMod.SaveData.learntTechTypes.Contains(techType)) return true;
 
-            int amountCanConvert = (int)(QMod.SaveData.EMCAvailable / ExchangeMenu.GetCost(techType));
+            int amountCanConvert = (int)(QMod.SaveData.ECMAvailable / ExchangeMenu.GetCost(techType));
 
             if (amountCanConvert < 1) return true;
 
@@ -41,16 +51,16 @@ namespace EquivalentExchange.Patches
 
         public static bool DestroyItemPrefix(TechType techType, ref bool __result, int count = 1)
         {
-            if (!Inventory.main.equipment.equippedCount.TryGetValue(AutoItemConversionChip.techType, out int amount) || amount <= 0) return true;
+            if (!CanAutoConvert()) return true;
 
             if (!QMod.SaveData.learntTechTypes.Contains(techType)) return true;
 
             var cost = (ExchangeMenu.GetCost(techType)) * count;
 
-            if (QMod.SaveData.EMCAvailable < cost) return true;
+            if (QMod.SaveData.ECMAvailable < cost) return true;
 
 
-            QMod.SaveData.EMCAvailable -= cost;
+            QMod.SaveData.ECMAvailable -= cost;
             __result = true;
             return false;
         }

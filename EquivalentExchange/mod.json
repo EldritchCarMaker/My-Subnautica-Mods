@@ -2,7 +2,7 @@
   "Id": "EquivalentExchange",
   "DisplayName": "Equivalent Exchange",
   "Author": "EldritchCarMaker",
-  "Version": "1.4.0",
+  "Version": "1.5.0",
   "Enable": true,
   "AssemblyName": "EquivalentExchange.dll",
   "VersionDependencies": {

@@ -15,7 +15,7 @@ namespace EquivalentExchange
     internal class AutoItemConversionChip : Equipable
     {
         public static TechType techType;
-        public AutoItemConversionChip() : base("AutoItemConversionChip", "Auto Item Conversion Chip", "A chip to allow for automatic item conversion as required for fabrication -- ONLY WORKS WHEN EASY CRAFT IS INSTALLED")
+        public AutoItemConversionChip() : base("AutoItemConversionChip", "Auto Item Conversion Chip", "A chip to allow for automatic item conversion as required for fabrication with unlimited range-- ONLY WORKS WHEN EASY CRAFT IS INSTALLED")
         {
             OnFinishedPatching += () => techType = TechType;
         }
@@ -31,8 +31,9 @@ namespace EquivalentExchange
                 {
                     new Ingredient(TechType.PrecursorIonCrystal, 2),
                     new Ingredient(TechType.ComputerChip, 2),
-                    new Ingredient(TechType.Nickel, 2),
-                    new Ingredient(TechType.AdvancedWiringKit, 2)
+                    new Ingredient(TechType.Kyanite, 2),
+                    new Ingredient(TechType.AdvancedWiringKit, 2),
+                    new Ingredient(TechType.HatchingEnzymes, 1),
                 }
             };
         }
@@ -40,14 +41,12 @@ namespace EquivalentExchange
         public override TechCategory CategoryForPDA => TechCategory.Equipment;
         public override CraftTree.Type FabricatorType => CraftTree.Type.Fabricator;
         public override string[] StepsToFabricatorTab => new string[] { "Personal", "Equipment" };
-        public override TechType RequiredForUnlock => TechType.Nickel;
+        public override TechType RequiredForUnlock => TechType.Kyanite;
         public override float CraftingTime => 3f;
-        /*
         public override Atlas.Sprite GetItemSprite()
         {
-            return ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "chip_solar.png"));
+            return ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "chip_ecm.png"));
         }
-        */
         public override GameObject GetGameObject()
         {
             return CraftData.GetPrefabForTechType(TechType.MapRoomHUDChip);

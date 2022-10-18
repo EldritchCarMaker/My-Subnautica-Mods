@@ -1,10 +1,12 @@
-﻿using HarmonyLib;
+﻿using FCS_AlterraHub.Systems;
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using Logger = QModManager.Utility.Logger;
 
 namespace EquivalentExchange
@@ -94,68 +96,15 @@ namespace EquivalentExchange
 
         public static bool AddFCSCredit(decimal amount)
         {
-            FieldInfo mainCardSystem = FindField("FCS_AlterraHub", "FCS_AlterraHub.Systems.CardSystem", "main");
-            if(mainCardSystem == null)
-            {
-                return false;
-            }
-
-            MethodInfo addFinancesMethod = FindMethod("FCS_AlterraHub", "FCS_AlterraHub.Systems.CardSystem", "AddFinances");
-            if(addFinancesMethod == null)
-            {
-                return false;
-            }
-
-            addFinancesMethod.Invoke(mainCardSystem.GetValue(null), new object[] { amount });
+            CardSystem.main.AddFinances(amount);
             return true;
         }
         public static bool RemoveFCSCredit(decimal amount)
         {
-            FieldInfo mainCardSystem = FindField("FCS_AlterraHub", "FCS_AlterraHub.Systems.CardSystem", "main");
-            if (mainCardSystem == null)
-            {
-                return false;
-            }
-
-            MethodInfo addFinancesMethod = FindMethod("FCS_AlterraHub", "FCS_AlterraHub.Systems.CardSystem", "RemoveFinances");
-            if (addFinancesMethod == null)
-            {
-                return false;
-            }
-
-            addFinancesMethod.Invoke(mainCardSystem.GetValue(null), new object[] { amount });
+            CardSystem.main.RemoveFinances(amount);
             return true;
         }
-        public static decimal GetFCSCredit()
-        {
-            FieldInfo mainCardSystem = FindField("FCS_AlterraHub", "FCS_AlterraHub.Systems.CardSystem", "main");
-            if (mainCardSystem == null)
-            {
-                return 0;
-            }
-
-            MethodInfo addFinancesMethod = FindMethod("FCS_AlterraHub", "FCS_AlterraHub.Systems.CardSystem", "GetAccountBalance");
-            if (addFinancesMethod == null)
-            {
-                return 0;
-            }
-
-            return (decimal)addFinancesMethod.Invoke(mainCardSystem.GetValue(null), null);
-        }
-        public static object SetFCSConvertIcons()
-        {
-            FieldInfo mainPDAField = FindField("FCS_AlterraHub", "FCS_AlterraHub.Mods.FCSPDA.Mono.FCSPDAController", "Main");
-            if (mainPDAField == null)
-            {
-                return null;
-            }
-
-            FieldInfo mainPDAScreenField = FindField("FCS_AlterraHub", "FCS_AlterraHub.Mods.FCSPDA.Mono.FCSPDAController", "_screen");
-            if (mainPDAScreenField == null)
-            {
-                return null;
-            }
-            return mainPDAScreenField.GetValue(mainPDAField.GetValue(null));
-        }
+        public static decimal GetFCSCredit() => CardSystem.main.GetAccountBalance();
+        public static GameObject GetFCSPDA() => FCS_AlterraHub.Mods.FCSPDA.Mono.FCSPDAController.Main?._screen;
     }
 }

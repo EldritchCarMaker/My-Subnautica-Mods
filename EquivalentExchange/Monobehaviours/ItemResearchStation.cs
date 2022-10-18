@@ -37,13 +37,13 @@ namespace EquivalentExchange.Monobehaviours
 				this.storageContainer.enabled = true;
 				this.storageContainer.container.onAddItem += this.AddItem;
 				this.storageContainer.container.onRemoveItem += this.RemoveItem;
-				this.storageContainer.container.isAllowedToAdd = new IsAllowedToAdd(this.IsAllowedToAdd);
 				this.subscribed = true;
 				storageContainer.hoverText = "Use Item Research Station";
 				storageContainer.storageLabel = "Item Research Station";
 				storageContainer.container._label = "Item Research Station";
-			}
-		}
+            }
+            storageContainer.container.isAllowedToAdd = new IsAllowedToAdd(IsAllowedToAdd);
+        }
 
 		// Token: 0x0600118D RID: 4493 RVA: 0x0005EB88 File Offset: 0x0005CD88
 		private void OnDisable()
@@ -92,15 +92,15 @@ namespace EquivalentExchange.Monobehaviours
                         if (QMod.TryUnlockTechType(item.GetTechType(), out string reason))
 						{
 							if(QMod.config.researchStationMessages)
-								ErrorMessage.AddMessage($"Unlocked {item.GetTechType()}, gained {cost} EMC");
+								ErrorMessage.AddMessage($"Unlocked {item.GetTechType()}, gained {cost} ECM");
 						}
 						else
 						{
                             if (QMod.config.researchStationMessages)
-                                ErrorMessage.AddMessage($"Could not unlock {item.GetTechType()} due to: {reason}, still gained {cost} EMC");
+                                ErrorMessage.AddMessage($"Could not unlock {item.GetTechType()} due to: {reason}, still gained {cost} ECM");
 						}
 
-						QMod.SaveData.EMCAvailable += cost;
+						QMod.SaveData.ECMAvailable += cost;
 						UnityEngine.Object.Destroy(item.gameObject);
 					}
 				}

@@ -16,7 +16,7 @@ namespace EquivalentExchange.Monobehaviours
         public TechType itemType;
         private GameObject prefab;
         private Pickupable pickupable;
-        private float EMCCost;
+        private float ECMCost;
 
         private bool isClearing;
         private bool isListeningForTechType;
@@ -159,11 +159,11 @@ namespace EquivalentExchange.Monobehaviours
         public void OnRemove(InventoryItem item)
         {
             if(!isClearing)//OnRemove event is called on clear too, don't like that
-                QMod.SaveData.EMCAvailable -= EMCCost;
+                QMod.SaveData.ECMAvailable -= ECMCost;
         }
         public bool AllowedToRemove(Pickupable item, bool verbose)
         {
-            if(QMod.SaveData.EMCAvailable >= EMCCost)
+            if(QMod.SaveData.ECMAvailable >= ECMCost)
                 return true;
 
             return false;
@@ -256,7 +256,7 @@ namespace EquivalentExchange.Monobehaviours
             prefab.SetActive(false);
 
             if (showMessage) ErrorMessage.AddMessage("Set item");
-            EMCCost = ExchangeMenu.GetCost(type);
+            ECMCost = ExchangeMenu.GetCost(type);
             var itemSize = CraftData.GetItemSize(type);
             container.Resize(itemSize.x, itemSize.y);
         }
