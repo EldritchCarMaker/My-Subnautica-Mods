@@ -1,4 +1,8 @@
 # My Subnautica Mods
+Mods that I have made for subnautica one. 
+This is not a full list, there are also mods such as my Equippable Item Icons and Camera Drones Upgrades mods.
+Links to those mods are on the [ReadMe](https://github.com/EldritchCarMaker/My-Subnautica-Mods/blob/main/README.md)
+
 
 ### [Better Cyclops Lockers](https://github.com/Nagorogan/My-Subnautica-Mods/files/8884799/BetterCyclopsLockers.zip)
 
