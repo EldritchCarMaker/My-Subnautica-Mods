@@ -1,4 +1,4 @@
-# My Subnautica mods
+# My Subnautica Mods
 
 ### [Better Cyclops Lockers](https://github.com/Nagorogan/My-Subnautica-Mods/files/8884799/BetterCyclopsLockers.zip)
 
