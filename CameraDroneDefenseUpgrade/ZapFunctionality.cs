@@ -15,15 +15,14 @@ namespace CameraDroneDefenseUpgrade
 
         private const float EnergyCostPerZap = 5;
         private const float ZapPower = 6f;
-        private const float DamageMultiplier = 30f;
         private const float BaseCharge = 2f;
         private const float BaseRadius = 1f;
 
-        private const float DirectZapDamage = (BaseRadius + ZapPower * BaseCharge) * DamageMultiplier * 0.5f;
-        // Calculations and initial values based off ElectricalDefense component
-
         public const float ZapCooldown = 10f;
         public static float timeNextZap = 0;
+        private static float DamageMultiplier => QMod.config.damageAmount;
+        private static float DirectZapDamage = (BaseRadius + ZapPower * BaseCharge) * DamageMultiplier * 0.5f;
+        // Calculations and initial values based off ElectricalDefense component
 
         public static bool AbleToZap(MapRoomCamera camera)
         {

@@ -173,10 +173,10 @@ namespace EquivalentExchange
         public KeyCode menuKey2 = KeyCode.J;
 
         [Keybind("Convert Rate Increase", Tooltip = "Press this key to increase the current convert amount by one")]
-        public KeyCode convertIncrease = KeyCode.Q;
+        public KeyCode convertIncrease = KeyCode.E;
 
         [Keybind("Convert Rate Decrease", Tooltip = "Press this key to decrease the current convert amount by one")]
-        public KeyCode convertDecrease = KeyCode.E;
+        public KeyCode convertDecrease = KeyCode.Q;
 
         [Toggle("Research Station Messages", Tooltip = "Whether or not the Item Research Station will display messages regarding unlocking/not unlocking items for exchange")]
         public bool researchStationMessages = false;

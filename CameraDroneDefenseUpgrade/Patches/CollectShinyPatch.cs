@@ -16,7 +16,7 @@ namespace CameraDroneDefenseUpgrade.Patches
         {
             if (__instance.shinyTarget == null || !__instance.shinyTarget.activeInHierarchy) return true;
             
-            if (__instance.shinyTarget.TryGetComponent(out CameraDroneUpgrades.maproomdroneupgrades asd) && asd.equippedUpgrades.Contains(Items.MapRoomCameraDefenseUpgrade.thisTechType))
+            if (__instance.shinyTarget.TryGetComponent(out CameraDroneUpgrades.maproomdroneupgrades asd) && asd.equippedUpgrades.Contains(QMod.itemType))
             {
                 if (!ZapFunctionality.Zap(asd.GetComponent<MapRoomCamera>(), __instance.gameObject)) return true;
 

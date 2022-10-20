@@ -19,7 +19,7 @@ namespace CameraDroneFlightUpgrade
 
         public bool hoverActive = false;
         private bool hoverSoundPlaying = false;
-
+        public static float PowerDrain => QMod.config.powerDrain;
 
         private static readonly FMODAsset hoverLoop = GetFmodAsset("event:/sub/seamoth/seamoth_loop");
         private FMOD_CustomLoopingEmitter hoverEmitter;
@@ -53,7 +53,7 @@ namespace CameraDroneFlightUpgrade
         {
             if (hoverActive && upgrade.camera.gameObject.transform.position.y >= upgrade.camera.worldForces.waterDepth)
             {
-                upgrade.camera.energyMixin.ModifyCharge(-0.5f * Time.deltaTime);
+                upgrade.camera.energyMixin.ModifyCharge(PowerDrain * Time.deltaTime);
                 StartHoverSound();
             }
             else

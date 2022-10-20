@@ -10,6 +10,7 @@ namespace CameraDroneUpgrades.API
 {
     public static class Registrations
     {
+        public static string[] upgradeModulePaths = new[] { "DroneUpgrades" };
         public static List<CameraDroneUpgrade> upgrades = new List<CameraDroneUpgrade>();
         public static CameraDroneUpgrade RegisterDroneUpgrade(string name, TechType type, Action setupmethod)
         {

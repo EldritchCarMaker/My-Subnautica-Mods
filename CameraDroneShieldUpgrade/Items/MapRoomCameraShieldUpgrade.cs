@@ -1,4 +1,5 @@
-﻿using SMLHelper.V2.Assets;
+﻿using CameraDroneUpgrades.API;
+using SMLHelper.V2.Assets;
 using SMLHelper.V2.Crafting;
 using SMLHelper.V2.Utility;
 using System;
@@ -31,7 +32,7 @@ namespace CameraDroneShieldUpgrade.Items
         public override TechGroup GroupForPDA => TechGroup.Personal;
         public override TechCategory CategoryForPDA => TechCategory.Equipment;
         public override CraftTree.Type FabricatorType => CraftTree.Type.MapRoom;
-        public override string[] StepsToFabricatorTab => new string[] {};
+        public override string[] StepsToFabricatorTab => Registrations.upgradeModulePaths;
         public override float CraftingTime => 3f;
         protected override Sprite GetItemSprite()
         {

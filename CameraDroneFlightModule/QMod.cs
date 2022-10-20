@@ -43,5 +43,8 @@ namespace CameraDroneFlightUpgrade
     {
         [Keybind("Flight", Tooltip = "keybind for toggling hover mode while using camera drones")]
         public KeyCode flightKey = KeyCode.H;
+
+        [Slider("Energy Drain", Format = "{0:F2}", Min = 0, Max = 1, DefaultValue = 0.5F, Step = 0.1F, Tooltip = "Energy drain of hovering")]
+        public float powerDrain = 0.5f;
     }
 }

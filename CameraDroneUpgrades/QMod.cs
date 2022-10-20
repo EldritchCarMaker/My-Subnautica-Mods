@@ -29,6 +29,8 @@ namespace CameraDroneUpgrades
             Harmony harmony = new Harmony(CyclopsLockers);
             harmony.PatchAll(assembly);
 
+            CraftTreeHandler.AddTabNode(CraftTree.Type.MapRoom, Registrations.upgradeModulePaths[0], "Drone Upgrades", SpriteManager.Get(TechType.MapRoomCamera));
+
             Logger.Log(Logger.Level.Info, "Patched successfully!");
         }
     }

@@ -2,12 +2,12 @@
   "Id": "CameraDroneShieldUpgrade",
   "DisplayName": "Camera Drone Shield Upgrade",
   "Author": "EldritchCarMaker",
-  "Version": "1.0.4",
+  "Version": "1.0.5",
   "Enable": true,
   "AssemblyName": "CameraDroneShieldUpgrade.dll",
   "VersionDependencies": {
     "SMLHelper": "2.9.6",
-    "CameraDroneUpgrades" : "1.0.3"
+    "CameraDroneUpgrades" : "1.1.0"
   },
   "VersionChecker": {
     "LatestVersionURL": "https://raw.githubusercontent.com/EldritchCarMaker/My-Subnautica-Mods/main/CameraDroneShieldUpgrade/mod.json"

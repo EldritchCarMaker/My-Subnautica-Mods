@@ -2,7 +2,7 @@
   "Id": "CameraDroneUpgrades",
   "DisplayName": "CameraDroneUpgrades",
   "Author": "EldritchCarMaker",
-  "Version": "1.0.4",
+  "Version": "1.1.0",
   "Enable": true,
   "AssemblyName": "CameraDroneUpgrades.dll",
   "VersionDependencies": {

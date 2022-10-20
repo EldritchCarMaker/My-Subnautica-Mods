@@ -79,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\CameraDroneUpgrade.cs" />
+    <Compile Include="API\CameraDroneUpgradeModule.cs" />
     <Compile Include="API\Registrations.cs" />
     <Compile Include="DroneScanning\ScanFunctionality.cs" />
     <Compile Include="maproomdroneupgrades.cs" />
