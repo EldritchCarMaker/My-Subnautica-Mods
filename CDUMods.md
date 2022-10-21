@@ -7,7 +7,7 @@
 Another API for improving the camera drones. This mod by default also adds scanning functionality to all drones, without requiring an upgrade to be equipped.
 Any mod that uses this API will use an upgrade module that must be inserted into the scanner room upgrades slot in order for the drones to be able to use the upgrades.
 
-#### [All In One Package](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/9832518/All-In-One.zip)
+#### [All In One Package](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/9841400/all-in-one.zip)
 
 
 This zip file contains every single camera drone mod I have made up until the point of writing this. Just for if you don't feel like downloading each one individually. Does not work with vortex/mod managers
@@ -25,7 +25,7 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), Camera
 ###### No Changelog Yet
 
 
-### [Camera Drone Flight Upgrade](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/9832545/CameraDroneFlightUpgrade.zip)
+### [Camera Drone Flight Upgrade](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/9841401/CameraDroneFlightUpgrade.zip)
 
 
 uses Camera Drone Upgrades to add an upgrade module that allows drones to fly and have a hover.
