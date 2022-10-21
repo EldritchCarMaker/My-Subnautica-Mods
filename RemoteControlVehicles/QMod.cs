@@ -32,6 +32,8 @@ namespace RemoteControlVehicles
             var module = new CyclopsRemoteControlModule();
             module.Patch();
 
+            new RemoteControlAurora().Patch();
+
             new DroneControlRemote().Patch();
 
             MCUServices.Register.CyclopsUpgradeHandler((SubRoot cyclops) =>

@@ -94,22 +94,6 @@ namespace RemoteControlVehicles
             text2 = textTransform.Find("DistanceText").gameObject.GetComponent<Text>();
             hud.SetActive(false);
         }
-        /*public static bool PlayerHasChip()
-        {
-            List<string> chipSlots = new List<string>(); 
-            Inventory.main.equipment.GetSlots(EquipmentType.Chip, chipSlots);
-            Equipment e = Inventory.main.equipment;
-
-            foreach (string slot in chipSlots)
-            {
-                TechType tt = e.GetTechTypeInSlot(slot);
-                if (tt == RemoteControlHudChip.thisTechType)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }*/
         public static IEnumerator WaitForWorld(Player player, bool isCyclops = false)
         {
             if (!isCyclops)

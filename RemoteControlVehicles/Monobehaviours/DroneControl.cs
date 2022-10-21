@@ -81,16 +81,29 @@ namespace RemoteControlVehicles.Monobehaviours
                 return true;
             }
 
-            screen.currentIndex = screen.NormalizeIndex(screen.currentIndex);
-
-            MapRoomCamera mapRoomCamera = screen.FindCamera();
-            if (mapRoomCamera)
+            if(GameInput.GetButtonHeld(GameInput.Button.Sprint))
             {
-                mapRoomCamera.ControlCamera(Player.main, screen);
-                screen.currentCamera = mapRoomCamera;
+                var aurora = RemoteControlAuroraMono.lastUsedMono;
+                if (aurora)
+                {
+                    aurora.ControlAurora();
+                }
+                else
+                    ErrorMessage.AddMessage("Can't find RC Aurora to control");
             }
             else
-                ErrorMessage.AddMessage("Can't find drone to control");
+            {
+                screen.currentIndex = screen.NormalizeIndex(screen.currentIndex);
+
+                MapRoomCamera mapRoomCamera = screen.FindCamera();
+                if (mapRoomCamera)
+                {
+                    mapRoomCamera.ControlCamera(Player.main, screen);
+                    screen.currentCamera = mapRoomCamera;
+                }
+                else
+                    ErrorMessage.AddMessage("Can't find drone to control");
+            }
 
             return base.OnRightHandDown();
         }

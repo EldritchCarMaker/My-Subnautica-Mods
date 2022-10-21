@@ -82,10 +82,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Items\DroneControlRemote.cs" />
+    <Compile Include="Items\RemoteControlAurora.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Monobehaviours\DroneControl.cs" />
+    <Compile Include="Monobehaviours\RemoteControlAuroraMono.cs" />
+    <Compile Include="Monobehaviours\RemoteControlAuroraTool.cs" />
     <Compile Include="Monobehaviours\RemoteControlMapRoomFunctionality.cs" />
     <Compile Include="Patches\MapRoomScreenPatch.cs" />
+    <Compile Include="Patches\uGUI_CameraDronePatches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QMod.cs" />
     <Compile Include="Items\RemoteControlHudChip.cs" />
