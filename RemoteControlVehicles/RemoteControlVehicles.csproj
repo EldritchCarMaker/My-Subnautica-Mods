@@ -83,10 +83,13 @@
   <ItemGroup>
     <Compile Include="Items\DroneControlRemote.cs" />
     <Compile Include="Items\RemoteControlAurora.cs" />
+    <Compile Include="Items\RemoteControlCar.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Monobehaviours\DroneControl.cs" />
     <Compile Include="Monobehaviours\RemoteControlAuroraMono.cs" />
     <Compile Include="Monobehaviours\RemoteControlAuroraTool.cs" />
+    <Compile Include="Monobehaviours\RemoteControlCarMono.cs" />
+    <Compile Include="Monobehaviours\RemoteControlCarTool.cs" />
     <Compile Include="Monobehaviours\RemoteControlMapRoomFunctionality.cs" />
     <Compile Include="Patches\MapRoomScreenPatch.cs" />
     <Compile Include="Patches\uGUI_CameraDronePatches.cs" />

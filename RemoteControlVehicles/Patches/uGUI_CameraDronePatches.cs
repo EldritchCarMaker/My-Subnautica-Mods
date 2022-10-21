@@ -44,6 +44,8 @@ namespace RemoteControlVehicles.Patches
             {
                 if (__instance.waitForCamera)
                 {
+                    __instance.connecting.SetActive(true);
+                    __instance.waitForCamera = true;
                     if (aurora.IsReady())
                     {
                         __instance.connecting.SetActive(false);
@@ -56,7 +58,7 @@ namespace RemoteControlVehicles.Patches
                     __instance.noSignal.SetActive(false);
                     __instance.connecting.SetActive(false);
 
-
+                    __instance.textTitle.text = "Aurora";
                     __instance.UpdateDistanceText((int)aurora.GetDistance());
                     int num = -1;
                     LiveMixin liveMixin = aurora.liveMixin;

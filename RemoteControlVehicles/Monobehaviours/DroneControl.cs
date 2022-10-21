@@ -73,6 +73,26 @@ namespace RemoteControlVehicles.Monobehaviours
             screen.cameraText = mapRoomScreenPrefab.cameraText;
             screen.enabled = true;
         }
+        public override bool OnLeftHandDown()
+        {
+            if (QMod.config.MustBeInBase && !Player.main.currentSub && !Player.main.currentEscapePod)
+            {
+                ErrorMessage.AddMessage("Must be in safe place to control drone");
+                return true;
+            }
+
+            screen.currentIndex = screen.NormalizeIndex(screen.currentIndex);
+
+            MapRoomCamera mapRoomCamera = screen.FindCamera();
+            if (mapRoomCamera)
+            {
+                mapRoomCamera.ControlCamera(Player.main, screen);
+                screen.currentCamera = mapRoomCamera;
+            }
+            else
+                ErrorMessage.AddMessage("Can't find drone to control");
+            return true;
+        }
         public override bool OnRightHandDown()
         {
             if (QMod.config.MustBeInBase && !Player.main.currentSub && !Player.main.currentEscapePod)
@@ -83,6 +103,10 @@ namespace RemoteControlVehicles.Monobehaviours
 
             if(GameInput.GetButtonHeld(GameInput.Button.Sprint))
             {
+                //rc car stuff
+            }
+            else
+            {
                 var aurora = RemoteControlAuroraMono.lastUsedMono;
                 if (aurora)
                 {
@@ -90,19 +114,6 @@ namespace RemoteControlVehicles.Monobehaviours
                 }
                 else
                     ErrorMessage.AddMessage("Can't find RC Aurora to control");
-            }
-            else
-            {
-                screen.currentIndex = screen.NormalizeIndex(screen.currentIndex);
-
-                MapRoomCamera mapRoomCamera = screen.FindCamera();
-                if (mapRoomCamera)
-                {
-                    mapRoomCamera.ControlCamera(Player.main, screen);
-                    screen.currentCamera = mapRoomCamera;
-                }
-                else
-                    ErrorMessage.AddMessage("Can't find drone to control");
             }
 
             return base.OnRightHandDown();
