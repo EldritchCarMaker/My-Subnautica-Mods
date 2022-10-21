@@ -3,13 +3,41 @@ Mods that I have made for subnautica one.
 This is not a full list, there are also mods such as my Equippable Item Icons and Camera Drones Upgrades mods.
 Links to those mods are on the [ReadMe](https://github.com/EldritchCarMaker/My-Subnautica-Mods/blob/main/README.md)
 
-## Click on the name of the mod to be brought to that mods page, and then click on the name of the mod there to download it.
+### [Adaptive Teleporting Costs](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/9795838/AdaptiveTeleportingCosts.zip)
 
-### [Adaptive Teleporting Costs](https://github.com/EldritchCarMaker/My-Subnautica-Mods/blob/main/SeaDragonHealthBuff/AdaptiveTeleportingCosts.md)
 
-### [Auto Storage Transfer](https://github.com/EldritchCarMaker/My-Subnautica-Mods/blob/main/AutoStorageTransfer/AutoStoragetransfer.md)
+Changes the FCS quantum teleporter to drain power based on distance teleported rather than simply if the teleporter is in the same base or not. Also lets you configure the min and max costs and the scaling rate of cost over distance.
 
-### [Auto Storage Transfer Compatibility](https://github.com/EldritchCarMaker/My-Subnautica-Mods/blob/main/AutoStorageTransferCompatibility/AutoStoragetransferCompatibility.md)
+Dependencies: [FCS Home Solutions](http://fcstudioshub.com/subnautica/home-solutions/)
+###### [Changelog](https://github.com/EldritchCarMaker/My-Subnautica-Mods/blob/main/SeaDragonHealthBuff/Changelog.md)
+
+
+### [Auto Storage Transfer](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/9795861/AutoStorageTransfer.zip)
+
+
+a very simple, yet powerful mod that allows you to link storages to automatically transfer to or from each other.
+
+Simply craft the storage transfer controller with some magnetite, and then look at a storage container. From there, you can set it to transmit/recieve, and change the id of it. a storage set to transmitter will send items to any storages set to reciever that have the same id. You can also have multiple storages on transfer and only one on reciever.
+
+Storages can only have one single channel, and the transfers do not have any form of sorting built in. However, this does not mean you can't sort stuff. What this means is that you'll have to be creative. Instead of having a container put all magnetite here and titanium there, you have a container automatically transfer to an [autosort locker](https://www.nexusmods.com/subnautica/mods/31) that then sorts the items, and you can then use auto storage transfer to send those now sorted items somewhere else
+
+This mod also has compatibility with fcs mods, and you can set a base as a reciever and it'll put all items sent to it into the storage disks. To do this, just craft a C48 terminal, look at it with the storage transfer controller, and set the id to whatever you want. Any transmitters on that id will send items directly to any free storage disks.
+
+
+Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
+###### [Changelog](https://github.com/EldritchCarMaker/My-Subnautica-Mods/blob/main/AutoStorageTransfer/Changelog.md)
+
+
+### [Auto Storage Transfer Compatibility](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/9795859/AutoStorageTransferCompatibility.zip)
+
+
+This mod pairs alongside Auto Storage Transfer (linked above) and many other mods, including ion cube generator(I'll put a link here later) and even the cyclops reactor mods. Also allows auto storage transfer to work with many extra vanilla items, such as the water filtration unit and the base reactors.
+
+
+Dependencies: Auto Storage Transfer
+###### [Changelog](https://github.com/EldritchCarMaker/My-Subnautica-Mods/blob/main/AutoStorageTransferCompatibility/Changelog.md)
+
+
 
 ### [Better Cyclops Lockers](https://github.com/Nagorogan/My-Subnautica-Mods/files/8884799/BetterCyclopsLockers.zip)
 
