@@ -2,7 +2,7 @@
   "Id": "CameraDroneFlightUpgrade",
   "DisplayName": "Camera Drone Flight Upgrade",
   "Author": "EldritchCarMaker",
-  "Version": "1.0.5",
+  "Version": "1.0.6",
   "Enable": true,
   "AssemblyName": "CameraDroneFlightUpgrade.dll",
   "VersionDependencies": {

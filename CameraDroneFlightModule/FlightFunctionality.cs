@@ -53,7 +53,7 @@ namespace CameraDroneFlightUpgrade
         {
             if (hoverActive && upgrade.camera.gameObject.transform.position.y >= upgrade.camera.worldForces.waterDepth)
             {
-                upgrade.camera.energyMixin.ModifyCharge(PowerDrain * Time.deltaTime);
+                upgrade.camera.energyMixin.ModifyCharge(-PowerDrain * Time.deltaTime);
                 StartHoverSound();
             }
             else
