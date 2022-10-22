@@ -103,7 +103,13 @@ namespace RemoteControlVehicles.Monobehaviours
 
             if(GameInput.GetButtonHeld(GameInput.Button.Sprint))
             {
-                //rc car stuff
+                var car = RemoteControlCarMono.lastUsedMono;
+                if(car)
+                {
+                    car.ControlCar();
+                }
+                else
+                    ErrorMessage.AddMessage("Can't find RC Car to control");
             }
             else
             {

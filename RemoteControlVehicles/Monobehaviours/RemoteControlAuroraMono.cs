@@ -112,7 +112,12 @@ namespace RemoteControlVehicles.Monobehaviours
             pingInstance.displayPingInManager = true;
             pingInstance.origin = transform;
 
-            pingInstance.pingType = SMLHelper.V2.Handlers.PingHandler.RegisterNewPingType("Aurora", SpriteManager.Get(TechType.StarshipSouvenir));
+
+            //lastUsedMono is set after start is run, so if it's null the no start has run and we should register the ping type
+            if (!lastUsedMono) pingInstance.pingType = SMLHelper.V2.Handlers.PingHandler.RegisterNewPingType("Aurora", SpriteManager.Get(TechType.StarshipSouvenir));
+            else SMLHelper.V2.Handlers.PingHandler.TryGetModdedPingType("Aurora", out pingInstance.pingType);
+
+            lastUsedMono = this;
         }
         public T EnsureComponent<T>() where T : Component
         {

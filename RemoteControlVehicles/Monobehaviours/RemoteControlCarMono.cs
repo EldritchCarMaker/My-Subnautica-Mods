@@ -13,15 +13,18 @@ namespace RemoteControlVehicles.Monobehaviours
         public static RemoteControlCarMono lastUsedMono { get; private set; }
 
         private const float acceleration = 20f;
-        private const float sidewaysTorque = 45f;
-        private const float stabilizeForce = 6f;
+        private const float stabilizeForce = 10f;
         private const float controllTimeDelay = 0.1f;
         private const float energyDrain = 0.06666f;
         private const float lightEnergyDrain = 0.5f;
+        private static float MaxTurnRadius = 45;
+        private static float TurnRadiusPerSecond = 20;
 
 
-        public static readonly Vector3 firstPersonLocalCamPos = new Vector3(0, 0.15f, 0.02f);
-        public static readonly Vector3 thirdPersonLocalCamPos = new Vector3(0, 0.55f, -1f);
+        public static Vector3 firstPersonLocalCamPos = new Vector3(0, 0.19f, -0.02f);
+        public static Vector3 thirdPersonLocalCamPos = new Vector3(0, 0.55f, -1f);
+        //public static Vector3 forceApplyObjectLocalPos = new Vector3(0, 0.19f, -0.34f);
+        public static Vector3 forceApplyObjectLocalPos = new Vector3(0, 0.1f, -0.25f);
 
 
         private bool isThirdPerson = false;
@@ -29,6 +32,7 @@ namespace RemoteControlVehicles.Monobehaviours
 
         private GameObject inputStackDummy;
         private Transform camTransform;
+        private Transform forceApplyTransform;
 
         public Rigidbody rigidBody;
         public EnergyMixin energyMixin;
@@ -39,8 +43,6 @@ namespace RemoteControlVehicles.Monobehaviours
         public GameObject lightsParent;
         public PingInstance pingInstance;
         public ToggleLights toggleLights;
-
-        private Vector3 wishDir = Vector3.zero;
 
         public Player controllingPlayer { get; private set; }
         private float controllStartTime;
@@ -54,6 +56,12 @@ namespace RemoteControlVehicles.Monobehaviours
             camTransform.parent = transform;
             camTransform.localPosition = firstPersonLocalCamPos;
             camTransform.localRotation = Quaternion.identity;
+
+            var forceObject = new GameObject("ForceApplyObject");
+            forceApplyTransform = forceObject.transform;
+            forceApplyTransform.parent = transform;
+            forceApplyTransform.localPosition = forceApplyObjectLocalPos;
+            forceApplyTransform.localRotation = Quaternion.identity;
 
             inputStackDummy = new GameObject("inputStackDummy");
             inputStackDummy.transform.parent = base.transform;
@@ -103,15 +111,20 @@ namespace RemoteControlVehicles.Monobehaviours
 
 
             worldForces = EnsureComponent<WorldForces>();
+            worldForces.handleGravity = true;
             worldForces.underwaterDrag = 2;
-            worldForces.handleGravity = false;
+            worldForces.underwaterGravity = 9.81f;
 
             pingInstance = EnsureComponent<PingInstance>();
-            pingInstance.SetLabel("Aurora");
+            pingInstance.SetLabel("RC Car");
             pingInstance.displayPingInManager = true;
             pingInstance.origin = transform;
 
-            pingInstance.pingType = SMLHelper.V2.Handlers.PingHandler.RegisterNewPingType("Aurora", SpriteManager.Get(TechType.StarshipSouvenir));
+            //lastUsedMono is set after start is run, so if it's null the no start has run and we should register the ping type
+            if(!lastUsedMono) pingInstance.pingType = SMLHelper.V2.Handlers.PingHandler.RegisterNewPingType("RCCar", SpriteManager.Get(TechType.ToyCar));
+            else SMLHelper.V2.Handlers.PingHandler.TryGetModdedPingType("RCCar", out pingInstance.pingType);
+
+            lastUsedMono = this;
         }
         public T EnsureComponent<T>() where T : Component
         {
@@ -165,7 +178,7 @@ namespace RemoteControlVehicles.Monobehaviours
             }
         }
 
-        public void ControlAurora()
+        public void ControlCar()
         {
             controllStartTime = Time.time;
             controllingPlayer = Player.main;
@@ -255,15 +268,17 @@ namespace RemoteControlVehicles.Monobehaviours
                 }
                 if (CanBeControlled() && readyForControl)
                 {
+                    /*
                     Vector2 lookDelta = GameInput.GetLookDelta();
                     rigidBody.AddTorque(base.transform.up * lookDelta.x * sidewaysTorque * 0.0015f, ForceMode.VelocityChange);
                     rigidBody.AddTorque(base.transform.right * -lookDelta.y * sidewaysTorque * 0.0015f, ForceMode.VelocityChange);
                     wishDir = GameInput.GetMoveDirection();
                     wishDir.Normalize();
+                    */
                 }
                 else
                 {
-                    wishDir = Vector3.zero;
+                    //wishDir = Vector3.zero;
                 }
                 if (Input.GetKeyUp(KeyCode.Escape) || GameInput.GetButtonUp(GameInput.Button.Exit))
                 {
@@ -322,7 +337,14 @@ namespace RemoteControlVehicles.Monobehaviours
         {
             if (IsControlled())
             {
-                rigidBody.AddForce(base.transform.rotation * (acceleration * wishDir), ForceMode.Acceleration);
+                var desiredDirection = GameInput.GetMoveDirection().normalized;
+
+                Quaternion targetRotation = Quaternion.identity;
+                if (desiredDirection.x < 0) targetRotation = Quaternion.Euler(0, -MaxTurnRadius, 0);
+                else if (desiredDirection.x > 0) targetRotation = Quaternion.Euler(0, MaxTurnRadius, 0);
+                forceApplyTransform.localRotation = Quaternion.RotateTowards(transform.localRotation, targetRotation, Time.deltaTime * TurnRadiusPerSecond);
+
+                rigidBody.AddForceAtPosition(forceApplyTransform.forward * (acceleration * desiredDirection.z), forceApplyTransform.position, ForceMode.Acceleration);
                 StabilizeRoll();
             }
         }

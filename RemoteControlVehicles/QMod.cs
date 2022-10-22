@@ -33,6 +33,7 @@ namespace RemoteControlVehicles
             module.Patch();
 
             new RemoteControlAurora().Patch();
+            new RemoteControlCar().Patch();
 
             new DroneControlRemote().Patch();
 

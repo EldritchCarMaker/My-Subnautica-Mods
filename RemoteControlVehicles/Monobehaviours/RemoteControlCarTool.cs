@@ -41,10 +41,6 @@ namespace RemoteControlVehicles.Monobehaviours
 
         public override bool OnRightHandDown()
         {
-            if (Player.main.currentSub != null)
-            {
-                return false;
-            }
             _isInUse = false;
             pickupable.Drop(Player.main.camRoot.GetAimingTransform().position + Player.main.camRoot.GetAimingTransform().forward * 2);
             transform.rotation = Quaternion.LookRotation(Player.main.transform.position);
