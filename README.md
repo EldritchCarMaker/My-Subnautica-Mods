@@ -1,3 +1,6 @@
+![EldritchAmongUs](https://user-images.githubusercontent.com/97289845/197308111-8079d3fa-821f-48bb-89d8-43b54c6d8beb.png)
+
+
 # Subnautica mods
 [Mods I've made for the original game](https://github.com/EldritchCarMaker/My-Subnautica-Mods/blob/main/SubnauticaMods.md)
 
