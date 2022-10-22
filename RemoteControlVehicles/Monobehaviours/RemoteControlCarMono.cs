@@ -8,7 +8,7 @@ using UWE;
 
 namespace RemoteControlVehicles.Monobehaviours
 {
-    internal class RemoteControlCarMono : RemoteControlVehicle//todo: make a jump, make camera smooth
+    internal class RemoteControlCarMono : RemoteControlVehicle//todo: make a jump, make camera smooth, allow camera to look around. just a private static field set in control vehicle
     {
         public static RemoteControlCarMono lastUsedMono { get; private set; }
 

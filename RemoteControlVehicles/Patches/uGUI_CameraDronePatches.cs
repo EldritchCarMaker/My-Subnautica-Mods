@@ -16,7 +16,7 @@ namespace RemoteControlVehicles.Patches
         public static bool Prefix(uGUI_CameraDrone __instance)
         {
             RemoteControlVehicle vehicle = RemoteControlAuroraMono.lastUsedMono ? RemoteControlAuroraMono.lastUsedMono.controllingPlayer ? RemoteControlAuroraMono.lastUsedMono : (RemoteControlVehicle)RemoteControlCarMono.lastUsedMono : (RemoteControlVehicle)RemoteControlCarMono.lastUsedMono;
-
+            //use better route for getting currently used vehicle
             if (!vehicle || !vehicle.controllingPlayer || __instance.activeCamera)
                 return true;
 

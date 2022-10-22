@@ -8,7 +8,7 @@ using UWE;
 
 namespace RemoteControlVehicles.Monobehaviours
 {
-    public class RemoteControlVehicle : MonoBehaviour
+    public class RemoteControlVehicle : MonoBehaviour//use better route for getting currently used vehicle
     {
         protected virtual float acceleration { get; } = 20f;
         protected virtual float sidewaysTorque { get; } = 45f;
