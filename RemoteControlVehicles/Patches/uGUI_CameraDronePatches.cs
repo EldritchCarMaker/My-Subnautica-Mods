@@ -15,8 +15,9 @@ namespace RemoteControlVehicles.Patches
         [HarmonyPatch(nameof(uGUI_CameraDrone.LateUpdate))]
         public static bool Prefix(uGUI_CameraDrone __instance)
         {
-            var aurora = RemoteControlAuroraMono.lastUsedMono;
-            if (!aurora || !aurora.controllingPlayer || __instance.activeCamera)
+            RemoteControlVehicle vehicle = RemoteControlAuroraMono.lastUsedMono ? RemoteControlAuroraMono.lastUsedMono.controllingPlayer ? RemoteControlAuroraMono.lastUsedMono : (RemoteControlVehicle)RemoteControlCarMono.lastUsedMono : (RemoteControlVehicle)RemoteControlCarMono.lastUsedMono;
+
+            if (!vehicle || !vehicle.controllingPlayer || __instance.activeCamera)
                 return true;
 
             __instance.content.SetActive(true);
@@ -40,13 +41,13 @@ namespace RemoteControlVehicles.Patches
             */
 
 
-            if (aurora.CanBeControlled())
+            if (vehicle.CanBeControlled())
             {
                 if (__instance.waitForCamera)
                 {
                     __instance.connecting.SetActive(true);
                     __instance.waitForCamera = true;
-                    if (aurora.IsReady())
+                    if (vehicle.IsReady())
                     {
                         __instance.connecting.SetActive(false);
                         __instance.waitForCamera = false;
@@ -58,10 +59,10 @@ namespace RemoteControlVehicles.Patches
                     __instance.noSignal.SetActive(false);
                     __instance.connecting.SetActive(false);
 
-                    __instance.textTitle.text = "Aurora";
-                    __instance.UpdateDistanceText((int)aurora.GetDistance());
+                    __instance.textTitle.text = vehicle.VehicleName;
+                    __instance.UpdateDistanceText((int)vehicle.GetDistance());
                     int num = -1;
-                    LiveMixin liveMixin = aurora.liveMixin;
+                    LiveMixin liveMixin = vehicle.liveMixin;
                     if (liveMixin != null)
                     {
                         num = Mathf.RoundToInt(100f * (liveMixin.health / liveMixin.maxHealth));
@@ -72,7 +73,7 @@ namespace RemoteControlVehicles.Patches
                         __instance.textHealth.text = IntStringCache.GetStringForInt(__instance.health);
                     }
                     int num2 = -1;
-                    EnergyMixin energyMixin = aurora.energyMixin;
+                    EnergyMixin energyMixin = vehicle.energyMixin;
                     if (energyMixin != null)
                     {
                         num2 = Mathf.RoundToInt(100f * (energyMixin.charge / energyMixin.capacity));

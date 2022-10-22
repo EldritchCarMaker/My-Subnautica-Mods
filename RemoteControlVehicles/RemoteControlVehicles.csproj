@@ -91,6 +91,7 @@
     <Compile Include="Monobehaviours\RemoteControlCarMono.cs" />
     <Compile Include="Monobehaviours\RemoteControlCarTool.cs" />
     <Compile Include="Monobehaviours\RemoteControlMapRoomFunctionality.cs" />
+    <Compile Include="Monobehaviours\RemoteControlVehicle.cs" />
     <Compile Include="Patches\MapRoomScreenPatch.cs" />
     <Compile Include="Patches\uGUI_CameraDronePatches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

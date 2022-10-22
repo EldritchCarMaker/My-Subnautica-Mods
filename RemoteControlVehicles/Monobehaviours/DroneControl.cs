@@ -106,7 +106,7 @@ namespace RemoteControlVehicles.Monobehaviours
                 var car = RemoteControlCarMono.lastUsedMono;
                 if(car)
                 {
-                    car.ControlCar();
+                    car.ControlVehicle();
                 }
                 else
                     ErrorMessage.AddMessage("Can't find RC Car to control");
@@ -116,7 +116,7 @@ namespace RemoteControlVehicles.Monobehaviours
                 var aurora = RemoteControlAuroraMono.lastUsedMono;
                 if (aurora)
                 {
-                    aurora.ControlAurora();
+                    aurora.ControlVehicle();
                 }
                 else
                     ErrorMessage.AddMessage("Can't find RC Aurora to control");
