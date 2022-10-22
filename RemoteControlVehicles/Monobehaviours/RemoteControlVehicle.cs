@@ -8,8 +8,12 @@ using UWE;
 
 namespace RemoteControlVehicles.Monobehaviours
 {
-    public class RemoteControlVehicle : MonoBehaviour//use better route for getting currently used vehicle
+    public class RemoteControlVehicle : MonoBehaviour
     {
+        public float camRotationCorrectionSpeed = 5;
+        public float camPositionCorrectionSpeed = 10;
+
+
         protected virtual float acceleration { get; } = 20f;
         protected virtual float sidewaysTorque { get; } = 45f;
         protected virtual float stabilizeForce { get; } = 6f;
@@ -45,6 +49,8 @@ namespace RemoteControlVehicles.Monobehaviours
         private float controllStartTime;
         private bool readyForControl;
         private bool justStartedControl;
+
+        public static RemoteControlVehicle currentVehicle { get; private set; }
 
         protected virtual void Start()
         {
@@ -88,6 +94,7 @@ namespace RemoteControlVehicles.Monobehaviours
             liveMixin.data = ScriptableObject.CreateInstance<LiveMixinData>();
             liveMixin.data.maxHealth = 100;
             liveMixin.data.destroyOnDeath = false;
+            liveMixin.data.canResurrect = true;
             liveMixin.data.weldable = true;
             liveMixin.initialHealth = 100;
             liveMixin.ResetHealth();
@@ -130,7 +137,7 @@ namespace RemoteControlVehicles.Monobehaviours
         {
             if (controllingPlayer)
             {
-                FreeCamera();
+                ExitVehicle();
             }
         }
 
@@ -138,7 +145,7 @@ namespace RemoteControlVehicles.Monobehaviours
         {
             if (controllingPlayer)
             {
-                FreeCamera();
+                ExitVehicle();
             }
         }
 
@@ -146,30 +153,36 @@ namespace RemoteControlVehicles.Monobehaviours
         {
             if (controllingPlayer)
             {
-                FreeCamera();
+                ExitVehicle();
             }
         }
 
-        public virtual void ControlVehicle()
+        public void ControlVehicle()
         {
+            if (!CanBeControlled()) return;
+
             controllStartTime = Time.time;
             controllingPlayer = Player.main;
             Player.main.EnterLockedMode(null, false);
             rigidBody.velocity = Vector3.zero;
             MainCameraControl.main.enabled = false;
             InputHandlerStack.main.Push(inputStackDummy);
-            //set remote control screen shit here
-            //screenEffectModel.SetActive(true);
             //droneIdle.Play();
             readyForControl = false;
+            currentVehicle = this;
             //connectingSound.Play();
             Player.main.SetHeadVisible(true);
             lightsParent.SetActive(true);
             justStartedControl = true;
             VRUtil.Recenter();
+            OnCameraControl();
+        }
+        protected virtual void OnCameraControl()
+        {
+
         }
 
-        public virtual void FreeCamera(bool resetPlayerPosition = false)
+        public void ExitVehicle(bool resetPlayerPosition = true)
         {
             InputHandlerStack.main.Pop(inputStackDummy);
             controllingPlayer.ExitLockedMode(false, false);
@@ -181,15 +194,18 @@ namespace RemoteControlVehicles.Monobehaviours
             }
             rigidBody.velocity = Vector3.zero;
             MainCameraControl.main.enabled = true;
-            //RenderToTexture();
-            uGUI_CameraDrone.main.SetCamera(null);
-            uGUI_CameraDrone.main.SetScreen(null);
+            currentVehicle = null;
             //engineSound.Stop();
             //screenEffectModel.SetActive(false);
             //droneIdle.Stop();
             //connectingSound.Stop();
             Player.main.SetHeadVisible(false);
             lightsParent.SetActive(false);
+            OnCameraControl();
+        }
+        protected virtual void OnExitVehicle()
+        {
+
         }
 
         public bool IsControlled()
@@ -240,7 +256,7 @@ namespace RemoteControlVehicles.Monobehaviours
                 }
                 if (CanBeControlled() && readyForControl)
                 {
-                    MoveCameraView();
+                    TurnVehicleWithCamera();
                     wishDir = GameInput.GetMoveDirection();
                     wishDir.Normalize();
                 }
@@ -250,16 +266,19 @@ namespace RemoteControlVehicles.Monobehaviours
                 }
                 if (Input.GetKeyUp(KeyCode.Escape) || GameInput.GetButtonUp(GameInput.Button.Exit))
                 {
-                    FreeCamera(true);
+                    ExitVehicle(true);
                 }
                 if (GameInput.GetButtonDown(GameInput.Button.Sprint))
                     isThirdPerson = !isThirdPerson;
+
+                if (Input.mouseScrollDelta.y > 0) isThirdPerson = false;//go third person if scrolling back, first person if scrolling forward
+                else if(Input.mouseScrollDelta.y < 0) isThirdPerson = true;
 
                 toggleLights.CheckLightToggle();
 
                 if (Player.main != null && Player.main.liveMixin != null && !Player.main.liveMixin.IsAlive())
                 {
-                    FreeCamera(true);
+                    ExitVehicle(true);
                 }
                 HandleEngine();
             }
@@ -278,7 +297,7 @@ namespace RemoteControlVehicles.Monobehaviours
                 //engineSound.Stop();
             }
         }
-        protected virtual void MoveCameraView()
+        protected virtual void TurnVehicleWithCamera()
         {
             Vector2 lookDelta = GameInput.GetLookDelta();
             rigidBody.AddTorque(base.transform.up * lookDelta.x * sidewaysTorque * 0.0015f, ForceMode.VelocityChange);
@@ -294,7 +313,26 @@ namespace RemoteControlVehicles.Monobehaviours
                     return;
                 }
                 camTransform.localPosition = isThirdPerson ? thirdPersonLocalCamPos : firstPersonLocalCamPos;
+                SetCameraPosition();
+            }
+        }
+        protected virtual void SetCameraPosition()
+        {
+            if(isThirdPerson)
+            {
+                if (!QMod.config.instantCamPosition)
+                    SNCameraRoot.main.transform.position = Vector3.Lerp(SNCameraRoot.main.transform.position, camTransform.position, Time.deltaTime * camPositionCorrectionSpeed);
+                else
+                    SNCameraRoot.main.transform.position = camTransform.position;
 
+
+                if (!QMod.config.instantCamRotation)
+                    SNCameraRoot.main.transform.rotation = Quaternion.Lerp(SNCameraRoot.main.transform.rotation, camTransform.rotation, Time.deltaTime * camRotationCorrectionSpeed);
+                else
+                    SNCameraRoot.main.transform.rotation = camTransform.rotation;
+            }
+            else
+            {
                 SNCameraRoot.main.transform.position = camTransform.position;
                 SNCameraRoot.main.transform.rotation = camTransform.rotation;
             }

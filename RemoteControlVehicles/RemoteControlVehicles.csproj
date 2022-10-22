@@ -85,6 +85,7 @@
     <Compile Include="Items\RemoteControlAurora.cs" />
     <Compile Include="Items\RemoteControlCar.cs" />
     <Compile Include="Main.cs" />
+    <Compile Include="Monobehaviours\DockableRemoteVehicle.cs" />
     <Compile Include="Monobehaviours\DroneControl.cs" />
     <Compile Include="Monobehaviours\RemoteControlAuroraMono.cs" />
     <Compile Include="Monobehaviours\RemoteControlAuroraTool.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="Monobehaviours\RemoteControlCarTool.cs" />
     <Compile Include="Monobehaviours\RemoteControlMapRoomFunctionality.cs" />
     <Compile Include="Monobehaviours\RemoteControlVehicle.cs" />
+    <Compile Include="Monobehaviours\RemoteVehicleDockingBay.cs" />
     <Compile Include="Patches\MapRoomScreenPatch.cs" />
     <Compile Include="Patches\uGUI_CameraDronePatches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

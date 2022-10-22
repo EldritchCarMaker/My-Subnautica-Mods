@@ -8,7 +8,7 @@ using UWE;
 
 namespace RemoteControlVehicles.Monobehaviours
 {
-    internal class RemoteControlCarMono : RemoteControlVehicle//todo: make a jump, make camera smooth, allow camera to look around. just a private static field set in control vehicle
+    internal class RemoteControlCarMono : RemoteControlVehicle//todo: allow camera to look around
     {
         public static RemoteControlCarMono lastUsedMono { get; private set; }
 
@@ -19,7 +19,10 @@ namespace RemoteControlVehicles.Monobehaviours
         //private const float MaxTurnRadius = 45;
         private static float turnRadiusPerSecond = 10;
         private const float maxStabilizeForce = 50;
-        private const float minStabilizeForce = 10;
+        private const float minStabilizeForce = 15;
+        private const float maxTimeSpaceHeld = 2;
+        private const float jumpCooldown = 7;
+        private const float jumpForce = 20;
 
 
         public override Vector3 firstPersonLocalCamPos => new Vector3(0, 0.19f, -0.02f);
@@ -38,6 +41,11 @@ namespace RemoteControlVehicles.Monobehaviours
         }
 
         private bool isHovering = false;
+        private float timeSpaceHeld = 0;//how long space has been held for
+        private float timeNextJump;
+        private bool justSwappedHovering = false;
+
+        private DockableRemoteVehicle dockable;
 
         protected override void Start()
         {
@@ -55,6 +63,7 @@ namespace RemoteControlVehicles.Monobehaviours
             worldForces.aboveWaterDrag = 2;
             worldForces.underwaterGravity = 9.81f;
 
+            dockable = EnsureComponent<DockableRemoteVehicle>();
 
             pingInstance = EnsureComponent<PingInstance>();
             pingInstance.SetLabel("RC Car");
@@ -78,11 +87,33 @@ namespace RemoteControlVehicles.Monobehaviours
 
             if (!IsControlled()) return;
 
-            if (GameInput.GetButtonUp(GameInput.Button.Jump))//change to a jump, set hovering to holding space
+            if(!isHovering && Time.time >= timeNextJump && GameInput.GetButtonUp(GameInput.Button.Jump))
             {
-                isHovering = !isHovering;
+                if(justSwappedHovering)
+                {
+                    justSwappedHovering = false;
+                    return;
+                }
+
+                timeNextJump = Time.time + jumpCooldown;
+                rigidBody.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
             }
-            else if(Input.GetKeyUp(KeyCode.LeftControl))
+            else if (GameInput.GetButtonHeld(GameInput.Button.Jump))
+            {
+                timeSpaceHeld += Time.deltaTime;
+                if (timeSpaceHeld > maxTimeSpaceHeld)
+                {
+                    timeSpaceHeld = 0;
+                    justSwappedHovering = true;
+                    isHovering = !isHovering;
+                    ErrorMessage.AddMessage(isHovering ? "Now hovering above water" : "Stopped hovering");
+                }
+            }
+            else
+            {
+                timeSpaceHeld = 0;
+            }
+            if(Input.GetKeyUp(KeyCode.LeftControl))
             {
                 transform.rotation = Quaternion.identity;
                 rigidBody.velocity = Vector3.zero;
@@ -106,7 +137,7 @@ namespace RemoteControlVehicles.Monobehaviours
                 worldForces.handleGravity = true;
             }
         }
-        protected override void MoveCameraView()
+        protected override void TurnVehicleWithCamera()
         {
             //don't want to move camera here
         }
@@ -114,11 +145,11 @@ namespace RemoteControlVehicles.Monobehaviours
         {
             base.StabilizeRoll();
             float num = Mathf.Abs(base.transform.eulerAngles.x - 180f);
-            /*if (num <= 178f)
+            if (num <= 178f)
             {
                 float d = Mathf.Clamp(1f - num / 180f, 0f, 0.5f) * stabilizeForce;
                 rigidBody.AddTorque(transform.forward * d * Time.deltaTime * Mathf.Sign(base.transform.eulerAngles.x - 180f), ForceMode.VelocityChange);
-            }*/
+            }
         }
         protected override void HandleMovement()
         {

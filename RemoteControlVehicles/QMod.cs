@@ -54,6 +54,15 @@ namespace RemoteControlVehicles
         [Keybind("Cyclops Remote Control Key", Tooltip = "Press this key while you have a remote control chip and a cyclops with a remote control module equipped to control it remotely")]
         public KeyCode cyclopsControlKey = KeyCode.U;
 
+        [Keybind("Dock/Undock vehicle key", Tooltip = "Press this key while using the remote control aurora and above a dockable vehicle to dock the vehicle, or to undock the current vehicle")]
+        public KeyCode dockControlKey = KeyCode.Q;
+
+        [Toggle("Instant Camera Position Correction", Tooltip = "When controlling the aurora or rc car, does the camera snap instantly to the correct position or does it lag behind slightly?")]
+        public bool instantCamPosition = false;
+
+        [Toggle("Instant Camera Rotation Correction", Tooltip = "When controlling the aurora or rc car, does the camera snap instantly to the correct rotation or does it lag behind slightly?")]
+        public bool instantCamRotation = false;
+
         public bool MustBeInBase = true;
 
         public int remoteStorageWidth = 2;

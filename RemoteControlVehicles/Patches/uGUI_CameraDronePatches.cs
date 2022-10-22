@@ -15,31 +15,26 @@ namespace RemoteControlVehicles.Patches
         [HarmonyPatch(nameof(uGUI_CameraDrone.LateUpdate))]
         public static bool Prefix(uGUI_CameraDrone __instance)
         {
-            RemoteControlVehicle vehicle = RemoteControlAuroraMono.lastUsedMono ? RemoteControlAuroraMono.lastUsedMono.controllingPlayer ? RemoteControlAuroraMono.lastUsedMono : (RemoteControlVehicle)RemoteControlCarMono.lastUsedMono : (RemoteControlVehicle)RemoteControlCarMono.lastUsedMono;
-            //use better route for getting currently used vehicle
-            if (!vehicle || !vehicle.controllingPlayer || __instance.activeCamera)
+            RemoteControlVehicle vehicle = RemoteControlVehicle.currentVehicle;
+
+            if (!vehicle || !vehicle.isActiveAndEnabled || !vehicle.controllingPlayer || __instance.activeCamera)
                 return true;
 
             __instance.content.SetActive(true);
-            float a = 0f;
+            /*
             float a2 = __instance.faderSequence.target ? 1f : 0f;
             if (__instance.faderSequence.active)
             {
                 __instance.faderSequence.Update();
-                a = (a2 = 0.5f * (1f - Mathf.Cos(3.1415927f * __instance.faderSequence.t)));
+                a2 = 0.5f * (1f - Mathf.Cos(3.1415927f * __instance.faderSequence.t));//what
             }
+            
 
-            /*
-             * Handles fading and shit based off of distance
-             * Don't want. RC Aurora has infinite range.
-            float b = (__instance.activeCamera != null) ? (Mathf.Max(0f, __instance.activeCamera.GetScreenDistance(null) - 250f) / 250f) : 0f;
-            __instance._noise = Mathf.Max(a, b);
-            float b2 = (__instance.activeCamera != null) ? Mathf.Clamp((__instance.activeCamera.GetScreenDistance(null) - 520f) / 100f, 0f, 0.99f) : 0f;
             Color color = __instance.fader.color;
-            color.a = Mathf.Max(a2, b2);
+            color.a = a2;
             __instance.fader.color = color;
             */
-
+            __instance.fader.color = new Color(0, 0, 0, 0);
 
             if (vehicle.CanBeControlled())
             {
