@@ -63,6 +63,14 @@ namespace RemoteControlVehicles
         [Toggle("Instant Camera Rotation Correction", Tooltip = "When controlling the aurora or rc car, does the camera snap instantly to the correct rotation or does it lag behind slightly?")]
         public bool instantCamRotation = false;
 
+        [Toggle("Smooth Damp Camera Position Correction", Tooltip = "When controlling the aurora or rc car, decides which method to use to keep the camera close. If this is true, use SmoothDamp, else use Lerp. Incompatible with Instant Camera Position Correction.")]
+        public bool smoothDampCamPosition = false;
+
+        /*no smooth damp for rotation currently
+        [Toggle("Smooth Damp Camera Rotation Correction", Tooltip = "When controlling the aurora or rc car, does the camera snap instantly to the correct rotation or does it lag behind slightly?")]
+        public bool smoothDampCamRotation = false;
+        */
+
         public bool MustBeInBase = true;
 
         public int remoteStorageWidth = 2;

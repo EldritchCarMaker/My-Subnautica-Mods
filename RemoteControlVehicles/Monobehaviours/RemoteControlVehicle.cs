@@ -12,7 +12,7 @@ namespace RemoteControlVehicles.Monobehaviours
     {
         public float camRotationCorrectionSpeed = 5;
         public float camPositionCorrectionSpeed = 10;
-
+        public const float cameraSmoothTime = 0.5f;
 
         protected virtual float acceleration { get; } = 20f;
         protected virtual float sidewaysTorque { get; } = 45f;
@@ -49,6 +49,7 @@ namespace RemoteControlVehicles.Monobehaviours
         private float controllStartTime;
         private bool readyForControl;
         private bool justStartedControl;
+        private Vector3 cameraVelocity = Vector3.zero;
 
         public static RemoteControlVehicle currentVehicle { get; private set; }
 
@@ -321,21 +322,30 @@ namespace RemoteControlVehicles.Monobehaviours
             if(isThirdPerson)
             {
                 if (!QMod.config.instantCamPosition)
-                    SNCameraRoot.main.transform.position = Vector3.Lerp(SNCameraRoot.main.transform.position, camTransform.position, Time.deltaTime * camPositionCorrectionSpeed);
+                {
+                    if(QMod.config.smoothDampCamPosition)
+                        SNCameraRoot.main.transform.position = Vector3.SmoothDamp(SNCameraRoot.main.transform.position, camTransform.position, ref cameraVelocity, cameraSmoothTime);
+                    else
+                        SNCameraRoot.main.transform.position = Vector3.Lerp(SNCameraRoot.main.transform.position, camTransform.position, Time.deltaTime * camPositionCorrectionSpeed);
+                }
                 else
+                {
                     SNCameraRoot.main.transform.position = camTransform.position;
+                }
 
 
                 if (!QMod.config.instantCamRotation)
+                {
                     SNCameraRoot.main.transform.rotation = Quaternion.Lerp(SNCameraRoot.main.transform.rotation, camTransform.rotation, Time.deltaTime * camRotationCorrectionSpeed);
+                }
                 else
+                {
                     SNCameraRoot.main.transform.rotation = camTransform.rotation;
+                }
+                return;
             }
-            else
-            {
-                SNCameraRoot.main.transform.position = camTransform.position;
-                SNCameraRoot.main.transform.rotation = camTransform.rotation;
-            }
+            SNCameraRoot.main.transform.position = camTransform.position;
+            SNCameraRoot.main.transform.rotation = camTransform.rotation;
         }
 
         protected virtual void StabilizeRoll()
