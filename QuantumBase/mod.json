@@ -1,0 +1,15 @@
+{
+  "Id": "QuantumBase",
+  "DisplayName": "Quantum Base",
+  "Author": "EldritchCarMaker",
+  "Version": "1.0.1",
+  "Enable": true,
+  "AssemblyName": "QuantumBase.dll",
+  "VersionDependencies": {
+    "SMLHelper": "2.9.6"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://raw.githubusercontent.com/EldritchCarMaker/My-Subnautica-Mods/main/QuantumBase/mod.json"
+  },
+  "Game": "Subnautica"
+}
