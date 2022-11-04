@@ -58,6 +58,17 @@ Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ###### No Changelog yet
 
 
+## [Cyclops Cloak](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/9941204/CyclopsCloakingMod_SN.zip)
+
+A mod originally by `The Master#7886` on discord (he keeps changing his name every couple weeks, this may not be his current discord). This mod adds in a special module for the cyclops that will cloak it from all hostile creatures. It's unlocked alongside the cyclops shield module, and is arguably a direct upgrade to it as the cyclops cloak makes it almost impossible for creatures to detect the cyclops for as long as its installed. 
+
+Currently has no penalty to its use, and is activated as soon as the module is inserted. Can be considered overpowered, but I never had a chance to add a toggle or energy drain to it, only a chance to fix it up and release it as a working version.
+
+
+Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
+###### No Changelog yet
+
+
 ## [Cyclops Torpedoes](https://github.com/Nagorogan/My-Subnautica-Mods/files/9438326/CyclopsTorpedoes.zip)
 
 
