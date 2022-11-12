@@ -26,7 +26,8 @@ namespace QuantumBase.Mono
 
         public void MakeWindow(GameObject windowPrefabObject)
         {
-            topWindowPane = Instantiate(windowPrefabObject);
+            topWindowPane = Instantiate(windowPrefabObject); 
+            Destroy(topWindowPane.GetComponent<Constructable>());
             topWindowPane.transform.parent = transform;
             topWindowPane.transform.localPosition = new Vector3(1.43f, -9.21f, -7.05f);
             topWindowPane.transform.localEulerAngles = new Vector3(89, 90, 0);
@@ -34,6 +35,7 @@ namespace QuantumBase.Mono
 
 
             bottomWindowPane = Instantiate(windowPrefabObject);
+            Destroy(bottomWindowPane.GetComponent<Constructable>());
             bottomWindowPane.transform.parent = transform;
             bottomWindowPane.transform.localPosition = new Vector3(1.49f, -13.15f, -7.05f);
             bottomWindowPane.transform.localEulerAngles = new Vector3(270, 90, 0);

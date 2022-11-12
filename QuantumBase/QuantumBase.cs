@@ -18,7 +18,7 @@ namespace QuantumBase
 
 
         private GameObject respawnObject;
-
+        private bool firstTeleport = true;
         public static void EnsureBase()
         {
             if (main) return;
@@ -92,6 +92,7 @@ namespace QuantumBase
             var door = Instantiate(prefab);
             door.transform.parent = transform;
 
+            Destroy(door.GetComponent<LargeWorldEntity>());
 
             Vector3 localDoorPosition = new Vector3(0.47f, -0.19f, -6.67f);
 
@@ -106,9 +107,59 @@ namespace QuantumBase
         }
         public override void Start()
         {
+            LoadSaveData();
+
+            QMod.SaveData.OnStartedSaving += OnSave;
+
             CoroutineHost.StartCoroutine(SetUpDoors());
 
             CoroutineHost.StartCoroutine(SetUpWalls());
+
+            CoroutineHost.StartCoroutine(SetUpBioReactor());
+        }
+        private void OnSave(object sender, EventArgs e)
+        {
+            QMod.SaveData.Energy = powerRelay.internalPowerSource.GetPower();
+
+            QMod.SaveData.isInBase = Player.main.currentSub is QuantumBase;
+
+            QMod.SaveData.LastPosition = lastPosition;
+            QMod.SaveData.wasInLifepod = wasInLifepod;
+
+            QMod.SaveData.LastSubRoot = lastSub ? lastSub.GetComponent<UniqueIdentifier>().id : null;
+            QMod.SaveData.LastVehicle = lastVehicle ? lastVehicle.GetComponent<UniqueIdentifier>().id : null;
+        }
+        private void LoadSaveData()
+        {
+            powerRelay.internalPowerSource.SetPower(QMod.SaveData.Energy);
+
+            if (QMod.SaveData.isInBase) Player.main.currentSub = this;
+
+            lastPosition = QMod.SaveData.LastPosition;
+            wasInLifepod = QMod.SaveData.wasInLifepod;
+        }
+        private IEnumerator SetUpBioReactor()
+        {
+            yield return new WaitUntil(() => Base.pieces != null && Base.pieces.Length > 0 && Base.pieces[(int)Base.Piece.RoomBioReactor].prefab != null);
+
+            var reactorPrefab = Base.pieces[(int)Base.Piece.RoomBioReactor].prefab.gameObject;
+
+            var reactor = Instantiate(reactorPrefab);
+            Destroy(GetComponent<BaseBioReactorGeometry>());
+            reactor.SetActive(true);
+
+
+            var reactorPosition = new Vector3(0.57f, 4.59f, -23.5f);
+
+
+            reactor.transform.SetParent(transform);
+            reactor.transform.localPosition = reactorPosition;
+
+
+            var handTarget = reactor.GetComponentInChildren<GenericHandTarget>();
+            var energyGen = handTarget.gameObject.EnsureComponent<EnergyGenerator>();
+            energyGen.powerSource = powerRelay.internalPowerSource;
+            Destroy(handTarget);
         }
         private IEnumerator SetUpWalls()
         {
@@ -127,6 +178,7 @@ namespace QuantumBase
             foreach(var SizeAndPosition in WallSizesAndPositions)
             {
                 var wall = Instantiate(prefab);
+                Destroy(wall.GetComponent<Constructable>());
                 wall.transform.parent = transform;
                 wall.transform.localScale = SizeAndPosition.Key;
                 wall.transform.localPosition = SizeAndPosition.Value;
@@ -134,6 +186,13 @@ namespace QuantumBase
 
                 firstOne = false;
             }
+
+            var floor = Instantiate(prefab);
+            Destroy(floor.GetComponent<Constructable>());
+            floor.transform.parent = transform;
+            floor.transform.localScale = new Vector3(17, 2, 43);
+            floor.transform.localPosition = new Vector3(44.68f, 59, -25.84f);
+            floor.transform.localEulerAngles = new Vector3(0, 269, 90);
 
             yield return SetUpWindow(prefab);
         }
@@ -172,7 +231,7 @@ namespace QuantumBase
             ErrorMessage.AddMessage("Teleporting player to base");
 
             lastPosition = Player.main.transform.position;
-            lastRotation = Player.main.transform.rotation;
+            wasInLifepod = Player.main.currentEscapePod;//wow, this looks so cursed somehow? no explicit bool cast necessary here
             lastSub = Player.main.currentSub;
             lastVehicle = Player.main.GetVehicle();
             if (lastVehicle)
@@ -189,17 +248,41 @@ namespace QuantumBase
             Player.main.SetPosition(respawnObject.transform.position, respawnObject.transform.rotation);
             Player.main.currentSub = this;
             Player.main.transform.localScale = Vector3.one;
+
+            CoroutineHost.StartCoroutine(TeleportFX());
         }
         public void SetPlayerOutBase()
         {
             ErrorMessage.AddMessage("Teleporting Player Back");
 
-            Player.main.SetPosition(lastPosition, lastRotation);
+            Player.main.SetPosition(lastPosition);
+
+            if (wasInLifepod) Player.main.currentEscapePod = EscapePod.main;
+
+
+            //check for vehicles from save data on the first teleport, otherwise trust that the fields are correct
+            if (firstTeleport && !lastSub && !string.IsNullOrEmpty(QMod.SaveData.LastSubRoot))
+                lastSub = FindObjectsOfType<SubRoot>().FirstOrDefault((sub) => { return (bool)(sub.GetComponent<UniqueIdentifier>()?.Id.Equals(QMod.SaveData.LastSubRoot)); });
+
+            if (firstTeleport && !lastVehicle && !string.IsNullOrEmpty(QMod.SaveData.LastVehicle))
+                lastVehicle = FindObjectsOfType<Vehicle>().FirstOrDefault((vehicle) => { return (bool)(vehicle.GetComponent<UniqueIdentifier>()?.Id.Equals(QMod.SaveData.LastVehicle)); });
+
+            firstTeleport = false;
+
+
             Player.main.currentSub = lastSub;
-            if (lastVehicle)
+            if (lastVehicle && !lastVehicle.docked)
             {
                 lastVehicle.EnterVehicle(Player.main, true, false);
             }
+            CoroutineHost.StartCoroutine(TeleportFX());
+        }
+        public static IEnumerator TeleportFX(float delay = 1f)
+        {
+            TeleportScreenFXController fxController = MainCamera.camera.GetComponent<TeleportScreenFXController>();
+            fxController.StartTeleport();
+            yield return new WaitForSeconds(delay);
+            fxController.StopTeleport();
         }
         private T EnsureComponent<T>() where T : MonoBehaviour
         {
@@ -207,9 +290,8 @@ namespace QuantumBase
         }
 
 
-
+        private bool wasInLifepod;
         private Vector3 lastPosition;
-        private Quaternion lastRotation;
         private SubRoot lastSub;
         private Vehicle lastVehicle;
     }

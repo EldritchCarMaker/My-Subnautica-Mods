@@ -11,10 +11,18 @@ namespace QuantumBase.Patches
     internal class RadiatePlayerInRangePatches
     {
         [HarmonyPatch(nameof(RadiatePlayerInRange.Radiate))]
-        public static bool Prefix()
+        [HarmonyPriority(Priority.High)]
+        public static void Prefix(RadiatePlayerInRange __instance, out float __state)
         {
-            if (Player.main.currentSub is QuantumBase) return false;
-            return true;
+            __state = __instance.radiateRadius;
+
+            if (Player.main.currentSub is QuantumBase) __instance.radiateRadius = 1;
+        }
+
+        [HarmonyPatch(nameof(RadiatePlayerInRange.Radiate))]
+        public static void Postfix(RadiatePlayerInRange __instance, float __state)
+        {
+            __instance.radiateRadius = __state;
         }
     }
 }

@@ -34,6 +34,8 @@ namespace EquippableItemIcons.API
         public delegate void ToggleEvent();//any event with returns void
         public ToggleEvent OnEquip;//in case you need to do something special when item is equipped
         public ToggleEvent OnUnEquip;// case you need to do something special when item is unequipped
+        public ToggleEvent OnEquipChange;//any time that the number of equipped techtypes changes.
+                                         //Can be equipped or unequipped and also is triggered when any singular techtype is added/removed
 
         public delegate bool AllowedEvent();//any event that returns a bool
         public AllowedEvent IsIconActive;//used for if there's a specific condition for when the icon should/shouldn't be active, has a default 
@@ -47,7 +49,12 @@ namespace EquippableItemIcons.API
         //may be able to specify a specific vehicle, like typeof(SeaMoth) to only appear for that specific vehicle, although that should be unnecessary as the icon will only appear if it's considered equipped
         //should also be paired with a unique IsEquipped event to make sure the icon registers being equipped in the vehicle properly
 
+
+        [Obsolete("Doesn't allow for secondary equipment type, use itemTechTypes instead")]
         public List<TechType> SecondaryTechTypes = new List<TechType>();//for if multiple item techtypes should use the same icon
+
+
+        public Dictionary<TechType, EquipmentType> itemTechTypes = new Dictionary<TechType, EquipmentType>();//for if multiple item techtypes should use the same icon
 
         public HudItemIcon(string name, Atlas.Sprite sprite, TechType itemTechType)
         {
@@ -119,30 +126,22 @@ namespace EquippableItemIcons.API
                 return;
             }
 
-            equippedTechTypes.Clear();
+            var oldEquippedCount = equippedTechTypes.Count;
+            equippedTechTypes = GetEquippedTypes();
 
-            var temp = UtilityStuffs.Utility.EquipmentHasItem(techType, equipmentType);
-
-            if (temp) equippedTechTypes.Add(techType);
-
-            if (SecondaryTechTypes != null)
+            if(oldEquippedCount != equippedTechTypes.Count)
             {
-                foreach (TechType type in SecondaryTechTypes)
-                {
-                    if (UtilityStuffs.Utility.EquipmentHasItem(type, equipmentType))
-                    {
-                        temp = true;
-                        equippedTechTypes.Add(type);
-                    }
-                }
+                OnEquipChange?.Invoke();
             }
 
-            if (temp != equipped)
+            var newEquipped = equippedTechTypes.Count > 0;
+
+            if (newEquipped != equipped)
             {
-                if (temp && OnEquip != null) OnEquip.Invoke();
-                else if (!temp && OnUnEquip != null) OnUnEquip.Invoke();
+                if (newEquipped && OnEquip != null) OnEquip.Invoke();
+                else if (!newEquipped && OnUnEquip != null) OnUnEquip.Invoke();
             }
-            equipped = temp;
+            equipped = newEquipped;
 
             if (InvertIcon)
             {
@@ -165,6 +164,39 @@ namespace EquippableItemIcons.API
         internal virtual void Update()
         {
             iconActive = IsIconActive != null ? IsIconActive.Invoke() : equipped;
+        }
+
+        public List<TechType> GetEquippedTypes()
+        {
+            var equipped = new List<TechType>();
+
+
+            if (UtilityStuffs.Utility.EquipmentHasItem(techType, equipmentType)) equipped.Add(techType);
+
+#pragma warning disable CS0618 // Type or member is obsolete
+            if (SecondaryTechTypes != null)
+            {
+                foreach (TechType type in SecondaryTechTypes)
+                {
+                    if (UtilityStuffs.Utility.EquipmentHasItem(type, equipmentType))
+                    {
+                        equipped.Add(type);
+                    }
+                }
+            }
+#pragma warning restore CS0618 // Type or member is obsolete
+            if (itemTechTypes != null)
+            {
+                foreach(var pair in itemTechTypes)
+                {
+                    if(UtilityStuffs.Utility.EquipmentHasItem(pair.Key, pair.Value))
+                    {
+                        equipped.Add(pair.Key);
+                    }
+                }
+            }
+
+            return equipped;
         }
     }
 }
