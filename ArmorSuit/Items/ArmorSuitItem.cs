@@ -10,6 +10,7 @@ using SMLHelper.V2.Assets;
 using SMLHelper.V2.Crafting;
 using SMLHelper.V2.Utility;
 using UnityEngine;
+using ArmorSuit.Items;
 
 namespace ArmorSuit
 {
@@ -55,9 +56,9 @@ namespace ArmorSuit
                 craftAmount = 1,
                 Ingredients = new List<Ingredient>(new Ingredient[]
                     {
-                        new Ingredient(TechType.UraniniteCrystal, 3),
-                        new Ingredient(TechType.ToyCar, 1),
-                        new Ingredient(TechType.UltraGlideFins, 1)
+                        new Ingredient(IonFiber.TType, 2),
+                        new Ingredient(TechType.ReinforcedGloves, 1),
+                        new Ingredient(TechType.ReinforcedDiveSuit, 1)
                     }
                 ),
                 LinkedItems = new List<TechType>() { ArmorGlovesItem.techType }

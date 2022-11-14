@@ -1,5 +1,7 @@
-﻿using EquippableItemIcons.API;
+﻿using ArmorSuit.Mono;
+using EquippableItemIcons.API;
 using HarmonyLib;
+using Oculus.Newtonsoft.Json;
 using SMLHelper.V2.Utility;
 using System;
 using System.Collections;
@@ -29,40 +31,58 @@ namespace ArmorSuit
         public ActivatedEquippableItem hudItemIcon = new ActivatedEquippableItem("ArmorSuitIcon", _armorSuitSprite, ArmorSuitItem.thisTechType);
         #endregion
 
-        private static readonly List<DamageType> UnaffectedTypes = new List<DamageType>()
+        /*internal static readonly List<DamageType> UnaffectedTypes = new List<DamageType>()
         {
+            commented out in case someone wishes to edit the config to include one of these types
+            I won't be using any, but maybe someone *really* wants to take less damage from smoke or something
             DamageType.Undefined,
             DamageType.Pressure,
             DamageType.LaserCutter,
             DamageType.Starve,
             DamageType.Smoke,
-        };
-        private static readonly Dictionary<DamageType, DamageModifier> DamageModifiers = new Dictionary<DamageType, DamageModifier>();
+        };*/
 
-        private static List<DefenseInfo> defenseInfos = new List<DefenseInfo>();
+        private static GameObject _diveSuitGloves;
+        private static GameObject _diveSuitBody;
+
+        private static GameObject _reinforcedSuitGloves;
+        private static GameObject _reinforcedSuitBody;
+
+        private static Texture _vanillaRSuitBodyTexture;
+        private static Texture _vanillaRSuitArmsTexture;
+
+        private static Texture _newRSuitBodyTexture;
+        private static Texture _newRSuitArmsTexture;
+
+        private static List<DefenseInfo> defenseInfos => QMod.config.DefenseInfos;
 
         private DefenseInfo _currentType;
-
+        private ArmorSuitDefense SuitDefense { get; } = new ArmorSuitDefense();
         public DefenseInfo CurrentType
         {
             get 
             {
-                if (_currentType == null || _currentType.DamageTypes == null) CurrentType = defenseInfos[0];
+                if (_currentType == null || _currentType.DamageTypes == null) _currentType = defenseInfos[0];
                 return _currentType; 
             }
 
             set
             {
-                if(_currentType != value) ErrorMessage.AddMessage("Defense type now " + value.Type);
+                if (CurrentType == value) return;
+                    
                 _currentType = value;
+                ErrorMessage.AddMessage("Defense type now " + CurrentType.Type);
                 UpdateDamageModifier();
-                SetIconColor(CurrentType.SuitColor);
+                SetColors(CurrentType.SuitColor);
             }
         }
+        private SuitColors SuitColors;
 
         public void Awake()
         {
-            PopulateDefenseTypes();
+            SuitDefense.SetUpDamageModifiers();
+            FindBodyObjects();
+            SetUpSuitColors();
 
             hudItemIcon.activationType = ActivatedEquippableItem.ActivationType.OnceOff;
             hudItemIcon.activateKey = QMod.config.ArmorSuitKey;
@@ -78,129 +98,55 @@ namespace ArmorSuit
             Registries.RegisterHudItemIcon(hudItemIcon);
         }
 
-        #region Defense Type Field Population
-        private void PopulateDefenseTypes()
+        private static void FindBodyObjects()
         {
-            defenseInfos.Add
-            (
-                new DefenseInfo(
-                    DefenseType.Physical,
-                    new Color(0.6f, 0.6f, 0.6f),
-                    new List<DamageType>()
-                    {
-                        DamageType.Normal,
-                        DamageType.Collide,
-                        DamageType.Puncture,
-                        DamageType.Drill
-                    }
-               )
-            );
+            var geo = Player.main.transform.Find("body/player_view/male_geo");
 
-            defenseInfos.Add
-            (
-                new DefenseInfo(
-                    DefenseType.Electrical,
-                    new Color(0, 0.235f, 1f),
-                    new List<DamageType>()
-                    {
-                        DamageType.Electrical
-                    }
-               )
-            );
-            
-            defenseInfos.Add
-            (
-                new DefenseInfo(
-                    DefenseType.Thermal,
-                    new Color(1, 0.314f, 0),
-                    new List<DamageType>()
-                    {
-                        DamageType.Heat,
-                        DamageType.Fire
-                    }
-               )
-            );
+            var diveSuit = geo.Find("diveSuit");
 
-            defenseInfos.Add
-            (
-                new DefenseInfo(
-                    DefenseType.Acidic,
-                    new Color(0, 0.75f, 0),
-                    new List<DamageType>()
-                    {
-                        DamageType.Acid
-                    }
-               )
-            );
-
-            defenseInfos.Add
-            (
-                new DefenseInfo(
-                    DefenseType.Poisonous,
-                    new Color(0, 1, 0),
-                    new List<DamageType>()
-                    {
-                        DamageType.Poison,
-                    }
-               )
-            );
-
-            defenseInfos.Add
-            (
-                new DefenseInfo(
-                    DefenseType.Cold,
-                    new Color(0, 0.725f, 1),
-                    new List<DamageType>()
-                    {
-                        DamageType.Cold,
-                    }
-               )
-            );
-
-            defenseInfos.Add
-            (
-                new DefenseInfo(
-                    DefenseType.Radioactive,
-                    new Color(1, 1, 0),
-                    new List<DamageType>()
-                    {
-                        DamageType.Radiation,
-                    }
-               )
-            );
-
-            defenseInfos.Add
-            (
-                new DefenseInfo(
-                    DefenseType.Explosive,
-                    new Color(1, 0, 0),
-                    new List<DamageType>()
-                    {
-                        DamageType.Explosive,
-                    }
-               )
-            );
-
-            SetUpDamageModifiers();
-        }
-        private void SetUpDamageModifiers()
-        {
-            foreach(DamageType type in Enum.GetValues(typeof(DamageType)))
+            if (!_diveSuitGloves)
             {
-                if(!UnaffectedTypes.Contains(type))//too lazy to copy paste all the types I do want. easier to filter the ones I don't 
-                {
-                    AddDamageModifier(type);
-                }
+                _diveSuitGloves = diveSuit.Find("diveSuit_hands_geo").gameObject;
+            }
+            if(!_diveSuitBody)
+            {
+                _diveSuitBody = diveSuit.Find("diveSuit_body_geo").gameObject;
+            }
+
+            var suit = geo.Find("reinforcedSuit");
+
+            if(!_reinforcedSuitGloves)
+            {
+                _reinforcedSuitGloves = suit.Find("reinforced_suit_01_glove_geo").gameObject;
+            }
+            if(!_reinforcedSuitBody)
+            {
+                _reinforcedSuitBody = suit.Find("reinforced_suit_01_body_geo").gameObject;
+            }
+
+            if(!_vanillaRSuitArmsTexture)
+            {
+                _vanillaRSuitArmsTexture = _reinforcedSuitGloves.GetComponent<Renderer>().material.mainTexture;
+            }
+            if(!_vanillaRSuitBodyTexture)
+            {
+                _vanillaRSuitBodyTexture = _reinforcedSuitBody.GetComponent<Renderer>().material.mainTexture;
+            }
+
+            if(!_newRSuitArmsTexture)
+            {
+                _newRSuitArmsTexture = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "ColoredSuitArms.png"));
+            }
+            if(!_newRSuitBodyTexture)
+            {
+                _newRSuitBodyTexture = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "ColoredSuitBody.png"));
             }
         }
-        private void AddDamageModifier(DamageType type)
+        private void SetUpSuitColors()
         {
-            var modifier = Player.main.gameObject.AddComponent<DamageModifier>();
-            modifier.damageType = type;
-
-            DamageModifiers.Add(type, modifier);
+            SuitColors = gameObject.EnsureComponent<SuitColors>();
+            SuitColors.renderers = _reinforcedSuitGloves.transform.parent.GetComponentsInChildren<Renderer>(true);
         }
-#endregion
 
         public void Activate(List<TechType> equippedTypes)
         {
@@ -226,6 +172,35 @@ namespace ArmorSuit
         {
             UpdateDamageModifier();
             UpdateIcon();
+            UpdatePlayerSuit();
+        }
+
+        public void UpdatePlayerSuit()
+        {
+            _diveSuitBody.transform.parent.gameObject.SetActive(true);
+            _reinforcedSuitBody.transform.parent.gameObject.SetActive(true);//should be active anyway, but can't hurt to make sure
+
+
+            var notEquipped = hudItemIcon.equippedTechTypes.Count == 0;
+
+            var color = notEquipped ? Color.white : CurrentType.SuitColor;
+            SuitColors.SetColor(color);
+
+
+            var glovesEquipped = hudItemIcon.equippedTechTypes.Contains(ArmorGlovesItem.techType);
+            _reinforcedSuitGloves.SetActive(glovesEquipped);
+            _diveSuitGloves.SetActive(!glovesEquipped);
+
+            _reinforcedSuitGloves.GetComponent<Renderer>().material.mainTexture = glovesEquipped ? _newRSuitArmsTexture : _vanillaRSuitArmsTexture;
+
+
+            var suitEquipped = hudItemIcon.equippedTechTypes.Contains(hudItemIcon.techType);
+            _reinforcedSuitBody.SetActive(suitEquipped);
+            _diveSuitBody.SetActive(!suitEquipped);
+
+            _reinforcedSuitBody.GetComponent<Renderer>().material.mainTexture = suitEquipped ? _newRSuitBodyTexture : _vanillaRSuitBodyTexture;
+            _reinforcedSuitBody.GetComponent<Renderer>().materials[1].mainTexture = suitEquipped ? _newRSuitArmsTexture : _vanillaRSuitArmsTexture;
+
         }
 
         public void UpdateIcon()
@@ -242,25 +217,17 @@ namespace ArmorSuit
             }
         }
 
+        
         public void UpdateDamageModifier()
         {
             var DR = 1f - (0.45f * hudItemIcon.equippedTechTypes.Count);//get 45% DR per item equipped
-            EditDamageModifiers(CurrentType, DR);
+            SuitDefense.EditDamageModifiers(CurrentType, DR);
         }
 
-        private void EditDamageModifiers(DefenseInfo defenseInfo, float multiplier)
+        private void SetColors(Color color)
         {
-            foreach(var pair in DamageModifiers)
-            {
-                if(defenseInfo.DamageTypes.Contains(pair.Key))
-                {
-                    pair.Value.multiplier = multiplier;
-                }
-                else
-                {
-                    pair.Value.multiplier = 1;
-                }
-            }
+            SetIconColor(color);
+            UpdatePlayerSuit();
         }
 
         private void SetIconColor(Color color)
@@ -270,7 +237,7 @@ namespace ArmorSuit
 
         public void OnTakeDamage(DamageInfo damageInfo)
         {
-            if (!QMod.config.Automatic || hudItemIcon.equippedTechTypes.Count == 0 || UnaffectedTypes.Contains(damageInfo.type)) 
+            if (!QMod.config.Automatic || hudItemIcon.equippedTechTypes.Count == 0/* || UnaffectedTypes.Contains(damageInfo.type)*/) 
                 return;
 
             var defenseInfo = defenseInfos.FirstOrDefault((info) => info.DamageTypes.Contains(damageInfo.type));//find the first damage info that covers this damage type
@@ -295,9 +262,16 @@ namespace ArmorSuit
 #pragma warning disable CS0661 // Type defines operator == or operator != but does not override Object.GetHashCode()
         public struct DefenseInfo
         {
-            public DefenseType Type;
+            [JsonIgnore]
+            public Color SuitColor => new Color(red, green, blue);
 
-            public Color SuitColor;
+            public float red;
+
+            public float green;
+
+            public float blue;
+
+            public DefenseType Type;
 
             public List<DamageType> DamageTypes;
             //one defense type can cover multiple damage types
@@ -307,7 +281,9 @@ namespace ArmorSuit
             {
                 //struct containing the necessary information for a specific defensive state
                 Type = type;
-                SuitColor = color;
+                red = color.r;
+                green = color.g;
+                blue = color.b;
                 DamageTypes = types;
             }
 

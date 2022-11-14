@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace ArmorSuit
 {
@@ -31,6 +32,10 @@ namespace ArmorSuit
         protected override TechData GetBlueprintRecipe()
         {
             return new TechData();
+        }
+        public override GameObject GetGameObject()
+        {
+            return CraftData.InstantiateFromPrefab(TechType.ReinforcedGloves);
         }
     }
 }
