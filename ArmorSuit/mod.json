@@ -2,7 +2,7 @@
   "Id": "ArmorSuit",
   "DisplayName": "Armor Suit",
   "Author": "EldritchCarMaker",
-  "Version": "1.0.0",
+  "Version": "1.0.1",
   "Enable": true,
   "AssemblyName": "ArmorSuit.dll",
   "VersionDependencies": {
