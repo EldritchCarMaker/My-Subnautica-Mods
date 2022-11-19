@@ -28,6 +28,7 @@ namespace ArmorSuit.Mono
         {
             var modifier = Player.main.gameObject.AddComponent<DamageModifier>();
             modifier.damageType = type;
+            modifier.multiplier = 1;
 
             DamageModifiers.Add(type, modifier);
         }
