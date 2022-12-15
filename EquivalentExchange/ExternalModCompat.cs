@@ -15,13 +15,13 @@ namespace EquivalentExchange
     {
         public static void SetTechTypeValue(TechType tech, int value)//to use, look at comment block below method
         {
-            if(!QMod.config.BaseMaterialCosts.TryGetValue(tech, out _)) 
+            if(!QMod.config.ModifiedItemCosts.TryGetValue(tech, out _)) 
             {
-                QMod.config.BaseMaterialCosts.Add(tech, value);
+                QMod.config.ModifiedItemCosts.Add(tech, value);
             }
             else
             {
-                QMod.config.BaseMaterialCosts[tech] = value;
+                QMod.config.ModifiedItemCosts[tech] = value;
             }
         }
         /*use something similar to this in your mod in order to use this method without requiring a dependency/reference

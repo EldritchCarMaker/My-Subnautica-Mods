@@ -15,6 +15,7 @@ namespace EquivalentExchange.Monobehaviours
 		public const int PRICEOFUNMARKEDITEM = 50;
 		//if you're a modder trying to change this value for your item, please use the ExternalModCompat class
 
+		private static readonly Dictionary<TechType, int> cachedItemCosts = new Dictionary<TechType, int>();
 
 		public bool state { get; private set; }
 
@@ -147,19 +148,17 @@ namespace EquivalentExchange.Monobehaviours
         }
 		public void SetFCSIcons()
 		{
-            QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Info, "Looking for screen");
             var FCSScreen = ExternalModCompat.GetFCSPDA();
-            QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Info, "Finished looking");
+
             if (!FCSScreen)
             {
-                QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Info, "Couldn't find screen");
                 CoroutineHost.StartCoroutine(WaitForFCSPDA());
                 return;
             }
-            QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Info, "Found screen");
+
             var iconTransform = FCSScreen.transform.Find("Information/ToggleHud/AccountBalanceIcon");
             if (!iconTransform) return;
-			QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Info, "Found transform");
+
             QMod.FCSCreditIconSprite = iconTransform.GetComponent<Image>().sprite;
 
             SMLHelper.V2.Handler.SpriteHandler.RegisterSprite(QMod.FCSConvertType, QMod.FCSCreditIconSprite);
@@ -171,7 +170,6 @@ namespace EquivalentExchange.Monobehaviours
 			SetFCSIcons();
 		}
 
-		// Token: 0x06003454 RID: 13396 RVA: 0x001201B3 File Offset: 0x0011E3B3
 		public bool GetIsLeftMouseBoundToRightHand()
 		{
 			return "MouseButtonLeft" == GameInput.GetBinding(GameInput.Device.Keyboard, GameInput.Button.RightHand, GameInput.BindingSet.Primary) || "MouseButtonLeft" == GameInput.GetBinding(GameInput.Device.Keyboard, GameInput.Button.RightHand, GameInput.BindingSet.Secondary);
@@ -398,19 +396,14 @@ namespace EquivalentExchange.Monobehaviours
 			if (useCreative && !GameModeUtils.RequiresIngredients())
 				return 0;
 
-			if(QMod.config.ModifiedItemCosts.TryGetValue(techType, out var modifiedCost))
-				return modifiedCost;
-
-			if (QMod.config.BaseMaterialCosts.TryGetValue(techType, out var costs))
-				return costs;
-
-			if (QMod.config.OrganicMaterialsCosts.TryGetValue(techType, out var organicCosts))
-				return organicCosts;
+			if (TryGetConfigCost(techType, out var cost)) return cost;//use config dictionaries first, in case the player changed one of the configs
 
 			if (techType == QMod.FCSConvertType)
 				return QMod.ECMConvertPerClick;
 
-			if (depth > 10) return 5;
+			if (cachedItemCosts.TryGetValue(techType, out cost)) return cost;
+
+			if (depth > 10) return PRICEOFUNMARKEDITEM;
 
 			float totalCost = 0;
 
@@ -432,7 +425,24 @@ namespace EquivalentExchange.Monobehaviours
 
 				}
 			}
+
+			cachedItemCosts.Add(techType, (int)totalCost);
+
             return useEfficiency ? totalCost * QMod.config.inefficiencyMultiplier : totalCost;
+        }
+
+		public static bool TryGetConfigCost(TechType techType, out int cost)
+		{
+            if (QMod.config.ModifiedItemCosts.TryGetValue(techType, out cost))
+                return true;
+
+            if (QMod.config.BaseMaterialCosts.TryGetValue(techType, out cost))
+                return true;
+
+            if (QMod.config.OrganicMaterialsCosts.TryGetValue(techType, out cost))
+                return true;
+
+			return false;
         }
 
 		// Token: 0x06003465 RID: 13413 RVA: 0x00002319 File Offset: 0x00000519

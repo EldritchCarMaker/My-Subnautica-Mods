@@ -30,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony">
@@ -99,6 +100,7 @@
     <Compile Include="Monobehaviours\ItemResearchStation.cs" />
     <Compile Include="Patches\EasyCraftPatches.cs" />
     <Compile Include="Patches\PlayerPatches.cs" />
+    <Compile Include="Patches\TooltipFactoryPatches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QMod.cs" />
   </ItemGroup>
