@@ -1,7 +1,11 @@
 ﻿using ArmorSuit.Mono;
 using EquippableItemIcons.API;
 using HarmonyLib;
+#if SN1
 using Oculus.Newtonsoft.Json;
+#else
+using Newtonsoft.Json;
+#endif
 using SMLHelper.V2.Utility;
 using System;
 using System.Collections;
@@ -22,14 +26,14 @@ namespace ArmorSuit
 {
     public class ArmorSuitMono : MonoBehaviour, IOnTakeDamage
     {
-        #region Item Icon Stuff
+#region Item Icon Stuff
         public static string AssetsFolder = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
 
         private static Atlas.Sprite _armorSuitSprite = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "ArmorSuitIcon.png"));
         private static Atlas.Sprite _armorSuitSpriteGloveless = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "armorsuitIcon-gloveless.png"));
 
         public ActivatedEquippableItem hudItemIcon = new ActivatedEquippableItem("ArmorSuitIcon", _armorSuitSprite, ArmorSuitItem.thisTechType);
-        #endregion
+#endregion
 
         /*internal static readonly List<DamageType> UnaffectedTypes = new List<DamageType>()
         {
