@@ -1,8 +1,12 @@
 ﻿using EquivalentExchange.Patches;
 using SMLHelper.V2.Handlers;
+using SMLHelper.V2.Utility;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
@@ -106,7 +110,26 @@ namespace EquivalentExchange.Monobehaviours
 			toolbar.Select((int)selected);
 			UpdateItems();
             NotificationManager.main.Subscribe(this, notificationGroup, string.Empty);
+
+			CreateEldritchLogo();
         }
+
+		private void CreateEldritchLogo()
+		{
+			var content = transform.Find("Content");
+			var obj = new GameObject("LogoObj");
+			obj.transform.parent = content.transform;
+			obj.transform.position = content.transform.position;
+			obj.transform.localScale = Vector3.one;
+
+			var assetsFolder = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
+            var image = ImageUtils.LoadSpriteFromFile(Path.Combine(assetsFolder, "eldritch_logo.png"));
+
+			var icon = obj.EnsureComponent<uGUI_ItemIcon>();
+			icon.SetForegroundSprite(image);
+			var color = new Color(0, 0.7f, 1, 0.05f);
+			icon.SetForegroundColors(color, color, color);
+		}
 
 		private Atlas.Sprite GetSpriteForTabType(ExchangeMenuTab tab)
         {

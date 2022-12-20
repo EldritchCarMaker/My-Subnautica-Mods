@@ -99,6 +99,7 @@
     <Compile Include="Monobehaviours\ExchangeMenu.cs" />
     <Compile Include="Monobehaviours\ItemResearchStation.cs" />
     <Compile Include="Patches\EasyCraftPatches.cs" />
+    <Compile Include="Patches\InventoryPatches.cs" />
     <Compile Include="Patches\PlayerPatches.cs" />
     <Compile Include="Patches\TooltipFactoryPatches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

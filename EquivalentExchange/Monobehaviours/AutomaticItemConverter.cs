@@ -122,6 +122,7 @@ namespace EquivalentExchange.Monobehaviours
             container.onUse.AddListener(ToggleDoorState);
             container.container.onRemoveItem += OnRemove;
             container.container.isAllowedToRemove += AllowedToRemove;
+            container.container.isAllowedToAdd += (pickupable, verbose) => false;
         }
         private void ToggleDoorState()
         {
@@ -152,8 +153,11 @@ namespace EquivalentExchange.Monobehaviours
                 //if (!prefab) prefab = CraftData.GetPrefabForTechType(itemType);
                 if(!prefab)
                     return;
+                if (!Instantiate(prefab).TryGetComponent(out Pickupable pickupable)) { ClearItem(); return; }
 
-                container.container.AddItem(Instantiate(prefab).GetComponent<Pickupable>()).item.gameObject.SetActive(false);
+                var item = new InventoryItem(pickupable);
+                container.container.UnsafeAdd(item);
+                pickupable.gameObject.SetActive(false);
             }
         }
         public void OnRemove(InventoryItem item)
@@ -191,7 +195,7 @@ namespace EquivalentExchange.Monobehaviours
             iconType = ExchangeMenu.IconClickEffectsType.None;
             if (!isListeningForTechType) return true;
 
-
+            //uGUI.main.userInput.RequestString("Item to convert", "Submit", itemType.ToString(), 20, new uGUI_UserInput.UserInputCallback(OnStringInput));
             SetItemType(techType);
 
             isListeningForTechType = false;
@@ -202,13 +206,6 @@ namespace EquivalentExchange.Monobehaviours
 
             return false;
         }
-        //old route, don't use
-        public void SetItemType()
-        {
-            uGUI.main.userInput.RequestString("Item to convert", "Submit", itemType.ToString(), 20, new uGUI_UserInput.UserInputCallback(OnStringInput));
-        }
-        private void OnStringInput(string name) => SetItemType(name);
-        //end of old route
 
         private void SetItemType(string name, bool showMessage = true)
         {
@@ -225,11 +222,16 @@ namespace EquivalentExchange.Monobehaviours
                 return;
             }
 
-            itemType = type;
+            ClearItem();
 
-            isClearing = true;
-            container.container.Clear();
-            isClearing = false;
+            if(type == itemType)
+            {
+                if (showMessage) ErrorMessage.AddMessage("Cleared item selection");
+                itemType = type;
+                return;
+            }
+
+            itemType = type;
 
             if (type == TechType.None)
             {
@@ -243,12 +245,15 @@ namespace EquivalentExchange.Monobehaviours
                 return;
             }
 
-            if (prefab) Destroy(prefab);
-
+            SetItemPrefab(type, showMessage);
+        }
+        public void SetItemPrefab(TechType type, bool showMessage)
+        {
             prefab = Instantiate(CraftData.GetPrefabForTechType(type));
             if (!prefab || !prefab.TryGetComponent(out pickupable))
             {
                 if (showMessage) ErrorMessage.AddMessage("How the fuck did you unlock an item that couldn't be picked up? This item isn't valid for this, and stop cheating");
+                if (prefab) Destroy(prefab);
                 return;
             }
             prefab.transform.SetParent(transform, false);
@@ -259,6 +264,14 @@ namespace EquivalentExchange.Monobehaviours
             ECMCost = ExchangeMenu.GetCost(type);
             var itemSize = CraftData.GetItemSize(type);
             container.Resize(itemSize.x, itemSize.y);
+        }
+        public void ClearItem()
+        {
+            if (prefab) Destroy(prefab);
+            container.Resize(1, 1);
+            isClearing = true;
+            container.container.Clear();
+            isClearing = false;
         }
         public void OnHandHover(GUIHand hand)
         {
