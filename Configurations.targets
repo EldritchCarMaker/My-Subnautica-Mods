@@ -12,7 +12,7 @@
 		<GameDir>$(CommonDir)SubnauticaBranches\Legacy</GameDir>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)' == 'SN2'">
-		<DefineConstants>SN2;SUBNAUTICA_EXP; Jake</DefineConstants>
+		<DefineConstants>SN2;SUBNAUTICA_EXP;</DefineConstants>
 		<GameDir>$(CommonDir)SubnauticaBranches\LivinLarge</GameDir>
 	</PropertyGroup>
 	<PropertyGroup Condition="$(Configuration.StartsWith('BZ'))">
