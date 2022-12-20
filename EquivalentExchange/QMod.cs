@@ -17,6 +17,7 @@ using static EquivalentExchange.Monobehaviours.ExchangeMenu;
 using EquivalentExchange.Patches;
 using System.Collections;
 using UWE;
+using Shared;
 
 namespace EquivalentExchange
 {
@@ -66,6 +67,7 @@ namespace EquivalentExchange
             if (QModManager.API.QModServices.Main.ModPresent("EasyCraft"))
                 EasyCraftPatches.PatchEasyCraft(harmony);
 
+            ECMCapsule.MakeCapsule(new Vector3(0, 0, 0), "EE");
 
             Logger.Log(Logger.Level.Info, "Patched successfully!");
         }

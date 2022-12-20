@@ -4,13 +4,16 @@ using QModManager.API.ModLoading;
 using Logger = QModManager.Utility.Logger;
 using UnityEngine;
 using System.Collections.Generic;
-//using MoreCyclopsUpgrades.API;
+using SMLHelper.V2.Json.Attributes;
+using SMLHelper.V2.Json;
+using SMLHelper.V2.Handlers;
 
 namespace CyclopsTorpedoes
 {
     [QModCore]
     public static class QMod
     {
+        internal static SaveData Save { get; } = SaveDataHandler.Main.RegisterSaveDataCache<SaveData>();
         [QModPatch]
         public static void Patch()
         {
@@ -22,5 +25,10 @@ namespace CyclopsTorpedoes
 
             Logger.Log(Logger.Level.Info, "Patched successfully!");
         }
+    }
+    [FileName("ECMModLogger")]
+    public class SaveData : SaveDataCache
+    {
+        public List<string> CollectedCapsules = new List<string>();
     }
 }
