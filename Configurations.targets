@@ -8,11 +8,11 @@
 		<GameDir>$(CommonDir)SubnauticaZero</GameDir>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)' == 'SN1'">
-		<DefineConstants>SN1;SUBNAUTICA_STABLE</DefineConstants>
+		<DefineConstants>SN;SN1;SUBNAUTICA_STABLE</DefineConstants>
 		<GameDir>$(CommonDir)SubnauticaBranches\Legacy</GameDir>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)' == 'SN2'">
-		<DefineConstants>SN2;SUBNAUTICA_EXP;</DefineConstants>
+		<DefineConstants>SN;SN2;SUBNAUTICA_EXP;</DefineConstants>
 		<GameDir>$(CommonDir)SubnauticaBranches\LivinLarge</GameDir>
 	</PropertyGroup>
 	<PropertyGroup Condition="$(Configuration.StartsWith('BZ'))">

@@ -22,7 +22,7 @@ namespace EquivalentExchange.Constructables
         public override TechCategory CategoryForPDA { get; } = TechCategory.InteriorPiece;
         public override TechType RequiredForUnlock { get; } = TechType.PrecursorIonCrystal;
 
-        public override TechData GetBlueprintRecipe()
+        protected override TechData GetBlueprintRecipe()
         {
             return new TechData
             {

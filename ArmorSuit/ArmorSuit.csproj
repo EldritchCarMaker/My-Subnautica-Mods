@@ -61,6 +61,11 @@
   <Import Project="..\Configurations.targets" />
   <Import Project="..\References.targets" />
   <ItemGroup>
+    <Reference Include="EquippableItemIcons">
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Items\ArmorGlovesItem.cs" />
     <Compile Include="Items\ArmorSuitItem.cs" />
     <Compile Include="Mono\ArmorSuitDefense.cs" />
@@ -73,11 +78,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="mod.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="EquippableItemIcons">
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Subnautica\QMods\EquippableItemIcons\EquippableItemIcons.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

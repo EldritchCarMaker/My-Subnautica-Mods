@@ -398,3 +398,4 @@ FodyWeavers.xsd
 *.sln.iml
 # Custom ignore
 [Dd]ependencies/
+[Qq][Mm]ods/

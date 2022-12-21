@@ -7,6 +7,7 @@ using FCS_HomeSolutions.Mods.QuantumTeleporter.Enumerators;
 using FCS_HomeSolutions.Mods.QuantumTeleporter.Mono;
 using FCSCommon.Utilities;
 using HarmonyLib;
+using QModManager.Utility;
 
 namespace AdaptiveTeleportingCosts.Patches
 {
@@ -27,7 +28,7 @@ namespace AdaptiveTeleportingCosts.Patches
             TeleportManager.FreezeStats();
             if (TeleportManager._tab != QTTeleportTypes.Vehicle)
             {
-                QuickLogger.Debug("In Teleport Player", true);
+                QModManager.Utility.Logger.Log(Logger.Level.Debug, "In Teleport Player");
                 Player.main.playerController.inputEnabled = false;
                 Inventory.main.quickSlots.SetIgnoreHotkeyInput(true);
                 Player.main.GetPDA().SetIgnorePDAInput(true);

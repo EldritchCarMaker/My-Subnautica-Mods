@@ -14,6 +14,7 @@ using FCS_HomeSolutions.Mods.QuantumTeleporter.Mono;
 using FCS_HomeSolutions.Mods.QuantumTeleporter.Spawnables;
 using FCSCommon.Utilities;
 using HarmonyLib;
+using Logger = QModManager.Utility.Logger;
 
 namespace AdaptiveTeleportingCosts.Patches
 {
@@ -33,12 +34,12 @@ namespace AdaptiveTeleportingCosts.Patches
 
                     if (!destinationTeleporter.IsOperational)
                     {
-                        QuickLogger.ModMessage("This teleporter is not Operational.");
+                        QModManager.Utility.Logger.Log(Logger.Level.Info, "This teleporter is not Operational.");
                     }
 
                     if (device.Value.Manager.IsSame(Player.main.GetCurrentSub()))
                     {
-                        QuickLogger.ModMessage("Cannot teleport to the same base.");
+                        QModManager.Utility.Logger.Log(Logger.Level.Info, "Cannot teleport to the same base.");
                     }
 
                     var powerBankTechType = "QuantumPowerBank".ToTechType();
@@ -60,7 +61,7 @@ namespace AdaptiveTeleportingCosts.Patches
                             //Check if a valid destination
                             if (!AdaptiveValidation(destinationTeleporter, cost, out string result))
                             {
-                                QuickLogger.ModMessage(result);
+                                QModManager.Utility.Logger.Log(Logger.Level.Info, result);
                                 __result = false; 
                                 return false;
                             }
@@ -68,22 +69,22 @@ namespace AdaptiveTeleportingCosts.Patches
                             FCSPDAController.Main.GoToPage(PDAPages.Home);
                             FCSPDAController.Main.Close();
                             TeleportManager.TeleportPlayer(bankController, destinationTeleporter, Player.main.IsPiloting() ? QTTeleportTypes.Vehicle : QTTeleportTypes.Global);
-                            QuickLogger.ModMessage("Teleport SuccessFull");
+                            QModManager.Utility.Logger.Log(Logger.Level.Info, "Teleport SuccessFull");
                             __result =  true;
                             return false;
                         }
 
-                        QuickLogger.ModMessage("Power bank doesn't have enough power for teleporting");
+                        QModManager.Utility.Logger.Log(Logger.Level.Info, "Power bank doesn't have enough power for teleporting");
                         __result = false; 
                         return false;
                     }
 
-                    QuickLogger.ModMessage("Requires a Quantum Power Bank on person");
+                    QModManager.Utility.Logger.Log(Logger.Level.Info, "Requires a Quantum Power Bank on person");
                     __result = false; 
                     return false;
                 }
 
-                QuickLogger.ModMessage($"Failed to find teleporter with the ID of : {id}");
+                QModManager.Utility.Logger.Log(Logger.Level.Info, $"Failed to find teleporter with the ID of : {id}");
                 __result = false; 
                 return false;
             }

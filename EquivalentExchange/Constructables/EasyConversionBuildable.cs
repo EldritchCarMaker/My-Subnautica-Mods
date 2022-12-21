@@ -17,7 +17,7 @@ namespace EquivalentExchange.Constructables
 
         }
 
-        public override TechData GetBlueprintRecipe()
+        protected override TechData GetBlueprintRecipe()
         {
             return new TechData()
             {
