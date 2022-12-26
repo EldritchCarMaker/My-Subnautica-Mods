@@ -1,6 +1,6 @@
 # Equippable Item Icons Mods
 
-## [Equippable Item Icons](https://github.com/Nagorogan/My-Subnautica-Mods/files/8865337/EquippableItemIcons.zip)
+## [Equippable Item Icons](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/10304452/EquippableItemIcons.zip)
 
 
 An API for creating new items and icons for said items. Very configurable, ask on discord for information on how to use. Still in progress, but it's basically done apart from adding new things and making sure its bug free.
@@ -14,6 +14,13 @@ This file has every single mod I have made that utilizes Equippable Item Icons. 
 Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113)
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/EquippableItemIcons/Changelog.md)
 
+## [Armor Suit](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/10304456/ArmorSuit.zip)
+
+
+It's a suit that provides damage reduction. Wow, shocking. The twist is that it can only provide damage reduction to a single damage type at a time. So you're burning to death? Well the suit can offer you 90% heat resistance, but if you get bit by something you're taking that full damage. Or maybe you want to roll around taking 2-3 damage per bite, and laugh at everything brushing off you. Well if you get hit by something hot, or perhaps poisoned then you're now taking that full damage instead. This icon is by far the fanciest I've ever worked with. Hint; keep an eye on the icon on your hotbar when it switches damage types Speaking of switchin damage types, guess what you can do? Yea, switch damage types, how'd you know? There's two configs for the mod, one is the keybind, press this key and the suit will rotate to the next damage type in the sequence, and a config for whether or not the suit will auto adapt. auto adapting means that the suit will automatically change it's own damage type to react to whatever damage you're taking. Now, here's the downside, it only reacts after you have taken the damage. So if you're about to be bit, gotta switch to physical defense manually or you're gonna take that damage. Now, the second bite is gonna be a lot easier on you, cause the suit will automatically react to the bite and swap to the physical defense, but you're all on your own for that first bite. If you want to make full use of the suit, you need to be swapping the defense types manually, or you can just rely on the suit's auto adaptive capabilities to let yourself be lazy, at the expense of some health.
+
+Dependencies: [SmlHelper](https://www.nexusmods.com/subnautica/mods/113), equippable item icons
+###### No Changelog yet
 
 ## [Warp Chip](https://github.com/Nagorogan/My-Subnautica-Mods/files/9689291/WarpChip.zip)
 
