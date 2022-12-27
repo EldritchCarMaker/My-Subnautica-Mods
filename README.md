@@ -2,6 +2,9 @@
 
 
 # Subnautica mods
+
+## I have now moved to [Submodica](https://submodica.xyz/) as my primary mod listing site. My mods are still available here, but I would primarily recommend submodica.
+
 [Mods I've made for the original game](https://github.com/EldritchCarMaker/My-Subnautica-Mods/blob/main/SubnauticaMods.md)
 
 - ### Equippable Item Icons mods
