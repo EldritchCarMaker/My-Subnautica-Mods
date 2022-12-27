@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using Logger = QModManager.Utility.Logger;
+#if SN
+using Sprite = Atlas.Sprite;
+#endif
 
 namespace EquippableItemIcons.API
 {
@@ -13,7 +16,7 @@ namespace EquippableItemIcons.API
         public bool ShouldMakeIcon = true;
 
         public string name;//self explanatory
-        public Atlas.Sprite sprite;//foreground sprite of item icon
+        public Sprite sprite;//foreground sprite of item icon
         public TechType techType;//used to determine if item is equipped or not
 
         public GameObject container;//try to avoid touching these if AutomaticSetup is true, otherwise go ham
@@ -41,7 +44,7 @@ namespace EquippableItemIcons.API
         public AllowedEvent IsIconActive;//used for if there's a specific condition for when the icon should/shouldn't be active, has a default 
         public AllowedEvent IsEquipped;//used for if there's a specific condition for when the icon should/shouldn't be considered equipped, has a default 
 
-        public Atlas.Sprite backgroundSprite;
+        public Sprite backgroundSprite;
 
         public Type targetQuickslotType = typeof(QuickSlots);//whether the icon should appear for the player's quickslots, vehicles quickslots, or something else.
         //typeof(QuickSlots) is the default, which is the player's quickslots
@@ -56,7 +59,7 @@ namespace EquippableItemIcons.API
 
         public Dictionary<TechType, EquipmentType> itemTechTypes = new Dictionary<TechType, EquipmentType>();//for if multiple item techtypes should use the same icon
 
-        public HudItemIcon(string name, Atlas.Sprite sprite, TechType itemTechType)
+        public HudItemIcon(string name, Sprite sprite, TechType itemTechType)
         {
             this.name = name;
             this.sprite = sprite;

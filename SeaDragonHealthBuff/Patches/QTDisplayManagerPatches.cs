@@ -15,6 +15,7 @@ using HarmonyLib;
 using UnityEngine;
 using UnityEngine.UI;
 using static FCS_HomeSolutions.Mods.QuantumTeleporter.Mono.QTDisplayManager;
+using Logger = QModManager.Utility.Logger;
 
 namespace AdaptiveTeleportingCosts.Patches
 {
@@ -88,7 +89,7 @@ namespace AdaptiveTeleportingCosts.Patches
 
                 if (items == null)
                 {
-                    QuickLogger.Error<QTDisplayManager>("Items list returned null");
+                    Logger.Log(Logger.Level.Error, "Items list returned null");
                     return false;
                 }
 
@@ -133,7 +134,7 @@ namespace AdaptiveTeleportingCosts.Patches
                     itemButton.BtnName = "NetworkItem";
                     itemButton.MaxInteractionRange = 5;
 
-                    QuickLogger.Debug($"Added Unit {unitName}");
+                    Logger.Log(Logger.Level.Debug, $"Added Unit {unitName}");
                 }
             }
 

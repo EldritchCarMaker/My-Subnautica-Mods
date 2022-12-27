@@ -22,7 +22,7 @@ namespace EquivalentExchange
 
         public override EquipmentType EquipmentType => EquipmentType.Chip;
 
-        public override TechData GetBlueprintRecipe()
+        protected override TechData GetBlueprintRecipe()
         {
             return new TechData()
             {
@@ -43,7 +43,7 @@ namespace EquivalentExchange
         public override string[] StepsToFabricatorTab => new string[] { "Personal", "Equipment" };
         public override TechType RequiredForUnlock => TechType.Kyanite;
         public override float CraftingTime => 3f;
-        public override Atlas.Sprite GetItemSprite()
+        protected override Atlas.Sprite GetItemSprite()
         {
             return ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "chip_ecm.png"));
         }

@@ -36,7 +36,7 @@ namespace WarpChip
     {
         [Keybind("Warp Key", Tooltip = "Press this key while you have a warp chip equipped to warp forward slightly")]
         public KeyCode ControlKey = KeyCode.J;
-
+#if SN
         [Toggle("Can Teleport To Lifepod", Tooltip = "Whether the chip can warp you to your lifepod if it can't find a valid base to warp to")]
         public bool CanTeleportToLifepod = false;
 
@@ -44,7 +44,7 @@ namespace WarpChip
         public bool TeleportToLifepodOnOldSave = false;
 
         public int MaxDistanceToTeleportToLifepod = 0;
-
+#endif
         public int DefaultWarpDistanceOutside = 15;
         public int DefaultWarpDistanceInside = 10;
         public float DefaultWarpCooldown = 5;

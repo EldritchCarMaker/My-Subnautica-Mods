@@ -21,6 +21,8 @@ namespace CameraDroneShieldUpgrade
         private static string modPath = Path.GetDirectoryName(assembly.Location);
         public static Config config { get; } = OptionsPanelHandler.Main.RegisterModOptions<Config>();
 
+        public static ShieldFunctionality shield;
+
         [QModPatch]
         public static void Patch()
         {
@@ -32,7 +34,7 @@ namespace CameraDroneShieldUpgrade
             var item = new MapRoomCameraShieldUpgrade();
             item.Patch();
 
-            var shield = new ShieldFunctionality();
+            shield = new ShieldFunctionality();
             shield.upgrade = Registrations.RegisterDroneUpgrade("DroneShieldUpgrade", item.TechType, shield.SetUp);
 
             Logger.Log(Logger.Level.Info, "Patched successfully!");

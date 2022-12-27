@@ -10,7 +10,7 @@ using UWE;
 
 namespace CameraDroneShieldUpgrade
 {
-    internal class ShieldFunctionality
+    public class ShieldFunctionality
     {
         public CameraDroneUpgrade upgrade;
 

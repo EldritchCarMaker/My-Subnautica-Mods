@@ -1,4 +1,4 @@
-﻿{
+{
   "Id": "CameraDroneStealthUpgrade",
   "DisplayName": "Camera Drone Stealth Upgrade",
   "Author": "EldritchCarMaker",
@@ -12,5 +12,5 @@
   "VersionChecker": {
     "LatestVersionURL": "https://raw.githubusercontent.com/EldritchCarMaker/My-Subnautica-Mods/main/CameraDroneStealthUpgrade/mod.json"
   },
-  "Game": "Subnautica"
+  "Game": "BelowZero"
 }

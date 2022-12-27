@@ -3,6 +3,7 @@ using SMLHelper.V2.Assets;
 using SMLHelper.V2.Crafting;
 using SMLHelper.V2.Utility;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,8 +11,10 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+#if SN
 using Sprite = Atlas.Sprite;
-using TechData = SMLHelper.V2.Crafting.TechData;
+using RecipeData = SMLHelper.V2.Crafting.TechData;
+#endif
 
 namespace CameraDroneShieldUpgrade.Items
 {
@@ -39,9 +42,9 @@ namespace CameraDroneShieldUpgrade.Items
             return ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "ShieldUpgrade.png"));
         }
 
-        protected override TechData GetBlueprintRecipe()
+        protected override RecipeData GetBlueprintRecipe()
         {
-            return new TechData()
+            return new RecipeData()
             {
                 craftAmount = 1,
                 Ingredients = new List<Ingredient>(new Ingredient[]
@@ -54,11 +57,19 @@ namespace CameraDroneShieldUpgrade.Items
             };
         }
 
+#if SN1
         public override GameObject GetGameObject()
         {
             var prefab = CraftData.GetPrefabForTechType(TechType.MapRoomHUDChip);
             var obj = GameObject.Instantiate(prefab);
             return obj;
+        }
+#endif
+        public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
+        {
+            var task = CraftData.GetPrefabForTechTypeAsync(TechType.MapRoomHUDChip);
+            yield return task;
+            gameObject.Set(GameObject.Instantiate(task.GetResult()));
         }
     }
 }

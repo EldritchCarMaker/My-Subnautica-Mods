@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace WarpChip
 {
+#if SN
     [HarmonyPatch(typeof(PDAScanner))]
     public static class PDAScannerUnlockPatch
     {
@@ -23,4 +24,5 @@ namespace WarpChip
             }
         }
     }
+#endif
 }

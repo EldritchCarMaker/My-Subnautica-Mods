@@ -31,6 +31,22 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'SN2|AnyCPU'">
+    <OutputPath>bin\SN2\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'SN1|AnyCPU'">
+    <OutputPath>bin\SN1\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'BZ|AnyCPU'">
+    <OutputPath>bin\BZ\</OutputPath>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Subnautica\BepInEx\core\0Harmony.dll</HintPath>
@@ -78,9 +94,5 @@
     <None Include="mod.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>mkdir "C:\Program Files (x86)\Steam\steamapps\common\Subnautica\QMods\$(TargetName)"
-copy /Y "$(TargetPath)" "C:\Program Files (x86)\Steam\steamapps\common\Subnautica\QMods\$(TargetName)"
-copy /Y "$(ProjectDir)\mod.json" "C:\Program Files (x86)\Steam\steamapps\common\Subnautica\QMods\$(TargetName)\mod.json"</PostBuildEvent>
-  </PropertyGroup>
+  <Import Project="..\PostBuildEvents.targets" />
 </Project>

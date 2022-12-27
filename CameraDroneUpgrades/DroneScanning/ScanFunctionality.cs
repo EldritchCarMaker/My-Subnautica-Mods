@@ -37,9 +37,12 @@ namespace CameraDroneUpgrades.DroneScanning
         public static GameObject UpdateScanIcon(GameObject startObj)
         {
             if (!Targeting.GetTarget(startObj, 5, out var go, out float distance)) return null;
-            UpdateScanTarget(go); 
-
+            UpdateScanTarget(go);
+#if SN
             if (PDAScanner.scanTarget.isValid && PDAScanner.CanScan() == PDAScanner.Result.Scan && !PDAScanner.scanTarget.isPlayer)
+#else
+            if (PDAScanner.scanTarget.isValid && PDAScanner.CanScan(go) && PDAScanner.scanTarget.techType != TechType.Player)
+#endif
             {
                 float progress = PDAScanner.scanTarget.progress;
                 Color endColor = new Color(1, 0, 0);

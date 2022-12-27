@@ -84,18 +84,22 @@ namespace EquippableItemIcons.API
                 }
                 icon.container.transform.localScale = new Vector3(QMod.config.iconSizeScale, QMod.config.iconSizeScale, QMod.config.iconSizeScale);
 
-                icon.container.SetActive(quickSlots.target.GetType().IsSubclassOf(icon.targetQuickslotType) || quickSlots.target.GetType() == icon.targetQuickslotType);
+                Type quickslotsType = quickSlots.target.GetType();
+                icon.container.SetActive(quickslotsType == icon.targetQuickslotType || quickslotsType.IsSubclassOf(icon.targetQuickslotType));
+
+                var yPos = UseRightSide ? rightPos.y : leftPos.y;
+#if BZ
+                yPos = 50;//for some reason on below zero rightPos.y returns 0 despite the y value actually being 50. 
+                //i dont know why and i dont care
+#endif
 
                 icon.container.transform.localPosition = !UseRightSide
-                    ? new Vector2(leftPos.x - 80 - (80 * ((count - 1) / 2)), leftPos.y)
-                    : new Vector2(rightPos.x + 10 + (80 * ((count) / 2)), rightPos.y);
+                    ? new Vector2(leftPos.x - 80 - (80 * ((count - 1) / 2)), yPos)
+                    : new Vector2(rightPos.x + 10 + (80 * ((count) / 2)), yPos);
                 UseRightSide = !UseRightSide;
                 count++;
             }
-            iconsToRemove.ForEach(delegate (HudItemIcon icon)
-            {
-                activeIcons.Remove(icon);
-            });
+            iconsToRemove.ForEach((icon) => activeIcons.Remove(icon));
         }
         private static IEnumerator WaitForQuickSlots()
         {

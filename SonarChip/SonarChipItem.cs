@@ -4,13 +4,16 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+#if SN
 using Sprite = Atlas.Sprite;
 using RecipeData = SMLHelper.V2.Crafting.TechData;
+#endif
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using SMLHelper.V2.Utility;
 using UnityEngine;
+using System.Collections;
 
 namespace SonarChip
 {
@@ -49,18 +52,29 @@ namespace SonarChip
                 Ingredients = new List<Ingredient>(new Ingredient[]
                     {
                         new Ingredient(TechType.Magnetite, 2),
+#if SN
                         new Ingredient(TechType.SpikePlantSeed, 1),
+#else
+                        new Ingredient(TechType.Beacon, 1),
+#endif
                         new Ingredient(TechType.CopperWire, 1)
                     }
                 )
             };
         }
-
+#if SN1
         public override GameObject GetGameObject()
         {
             var prefab = CraftData.GetPrefabForTechType(TechType.MapRoomHUDChip);
             var obj = GameObject.Instantiate(prefab);
             return obj;
+        }
+#endif
+        public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
+        {
+            var task = CraftData.GetPrefabForTechTypeAsync(TechType.MapRoomHUDChip);
+            yield return task;
+            gameObject.Set(task.GetResult());
         }
     }
 }

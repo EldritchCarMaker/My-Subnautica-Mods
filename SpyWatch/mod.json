@@ -1,4 +1,4 @@
-﻿{
+{
   "Id": "SpyWatch",
   "DisplayName": "Spy Watch",
   "Author": "EldritchCarMaker",
@@ -12,5 +12,5 @@
   "VersionChecker": {
     "LatestVersionURL": "https://raw.githubusercontent.com/EldritchCarMaker/My-Subnautica-Mods/main/SpyWatch/mod.json"
   },
-  "Game": "Subnautica"
+  "Game": "BelowZero"
 }

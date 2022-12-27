@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+#if SN
+using Sprite = Atlas.Sprite;
+#endif
 
 namespace EquippableItemIcons.API
 {
@@ -12,7 +15,7 @@ namespace EquippableItemIcons.API
         public const float SoundCooldown = 3f;
         public float timeNextSound = 0;
 
-        public ChargableEquippableItem(string name, Atlas.Sprite sprite, TechType itemTechType) : base(name, sprite, itemTechType)
+        public ChargableEquippableItem(string name, Sprite sprite, TechType itemTechType) : base(name, sprite, itemTechType)
         {
             //for items that have an ability that can be charged up before being used
         }

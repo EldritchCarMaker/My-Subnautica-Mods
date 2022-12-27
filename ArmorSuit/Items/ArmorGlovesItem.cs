@@ -2,12 +2,17 @@
 using SMLHelper.V2.Crafting;
 using SMLHelper.V2.Utility;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+#if SN
+using Sprite = Atlas.Sprite;
+using RecipeData = SMLHelper.V2.Crafting.TechData;
+#endif
 
 namespace ArmorSuit
 {
@@ -24,18 +29,26 @@ namespace ArmorSuit
             OnFinishedPatching += () => techType = TechType;
         }
 
-        protected override Atlas.Sprite GetItemSprite()
+        protected override Sprite GetItemSprite()
         {
             return ImageUtils.LoadSpriteFromFile(Path.Combine(ArmorSuitMono.AssetsFolder, "ArmorGloves.png"));
         }
 
-        protected override TechData GetBlueprintRecipe()
+        protected override RecipeData GetBlueprintRecipe()
         {
-            return new TechData();
+            return new RecipeData();
         }
-        public override GameObject GetGameObject()
+#if SN1
+public override GameObject GetGameObject()
         {
             return CraftData.InstantiateFromPrefab(TechType.ReinforcedGloves);
+        }
+#endif
+        public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
+        {
+            var task = CraftData.GetPrefabForTechTypeAsync(TechType.ReinforcedGloves);
+            yield return task;
+            gameObject.Set(task.GetResult());
         }
     }
 }

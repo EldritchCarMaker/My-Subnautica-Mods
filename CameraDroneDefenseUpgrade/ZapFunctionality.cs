@@ -1,17 +1,25 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UWE;
 
 namespace CameraDroneDefenseUpgrade
 {
     internal static class ZapFunctionality//thanks prime lol
     {
         private static GameObject seamothElectricalDefensePrefab = null;
-        public static GameObject ElectricalDefensePrefab => seamothElectricalDefensePrefab ??
+
+        public static GameObject ElectricalDefensePrefab =>
+#if SN1
+            seamothElectricalDefensePrefab ??
             (seamothElectricalDefensePrefab = CraftData.GetPrefabForTechType(TechType.Seamoth)?.GetComponent<SeaMoth>().seamothElectricalDefensePrefab);
+#else
+            seamothElectricalDefensePrefab;
+#endif
 
         private const float EnergyCostPerZap = 5;
         private const float ZapPower = 6f;
@@ -26,7 +34,14 @@ namespace CameraDroneDefenseUpgrade
 
         public static bool AbleToZap(MapRoomCamera camera)
         {
-            if (GameModeUtils.RequiresPower() && camera.energyMixin.charge < EnergyCostPerZap)
+
+            if (
+#if SN
+                GameModeUtils.RequiresPower()
+#else
+                GameModeManager.GetOption<bool>(GameOption.TechnologyRequiresPower)
+#endif
+                && camera.energyMixin.charge < EnergyCostPerZap)
                 return false;
 
             return true;
@@ -42,8 +57,22 @@ namespace CameraDroneDefenseUpgrade
             return mixin.IsAlive();
         }
 
+        public static IEnumerator UpdateDefensePrefab()
+        {
+            if (seamothElectricalDefensePrefab) yield break;
+
+            var task = CraftData.GetPrefabForTechTypeAsync(TechType.Seamoth);
+            yield return task;
+            var prefab = task.GetResult();
+
+            seamothElectricalDefensePrefab = prefab?.GetComponent<SeaMoth>().seamothElectricalDefensePrefab;
+        }
+
         public static bool Zap(MapRoomCamera camera, GameObject obj)
         {
+#if !SN1
+            CoroutineHost.StartCoroutine(UpdateDefensePrefab());
+#endif
             if (Time.time < timeNextZap)
                 return true;
 
@@ -72,7 +101,13 @@ namespace CameraDroneDefenseUpgrade
             defenseComponent.radius *= ZapPower;
             defenseComponent.chargeRadius *= ZapPower;
 
-            if (GameModeUtils.RequiresPower())
+            if (
+#if SN
+                GameModeUtils.RequiresPower()
+#else
+                GameModeManager.GetOption<bool>(GameOption.TechnologyRequiresPower)
+#endif
+                )
                 originCamera.energyMixin.ConsumeEnergy(EnergyCostPerZap);
         }
 
@@ -83,7 +118,13 @@ namespace CameraDroneDefenseUpgrade
 
             target.GetComponent<LiveMixin>().TakeDamage(DirectZapDamage, default, DamageType.Electrical, originCamera.gameObject);
 
-            if (GameModeUtils.RequiresPower())
+            if (
+#if SN
+                GameModeUtils.RequiresPower()
+#else
+                GameModeManager.GetOption<bool>(GameOption.TechnologyRequiresPower)
+#endif
+                )
                 originCamera.energyMixin.ConsumeEnergy(EnergyCostPerZap);
         }
     }

@@ -9,6 +9,7 @@ namespace EquivalentExchange.Monobehaviours
 	using SMLHelper.V2.Handlers;
 	using System;
 	using System.Collections.Generic;
+	using System.Reflection;
 	using UnityEngine;
 
 	// Token: 0x02000265 RID: 613
@@ -117,7 +118,7 @@ namespace EquivalentExchange.Monobehaviours
 
 			if (techType.ToString().ToLower() == "debitcard") return true;
 
-			if(TechTypeHandler.TechTypesAddedBy.TryGetValue(techType, out var assembly))
+			if(((Dictionary<TechType, Assembly>)typeof(TechTypeHandler).GetField("TechTypesAddedBy").GetValue(null)).TryGetValue(techType, out var assembly))
 			{
 				if(assembly.GetName().Name.Contains("FCS_"))
 				{

@@ -1,7 +1,11 @@
 ﻿using ArmorSuit.Mono;
 using EquippableItemIcons.API;
 using HarmonyLib;
+#if SN1
 using Oculus.Newtonsoft.Json;
+#else
+using Newtonsoft.Json;
+#endif
 using SMLHelper.V2.Utility;
 using System;
 using System.Collections;
@@ -17,19 +21,23 @@ using UWE;
 using Valve.VR;
 using static OVRPlugin;
 using Logger = QModManager.Utility.Logger;
+#if SN
+using Sprite = Atlas.Sprite;
+using RecipeData = SMLHelper.V2.Crafting.TechData;
+#endif
 
 namespace ArmorSuit
 {
     public class ArmorSuitMono : MonoBehaviour, IOnTakeDamage
     {
-        #region Item Icon Stuff
+#region Item Icon Stuff
         public static string AssetsFolder = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
 
-        private static Atlas.Sprite _armorSuitSprite = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "ArmorSuitIcon.png"));
-        private static Atlas.Sprite _armorSuitSpriteGloveless = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "armorsuitIcon-gloveless.png"));
+        private static Sprite _armorSuitSprite = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "ArmorSuitIcon.png"));
+        private static Sprite _armorSuitSpriteGloveless = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "armorsuitIcon-gloveless.png"));
 
         public ActivatedEquippableItem hudItemIcon = new ActivatedEquippableItem("ArmorSuitIcon", _armorSuitSprite, ArmorSuitItem.thisTechType);
-        #endregion
+#endregion
 
         /*internal static readonly List<DamageType> UnaffectedTypes = new List<DamageType>()
         {
@@ -100,31 +108,57 @@ namespace ArmorSuit
 
         private static void FindBodyObjects()
         {
+#if SN
             var geo = Player.main.transform.Find("body/player_view/male_geo");
-
+#else
+            var geo = Player.main.transform.Find("body/player_view_female/female_geo");
+#endif
+#if SN
             var diveSuit = geo.Find("diveSuit");
+#else
+            var diveSuit = geo.Find("base");
+#endif
 
             if (!_diveSuitGloves)
             {
+#if SN
                 _diveSuitGloves = diveSuit.Find("diveSuit_hands_geo").gameObject;
+#else
+                _diveSuitGloves = diveSuit.Find("female_base_gloves_geo").gameObject;
+#endif
             }
             if(!_diveSuitBody)
             {
+#if SN
                 _diveSuitBody = diveSuit.Find("diveSuit_body_geo").gameObject;
+#else
+                _diveSuitBody = diveSuit.Find("female_base_body_geo").gameObject;
+#endif
             }
-
+#if SN
             var suit = geo.Find("reinforcedSuit");
+#else
+            var suit = geo.Find("reinforced");
+#endif
 
-            if(!_reinforcedSuitGloves)
+            if (!_reinforcedSuitGloves)
             {
+#if SN
                 _reinforcedSuitGloves = suit.Find("reinforced_suit_01_glove_geo").gameObject;
+#else
+                _reinforcedSuitGloves = suit.Find("female_reinforced_hands_geo").gameObject;
+#endif
             }
             if(!_reinforcedSuitBody)
             {
+#if SN
                 _reinforcedSuitBody = suit.Find("reinforced_suit_01_body_geo").gameObject;
+#else
+                _reinforcedSuitBody = suit.Find("female_reinforced_body_geo").gameObject;
+#endif
             }
 
-            if(!_vanillaRSuitArmsTexture)
+            if (!_vanillaRSuitArmsTexture)
             {
                 _vanillaRSuitArmsTexture = _reinforcedSuitGloves.GetComponent<Renderer>().material.mainTexture;
             }
