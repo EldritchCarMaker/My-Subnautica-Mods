@@ -1,4 +1,4 @@
-﻿{
+{
   "Id": "CameraDroneStasisUpgrade",
   "DisplayName": "Camera Drone Stasis Upgrade",
   "Author": "EldritchCarMaker",
@@ -12,5 +12,5 @@
   "VersionChecker": {
     "LatestVersionURL": "https://raw.githubusercontent.com/EldritchCarMaker/My-Subnautica-Mods/main/CameraDroneStasisUpgrade/mod.json"
   },
-  "Game": "Subnautica"
+  "Game": "BelowZero"
 }

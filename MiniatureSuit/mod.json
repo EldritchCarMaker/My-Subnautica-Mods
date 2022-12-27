@@ -1,4 +1,4 @@
-﻿{
+{
   "Id": "MiniSuit",
   "DisplayName": "Mini Suit",
   "Author": "EldritchCarMaker",
@@ -12,5 +12,5 @@
   "VersionChecker": {
     "LatestVersionURL": "https://raw.githubusercontent.com/EldritchCarMaker/My-Subnautica-Mods/main/MiniatureSuit/mod.json"
   },
-  "Game": "Subnautica"
+  "Game": "BelowZero"
 }

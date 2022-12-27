@@ -3,6 +3,7 @@
 
 	<PropertyGroup>
 		<PostBuildEvent>
+			powershell "$(SolutionDir)JsonGameReplace.ps1" -JsonFile "$(ProjectDir)\mod.json" -Config "$(GameName)"
 			mkdir "$(GameDir)\QMods\$(TargetName)"
 			copy /Y "$(TargetPath)" "$(GameDir)\QMods\$(TargetName)"
 			copy /Y "$(ProjectDir)\mod.json" "$(GameDir)\QMods\$(TargetName)\mod.json"

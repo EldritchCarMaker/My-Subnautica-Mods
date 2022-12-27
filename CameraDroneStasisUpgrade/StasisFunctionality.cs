@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UWE;
+using static UWE.DebugGizmos;
 using Logger = QModManager.Utility.Logger;
 
 namespace CameraDroneStasisUpgrade
@@ -15,7 +16,9 @@ namespace CameraDroneStasisUpgrade
     {
         public CameraDroneUpgrade upgrade;
 
-        public const float energyDrain = 3;
+        public const float energyDrain = 3; 
+        
+        StasisSphere sphere { get => StasisRifle.sphere; set => StasisRifle.sphere = value; }
 
         public void SetUp()
         {
@@ -23,21 +26,28 @@ namespace CameraDroneStasisUpgrade
             upgrade.deactivate += Activate;
             upgrade.unEquip += UnEquip;
             upgrade.key = QMod.config.stasisKey;
+
+            CoroutineHost.StartCoroutine(SetSphere());
+        }
+        public IEnumerator SetSphere()
+        {
+            if (!sphere)
+            {
+                var task = CraftData.GetPrefabForTechTypeAsync(TechType.StasisRifle);
+                yield return task;
+                task.GetResult().GetComponent<StasisRifle>()?.Awake();
+                sphere = StasisRifle.sphere;
+            }
         }
         public void Activate()
         {
-            StasisSphere sphere = StasisRifle.sphere;
-            if(!sphere)
-            {
-                CraftData.GetPrefabForTechType(TechType.StasisRifle)?.GetComponent<StasisRifle>()?.Awake();
-                sphere = StasisRifle.sphere;
-            }
-            if(!sphere)
+            if (!sphere)
             {
                 Logger.Log(Logger.Level.Warn, "Stasis sphere is still null, can't use stasis upgrade");
                 ErrorMessage.AddMessage("Could not get stasis sphere, can't use upgrade");
                 return;
             }
+
             sphere.Shoot(upgrade.camera.transform.position, upgrade.camera.transform.rotation, 0.5f, 0.5f, 1);
             sphere.EnableField();
             upgrade.camera.energyMixin.ConsumeEnergy(energyDrain);

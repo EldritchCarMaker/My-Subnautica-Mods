@@ -12,6 +12,9 @@ using SMLHelper.V2.Assets;
 using CameraDroneUpgrades.API;
 using SMLHelper.V2.Crafting;
 using SMLHelper.V2.Utility;
+#if SN
+using RecipeData = SMLHelper.V2.Crafting.TechData;
+#endif
 
 namespace CameraDroneDefenseUpgrade
 {
@@ -31,7 +34,7 @@ namespace CameraDroneDefenseUpgrade
             Harmony harmony = new Harmony(CyclopsLockers);
             harmony.PatchAll(assembly);
 
-            var recipe = new TechData()
+            var recipe = new RecipeData()
             {
                 craftAmount = 1,
                 Ingredients = new List<Ingredient>(new Ingredient[]

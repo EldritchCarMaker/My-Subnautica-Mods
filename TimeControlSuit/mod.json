@@ -1,4 +1,4 @@
-﻿{
+{
   "Id": "TimeControlSuit",
   "DisplayName": "Time Control Suit",
   "Author": "EldritchCarMaker",
@@ -12,5 +12,5 @@
   "VersionChecker": {
     "LatestVersionURL": "https://raw.githubusercontent.com/EldritchCarMaker/My-Subnautica-Mods/main/TimeControlSuit/mod.json"
   },
-  "Game": "Subnautica"
+  "Game": "BelowZero"
 }

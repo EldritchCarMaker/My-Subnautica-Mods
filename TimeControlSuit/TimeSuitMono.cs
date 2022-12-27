@@ -24,7 +24,11 @@ namespace TimeControlSuit
         public void Awake()
         {
             player = GetComponent<Player>();
+#if SN1
             SetUpSphere();
+#else
+            CoroutineHost.StartCoroutine(SetUpSphere());
+#endif
 
             var sprite = ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "TimeSuitIconRotate.png"));
             hudItemIcon.sprite = sprite;
@@ -45,11 +49,24 @@ namespace TimeControlSuit
             Registries.RegisterHudItemIcon(hudItemIcon);
 
         }
+#if SN1
         public void SetUpSphere()
         {
             sphere = Instantiate(CraftData.GetPrefabForTechType(TechType.StasisRifle).GetComponent<StasisRifle>().effectSpherePrefab).GetComponent<StasisSphere>();
             sphere.gameObject.SetActive(true);
         }
+#else
+        public IEnumerator SetUpSphere()
+        {
+            var task = CraftData.GetPrefabForTechTypeAsync(TechType.StasisRifle);
+            yield return task;
+            var riflePrefab = task.GetResult();
+
+            var prefab = riflePrefab.GetComponent<StasisRifle>().effectSpherePrefab;
+            sphere = Instantiate(prefab).GetComponent<StasisSphere>();
+            sphere.gameObject.SetActive(true);
+        }
+#endif
         public void Deactivate()
         {
             sphere.CancelAll();

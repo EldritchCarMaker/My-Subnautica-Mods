@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+#if SN
+using Sprite = Atlas.Sprite;
+#endif
 
 namespace EquippableItemIcons.API
 {
@@ -13,7 +16,7 @@ namespace EquippableItemIcons.API
         //probably lasting 10+ minutes
         //and doesn't want to be able to save quit to reset it.
 
-        public ActivatedEquippableItem(string name, Atlas.Sprite sprite, TechType itemTechType) : base(name, sprite, itemTechType)
+        public ActivatedEquippableItem(string name, Sprite sprite, TechType itemTechType) : base(name, sprite, itemTechType)
         {
             //for items that have an ability that can be used
         }

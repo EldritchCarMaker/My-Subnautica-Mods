@@ -5,12 +5,16 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+#if SN
 using Sprite = Atlas.Sprite;
+using RecipeData = SMLHelper.V2.Crafting.TechData;
+#endif
 using SMLHelper.V2.Assets;
-using SMLHelper.V2.Crafting;
 using SMLHelper.V2.Utility;
 using UnityEngine;
 using ArmorSuit.Items;
+using SMLHelper.V2.Crafting;
+using System.Collections;
 
 namespace ArmorSuit
 {
@@ -49,9 +53,9 @@ namespace ArmorSuit
             return ImageUtils.LoadSpriteFromFile(Path.Combine(ArmorSuitMono.AssetsFolder, "ArmorSuit.png"));
         }
 
-        protected override TechData GetBlueprintRecipe()
+        protected override RecipeData GetBlueprintRecipe()
         {
-            return new TechData()
+            return new RecipeData()
             {
                 craftAmount = 1,
                 Ingredients = new List<Ingredient>(new Ingredient[]
@@ -64,12 +68,19 @@ namespace ArmorSuit
                 LinkedItems = new List<TechType>() { ArmorGlovesItem.techType }
             };
         }
-
+#if SN1
         public override GameObject GetGameObject()
         {
             var prefab = CraftData.GetPrefabForTechType(TechType.ReinforcedDiveSuit);
             var obj = GameObject.Instantiate(prefab);
             return obj;
+        }
+#endif
+        public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
+        {
+            var task = CraftData.GetPrefabForTechTypeAsync(TechType.ReinforcedDiveSuit);
+            yield return task;
+            gameObject.Set(task.GetResult());
         }
     }
 }

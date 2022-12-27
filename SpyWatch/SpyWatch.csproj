@@ -72,13 +72,11 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>mkdir "C:\Program Files (x86)\Steam\steamapps\common\Subnautica\QMods\$(TargetName)"
-mkdir "C:\Program Files (x86)\Steam\steamapps\common\Subnautica\QMods\$(TargetName)\Assets"
-copy /Y "$(TargetPath)" "C:\Program Files (x86)\Steam\steamapps\common\Subnautica\QMods\$(TargetName)"
-copy /Y "$(ProjectDir)\mod.json" "C:\Program Files (x86)\Steam\steamapps\common\Subnautica\QMods\$(TargetName)\mod.json"
+    <PostBuildEvent>
 copy /Y "$(ProjectDir)\Assets\SpyWatchItem.png" "C:\Program Files (x86)\Steam\steamapps\common\Subnautica\QMods\$(TargetName)\Assets\SpyWatchItem.png"
 copy /Y "$(ProjectDir)\Assets\SpyWatch.shaders" "C:\Program Files (x86)\Steam\steamapps\common\Subnautica\QMods\$(TargetName)\Assets\SpyWatch.shaders"
 copy /Y "$(ProjectDir)\Assets\SpyWatchIcon.png" "C:\Program Files (x86)\Steam\steamapps\common\Subnautica\QMods\$(TargetName)\Assets\SpyWatchIcon.png"
 copy /Y "$(ProjectDir)\Assets\SpyWatchIconRotate.png" "C:\Program Files (x86)\Steam\steamapps\common\Subnautica\QMods\$(TargetName)\Assets\SpyWatchIconRotate.png"</PostBuildEvent>
   </PropertyGroup>
+  <Import Project="..\PostBuildEvents.targets" />
 </Project>

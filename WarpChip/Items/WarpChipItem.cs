@@ -4,13 +4,16 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+#if SN
 using Sprite = Atlas.Sprite;
 using RecipeData = SMLHelper.V2.Crafting.TechData;
+#endif
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using SMLHelper.V2.Utility;
 using UnityEngine;
+using System.Collections;
 
 namespace WarpChip
 {
@@ -29,7 +32,12 @@ namespace WarpChip
         }
 
         public override EquipmentType EquipmentType => EquipmentType.Chip;
-        public override TechType RequiredForUnlock => TechType.PrecursorPrisonIonGenerator;
+        public override TechType RequiredForUnlock =>
+#if SN
+            TechType.PrecursorPrisonIonGenerator;
+#else
+            TechType.PrecursorIonBattery;
+#endif
         public override TechGroup GroupForPDA => TechGroup.Personal;
         public override TechCategory CategoryForPDA => TechCategory.Equipment;
         public override CraftTree.Type FabricatorType => CraftTree.Type.Fabricator;
@@ -55,12 +63,19 @@ namespace WarpChip
                 )
             };
         }
-
+#if SN1
         public override GameObject GetGameObject()
         {
             var prefab = CraftData.GetPrefabForTechType(TechType.MapRoomHUDChip);
             var obj = GameObject.Instantiate(prefab);
             return obj;
+        }
+#endif
+        public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
+        {
+            var task = CraftData.GetPrefabForTechTypeAsync(TechType.MapRoomHUDChip);
+            yield return task;
+            gameObject.Set(task.GetResult());
         }
     }
 }

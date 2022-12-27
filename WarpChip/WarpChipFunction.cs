@@ -51,7 +51,7 @@ namespace WarpChip
             itemIcon.DeactivateSound = null;
             itemIcon.DetailedCanActivate += CanActivate;
             itemIcon.OnKeyDown = false;
-            itemIcon.SecondaryTechTypes.Add(UltimateWarpChip.thisTechType);
+            itemIcon.itemTechTypes.Add(UltimateWarpChip.thisTechType, EquipmentType.Chip);
             itemIcon.activationType = ActivatedEquippableItem.ActivationType.OnceOff;
             itemIcon.AutoIconFade = false;
             Registries.RegisterHudItemIcon(itemIcon);
@@ -59,7 +59,7 @@ namespace WarpChip
             chargingIcon = new ChargableEquippableItem("WarpChargeIcon", null, WarpChipItem.thisTechType);
             chargingIcon.ChargingReleasedSound = teleportSound;
             chargingIcon.ChargingStartSound = null;
-            chargingIcon.SecondaryTechTypes.Add(UltimateWarpChip.thisTechType);
+            chargingIcon.itemTechTypes.Add(UltimateWarpChip.thisTechType, EquipmentType.Chip);
             chargingIcon.ShouldMakeIcon = false;
             chargingIcon.activateKey = QMod.config.ControlKey;
             chargingIcon.AutoIconFade = false;
@@ -123,7 +123,11 @@ namespace WarpChip
         public static IEnumerator TeleportFX(float delay = 0.25f)
         {
             TeleportScreenFXController fxController = MainCamera.camera.GetComponent<TeleportScreenFXController>();
+#if SN
             fxController.StartTeleport();
+#else
+            fxController.StartTeleport(null);//fucking WHY?????? the argument isnt even used!
+#endif
             yield return new WaitForSeconds(delay);
             fxController.StopTeleport();
         }
@@ -164,7 +168,7 @@ namespace WarpChip
                     return;
                 }
             }
-
+#if SN
             if(QMod.config.CanTeleportToLifepod)
             {
                 if(player.lastEscapePod && (QMod.config.MaxDistanceToTeleportToLifepod == 0 || (player.lastEscapePod.transform.position - player.transform.position).magnitude <= QMod.config.MaxDistanceToTeleportToLifepod))
@@ -184,7 +188,7 @@ namespace WarpChip
                     return;
                 }
             }
-
+#endif
             ErrorMessage.AddMessage("Teleport failed, no safe location found");
         }
     }

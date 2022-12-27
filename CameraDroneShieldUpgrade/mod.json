@@ -1,4 +1,4 @@
-﻿{
+{
   "Id": "CameraDroneShieldUpgrade",
   "DisplayName": "Camera Drone Shield Upgrade",
   "Author": "EldritchCarMaker",
@@ -12,5 +12,5 @@
   "VersionChecker": {
     "LatestVersionURL": "https://raw.githubusercontent.com/EldritchCarMaker/My-Subnautica-Mods/main/CameraDroneShieldUpgrade/mod.json"
   },
-  "Game": "Subnautica"
+  "Game": "BelowZero"
 }
