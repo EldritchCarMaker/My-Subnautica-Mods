@@ -53,8 +53,11 @@ namespace RepairToolChanges_SN
                 {
                     AirBladder airBladder = __instance as AirBladder;
                     float force = QMod.config.AirBladderForce;
-
+#if SN
                     airBladder.forceConstant = force * 0.4f;
+#else
+                    airBladder.buoyancyForce = force * 0.8f;
+#endif
                 }
                 else if (__instance.GetType() == typeof(LaserCutter))
                 {

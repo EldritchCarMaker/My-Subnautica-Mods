@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+#if !SN1
+using TMPro;
+#endif
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,9 +18,13 @@ namespace EquivalentExchange.Monobehaviours
 
         public static List<EasyConversionAntenna> Antennas = new List<EasyConversionAntenna>();
 
-        public bool Active;
-
+        public bool Active { get; set; }
+#if SN1
         private Text text;
+#else 
+        private TextMeshProUGUI text;
+#endif
+
         private PowerRelay powerRelay;
 
         public static bool AntennaInRange()
@@ -35,8 +42,11 @@ namespace EquivalentExchange.Monobehaviours
         public void Start()
         {
             Antennas.Add(this);
+#if SN1
             text = transform.Find("UI/Canvas/Text").GetComponent<Text>();
-
+#else
+            text = transform.Find("UI/Canvas/Text").GetComponent<TextMeshProUGUI>();
+#endif
             powerRelay = GetComponentInParent<SubRoot>().powerRelay;
         }
         public void OnDestroy()
@@ -45,7 +55,14 @@ namespace EquivalentExchange.Monobehaviours
         }
         public void Update()
         {
-            if (GameModeUtils.RequiresPower() && (!powerRelay || powerRelay.GetPower() <= PowerDrain * Time.deltaTime))
+            bool needsPower =
+#if SN
+                GameModeUtils.RequiresPower();
+#else
+                GameModeManager.GetOption<bool>(GameOption.TechnologyRequiresPower);
+#endif
+
+            if (needsPower && (!powerRelay || powerRelay.GetPower() <= PowerDrain * Time.deltaTime))
             {
                 text.text = "No power";
                 text.color = Color.red;
@@ -56,7 +73,7 @@ namespace EquivalentExchange.Monobehaviours
             text.color = Color.green;
             Active = true;
 
-            if (GameModeUtils.RequiresPower())
+            if (needsPower)
                 powerRelay.ConsumeEnergy(PowerDrain * Time.deltaTime, out _);
         }
         public bool CountsAsActiveAntenna()

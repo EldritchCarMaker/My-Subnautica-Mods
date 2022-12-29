@@ -2,6 +2,7 @@
 using SMLHelper.V2.Crafting;
 using SMLHelper.V2.Utility;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,6 +10,10 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+#if SN
+using RecipeData = SMLHelper.V2.Crafting.TechData;
+using Sprite = Atlas.Sprite;
+#endif
 
 namespace EquivalentExchange
 {
@@ -22,9 +27,9 @@ namespace EquivalentExchange
 
         public override EquipmentType EquipmentType => EquipmentType.Chip;
 
-        protected override TechData GetBlueprintRecipe()
+        protected override RecipeData GetBlueprintRecipe()
         {
-            return new TechData()
+            return new RecipeData()
             {
                 craftAmount = 1,
                 Ingredients = new List<Ingredient>()
@@ -33,7 +38,9 @@ namespace EquivalentExchange
                     new Ingredient(TechType.ComputerChip, 2),
                     new Ingredient(TechType.Kyanite, 2),
                     new Ingredient(TechType.AdvancedWiringKit, 2),
+#if SN
                     new Ingredient(TechType.HatchingEnzymes, 1),
+#endif
                 }
             };
         }
@@ -43,13 +50,20 @@ namespace EquivalentExchange
         public override string[] StepsToFabricatorTab => new string[] { "Personal", "Equipment" };
         public override TechType RequiredForUnlock => TechType.Kyanite;
         public override float CraftingTime => 3f;
-        protected override Atlas.Sprite GetItemSprite()
+        protected override Sprite GetItemSprite()
         {
             return ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "chip_ecm.png"));
         }
+#if SN1
         public override GameObject GetGameObject()
         {
             return CraftData.GetPrefabForTechType(TechType.MapRoomHUDChip);
         }
+#else
+        public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
+        {
+            yield return CraftData.InstantiateFromPrefabAsync(TechType.MapRoomHUDChip, gameObject);
+        }
+#endif
     }
 }

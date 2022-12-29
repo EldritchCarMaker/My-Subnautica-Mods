@@ -8,9 +8,17 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
+#if !SN1
+using TMPro;
+#endif
 using UnityEngine;
 using UnityEngine.UI;
 using UWE;
+using static EquivalentExchange.QMod;
+#if SN
+using RecipeData = SMLHelper.V2.Crafting.TechData;
+using Sprite = Atlas.Sprite;
+#endif
 
 namespace EquivalentExchange.Monobehaviours
 {
@@ -70,7 +78,11 @@ namespace EquivalentExchange.Monobehaviours
 			name = "ExchangeMenu";
 
 			canvasScaler = GetComponent<uGUI_CanvasScaler>();
+#if SN1
 			title = transform.Find("Content").Find("Title").GetComponent<Text>();
+#else
+            title = transform.Find("Content").Find("Title").GetComponent<TextMeshProUGUI>();
+#endif
 			toolbar = transform.Find("Content").Find("Toolbar").GetComponent<uGUI_Toolbar>();
 			iconGrid = transform.Find("Content").Find("ScrollView").Find("Viewport").Find("ScrollCanvas").GetComponent<uGUI_IconGrid>();
 			content = transform.Find("Content").gameObject;
@@ -93,7 +105,7 @@ namespace EquivalentExchange.Monobehaviours
 			iconGrid.minSpaceY = minSpaceY;
 			iconGrid.Initialize(this);
 			int count = TabCount;
-			Atlas.Sprite[] array = new Atlas.Sprite[count];
+			Sprite[] array = new Sprite[count];
 			for (int i = 0; i < count; i++)
 			{
 				array[i] = GetSpriteForTabType((ExchangeMenuTab)i);
@@ -110,6 +122,9 @@ namespace EquivalentExchange.Monobehaviours
 			toolbar.Select((int)selected);
 			UpdateItems();
             NotificationManager.main.Subscribe(this, notificationGroup, string.Empty);
+#if BZ
+			GetComponent<uGUI_GraphicRaycaster>().enabled = true;//for some reason seems to be disabled by default on BZ?
+#endif
 
 			CreateEldritchLogo();
         }
@@ -129,9 +144,11 @@ namespace EquivalentExchange.Monobehaviours
 			icon.SetForegroundSprite(image);
 			var color = new Color(0, 0.7f, 1, 0.05f);
 			icon.SetForegroundColors(color, color, color);
+
+			obj.GetComponent<RectTransform>().sizeDelta = new Vector2(1, 1);
 		}
 
-		private Atlas.Sprite GetSpriteForTabType(ExchangeMenuTab tab)
+		private Sprite GetSpriteForTabType(ExchangeMenuTab tab)
         {
 			switch(tab)
             {
@@ -159,14 +176,15 @@ namespace EquivalentExchange.Monobehaviours
 		// Token: 0x06003453 RID: 13395 RVA: 0x00120195 File Offset: 0x0011E395
 		private void Start()
 		{
-			if(!QModManager.API.QModServices.Main.ModPresent("FCSAlterraHub"))
+			if (!ModPresent("FCSAlterraHub"))
 			{
 				return;
 			}
 
-            QMod.TryUnlockTechType(QMod.FCSConvertType);
-            QMod.TryUnlockTechType(QMod.FCSConvertBackType);
+			QMod.TryUnlockTechType(QMod.FCSConvertType);
+			QMod.TryUnlockTechType(QMod.FCSConvertBackType);
 
+#if SN1
 			SetFCSIcons();
         }
 		public void SetFCSIcons()
@@ -192,8 +210,11 @@ namespace EquivalentExchange.Monobehaviours
 			yield return new WaitUntil(() => ExternalModCompat.GetFCSPDA());
 			SetFCSIcons();
 		}
+#else
+        }
+#endif
 
-		public bool GetIsLeftMouseBoundToRightHand()
+        public bool GetIsLeftMouseBoundToRightHand()
 		{
 			return "MouseButtonLeft" == GameInput.GetBinding(GameInput.Device.Keyboard, GameInput.Button.RightHand, GameInput.BindingSet.Primary) || "MouseButtonLeft" == GameInput.GetBinding(GameInput.Device.Keyboard, GameInput.Button.RightHand, GameInput.BindingSet.Secondary);
 		}
@@ -298,7 +319,7 @@ namespace EquivalentExchange.Monobehaviours
 			}
 			SetState(false);
 		}
-
+#if SN1
 		public void GetToolbarTooltip(int index, out string tooltipText, List<TooltipIcon> tooltipIcons)
 		{
 			tooltipText = null;
@@ -306,8 +327,18 @@ namespace EquivalentExchange.Monobehaviours
 			{
 				return;
 			}
-			tooltipText = groupNames[(ExchangeMenuTab)index];
+			tooltipText = TooltipFactory.Label(groupNames[(ExchangeMenuTab)index]);
 		}
+#else
+		public void GetToolbarTooltip(int index, TooltipData data)
+		{
+			if (index < 0 || index >= TabCount)
+			{
+				return;
+			}
+			TooltipFactory.Label(groupNames[(ExchangeMenuTab)index], data.prefix);
+		}
+#endif
 
 		// Token: 0x06003463 RID: 13411 RVA: 0x001203B7 File Offset: 0x0011E5B7
 		public void OnToolbarClick(int index, int button)
@@ -318,75 +349,71 @@ namespace EquivalentExchange.Monobehaviours
 			}
 		}
 
-		// Token: 0x06003464 RID: 13412 RVA: 0x001203C4 File Offset: 0x0011E5C4
+#if SN1
 		public void GetTooltip(string id, out string tooltipText, List<TooltipIcon> tooltipIcons)
 		{
 			TechType techType;
 			if (items.TryGetValue(id, out techType))
 			{
 				//TooltipFactory.BuildTech(techType, locked, out tooltipText, tooltipIcons);
-				WriteDetails(techType, out tooltipText);
+				var sb = new StringBuilder();
+
+                WriteDetails(techType, sb);
+				tooltipText = sb.ToString();
 				return;
 			}
 			tooltipText = null;
 		}
+#else
+		public void GetTooltip(string id, TooltipData data)
+		{
+			TechType techType;
+			if (items.TryGetValue(id, out techType))
+			{
+				//TooltipFactory.BuildTech(techType, locked, out tooltipText, tooltipIcons);
+				WriteDetails(techType, data.prefix);
+			}
+		}
+#endif
 
-		public void WriteDetails(TechType techType, out string tooltipText)
+		public void WriteDetails(TechType techType, StringBuilder stringBuilder)
         {
 			TooltipFactory.Initialize();
-			StringBuilder stringBuilder = new StringBuilder();
 			string key = techType.AsString(false);
 
 			TooltipFactory.WriteTitle(stringBuilder, Language.main.Get(key) + (CurrentConvertAmount > 1 ? $" ({CurrentConvertAmount})" : ""));
 			TooltipFactory.WriteDescription(stringBuilder, Language.main.Get(TooltipFactory.techTypeTooltipStrings.Get(techType)));
 
+#if SN1
 			if (techType != QMod.FCSConvertBackType)
 				WriteCost(techType, stringBuilder);
 			else
 				WriteFCSCost(techType, stringBuilder);
-
-            tooltipText = stringBuilder.ToString();
+#else
+            WriteCost(techType, stringBuilder);
+#endif
 		}
 		public void WriteCost(TechType techType, StringBuilder stringBuilder)
         {
 			stringBuilder.Append(Environment.NewLine);
 
-			float current = QMod.SaveData.ECMAvailable;
 			float amount = GetCost(techType) * CurrentConvertAmount;
-			bool flag = current >= amount || !GameModeUtils.RequiresIngredients();
-
-			if (flag)
-			{
-				stringBuilder.Append("<color=#94DE00FF>");
-			}
-			else
-			{
-				stringBuilder.Append("<color=#DF4026FF>");
-			}
-
-			stringBuilder.Append("ECM:");
-
-			if (amount > 1)
-			{
-				stringBuilder.Append(" x");
-				stringBuilder.Append(amount);
-			}
-			if (/*current > 0 && current < amount*/
-				true)
-			{
-				stringBuilder.Append(" (");
-				stringBuilder.Append(current);
-				stringBuilder.Append(")");
-			}
-			stringBuilder.Append("</color>");
+			
+			ECMFont.Format(amount, stringBuilder);
 		}
+#if SN1
 		public void WriteFCSCost(TechType techType, StringBuilder stringBuilder)
 		{
             stringBuilder.Append(Environment.NewLine);
 
 			float current = (float)ExternalModCompat.GetFCSCredit();
             float amount = QMod.ECMConvertPerClick * QMod.ECMToFCSCreditRate * CurrentConvertAmount;
-			bool flag = !GameModeUtils.RequiresIngredients() || current >= amount;
+            bool flag = current >= amount ||
+#if SN
+				!GameModeUtils.RequiresIngredients();
+#else
+                !GameModeManager.GetOption<bool>(GameOption.CraftingRequiresResources);
+#endif
 
             if (flag)
             {
@@ -413,11 +440,18 @@ namespace EquivalentExchange.Monobehaviours
             }
             stringBuilder.Append("</color>");
         }
+#endif
 
         public static float GetCost(TechType techType, int depth = 0, bool useCreative = true, bool useEfficiency = true)
         {
-			if (useCreative && !GameModeUtils.RequiresIngredients())
-				return 0;
+			if (useCreative &&
+#if SN
+								!GameModeUtils.RequiresIngredients()
+#else
+								!GameModeManager.GetOption<bool>(GameOption.CraftingRequiresResources)
+#endif
+								)
+                return 0;
 
 			if (TryGetConfigCost(techType, out var cost)) return cost;//use config dictionaries first, in case the player changed one of the configs
 
@@ -430,17 +464,34 @@ namespace EquivalentExchange.Monobehaviours
 
 			float totalCost = 0;
 
+#if SN
 			var techData = CraftData.Get(techType, true);
+#else
+			var techData = TechData.GetIngredients(techType);
+#endif
 
 			if (techData == null)
             {
 				return PRICEOFUNMARKEDITEM;
             }
 
+			int count =
+#if SN
+				techData.ingredientCount;
+#else
+				techData.Count;
+#endif
 
-			for (var i = 0; i < techData.ingredientCount; i++)
+			for (var i = 0; i < count; i++)
 			{
-				var ingredient = techData.GetIngredient(i);
+				var ingredient =
+#if SN
+					techData.GetIngredient(i);
+#else
+					techData[i];
+#endif
+
+
 				if (ingredient != null)
 				{
 					for (var j = 0; j < ingredient.amount; j++)
@@ -568,13 +619,15 @@ namespace EquivalentExchange.Monobehaviours
                 {
                     for (int i = 0; i < CurrentConvertAmount; i++)
                     {
-						GivePlayerItem(techType);
+						CraftData.AddToInventory(techType);
                     }
                 }
                 else
                 {
-                    ExternalModCompat.AddFCSCredit((decimal)cost * QMod.ECMToFCSCreditRate);
+#if SN1
+					ExternalModCompat.AddFCSCredit((decimal)cost * QMod.ECMToFCSCreditRate);
                     ErrorMessage.AddMessage($"Added {(decimal)cost * QMod.ECMToFCSCreditRate} alterra credit");
+#endif
                 }
 
 
@@ -589,6 +642,9 @@ namespace EquivalentExchange.Monobehaviours
 
 		public bool ExchangeCreditForECM()
 		{
+#if !SN1
+			return false;
+#else
 			int cost = QMod.ECMConvertPerClick * QMod.ECMToFCSCreditRate * CurrentConvertAmount;
 
 
@@ -600,10 +656,22 @@ namespace EquivalentExchange.Monobehaviours
             QMod.AddAmount(QMod.ECMConvertPerClick * CurrentConvertAmount);
             ErrorMessage.AddMessage($"Removed {cost} alterra credit");
             return true;
+#endif
         }
 
 		public void UpdateConvertAmount()
 		{
+			if(GameInput.GetButtonHeld(GameInput.Button.Sprint))
+			{
+				CurrentConvertAmount = 5;
+				return;
+			}
+			else if(GameInput.GetButtonUp(GameInput.Button.Sprint))
+			{
+				CurrentConvertAmount = 1;
+				return;
+			}
+
 			if (Input.GetKeyDown(QMod.config.convertIncrease))
 				CurrentConvertAmount++;
 			else if (Input.GetKeyDown(QMod.config.convertDecrease))
@@ -621,21 +689,6 @@ namespace EquivalentExchange.Monobehaviours
 			CurrentConvertAmount = Mathf.Clamp(CurrentConvertAmount, 1, 48);
         }
 
-		public void GivePlayerItem(TechType techType)
-		{
-            GameObject gameObject = CraftData.InstantiateFromPrefab(techType, false);
-            if (gameObject != null)
-            {
-                gameObject.transform.position = MainCamera.camera.transform.position + MainCamera.camera.transform.forward * 3f;
-                CrafterLogic.NotifyCraftEnd(gameObject, techType);
-                Pickupable component = gameObject.GetComponent<Pickupable>();
-                if (component != null && !Inventory.main.Pickup(component, false))
-                {
-                    ErrorMessage.AddError(Language.main.Get("InventoryFull"));
-                }
-            }
-        }
-
 		public void OnSortRequested()
 		{
 			//DON'T FUCKING PUT ANYTHING HERE. LAST TIME I DID, IT BROKE THE ENTIRE MENU. 
@@ -643,6 +696,11 @@ namespace EquivalentExchange.Monobehaviours
 			//PRETEND IT HAS KHARAA
 			//LEAVE
 			//STOP READING
+
+
+
+
+			//no lul
 		}
 
 		private void UpdateToolbarNotificationNumbers()
@@ -668,13 +726,25 @@ namespace EquivalentExchange.Monobehaviours
 		{
 			if (_singleton == null)
 			{
+				if(!uGUI_BuilderMenu.singleton)
+				{
+					CoroutineHost.StartCoroutine(WaitForBuilderMenu());
+					return null;
+				}
 				var origMenu = uGUI_BuilderMenu.GetInstance();
+
                 var exchangeMenu = GameObject.Instantiate(origMenu.gameObject, origMenu.transform.position, origMenu.transform.rotation, false);
                 GameObject.DestroyImmediate(exchangeMenu.GetComponent<uGUI_BuilderMenu>());
                 exchangeMenu.AddComponent<ExchangeMenu>();
                 exchangeMenu.SetActive(true);
             }
 			return _singleton;
+		}
+
+		public static IEnumerator WaitForBuilderMenu()
+		{
+			yield return new WaitUntil(() => uGUI_BuilderMenu.singleton);
+			GetInstance();
 		}
 
 		// Token: 0x06003470 RID: 13424 RVA: 0x00120630 File Offset: 0x0011E830
@@ -751,6 +821,7 @@ namespace EquivalentExchange.Monobehaviours
             Invoke(nameof(UpdateScrollBar), 0.05f);//makes sure that the scrollrect moves up before getting disabled
 													  //or it may cut off some items and not be able to be moved
         }
+
 		public void UpdateScrollBar()
 		{
             if (iconGrid.GetCount() > 60)
@@ -777,13 +848,24 @@ namespace EquivalentExchange.Monobehaviours
 			if (TechTypeHandler.TryGetModdedTechType(type.ToString(), out TechType custom))
 				return ExchangeMenuTab.ModdedItems;
 
+
+#if SN
 			if (CraftData.GetEquipmentType(type) != EquipmentType.None)
 				return ExchangeMenuTab.Equipment;
 
 			if (CraftData.Get(type, true) != null)
 				return ExchangeMenuTab.CraftedItems;
 
-			return ExchangeMenuTab.Misc;
+#else
+            if (TechData.GetEquipmentType(type) != EquipmentType.None)
+                return ExchangeMenuTab.Equipment;
+
+			var ingredients = TechData.GetIngredients(type);
+            if (ingredients != null && ingredients.Count > 0)
+                return ExchangeMenuTab.CraftedItems;
+#endif
+
+            return ExchangeMenuTab.Misc;
         }
 
 		// Token: 0x06003473 RID: 13427 RVA: 0x001207B8 File Offset: 0x0011E9B8
@@ -871,7 +953,11 @@ namespace EquivalentExchange.Monobehaviours
 
 		// Token: 0x04002F43 RID: 12099
 		[AssertNotNull]
+#if SN1
 		public Text title;
+#else
+		public TextMeshProUGUI title;
+#endif
 
 		// Token: 0x04002F44 RID: 12100
 		[AssertNotNull]
@@ -915,14 +1001,14 @@ namespace EquivalentExchange.Monobehaviours
 			Misc,
 			ModdedItems
 		}
-		private Dictionary<ExchangeMenuTab, string> groupNames = new Dictionary<ExchangeMenuTab, string>()
-        {
-			{ ExchangeMenuTab.RawMaterials, TooltipFactory.Label("Raw Materials") },
-			{ ExchangeMenuTab.BiologicalMaterials, TooltipFactory.Label("Biological Materials") },
-			{ ExchangeMenuTab.CraftedItems, TooltipFactory.Label("Crafted Items") },
-			{ ExchangeMenuTab.Equipment, TooltipFactory.Label("Equipment") },
-			{ ExchangeMenuTab.Misc, TooltipFactory.Label("Misc") },
-			{ ExchangeMenuTab.ModdedItems, TooltipFactory.Label("Modded Items") },
+		private Dictionary<ExchangeMenuTab, string> groupNames { get; } = new Dictionary<ExchangeMenuTab, string>()
+		{
+			{ ExchangeMenuTab.RawMaterials, "Raw Materials" },
+			{ ExchangeMenuTab.BiologicalMaterials, "Biological Materials" },
+			{ ExchangeMenuTab.CraftedItems, "Crafted Items" },
+			{ ExchangeMenuTab.Equipment, "Equipment" },
+			{ ExchangeMenuTab.Misc, "Misc" },
+			{ ExchangeMenuTab.ModdedItems, "Modded Items" },
 		};
 
 

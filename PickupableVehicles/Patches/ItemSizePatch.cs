@@ -8,10 +8,18 @@ using UnityEngine;
 
 namespace PickupableVehicles.Patches
 {
+#if SN
     [HarmonyPatch(typeof(CraftData))]
+#else
+    [HarmonyPatch(typeof(TechData))]
+#endif
     internal class ItemSizePatch
     {
+#if SN
         [HarmonyPatch(nameof(CraftData.GetItemSize))]
+#else
+        [HarmonyPatch(nameof(TechData.GetItemSize))]
+#endif
         public static void Postfix(TechType techType, ref Vector2int __result)
         {
             if (techType == TechType.Seamoth) __result = new Vector2int(QMod.config.seamothWidth, QMod.config.seamothHeight);

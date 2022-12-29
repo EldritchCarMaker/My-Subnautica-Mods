@@ -1,10 +1,12 @@
 ﻿using RechargerChips.Items;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UWE;
 using Logger = QModManager.Utility.Logger;
 
 namespace RechargerChips
@@ -24,6 +26,8 @@ namespace RechargerChips
         public static ChargerChipMono main;
 
         public Dictionary<ChipType, TechType> chipTechTypes = new Dictionary<ChipType,TechType>();
+
+        private AnimationCurve curve;
 
         public const float MaxSolarDepth = 150;
         public const float solarMultiplier = 0.25f;
@@ -46,6 +50,15 @@ namespace RechargerChips
 
             Inventory.main.container.onAddItem += UpdateBatteries;
             Inventory.main.container.onRemoveItem += UpdateBatteries;
+
+            CoroutineHost.StartCoroutine(GetThermalCurve());
+        }
+        private IEnumerator GetThermalCurve()
+        {
+            var task = CraftData.GetPrefabForTechTypeAsync(TechType.Exosuit);
+            yield return task;
+
+            curve = task.GetResult().GetComponent<Exosuit>().thermalReactorCharge;
         }
         public void EquipmentChanged(InventoryItem item)
         {
@@ -153,7 +166,7 @@ namespace RechargerChips
 
             float temperature = waterSim.GetTemperature(player.gameObject.transform.position);
 
-            AnimationCurve curve = CraftData.GetPrefabForTechType(TechType.Exosuit).GetComponent<Exosuit>().thermalReactorCharge;
+            
 
             return curve.Evaluate(temperature) * thermalMultiplier * Time.deltaTime;
         }

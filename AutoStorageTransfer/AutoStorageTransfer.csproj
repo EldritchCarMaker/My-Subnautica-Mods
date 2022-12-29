@@ -58,7 +58,6 @@
     <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
-  
   <Import Project="..\Configurations.targets" />
   <Import Project="..\References.targets" />
   <ItemGroup>
@@ -78,6 +77,5 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  
   <Import Project="..\PostBuildEvents.targets" />
 </Project>

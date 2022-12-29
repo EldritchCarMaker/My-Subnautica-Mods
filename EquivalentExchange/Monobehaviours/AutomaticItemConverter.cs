@@ -111,15 +111,17 @@ namespace EquivalentExchange.Monobehaviours
                 container.width = 1;
                 container.height = 1;
                 container.storageLabel = "Auto Item Converter";
-
+#if SN
                 container.onUse = new StorageContainer.UseEvent();
+#endif
 
                 root.SetActive(true);
                 container.enabled = true;
             }
             container.CreateContainer();
-
+#if SN
             container.onUse.AddListener(ToggleDoorState);
+#endif
             container.container.onRemoveItem += OnRemove;
             container.container.isAllowedToRemove += AllowedToRemove;
             container.container.isAllowedToAdd += (pickupable, verbose) => false;
@@ -147,7 +149,14 @@ namespace EquivalentExchange.Monobehaviours
                 Quaternion targetQuat = doorOpen ? doorOpenQuat : doorCloseQuat;
                 door.transform.localRotation = Quaternion.Slerp(door.transform.localRotation, targetQuat, Time.deltaTime * 5f);
             }
-            var size = CraftData.GetItemSize(itemType);
+
+            var size =
+#if SN
+                CraftData.GetItemSize(itemType);
+#else
+                TechData.GetItemSize(itemType);
+#endif
+
             if (itemType != TechType.None && container.container.HasRoomFor(size.x, size.y))
             {
                 //if (!prefab) prefab = CraftData.GetPrefabForTechType(itemType);
@@ -227,7 +236,7 @@ namespace EquivalentExchange.Monobehaviours
             if(type == itemType)
             {
                 if (showMessage) ErrorMessage.AddMessage("Cleared item selection");
-                itemType = type;
+                itemType = TechType.None;
                 return;
             }
 
@@ -244,9 +253,13 @@ namespace EquivalentExchange.Monobehaviours
                 if (showMessage) ErrorMessage.AddMessage("Can only select items you've unlocked");
                 return;
             }
-
+#if SN1
             SetItemPrefab(type, showMessage);
+#else 
+            CoroutineHost.StartCoroutine(SetItemPrefab(type, showMessage));
+#endif
         }
+#if SN1
         public void SetItemPrefab(TechType type, bool showMessage)
         {
             prefab = Instantiate(CraftData.GetPrefabForTechType(type));
@@ -265,6 +278,33 @@ namespace EquivalentExchange.Monobehaviours
             var itemSize = CraftData.GetItemSize(type);
             container.Resize(itemSize.x, itemSize.y);
         }
+#else
+        public IEnumerator SetItemPrefab(TechType type, bool showMessage)
+        {
+            var result = new TaskResult<GameObject>();
+            yield return CraftData.InstantiateFromPrefabAsync(type, result);
+            prefab = result.Get();
+
+            if (!prefab || !prefab.TryGetComponent(out pickupable))
+            {
+                if (showMessage) ErrorMessage.AddMessage("How the fuck did you unlock an item that couldn't be picked up? This item isn't valid for this, and stop cheating");
+                if (prefab) Destroy(prefab);
+                yield break;
+            }
+            prefab.transform.SetParent(transform, false);
+            prefab.transform.position = transform.position;
+            prefab.SetActive(false);
+
+            if (showMessage) ErrorMessage.AddMessage("Set item");
+            ECMCost = ExchangeMenu.GetCost(type);
+#if SN2
+            var itemSize = CraftData.GetItemSize(type);
+#else
+            var itemSize = TechData.GetItemSize(type);
+#endif
+            container.Resize(itemSize.x, itemSize.y);
+        }
+#endif
         public void ClearItem()
         {
             if (prefab) Destroy(prefab);
@@ -273,11 +313,16 @@ namespace EquivalentExchange.Monobehaviours
             container.container.Clear();
             isClearing = false;
         }
+
         public void OnHandHover(GUIHand hand)
         {
             if (!constructable.constructed) return;
-
+#if SN1
             HandReticle.main.SetInteractText("Open Item Converter", $"{Language.main.GetFormat<string, string>("HandReticleAddButtonFormat", "Set Item Type", uGUI.FormatButton(GameInput.Button.Sprint))}");
+#else
+            HandReticle.main.SetTextRaw(HandReticle.TextType.Hand, "Open Item Converter");
+            HandReticle.main.SetTextRaw(HandReticle.TextType.HandSubscript, $"{Language.main.GetFormat<string, string>("HandReticleAddButtonFormat", "Set Item Type", uGUI.FormatButton(GameInput.Button.Sprint))}");
+#endif
             HandReticle.main.SetIcon(HandReticle.IconType.Hand, 1f);
         }
         public void OnExchangeMenuClose() => isListeningForTechType = false;

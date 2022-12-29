@@ -1,8 +1,5 @@
 using System.Reflection;
 using HarmonyLib;
-using QModManager.API.ModLoading;
-using Logger = QModManager.Utility.Logger;
-
 using SMLHelper.V2.Json;
 using SMLHelper.V2.Options.Attributes;
 using SMLHelper.V2.Handlers;
@@ -17,12 +14,28 @@ using static EquivalentExchange.Monobehaviours.ExchangeMenu;
 using EquivalentExchange.Patches;
 using System.Collections;
 using UWE;
+using System.Security.Policy;
+using System.Linq;
+#if !SN2
+using QModManager.API.ModLoading;
+using Logger = QModManager.Utility.Logger;
+#else
+using BepInEx;
+using BepInEx.Logging;
+#endif
 
 namespace EquivalentExchange
 {
+#if !SN2
     [QModCore]
     public static class QMod
+    { 
+#else
+    [BepInPlugin("EldritchCarMaker.EquivalentExchange", "Equivalent Exchange", "1.6.0")]
+    public class QMod : BaseUnityPlugin
     {
+        public static ManualLogSource logger;
+#endif
         internal static Config config { get; } = OptionsPanelHandler.Main.RegisterModOptions<Config>();
         internal static SaveData SaveData { get; } = SaveDataHandler.Main.RegisterSaveDataCache<SaveData>();
 
@@ -38,13 +51,18 @@ namespace EquivalentExchange
         internal static TechType FCSConvertType = TechTypeHandler.AddTechType("FCSConvert", FCSConvertName, FCSConvertDesc);
         internal static TechType FCSConvertBackType = TechTypeHandler.AddTechType("FCSConvertBack", FCSConvertName, FCSConvertBackDesc);
         public static Sprite FCSCreditIconSprite;
-
+#if !SN2
         [QModPatch]
         public static void Patch()
         {
+#else
+        public void Awake()
+        {
+            logger = Logger;
+#endif
             var assembly = Assembly.GetExecutingAssembly();
             var stingers = ($"EldritchCarMaker_{assembly.GetName().Name}");
-            Logger.Log(Logger.Level.Info, $"Patching {stingers}");
+            LogInfo($"Patching {stingers}");
             Harmony harmony = new Harmony(stingers);
             harmony.PatchAll(assembly);
 
@@ -62,12 +80,51 @@ namespace EquivalentExchange
             new AutoItemConversionChip().Patch();
             new EasyConversionBuildable().Patch();
 
-
+#if SN1
             if (QModManager.API.QModServices.Main.ModPresent("EasyCraft"))
                 EasyCraftPatches.PatchEasyCraft(harmony);
+#elif BZ
+            if (QModManager.API.QModServices.Main.ModPresent("EasyCraft_BZ"))
+                EasyCraftPatches.PatchEasyCraft(harmony);
+#endif
 
 
-            Logger.Log(Logger.Level.Info, "Patched successfully!");
+            LogInfo("Patched successfully!");
+        }
+        public static void LogInfo(object message)
+        {
+#if SN2
+            logger.LogInfo(message);
+#else
+            Logger.Log(Logger.Level.Info, message.ToString());
+#endif
+        }
+        public static void LogDebug(object message)
+        {
+#if SN2
+            logger.LogDebug(message);
+#else
+            Logger.Log(Logger.Level.Debug, message.ToString());
+#endif
+        }
+        public static void LogError(object message)
+        {
+#if SN2
+            logger.LogError(message);
+#else
+            Logger.Log(Logger.Level.Error, message.ToString());
+#endif
+        }
+        public static bool ModPresent(string modName, bool useGUI = false)
+        {
+#if SN2
+            if (useGUI)
+                return BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(modName);
+            else
+                return BepInEx.Bootstrap.Chainloader.PluginInfos.Values.Any(plugin => plugin.Metadata.Name == modName);
+#else
+            return QModManager.API.QModServices.Main.ModPresent(modName);
+#endif
         }
         public static bool TryUnlockTechType(TechType tt, out string reason)
         {
@@ -183,6 +240,9 @@ namespace EquivalentExchange
 
         [Toggle("Research Station FCS Filters", Tooltip = "Whether or not the Item Research Station will stop you from inputting fcs items such as fcs kits")]
         public bool researchStationFCSFilters = true;
+
+        [Toggle("Hot Pink ECM", Tooltip = "Whether or not the listed ECM costs for items are a hot pink/white gradient. Otherwise, they'll be green/red depending on if you can afford the item or not")]
+        public bool hotPinkECM = true;
 
         public float inefficiencyMultiplier = 1f;
 

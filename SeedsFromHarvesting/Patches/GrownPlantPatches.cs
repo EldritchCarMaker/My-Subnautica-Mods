@@ -27,9 +27,11 @@ namespace SeedsFromHarvesting
             if (__state)
             {
                 TechType techType = CraftData.GetTechType(__instance.gameObject);
-
+#if SN
                 TechType harvestOutputData = CraftData.GetHarvestOutputData(techType);
-
+#else
+                TechType harvestOutputData = TechData.GetHarvestOutput(techType);
+#endif
                 CraftData.AddToInventory(harvestOutputData, 1, false, false);
             }
         }

@@ -25,8 +25,11 @@ namespace SeedsFromHarvesting.Patches
             {
                 TechType techType = pickupable.GetTechType();
 
+#if SN
                 TechType harvestOutputData = CraftData.GetHarvestOutputData(techType);
-
+#else
+                TechType harvestOutputData = TechData.GetHarvestOutput(techType);
+#endif
                 if (harvestOutputData != TechType.None)
                 {
                     ErrorMessage.AddMessage("Can't plant fully grown plants!");

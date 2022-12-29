@@ -12,9 +12,6 @@
     <Reference Include="Assembly-CSharp">
       <Private>False</Private>
     </Reference>
-    <Reference Include="QModInstaller">
-      <Private>False</Private>
-    </Reference>
     <Reference Include="SMLHelper">
       <Private>False</Private>
     </Reference>
@@ -211,7 +208,29 @@
       <Private>False</Private>
     </Reference>
   </ItemGroup>
+	<ItemGroup Condition="$(Configuration.EndsWith(`2`))">
+		<Reference Include="BepInEx">
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Unity.TextMeshPro">
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Unity.Addressables">
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
+	<ItemGroup Condition="$(Configuration.EndsWith(`1`))">
+		<Reference Include="QModInstaller">
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
   <ItemGroup Condition="$(Configuration.StartsWith('BZ'))">
+	  <Reference Include="QModInstaller">
+		  <Private>False</Private>
+	  </Reference>
+	  <Reference Include="BepInEx">
+		  <Private>False</Private>
+	  </Reference>
     <Reference Include="Unity.Addressables">
       <Private>False</Private>
     </Reference>

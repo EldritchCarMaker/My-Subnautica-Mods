@@ -2,11 +2,16 @@
 using SMLHelper.V2.Assets;
 using SMLHelper.V2.Crafting;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+#if SN
+using RecipeData = SMLHelper.V2.Crafting.TechData;
+using Sprite = Atlas.Sprite;
+#endif
 
 namespace EquivalentExchange.Constructables
 {
@@ -19,9 +24,9 @@ namespace EquivalentExchange.Constructables
         public override TechCategory CategoryForPDA { get; } = TechCategory.InteriorModule;
         public override TechType RequiredForUnlock { get; } = TechType.PrecursorIonCrystal;
 
-        protected override TechData GetBlueprintRecipe()
+        protected override RecipeData GetBlueprintRecipe()
         {
-            return new TechData
+            return new RecipeData
             {
                 Ingredients =
                 {
@@ -31,11 +36,19 @@ namespace EquivalentExchange.Constructables
                 }
             };
         }
+#if SN1
         public override GameObject GetGameObject()
         {
             var obj = CraftData.InstantiateFromPrefab(TechType.MedicalCabinet);
             obj.AddComponent<AutomaticItemConverter>();
             return obj;
+        }
+#endif
+        public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
+        {
+            var task =  CraftData.GetPrefabForTechTypeAsync(TechType.MedicalCabinet);
+            yield return task;
+            gameObject.Set(task.GetResult().EnsureComponent<AutomaticItemConverter>().gameObject);
         }
     }
 }

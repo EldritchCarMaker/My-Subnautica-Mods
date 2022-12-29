@@ -11,7 +11,7 @@ namespace EquivalentExchange.Patches
     [HarmonyPatch(typeof(Inventory))]
     internal class InventoryPatches
     {
-        [HarmonyPatch(nameof(Inventory.ExecuteItemAction))]//stops player from being able to eat things that they can't remove from the container
+        [HarmonyPatch(nameof(Inventory.ExecuteItemAction), new[] { typeof(ItemAction), typeof(InventoryItem)})]//stops player from being able to eat things that they can't remove from the container
         public static bool Prefix(InventoryItem item, ItemAction action)
         {
             if (action != ItemAction.Use && action != ItemAction.Eat) return true;

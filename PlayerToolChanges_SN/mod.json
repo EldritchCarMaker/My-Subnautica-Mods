@@ -1,10 +1,10 @@
-﻿{
-  "Id": "PlayerToolChanges_SN",
-  "DisplayName": "Player Tool Changes SN",
+{
+  "Id": "PlayerToolChanges",
+  "DisplayName": "Player Tool Changes",
   "Author": "EldritchCarMaker",
   "Version": "1.2.1",
   "Enable": true,
-  "AssemblyName": "PlayerToolChanges_SN.dll",
+  "AssemblyName": "PlayerToolChanges.dll",
   "VersionDependencies": {
     "SMLHelper": "2.9.6"
   },

@@ -12,6 +12,7 @@ namespace QuantumLockerMute
 {
     internal class QuantumLockerMute
     {
+#if BZ
         [HarmonyPatch(typeof(QuantumLocker))]
         [HarmonyPatch("ShowThrusterVFX")]
         internal class PatchQuantumLockerVFX
@@ -24,5 +25,6 @@ namespace QuantumLockerMute
                 __instance.hoverLoopingSound.Stop();
             }
         }
+#endif
     }
 }

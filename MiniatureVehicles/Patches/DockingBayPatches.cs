@@ -13,13 +13,26 @@ namespace MiniatureVehicles.Patches
         [HarmonyPatch(nameof(VehicleDockingBay.OnTriggerEnter))]
         public static void Postfix(VehicleDockingBay __instance)
         {
-            if(__instance.interpolatingVehicle != null)
+            var vehicle =
+#if SN
+                __instance.interpolatingVehicle;
+#else
+                __instance.interpolatingDockable;
+#endif
+            if (vehicle != null)
             {
-                __instance.interpolatingVehicle.transform.localScale = new UnityEngine.Vector3(1, 1, 1);
+                vehicle.transform.localScale = new UnityEngine.Vector3(1, 1, 1);
             }
-            else if(__instance.dockedVehicle != null)
+            vehicle =
+#if SN
+                __instance.dockedVehicle;
+#else
+                __instance.dockedObject;
+#endif
+
+            if(vehicle != null)
             {
-                __instance.dockedVehicle.transform.localScale = new UnityEngine.Vector3(1, 1, 1);
+                vehicle.transform.localScale = new UnityEngine.Vector3(1, 1, 1);
             }
         }
     }

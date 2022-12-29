@@ -38,12 +38,14 @@ namespace MiniatureVehicles.Patches
                     Utils.PlayFMODAsset(GetFmodAsset(ENLARGE_SOUND_PATH), __instance.transform.position);
                     CoroutineHost.StartCoroutine(TeleportFX(TeleportDuration));
                 }
-                if(__instance is SeaMoth)
+#if SN
+                if (__instance is SeaMoth)
                 {
                     //trail effects covered screen when shrunk
                     var trail = __instance.transform.Find("Model/xSeamothTrail");
                     if (trail != null) trail.gameObject.SetActive(!state);
                 }
+#endif
             }
         }
         public static FMODAsset GetFmodAsset(string audioPath)
@@ -56,7 +58,11 @@ namespace MiniatureVehicles.Patches
         public static IEnumerator TeleportFX(float delay = 0.25f)
         {
             TeleportScreenFXController fxController = MainCamera.camera.GetComponent<TeleportScreenFXController>();
+#if SN
             fxController.StartTeleport();
+#else
+            fxController.StartTeleport(null);
+#endif
             yield return new WaitForSeconds(delay);
             fxController.StopTeleport();
         }

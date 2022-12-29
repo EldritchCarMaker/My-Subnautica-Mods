@@ -7,6 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using EquivalentExchange.Monobehaviours;
+using System.Collections;
+#if SN
+using RecipeData = SMLHelper.V2.Crafting.TechData;
+using Sprite = Atlas.Sprite;
+#endif
 
 namespace EquivalentExchange.Constructables
 {
@@ -17,9 +22,9 @@ namespace EquivalentExchange.Constructables
 
         }
 
-        protected override TechData GetBlueprintRecipe()
+        protected override RecipeData GetBlueprintRecipe()
         {
-            return new TechData()
+            return new RecipeData()
             {
                 craftAmount = 1,
                 Ingredients = new List<Ingredient>()
@@ -34,9 +39,17 @@ namespace EquivalentExchange.Constructables
         public override TechGroup GroupForPDA { get; } = TechGroup.InteriorPieces;
         public override TechCategory CategoryForPDA { get; } = TechCategory.InteriorPiece;
         public override TechType RequiredForUnlock { get; } = TechType.PrecursorIonCrystal;
+#if SN1
         public override GameObject GetGameObject()
         {
             var thermalPlantPrefab = CraftData.GetPrefabForTechType(TechType.ThermalPlant);
+#else
+        public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
+        {
+            var task = CraftData.GetPrefabForTechTypeAsync(TechType.ThermalPlant);
+            yield return task;
+            var thermalPlantPrefab = task.GetResult();
+#endif
             var obj = GameObject.Instantiate(thermalPlantPrefab);
 
             GameObject.Destroy(obj.GetComponent<ThermalPlant>());
@@ -61,7 +74,11 @@ namespace EquivalentExchange.Constructables
             constructable.allowedOnWall = false;
             constructable.allowedOutside = true;
 
+#if SN1
             return obj;
+#else 
+            gameObject.Set(obj);
+#endif
         }
     }
 }

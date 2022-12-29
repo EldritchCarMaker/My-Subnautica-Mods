@@ -1,5 +1,4 @@
-﻿using FCS_AlterraHub.Systems;
-using HarmonyLib;
+﻿using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +6,14 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using static EquivalentExchange.QMod;
+#if !SN2
 using Logger = QModManager.Utility.Logger;
+#endif
+
+#if SN1
+using FCS_AlterraHub.Systems;
+#endif
 
 namespace EquivalentExchange
 {
@@ -52,21 +58,21 @@ namespace EquivalentExchange
             var assembly = FindAssembly(assemblyName);
             if (assembly == null)
             {
-                Logger.Log(Logger.Level.Debug, "Could not find assembly " + assemblyName + ", don't worry this probably just means you don't have the mod installed");
+                LogDebug("Could not find assembly " + assemblyName + ", don't worry this probably just means you don't have the mod installed");
                 return null;
             }
 
             Type targetType = assembly.GetType(typeName);
             if (targetType == null)
             {
-                Logger.Log(Logger.Level.Debug, "Could not find class/type " + typeName + ", the mod/assembly " + assemblyName + " might have changed");
+                LogDebug("Could not find class/type " + typeName + ", the mod/assembly " + assemblyName + " might have changed");
                 return null;
             }
 
             var targetMethod = AccessTools.Method(targetType, methodName);
             if (targetMethod == null)
             {
-                Logger.Log(Logger.Level.Debug, "Could not find method " + typeName + "." + methodName + ", the mod/assembly " + assemblyName + " might have been changed");
+                LogDebug("Could not find method " + typeName + "." + methodName + ", the mod/assembly " + assemblyName + " might have been changed");
             }
             return targetMethod;
         }
@@ -75,25 +81,25 @@ namespace EquivalentExchange
             var assembly = FindAssembly(assemblyName);
             if (assembly == null)
             {
-                Logger.Log(Logger.Level.Debug, "Could not find assembly " + assemblyName + ", don't worry this probably just means you don't have the mod installed");
+                LogDebug("Could not find assembly " + assemblyName + ", don't worry this probably just means you don't have the mod installed");
                 return null;
             }
 
             Type targetType = assembly.GetType(typeName);
             if (targetType == null)
             {
-                Logger.Log(Logger.Level.Debug, "Could not find class/type " + typeName + ", the mod/assembly " + assemblyName + " might have changed");
+                LogDebug("Could not find class/type " + typeName + ", the mod/assembly " + assemblyName + " might have changed");
                 return null;
             }
 
             var targetField = AccessTools.Field(targetType, fieldName);
             if (targetField == null)
             {
-                Logger.Log(Logger.Level.Debug, "Could not find field " + typeName + "." + fieldName + ", the mod/assembly " + assemblyName + " might have been changed");
+                LogDebug("Could not find field " + typeName + "." + fieldName + ", the mod/assembly " + assemblyName + " might have been changed");
             }
             return targetField;
         }
-
+#if SN1
         public static bool AddFCSCredit(decimal amount)
         {
             CardSystem.main.AddFinances(amount);
@@ -106,5 +112,6 @@ namespace EquivalentExchange
         }
         public static decimal GetFCSCredit() => CardSystem.main.GetAccountBalance();
         public static GameObject GetFCSPDA() => FCS_AlterraHub.Mods.FCSPDA.Mono.FCSPDAController.Main?._screen;
+#endif
     }
 }

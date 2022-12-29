@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace EquivalentExchange.Monobehaviours
 {
+	using HarmonyLib;
 	using SMLHelper.V2.Handlers;
 	using System;
 	using System.Collections.Generic;
@@ -118,7 +119,7 @@ namespace EquivalentExchange.Monobehaviours
 
 			if (techType.ToString().ToLower() == "debitcard") return true;
 
-			if(((Dictionary<TechType, Assembly>)typeof(TechTypeHandler).GetField("TechTypesAddedBy").GetValue(null)).TryGetValue(techType, out var assembly))
+			if(((Dictionary<TechType, Assembly>)AccessTools.Field(typeof(TechTypeHandler), "TechTypesAddedBy").GetValue(null)).TryGetValue(techType, out var assembly))
 			{
 				if(assembly.GetName().Name.Contains("FCS_"))
 				{

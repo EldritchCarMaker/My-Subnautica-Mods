@@ -69,11 +69,13 @@ namespace AutoStorageTransfer.Monobehaviours
                 Destroy(this);
                 return;
             }
+#if SN
             if (TryGetComponent(out SpawnEscapePodSupplies asd))
             {
                 Destroy(this);//fuck this. This single container is causing problems all on its own. Fuck it.
                 return;
             }
+#endif
 
             if (!storageTransfers.Contains(this)) 
                 storageTransfers.Add(this);
@@ -106,7 +108,7 @@ namespace AutoStorageTransfer.Monobehaviours
                     QMod.SaveData.SavedStorages.Add(UniqueIdentifier.id, newSaveInfo);
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 Logger.Log(Logger.Level.Error, $"Error caught when saving storage transfer! Saving will continue for everything except this container's transfer settings.");
                 try
@@ -225,7 +227,7 @@ namespace AutoStorageTransfer.Monobehaviours
                         break;
                     }
                 }
-                catch(Exception e)
+                catch
                 {
                     ErrorMessage.AddError($"Error caught! Failed with {reciever.name}. Handled safely");
                     if(storageTransfer == null)

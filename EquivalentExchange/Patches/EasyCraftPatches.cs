@@ -24,13 +24,19 @@ namespace EquivalentExchange.Patches
         {
             var prefix = AccessTools.Method(typeof(EasyCraftPatches), nameof(GetPickupCountPrefix));
 
-            var targetMethod = AccessTools.Method(typeof(EasyCraft.ClosestItemContainers), nameof(EasyCraft.ClosestItemContainers.GetPickupCount));
+            Type type =
+#if SN
+                typeof(EasyCraft.ClosestItemContainers);
+#else
+                AccessTools.TypeByName("EasyCraft.ClosestItemContainers");//for some fucking reason the BZ easy craft is built on a higher .net framework than 4.7.2, so gotta reflection shit
+#endif
+            var targetMethod = AccessTools.Method(type, "GetPickupCount");
 
             harmony.Patch(targetMethod, new HarmonyMethod(prefix));
 
             var prefix2 = AccessTools.Method(typeof(EasyCraftPatches), nameof(DestroyItemPrefix));
 
-            var targetMethod2 = AccessTools.Method(typeof(EasyCraft.ClosestItemContainers), nameof(EasyCraft.ClosestItemContainers.DestroyItem));
+            var targetMethod2 = AccessTools.Method(type, "DestroyItem");
 
             harmony.Patch(targetMethod2, new HarmonyMethod(prefix2));
         }

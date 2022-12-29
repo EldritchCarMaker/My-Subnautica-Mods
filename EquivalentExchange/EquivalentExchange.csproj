@@ -75,6 +75,7 @@
     <Compile Include="Constructables\AutomaticItemConverterConstructable.cs" />
     <Compile Include="Constructables\EasyConversionBuildable.cs" />
     <Compile Include="Constructables\ItemResearchStationConstructable.cs" />
+    <Compile Include="ECMFont.cs" />
     <Compile Include="ExternalModCompat.cs" />
     <Compile Include="Monobehaviours\AutomaticItemConverter.cs" />
     <Compile Include="Monobehaviours\EasyConversionAntenna.cs" />

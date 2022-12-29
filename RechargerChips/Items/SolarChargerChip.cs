@@ -6,11 +6,14 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Sprite = Atlas.Sprite;
+#if SN
 using RecipeData = SMLHelper.V2.Crafting.TechData;
+using Sprite = Atlas.Sprite;
+#endif
 using System.Threading.Tasks;
 using SMLHelper.V2.Utility;
 using UnityEngine;
+using System.Collections;
 
 namespace RechargerChips.Items
 {
@@ -55,7 +58,7 @@ namespace RechargerChips.Items
                 )
             };
         }
-
+#if SN1
         public override GameObject GetGameObject()
         {
             var prefab = CraftData.GetPrefabForTechType(TechType.MapRoomHUDChip);
@@ -63,5 +66,11 @@ namespace RechargerChips.Items
 
             return obj;
         }
+#else
+        public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
+        {
+            yield return CraftData.InstantiateFromPrefabAsync(TechType.MapRoomHUDChip, gameObject);
+        }
+#endif
     }
 }

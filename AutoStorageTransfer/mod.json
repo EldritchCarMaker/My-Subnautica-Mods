@@ -1,4 +1,4 @@
-﻿{
+{
   "Id": "AutoStorageTransfer",
   "DisplayName": "AutoStorageTransfer",
   "Author": "EldritchCarMaker",
@@ -6,8 +6,7 @@
   "Enable": true,
   "AssemblyName": "AutoStorageTransfer.dll",
   "VersionDependencies": {
-    "SMLHelper": "2.9.6",
-    "FCSAlterraHub": "1.0.0.0"
+    "SMLHelper": "2.9.6"
   },
   "VersionChecker": {
     "LatestVersionURL": "https://raw.githubusercontent.com/EldritchCarMaker/My-Subnautica-Mods/main/AutoStorageTransfer/mod.json"
