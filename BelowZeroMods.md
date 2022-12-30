@@ -1,5 +1,9 @@
 # My Below Zero Mods
 
+### [Pickupable Vehicles](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/10326397/PickupableVehicles.zip)
+
+[Listed on submodica](https://submodica.xyz/mods/sbz/138)
+
 ## [Faster SnowFox Charging](https://github.com/Nagorogan/My-Subnautica-Mods/files/8227669/FasterSnowFoxCharging.zip):
 
 
