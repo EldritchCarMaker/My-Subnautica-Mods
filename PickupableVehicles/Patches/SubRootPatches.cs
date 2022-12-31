@@ -7,6 +7,7 @@ using HarmonyLib;
 
 namespace PickupableVehicles.Patches
 {
+#if SN
     [HarmonyPatch(typeof(SubRoot))]
     internal class SubRootPatches
     {
@@ -19,4 +20,5 @@ namespace PickupableVehicles.Patches
             }
         }
     }
+#endif
 }

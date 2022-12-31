@@ -122,8 +122,8 @@ namespace EquivalentExchange.Monobehaviours
 			toolbar.Select((int)selected);
 			UpdateItems();
             NotificationManager.main.Subscribe(this, notificationGroup, string.Empty);
-#if BZ
-			GetComponent<uGUI_GraphicRaycaster>().enabled = true;//for some reason seems to be disabled by default on BZ?
+#if !SN1
+			GetComponent<uGUI_GraphicRaycaster>().enabled = true;//for some reason seems to be disabled by default on BZ and SN2.0?
 #endif
 
 			CreateEldritchLogo();

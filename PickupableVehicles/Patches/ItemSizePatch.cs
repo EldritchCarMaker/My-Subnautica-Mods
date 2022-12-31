@@ -25,8 +25,13 @@ namespace PickupableVehicles.Patches
             if (techType == TechType.Seamoth) __result = new Vector2int(QMod.config.seamothWidth, QMod.config.seamothHeight);
             else
             if (techType == TechType.Exosuit) __result = new Vector2int(QMod.config.prawnWidth, QMod.config.prawnHeight);
+#if SN
             else
             if (techType == TechType.Cyclops) __result = new Vector2int(QMod.config.cyclopsWidth, QMod.config.cyclopsHeight);
+#else
+            else
+            if (techType.ToString().ToLower().Contains("seatruck")) __result = new Vector2int(QMod.config.seatruckModuleWidth, QMod.config.seatruckModuleHeight);
+#endif
         }
     }
 }

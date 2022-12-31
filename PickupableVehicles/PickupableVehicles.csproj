@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Patches\ItemSizePatch.cs" />
     <Compile Include="Patches\PickupablePatches.cs" />
+    <Compile Include="Patches\SeaTruckSegmentPatches.cs" />
     <Compile Include="Patches\SubRootPatches.cs" />
     <Compile Include="PickupableVehicleModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
