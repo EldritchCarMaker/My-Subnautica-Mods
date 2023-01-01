@@ -4,7 +4,17 @@
 
 [Listed on submodica](https://submodica.xyz/mods/sbz/138)
 
-## [Faster SnowFox Charging](https://github.com/Nagorogan/My-Subnautica-Mods/files/8227669/FasterSnowFoxCharging.zip):
+
+### [EquivalentExchange](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/10329026/EquivalentExchange.zip)
+
+[Listed on submodica](https://submodica.xyz/mods/sbz/140)
+
+
+### [Edible Everything](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/10329035/EdibleEverything.zip)
+
+[Listed on submodica](https://submodica.xyz/mods/sbz/139)
+
+### [Faster SnowFox Charging](https://github.com/Nagorogan/My-Subnautica-Mods/files/8227669/FasterSnowFoxCharging.zip):
 
 
 Makes the snowfox docking pad recharge and repair at a configurable rate, also allows the pad to refill percentages of power/health rather than fixed values.
@@ -13,7 +23,7 @@ Dependencies: [SmlHelperZero](https://www.nexusmods.com/subnauticabelowzero/mods
 ###### No Changelog yet
 
 
-## [Flying SeaTruck](https://github.com/Nagorogan/My-Subnautica-Mods/files/8694119/FlyingSeaTruck.zip)
+### [Flying SeaTruck](https://github.com/Nagorogan/My-Subnautica-Mods/files/8694119/FlyingSeaTruck.zip)
 
 
 adds a module that lets the seatruck fly, has a config for whether the seatruck drops to the ground when not piloted or stays in air
@@ -22,7 +32,7 @@ Dependencies: [SmlHelperZero](https://www.nexusmods.com/subnauticabelowzero/mods
 ###### No Changelog yet
 
 
-## [Player Tool Changes_BZ](https://github.com/Nagorogan/My-Subnautica-Mods/files/8309959/PlayerToolChanges_BZ.zip):
+### [Player Tool Changes_BZ](https://github.com/Nagorogan/My-Subnautica-Mods/files/8309959/PlayerToolChanges_BZ.zip):
 
 
 Allows you to configure the stats of most tools in game. Must re-equip tool for changes to take effect. Has option for Air bladder changes, currently unused and too lazy to remove. Just pretend the air bladder config doesn't exist.
@@ -31,7 +41,7 @@ Dependencies: [SmlHelperZero](https://www.nexusmods.com/subnauticabelowzero/mods
 ###### [Changelog](https://github.com/Nagorogan/My-Subnautica-Mods/blob/main/PlayerToolChanges_BZ/Changelog.md)
 
 
-## [SnowFox Quantum Locker](https://github.com/Nagorogan/My-Subnautica-Mods/files/8227678/SnowFoxQuantumLocker.zip):
+### [SnowFox Quantum Locker](https://github.com/Nagorogan/My-Subnautica-Mods/files/8227678/SnowFoxQuantumLocker.zip):
 
 
 Adds a storage container to the snowfox. The storage container has a config to choose between three possible options. **ONLY THE STANDARD LOCKER HAS BEEN TESTED**. I believe that the quantum locker also works, however I am not certain to what degree. The snowfox shared locker does not work at all.
@@ -55,9 +65,6 @@ Dependencies: [SmlHelperZero](https://www.nexusmods.com/subnauticabelowzero/mods
 These mods are still in very early testing, some may not work fully, some may not work at all. They are here because I wanted testing for the ones that did work and because I wanted to at least put *something* out there.
 
 If I simply put the file with no extra explanation, it is because I have nothing to say regarding it. It could work fine, and I have no problems, or I might not have tested it and it barely works at all.
-
-
-[EquivalentExchange.zip](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/10315479/EquivalentExchange.zip) - also has misc additions such as the hot pink gradient for EMC cost
 
 
 [EquippableItemIcons.zip](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/10315483/EquippableItemIcons.zip)
