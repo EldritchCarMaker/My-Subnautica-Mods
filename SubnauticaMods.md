@@ -12,7 +12,7 @@ Dependencies: [FCS Home Solutions](http://fcstudioshub.com/subnautica/home-solut
 ###### [Changelog](https://github.com/EldritchCarMaker/My-Subnautica-Mods/blob/main/SeaDragonHealthBuff/Changelog.md)
 
 
-## [Auto Storage Transfer](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/9795861/AutoStorageTransfer.zip)
+## [Auto Storage Transfer](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/10328995/AutoStorageTransfer.zip)
 
 
 a very simple, yet powerful mod that allows you to link storages to automatically transfer to or from each other.
@@ -120,7 +120,7 @@ No Dependencies
 ###### No Changelog yet
 
 
-## [Edible Everything](https://github.com/Nagorogan/My-Subnautica-Mods/files/9641187/EdibleEverything.zip)
+## [Edible Everything](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/10328996/EdibleEverything.zip)
 
 joke mod made by request of a friend, turns every pickuppable item into food. May not work fully with every single item consistently, but does work well enough for the vast majority of things.
 
