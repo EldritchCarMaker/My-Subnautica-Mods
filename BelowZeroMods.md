@@ -14,6 +14,17 @@
 
 [Listed on submodica](https://submodica.xyz/mods/sbz/139)
 
+
+### [Auto Storage Transfer](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/10332311/AutoStorageTransfer.zip)
+
+[Listed on submodica](https://submodica.xyz/mods/sbz/150)
+
+
+### [Invincible Docked Vehicles](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/10332316/InvincibleDockedVehicles.zip)
+
+[Listed on submodica](https://submodica.xyz/mods/sbz/151)
+
+
 ### [Faster SnowFox Charging](https://github.com/Nagorogan/My-Subnautica-Mods/files/8227669/FasterSnowFoxCharging.zip):
 
 
