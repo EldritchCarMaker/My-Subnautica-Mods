@@ -1,5 +1,6 @@
 ﻿using AutoStorageTransfer.Monobehaviours;
 using HarmonyLib;
+#if SN1
 using IonCubeGenerator.Mono;
 using System;
 using System.Collections.Generic;
@@ -22,3 +23,4 @@ namespace AutoStorageTransferCompatibility.Patches
         }
     }
 }
+#endif

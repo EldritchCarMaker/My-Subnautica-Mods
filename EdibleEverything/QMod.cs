@@ -32,5 +32,10 @@ namespace EdibleEverything
     {
         public int Food;
         public int Water;
+#if BZ
+        public int Charges;
+        public int Health;
+        public int Heat;
+#endif
     }
 }

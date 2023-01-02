@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoStorageTransfer.Monobehaviours;
+#if SN1
 using CyclopsNuclearReactor;
 using HarmonyLib;
 using IonCubeGenerator.Mono;
@@ -23,3 +24,4 @@ namespace AutoStorageTransferCompatibility.Patches
         }
     }
 }
+#endif

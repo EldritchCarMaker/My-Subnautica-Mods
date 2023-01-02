@@ -1,4 +1,5 @@
 ﻿using AutoStorageTransfer.Monobehaviours;
+#if SN1
 using AutoStorageTransferCompatibility.MonoBehaviours;
 using CyclopsNuclearReactor;
 using FCS_ProductionSolutions.Mods.DeepDriller.LightDuty.Mono;
@@ -24,3 +25,4 @@ namespace AutoStorageTransferCompatibility.Patches
         }
     }
 }
+#endif

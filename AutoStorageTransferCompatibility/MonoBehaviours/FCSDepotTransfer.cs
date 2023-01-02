@@ -1,4 +1,5 @@
 ﻿using AutoStorageTransfer.Monobehaviours;
+#if SN1
 using FCS_AlterraHub.Mods.AlterraHubDepot.Mono;
 using FCS_ProductionSolutions.Mods.DeepDriller.HeavyDuty.Mono;
 using System;
@@ -77,3 +78,4 @@ namespace AutoStorageTransferCompatibility.MonoBehaviours
         }
     }
 }
+#endif

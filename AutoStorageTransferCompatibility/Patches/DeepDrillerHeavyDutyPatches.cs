@@ -1,4 +1,5 @@
-﻿using AutoStorageTransferCompatibility.MonoBehaviours;
+﻿#if SN1
+using AutoStorageTransferCompatibility.MonoBehaviours;
 using FCS_ProductionSolutions.Mods.DeepDriller.HeavyDuty.Mono;
 using FCS_ProductionSolutions.Mods.DeepDriller.LightDuty.Mono;
 using HarmonyLib;
@@ -23,3 +24,4 @@ namespace AutoStorageTransferCompatibility.Patches
         }
     }
 }
+#endif

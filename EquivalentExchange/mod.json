@@ -2,7 +2,7 @@
   "Id": "EquivalentExchange",
   "DisplayName": "Equivalent Exchange",
   "Author": "EldritchCarMaker",
-  "Version": "1.6.0",
+  "Version": "1.6.1",
   "Enable": true,
   "AssemblyName": "EquivalentExchange.dll",
   "VersionDependencies": {
@@ -11,5 +11,5 @@
   "VersionChecker": {
     "LatestVersionURL": "https://raw.githubusercontent.com/EldritchCarMaker/My-Subnautica-Mods/main/EquivalentExchange/mod.json"
   },
-  "Game": "Subnautica"
+  "Game": "BelowZero"
 }

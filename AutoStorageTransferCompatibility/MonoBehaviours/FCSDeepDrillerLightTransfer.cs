@@ -1,4 +1,5 @@
 ﻿using AutoStorageTransfer.Monobehaviours;
+#if SN1
 using FCS_ProductionSolutions.Mods.DeepDriller.HeavyDuty.Mono;
 using System;
 using System.Collections.Generic;
@@ -76,3 +77,4 @@ namespace AutoStorageTransferCompatibility.MonoBehaviours
         }
     }
 }
+#endif

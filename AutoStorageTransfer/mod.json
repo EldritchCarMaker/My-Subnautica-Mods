@@ -2,7 +2,7 @@
   "Id": "AutoStorageTransfer",
   "DisplayName": "AutoStorageTransfer",
   "Author": "EldritchCarMaker",
-  "Version": "1.0.1",
+  "Version": "1.0.2",
   "Enable": true,
   "AssemblyName": "AutoStorageTransfer.dll",
   "VersionDependencies": {
@@ -11,5 +11,5 @@
   "VersionChecker": {
     "LatestVersionURL": "https://raw.githubusercontent.com/EldritchCarMaker/My-Subnautica-Mods/main/AutoStorageTransfer/mod.json"
   },
-  "Game": "Subnautica"
+  "Game": "BelowZero"
 }

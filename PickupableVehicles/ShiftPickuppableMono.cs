@@ -3,16 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace PickupableVehicles
 {
     internal class ShiftPickuppableMono : HandTarget, IHandTarget
     {
-        public Pickupable Pickupable { get; set; }
+        private Pickupable _pickupable;
+        public Pickupable Pickupable 
+        { 
+            get 
+            {
+                if(!_pickupable) _pickupable = gameObject.AddComponent<Pickupable>();
+                return _pickupable;
+            } 
+        }
 
-        public override void Awake()
+        public void Start()
         {
-            Pickupable = gameObject.EnsureComponent<Pickupable>();
+            if (TryGetComponent<Pickupable>(out var pick)) GameObject.Destroy(pick);
 #if SN
             Pickupable.overrideTechType = TechType.Cyclops;
             Pickupable.overrideTechUsed = true;
@@ -20,7 +29,6 @@ namespace PickupableVehicles
             Pickupable.overrideTechType = CraftData.GetTechType(gameObject);
             Pickupable.overrideTechUsed = true;
 #endif
-            base.Awake();
         }
         public void OnHandClick(GUIHand hand)
         {
@@ -55,7 +63,7 @@ namespace PickupableVehicles
 #if BZ
                 if (TryGetComponent<SeaTruckSegment>(out var segment))
                 {
-                    segment.GetFirstSegment().GetComponent<Pickupable>().OnHandHover(hand);
+                    segment.GetFirstSegment().gameObject.EnsureComponent<Pickupable>().OnHandHover(hand);
                     return;
                 }
 #endif

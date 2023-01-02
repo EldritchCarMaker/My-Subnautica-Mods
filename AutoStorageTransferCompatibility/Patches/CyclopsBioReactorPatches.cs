@@ -1,4 +1,5 @@
 ﻿using AutoStorageTransfer.Monobehaviours;
+#if SN1
 using CyclopsBioReactor;
 using HarmonyLib;
 using IonCubeGenerator.Mono;
@@ -23,3 +24,4 @@ namespace AutoStorageTransferCompatibility.Patches
         }
     }
 }
+#endif

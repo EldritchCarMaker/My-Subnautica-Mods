@@ -176,6 +176,13 @@ namespace ArmorSuit
                 _newRSuitBodyTexture = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "ColoredSuitBody.png"));
             }
         }
+        public void Update()//just for testing
+        {
+            if (!Input.GetKeyDown(KeyCode.R)) return;
+            _newRSuitArmsTexture = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "ColoredSuitArms.png"));
+            _newRSuitBodyTexture = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "ColoredSuitBody.png"));
+            UpdatePlayerSuit();
+        }
         private void SetUpSuitColors()
         {
             SuitColors = gameObject.EnsureComponent<SuitColors>();

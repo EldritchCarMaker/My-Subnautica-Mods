@@ -155,7 +155,10 @@ namespace AutoStorageTransfer.Monobehaviours
             InventoryItem chosenItem = null;
             int itemsChecked = 0;
 
-            foreach(var item in Container)//shouldn't be using foreach for this, but fuckit idc. Doesn't change anything at all anyway
+            bool isThoroughSort = (Time.time > timeLastThoroughSort + QMod.config.thoroughSortCooldown);
+            if (isThoroughSort) timeLastThoroughSort = Time.time;
+
+            foreach (var item in Container)//shouldn't be using foreach for this, but fuckit idc. Doesn't change anything at all anyway
             {
                 if (item == null) continue;
 
@@ -163,7 +166,7 @@ namespace AutoStorageTransfer.Monobehaviours
 
                 itemsChecked++;
 
-                if (SortAttemptsPerItem.TryGetValue(item, out var attempts) && attempts >= 5 && (Time.time < timeLastThoroughSort + QMod.config.thoroughSortCooldown))
+                if (!isThoroughSort && SortAttemptsPerItem.TryGetValue(item, out var attempts) && attempts >= 5)
                     continue;
 
                 var reciever = FindTransfer(item.item, StorageID);

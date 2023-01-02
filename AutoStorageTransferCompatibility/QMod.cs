@@ -25,6 +25,7 @@ namespace AutoStorageTransferCompatibility
             Harmony harmony = new Harmony(name);
             harmony.PatchAll(assembly);
 
+#if SN1     //none of these are updated to 2.0, or ported to below zero yet
             if(QModManager.API.QModServices.Main.ModPresent("CyclopsBioReactor"))
                 CyclopsBioReactorPatches.PatchCyclopsBioReactor(harmony);
             
@@ -42,6 +43,7 @@ namespace AutoStorageTransferCompatibility
 
             if (QModManager.API.QModServices.Main.ModPresent("FCSAlterraHub"))
                 AlterraHubDepotPatches.PatchDepot(harmony);
+#endif
 
             //alterra gen
 

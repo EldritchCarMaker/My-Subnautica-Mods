@@ -1,12 +1,13 @@
-﻿using AutoStorageTransferCompatibility.MonoBehaviours;
-using FCS_AlterraHub.Mods.AlterraHubDepot.Mono;
-using FCS_ProductionSolutions.Mods.DeepDriller.HeavyDuty.Mono;
+﻿#if SN1
+using AutoStorageTransferCompatibility.MonoBehaviours;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FCS_AlterraHub.Mods.AlterraHubDepot.Mono;
+using FCS_ProductionSolutions.Mods.DeepDriller.HeavyDuty.Mono;
 
 namespace AutoStorageTransferCompatibility.Patches
 {
@@ -23,3 +24,4 @@ namespace AutoStorageTransferCompatibility.Patches
         }
     }
 }
+#endif

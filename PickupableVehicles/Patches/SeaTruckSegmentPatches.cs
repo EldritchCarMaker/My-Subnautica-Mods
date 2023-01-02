@@ -15,11 +15,12 @@ namespace PickupableVehicles.Patches
         [HarmonyPatch(nameof(SeaTruckSegment.Start))]
         public static void Prefix(SeaTruckSegment __instance)
         {
-            if(!QMod.config.worksWithSeatruck)
-            {
-                if(__instance.TryGetComponent<Pickupable>(out var pick)) GameObject.Destroy(pick);
+            if (__instance.TryGetComponent<Pickupable>(out var pick)) GameObject.Destroy(pick);
+            //need to make sure that this is the first HandTarget on the object
+            //otherwise the OnHandClick methods will call something else first
+
+            if (!QMod.config.worksWithSeatruck)
                 return;
-            }
 
             __instance.gameObject.AddComponent<ShiftPickuppableMono>();
         }
