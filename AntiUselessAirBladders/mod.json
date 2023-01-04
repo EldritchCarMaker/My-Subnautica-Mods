@@ -1,0 +1,15 @@
+{
+  "Id": "AntiUselessAirBladders",
+  "DisplayName": "Anti-Useless AirBladders",
+  "Author": "EldritchCarMaker",
+  "Version": "0.0.1",
+  "Enable": true,
+  "AssemblyName": "AntiUselessAirBladders.dll",
+  "VersionDependencies": {
+    "SMLHelper": "2.9.6"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://raw.githubusercontent.com/EldritchCarMaker/My-Subnautica-Mods/main/AntiUselessAirBladders/mod.json"
+  },
+  "Game": "Subnautica"
+}
