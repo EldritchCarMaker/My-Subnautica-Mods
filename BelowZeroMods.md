@@ -25,6 +25,43 @@
 [Listed on submodica](https://submodica.xyz/mods/sbz/151)
 
 
+### [Recharger Chips](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/10332357/RechargerChips.zip)
+
+[Listed on submodica](https://submodica.xyz/mods/sbz/153)
+
+
+
+### [Seeds From Harvesting](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/10332365/SeedsFromHarvesting.zip)
+
+[Listed on submodica](https://submodica.xyz/mods/sbz/154)
+
+
+
+### [Camera Drone Upgrades](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/10332371/CameraDroneUpgrades.zip)
+
+[Listed on submodica](https://submodica.xyz/mods/sbz/155)
+
+
+### [Camera Drone Flight Upgrade](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/10332386/CameraDroneFlightUpgrade.zip)
+
+[Listed on submodica](https://submodica.xyz/mods/sbz/156)
+
+
+### [Camera Drone Repair Upgrade](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/10332401/CameraDroneRepairUpgrade.zip)
+
+[Listed on submodica](https://submodica.xyz/mods/sbz/157)
+
+
+### [Camera Drone Speed Upgrade](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/10332404/CameraDroneSpeedUpgrade.zip)
+
+[Listed on submodica](https://submodica.xyz/mods/sbz/158)
+
+
+### [Camera Drone Stasis Upgrade](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/10332406/CameraDroneStasisUpgrade.zip)
+
+[Listed on submodica](https://submodica.xyz/mods/sbz/159)
+
+
 ### [Faster SnowFox Charging](https://github.com/Nagorogan/My-Subnautica-Mods/files/8227669/FasterSnowFoxCharging.zip):
 
 
@@ -43,7 +80,7 @@ Dependencies: [SmlHelperZero](https://www.nexusmods.com/subnauticabelowzero/mods
 ###### No Changelog yet
 
 
-### [Player Tool Changes_BZ](https://github.com/Nagorogan/My-Subnautica-Mods/files/8309959/PlayerToolChanges_BZ.zip):
+### [Player Tool Changes](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/10332326/PlayerToolChanges.zip)
 
 
 Allows you to configure the stats of most tools in game. Must re-equip tool for changes to take effect. Has option for Air bladder changes, currently unused and too lazy to remove. Just pretend the air bladder config doesn't exist.
