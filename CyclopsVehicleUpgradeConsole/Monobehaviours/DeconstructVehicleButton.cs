@@ -9,7 +9,9 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+#if !SN2
 using Logger = QModManager.Utility.Logger;
+#endif
 
 namespace CyclopsVehicleUpgradeConsole.Monobehaviours
 {
@@ -81,6 +83,7 @@ namespace CyclopsVehicleUpgradeConsole.Monobehaviours
 
             foreach(IIngredient ingredient in ingredients)//you ever see a word so much it doesn't even look like a real word? Ingredient looks so weird now
             {
+#if SN1
                 for(var j = 0; j < ingredient.amount; j++)
                 {
                     var newObj = CraftData.InstantiateFromPrefab(ingredient.techType);
@@ -99,6 +102,9 @@ namespace CyclopsVehicleUpgradeConsole.Monobehaviours
 
                     Inventory.main.ForcePickup(pickup);
                 }
+#else
+                CraftData.AddToInventory(ingredient.techType, ingredient.amount);
+#endif
             }
 
 
@@ -112,12 +118,20 @@ namespace CyclopsVehicleUpgradeConsole.Monobehaviours
             if(dockingBay != null && dockingBay.dockedVehicle != null)
             {
                 HandReticle.main.SetIcon(HandReticle.IconType.Hand, 1f);
+#if !SN2
                 HandReticle.main.SetInteractText("Deconstruct Vehicle");
+#else
+                HandReticle.main.SetTextRaw(HandReticle.TextType.Hand, "Deconstruct Vehicle");
+#endif
             }
             else
             {
                 HandReticle.main.SetIcon(HandReticle.IconType.HandDeny, 1f);
+#if !SN2
                 HandReticle.main.SetInteractText("No Vehicle Docked");
+#else
+                HandReticle.main.SetTextRaw(HandReticle.TextType.Hand, "No Vehicle Docked");
+#endif
             }
         }
 

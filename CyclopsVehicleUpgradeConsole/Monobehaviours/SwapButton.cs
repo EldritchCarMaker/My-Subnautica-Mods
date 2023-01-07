@@ -43,7 +43,11 @@ namespace CyclopsVehicleUpgradeConsole.Monobehaviours
         public void OnHandHover(GUIHand hand)
         {
             HandReticle.main.SetIcon(HandReticle.IconType.Hand, 1f);
+#if SN1
             HandReticle.main.SetInteractText(hoverText);
+#else
+            HandReticle.main.SetTextRaw(HandReticle.TextType.Hand, hoverText);
+#endif
         }
 
         public void OnPointerClick(PointerEventData eventData)

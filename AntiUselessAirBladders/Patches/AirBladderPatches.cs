@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
+using AntiUselessAirBladders.Monobehaviours;
 using HarmonyLib;
 using QModManager.Utility;
 
@@ -18,20 +19,21 @@ namespace AntiUselessAirBladders.Patches
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             var matcher = new CodeMatcher(instructions);
-            matcher.SearchForward((instruction) => CheckInstruction(instruction));
-            matcher.RemoveInstructionsInRange(matcher.Pos - 2, matcher.Pos + 1);
-            matcher.SearchForward((instruction) => instruction.opcode == OpCodes.Ldloc_3);
-            matcher.Opcode = OpCodes.Ldloc_2;
+            matcher.Start();
+            matcher.SearchForward((instruction) => instruction.opcode == OpCodes.Callvirt &&
+                ((MethodInfo)instruction.operand) == AccessTools.Method(typeof(OxygenManager), nameof(OxygenManager.RemoveOxygen)));
+            matcher.Advance(-2);
+
+            matcher.SetAndAdvance(OpCodes.Ldarg_0, null);
+            matcher.SetAndAdvance(OpCodes.Ldloc_2, null);
+            matcher.Set(OpCodes.Callvirt, AccessTools.Method(typeof(AirBladderOxygen), nameof(AirBladderOxygen.ConsumeOxygen)));
+
             return matcher.InstructionEnumeration();
         }
-
-        public static bool CheckInstruction(CodeInstruction instruction)
+        [HarmonyPatch(nameof(AirBladder.Start))]
+        public static void Postfix(AirBladder __instance)
         {
-            Console.WriteLine($"opcode {instruction.opcode}, {instruction.operand}");
-            bool result = instruction.opcode == OpCodes.Callvirt && 
-                ((MethodInfo)instruction.operand) == AccessTools.Method(typeof(OxygenManager), nameof(OxygenManager.RemoveOxygen));
-            if (result) Console.WriteLine("Found!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            return result;
+            __instance.gameObject.AddComponent<AirBladderOxygen>();
         }
     }
 }

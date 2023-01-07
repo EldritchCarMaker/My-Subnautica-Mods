@@ -5,9 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using HarmonyLib;
 using UnityEngine;
-using Logger = QModManager.Utility.Logger;
 
-namespace RepairToolChanges_SN
+namespace PlayerToolChanges
 {
     internal class RepairToolChanges
     {
@@ -53,7 +52,7 @@ namespace RepairToolChanges_SN
                 {
                     AirBladder airBladder = __instance as AirBladder;
                     float force = QMod.config.AirBladderForce;
-#if SN
+#if SN1
                     airBladder.forceConstant = force * 0.4f;
 #else
                     airBladder.buoyancyForce = force * 0.8f;

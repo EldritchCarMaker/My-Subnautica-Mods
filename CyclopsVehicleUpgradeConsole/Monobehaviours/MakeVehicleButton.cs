@@ -7,7 +7,11 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UWE;
 using static CyclopsVehicleUpgradeConsole.VehicleConsoleCreation;
-using Logger = QModManager.Utility.Logger;
+using BepInEx.Bootstrap;
+using System.Linq;
+#if SN2
+using BepInEx;
+#endif
 
 namespace CyclopsVehicleUpgradeConsole.Monobehaviours
 {
@@ -55,13 +59,21 @@ namespace CyclopsVehicleUpgradeConsole.Monobehaviours
                 return;
             }
 
-
+#if SN1
             if (QModManager.API.QModServices.Main.ModPresent("EasyCraft"))
             {
                 if(EasyCraftMethods())
                     return;
                 //if there's some problem when getting/using the easy craft methods, want to just continue with the manual way to do it.
             }
+#else
+            if (Chainloader.PluginInfos.ContainsKey("sn.easycraft.mod"))
+            {
+                if (EasyCraftMethods())
+                    return;
+                //if there's some problem when getting/using the easy craft methods, want to just continue with the manual way to do it.
+            }
+#endif
 
 
             if (!CrafterLogic.ConsumeResources(this.vehicleType))
@@ -78,7 +90,7 @@ namespace CyclopsVehicleUpgradeConsole.Monobehaviours
 
             if(isCraftFulfilled == null)
             {
-                Logger.Log(Logger.Level.Error, $"Easy craft installed but can't find method! Missing method: {easyCraftRecipeFulfilledMethodName}");
+                ErrorMessage.AddMessage($"Easy craft installed but can't find method! Missing method: {easyCraftRecipeFulfilledMethodName}");
                 return false;
             }
 
@@ -95,7 +107,7 @@ namespace CyclopsVehicleUpgradeConsole.Monobehaviours
             MethodInfo consumeResources = Helpers.FindMethod(easyCraftAssemblyName, easyCraftMainClass, easyCraftConsumeMethodName);
             if(consumeResources == null)
             {
-                Logger.Log(Logger.Level.Error, $"Easy craft installed but can't find method! Missing method: {easyCraftConsumeMethodName}");
+                ErrorMessage.AddMessage($"Easy craft installed but can't find method! Missing method: {easyCraftConsumeMethodName}");
                 return false;
             }
 
@@ -147,7 +159,7 @@ namespace CyclopsVehicleUpgradeConsole.Monobehaviours
                 KnownTech.onChanged += UpdateButtonActive;
                 UpdateButtonActive(null);
             }
-            itemIcon.SetBackgroundSprite(uGUI_CraftNode.backgroundNormal);
+            itemIcon.SetBackgroundSprite(SpriteManager.GetBackground(CraftData.BackgroundType.Normal));
         }
     }
 }

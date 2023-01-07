@@ -21,7 +21,7 @@ namespace PickupableVehicles
 
         public void Start()
         {
-            if (TryGetComponent<Pickupable>(out var pick)) GameObject.Destroy(pick);
+            if (TryGetComponent<Pickupable>(out var pick)) GameObject.DestroyImmediate(pick);
 #if SN
             Pickupable.overrideTechType = TechType.Cyclops;
             Pickupable.overrideTechUsed = true;

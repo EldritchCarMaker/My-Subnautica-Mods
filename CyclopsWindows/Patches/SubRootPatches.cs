@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using Logger = QModManager.Utility.Logger;
 using System;
 using System.Reflection;
 using UnityEngine;

@@ -8,7 +8,9 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+#if !SN2
 using Logger = QModManager.Utility.Logger;
+#endif
 
 namespace AutoStorageTransfer.Monobehaviours
 {

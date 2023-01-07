@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AntiUselessAirBladders.Monobehaviours;
 using HarmonyLib;
 
 namespace AntiUselessAirBladders.Patches
@@ -16,7 +17,8 @@ namespace AntiUselessAirBladders.Patches
             if(__instance is AirBladder airBladder)
             {
                 __result = true;
-                Player.main.oxygenMgr.AddOxygen(5);
+                var oxyMan = Player.main.oxygenMgr;
+                oxyMan.AddOxygen(AirBladderOxygen.ConsumeOxygen(airBladder, oxyMan.GetOxygenCapacity() - oxyMan.GetOxygenAvailable()));
             }
         }
     }

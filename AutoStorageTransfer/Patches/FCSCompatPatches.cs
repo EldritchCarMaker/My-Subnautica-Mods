@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 using AutoStorageTransfer.Monobehaviours;
 using HarmonyLib;
 using UnityEngine;
+#if !SN2
 using Logger = QModManager.Utility.Logger;
+#endif
 
 namespace AutoStorageTransfer.Patches
 {
@@ -27,17 +29,10 @@ namespace AutoStorageTransfer.Patches
         {
             var targetType = FindType(assemblyName, typeName);
 
-            Logger.Log(Logger.Level.Debug, "Found targetClass " + typeName);
             var targetMethod = AccessTools.Method(targetType, methodName);
             if (targetMethod != null)
             {
-                Logger.Log(Logger.Level.Debug, "Found targetMethod " + typeName + "." + methodName + ", Patching...");
                 harmony.Patch(targetMethod, prefix, postfix, transpiler);
-                Logger.Log(Logger.Level.Debug, "Patched " + typeName + "." + methodName);
-            }
-            else
-            {
-                Logger.Log(Logger.Level.Debug, "Could not find method " + typeName + "." + methodName + ", the mod/assembly " + assemblyName + " might have been changed");
             }
         }
         public static Assembly FindAssembly(string assemblyName)
@@ -53,14 +48,12 @@ namespace AutoStorageTransfer.Patches
             var assembly = FindAssembly(assemblyName);
             if (assembly == null)
             {
-                Logger.Log(Logger.Level.Debug, "Could not find assembly " + assemblyName + ", don't worry this probably just means you don't have the mod installed");
                 return null;
             }
 
             Type targetType = assembly.GetType(typeName);
             if (targetType == null)
             {
-                Logger.Log(Logger.Level.Debug, "Could not find class/type " + typeName + ", the mod/assembly " + assemblyName + " might have changed");
                 return null;
             }
             return targetType;

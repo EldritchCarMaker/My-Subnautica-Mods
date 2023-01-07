@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+#if !SN2
 using Logger = QModManager.Utility.Logger;
+#endif
 #if SN
 using Sprite = Atlas.Sprite;
 #endif
@@ -70,7 +72,9 @@ namespace EquippableItemIcons.API
             if(!ShouldMakeIcon)
             {
                 iconActive = false;
+#if !SN2
                 Logger.Log(Logger.Level.Info, $"{name} elected to forego icon, no creation.");
+#endif
                 return;
             }
 
@@ -98,13 +102,15 @@ namespace EquippableItemIcons.API
             if (!AutomaticSetup)
             {
                 iconActive = equipped;
-
+#if !SN2
                 if (container == null)
                     Logger.Log(Logger.Level.Error, $"{name} has a null container after attempting to set it up. This will probably cause issues.");
                 else
+#endif
                     container.SetActive(iconActive);
-
+#if !SN2
                 Logger.Log(Logger.Level.Info, $"Finished setup of {name}");
+#endif
                 return;
             }
 
@@ -114,12 +120,15 @@ namespace EquippableItemIcons.API
             equipped = UtilityStuffs.Utility.EquipmentHasItem(techType, equipmentType);
 
             iconActive = equipped;
+#if !SN2
             if(container == null) 
                 Logger.Log(Logger.Level.Error, $"{name} has a null container after attempting to set it up. This will probably cause issues.");
             else
+#endif
                 container.SetActive(iconActive);
-
+#if !SN2
             Logger.Log(Logger.Level.Info, $"Finished setup of {name}");
+#endif
         }
 
         internal virtual void UpdateEquipped()

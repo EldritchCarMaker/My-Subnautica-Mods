@@ -50,6 +50,7 @@
   <Import Project="..\Configurations.targets" />
   <Import Project="..\References.targets" />
   <ItemGroup>
+    <Compile Include="Monobehaviours\AirBladderOxygen.cs" />
     <Compile Include="Patches\AirBladderPatches.cs" />
     <Compile Include="Patches\PlayerToolPatches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

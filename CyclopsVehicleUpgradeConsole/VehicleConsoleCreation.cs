@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 using UnityEngine;
 using CyclopsVehicleUpgradeConsole.Monobehaviours;
 using UnityEngine.UI;
-using Logger = QModManager.Utility.Logger;
+#if SN2
+using uGUI_CraftNode = uGUI_CraftingMenu.Node;
+using TMPro;
+#endif
 
 namespace CyclopsVehicleUpgradeConsole
 {
@@ -131,7 +134,11 @@ namespace CyclopsVehicleUpgradeConsole
             GameObject noVehicleScreen = cyclopsConsoleGUI.gameObject.transform.Find("NoVehicle").gameObject;
 
             GameObject text = GameObject.Instantiate(noVehicleScreen.transform.Find("Text").gameObject, noVehicleScreen.transform);
+#if SN1
             text.GetComponent<Text>().text = "Fabricate Vehicle In Empty Bay";
+#else
+            text.GetComponent<TextMeshProUGUI>().text = "Fabricate Vehicle In Empty Bay";
+#endif
             text.transform.localScale = new Vector3(1, 1, 1);
             text.transform.position -= 0.14f * text.transform.up;
 
@@ -183,9 +190,18 @@ namespace CyclopsVehicleUpgradeConsole
             buttonObj.AddComponent<MakeVehicleButton>();
 
             var myItemIcon = buttonObj.AddComponent<uGUI_ItemIcon>();
+#if SN1
             var myCraftNode = new uGUI_CraftNode(uGUI.main.craftingMenu, "MakeSeamoth", 1, TreeAction.Craft, TechType.Seamoth);
+#else
+            var myCraftNode = new uGUI_CraftNode("MakeSeamoth", TreeAction.Craft, TechType.Seamoth);
+#endif
             myCraftNode.icon = myItemIcon;
+#if SN1
             myItemIcon.manager = myCraftNode;
+#else
+            myItemIcon.manager = uGUI.main.craftingMenu;
+            uGUI.main.craftingMenu.icons.Add(myItemIcon, myCraftNode);
+#endif
             myItemIcon.CreateBackground();
             myItemIcon.CreateForeground();
             myItemIcon.foreground.sprite = SpriteManager.Get(TechType.Seamoth);
@@ -210,9 +226,18 @@ namespace CyclopsVehicleUpgradeConsole
             MVB.vehicleType = TechType.Exosuit;
 
             var myItemIconPrawn = prawnButtonObj.AddComponent<uGUI_ItemIcon>();
+#if SN1
             var myCraftNodePrawn = new uGUI_CraftNode(uGUI.main.craftingMenu, "MakePrawn", 1, TreeAction.Craft, TechType.Exosuit);
+#else
+            var myCraftNodePrawn = new uGUI_CraftNode("MakePrawn", TreeAction.Craft, TechType.Exosuit);
+#endif
             myCraftNodePrawn.icon = myItemIconPrawn;
+#if SN1
             myItemIconPrawn.manager = myCraftNodePrawn;
+#else
+            myItemIconPrawn.manager = uGUI.main.craftingMenu;
+            uGUI.main.craftingMenu.icons.Add(myItemIconPrawn, myCraftNodePrawn);
+#endif
             myItemIconPrawn.CreateBackground();
             myItemIconPrawn.CreateForeground();
             myItemIconPrawn.foreground.sprite = SpriteManager.Get(TechType.Exosuit);

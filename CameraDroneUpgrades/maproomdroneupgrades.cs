@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using Logger = QModManager.Utility.Logger;
 using CameraDroneUpgrades.DroneScanning;
 using UWE;
 

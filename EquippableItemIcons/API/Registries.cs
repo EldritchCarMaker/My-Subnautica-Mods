@@ -6,7 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UWE;
+#if !SN2
 using Logger = QModManager.Utility.Logger;
+#endif
 
 namespace EquippableItemIcons.API
 {
@@ -17,15 +19,21 @@ namespace EquippableItemIcons.API
         private static bool CoroutineActive = false;
         public static void RegisterHudItemIcon(HudItemIcon icon)
         {
+#if !SN2
             Logger.Log(Logger.Level.Info, $"Recieved HudItemIcon: {icon.name}"); 
+#endif
             if (hudItemIcons.Contains(icon))
             {
+#if !SN2
                 Logger.Log(Logger.Level.Warn, $"Blocked duplicate icon: {icon.name}");
+#endif
                 return;
             }
             hudItemIcons.Add(icon);
             icon.makeIcon();
+#if !SN2
             if(icon.container == null) Logger.Log(Logger.Level.Warn, $"{icon.name} has a null container. Unsure what problems this could cause exactly, but it could be an issue.");
+#endif
             UpdatePositions();
         }
         public static void UpdatePositions()
@@ -88,8 +96,8 @@ namespace EquippableItemIcons.API
                 icon.container.SetActive(quickslotsType == icon.targetQuickslotType || quickslotsType.IsSubclassOf(icon.targetQuickslotType));
 
                 var yPos = UseRightSide ? rightPos.y : leftPos.y;
-#if BZ
-                yPos = 50;//for some reason on below zero rightPos.y returns 0 despite the y value actually being 50. 
+#if !SN1
+                yPos = 50;//for some reason on below zero/SN2 rightPos.y returns 0 despite the y value actually being 50. 
                 //i dont know why and i dont care
 #endif
 

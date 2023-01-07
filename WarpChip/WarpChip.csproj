@@ -55,7 +55,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Items\TelePingBeacon.cs" />
+    <Compile Include="Monobehaviours\TelePingInstance.cs" />
     <Compile Include="Patches\PlayerPatch.cs" />
+    <Compile Include="Patches\PlayerToolPatches.cs" />
+    <Compile Include="Patches\uGUI_PingsPatches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QMod.cs" />
     <Compile Include="Patches\ScanPatch.cs" />

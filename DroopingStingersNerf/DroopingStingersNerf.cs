@@ -4,7 +4,6 @@ using System.Text;
 using System.Threading.Tasks;
 using HarmonyLib;
 using System;
-using Logger = QModManager.Utility.Logger;
 using UnityEngine;
 
 namespace DroopingStingersNerf

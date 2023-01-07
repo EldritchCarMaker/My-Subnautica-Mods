@@ -39,7 +39,7 @@ namespace PickupableVehicles.Patches
             TechType type = __instance.GetTechType();
             if (type == TechType.Seamoth || type == TechType.Exosuit
 #if SN
-                || type == TechType.Cyclops 
+                || type == TechType.Cyclops) 
 #else
                 || type.ToString().ToLower().Contains("seatruck"))
 #endif

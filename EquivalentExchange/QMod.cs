@@ -31,7 +31,7 @@ namespace EquivalentExchange
     public static class QMod
     { 
 #else
-    [BepInPlugin("EldritchCarMaker.EquivalentExchange", "Equivalent Exchange", "1.6.0")]
+    [BepInPlugin("EldritchCarMaker.EquivalentExchange", "Equivalent Exchange", "1.6.1")]
     public class QMod : BaseUnityPlugin
     {
         public static ManualLogSource logger;

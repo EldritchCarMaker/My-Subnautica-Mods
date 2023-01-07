@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using HarmonyLib;
 using UWE;
-using Logger = QModManager.Utility.Logger;
 using static CyclopsVehicleUpgradeConsole.VehicleConsoleCreation;
 
 namespace CyclopsVehicleUpgradeConsole.Patches
@@ -26,14 +25,13 @@ namespace CyclopsVehicleUpgradeConsole.Patches
 
             if (cyclopsConsole == null)
             {
-                Logger.Log(Logger.Level.Warn, "cyclops console null, returning. Unsure of what issues this could cause.", null, true);
+                ErrorMessage.AddMessage("cyclops console null, returning. Unsure of what issues this could cause.");
                 return;
             }
 
             //check if cyclops already has the console
             if (cyclopsConsole.GetComponentInChildren<SubNameInput>(true) != null)
             {
-                Logger.Log(Logger.Level.Debug, "Cyclops already has console, returning.", null, true); 
                 return;
             }
 

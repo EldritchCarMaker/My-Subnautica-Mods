@@ -1,4 +1,9 @@
-﻿using QModManager.Utility;
+﻿#if !SN2
+using QModManager.Utility;
+using Logger = QModManager.Utility.Logger;
+#else
+using BepInEx.Logging;
+#endif
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +11,6 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using Logger = QModManager.Utility.Logger;
 
 namespace AutoStorageTransfer.Monobehaviours
 {
@@ -110,6 +114,7 @@ namespace AutoStorageTransfer.Monobehaviours
             }
             catch
             {
+#if !SN2
                 Logger.Log(Logger.Level.Error, $"Error caught when saving storage transfer! Saving will continue for everything except this container's transfer settings.");
                 try
                 {
@@ -119,6 +124,18 @@ namespace AutoStorageTransfer.Monobehaviours
                 {
                     Logger.Log(Logger.Level.Error, "Couldn't even get prefab identifier without error. fuck this", null, true);
                 }
+#else
+                var logger = QMod.logger;
+                logger.LogError($"Error caught when saving storage transfer! Saving will continue for everything except this container's transfer settings.");
+                try
+                {
+                    logger.LogError($"unique identifier of previous failed save: {_uniqueIdentifier}");
+                }
+                catch (Exception)
+                {
+                    logger.LogError("Couldn't even get prefab identifier without error. fuck this");
+                }
+#endif
             }
         }
 

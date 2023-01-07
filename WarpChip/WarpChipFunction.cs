@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UtilityStuffs;
 using UWE;
+using WarpChip.Monobehaviours;
 
 namespace WarpChip
 {
@@ -144,6 +145,18 @@ namespace WarpChip
         }
         public void ReturnToBase()
         {
+            foreach(var telePing in TelePingInstance.telePings)
+            {
+                if (!telePing.TeleportAllowed || !telePing.IsLookedAt) continue;
+
+                player.SetPosition(telePing.GetSpawnPosition());
+                justTeleportedToBase = true;
+                CoroutineHost.StartCoroutine(TeleportFX(1));
+                return;
+            }
+
+
+
             if(player.currentSub && player.CheckSubValid(player.currentSub))
             {
                 RespawnPoint respawn = player.currentSub.gameObject.GetComponentInChildren<RespawnPoint>();
