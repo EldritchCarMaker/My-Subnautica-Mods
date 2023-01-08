@@ -1,5 +1,7 @@
-# My Subnautica Mods
-Mods that I have made for subnautica one. 
+# My Legacy Subnautica Mods
+Mods that I have made for ***Legacy*** subnautica one. 
+For my 2.0 updates, check [living large page](https://github.com/EldritchCarMaker/My-Subnautica-Mods/blob/main/LivingLargeSubnautica.md)
+
 This is not a full list, there are also mods such as my Equippable Item Icons and Camera Drones Upgrades mods.
 Links to those mods are on the [ReadMe](https://github.com/EldritchCarMaker/My-Subnautica-Mods/blob/main/README.md)
 
