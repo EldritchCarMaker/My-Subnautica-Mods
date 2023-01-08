@@ -396,6 +396,10 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
 # Custom ignore
 [Dd]ependencies/
 [Qq][Mm]ods/
+7[Zz]ip
+zips/
+[Pp]lugins/
