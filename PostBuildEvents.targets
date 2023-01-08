@@ -5,9 +5,19 @@
 		<PostBuildEvent>
 			mkdir "$(ModFolder)\$(TargetName)"
 			copy /Y "$(TargetPath)" "$(ModFolder)\$(TargetName)"
+			
 			if not "$(Configuration)" == "SN2" (
 				powershell "$(SolutionDir)JsonGameReplace.ps1" -JsonFile "$(ProjectDir)\mod.json" -Config "$(GameName)"
 				copy /Y "$(ProjectDir)\mod.json" "$(GameDir)\QMods\$(TargetName)\mod.json"
+			)
+
+			if "$(Configuration)" == "SN2" (
+				mkdir "$(SolutionDir)\zips"
+				IF EXIST "$(SolutionDir)\zips\$(TargetName).zip" DEL /F "$(SolutionDir)\zips\$(TargetName).zip"
+
+				mkdir "$(ProjectDir)\Plugins"
+				copy /Y "$(TargetPath)" "$(ProjectDir)\Plugins\$(TargetName).dll"
+				$(SolutionDir)\7zip\7z.exe a "$(SolutionDir)\zips\$(TargetName).zip" "$(ProjectDir)\Plugins"
 			)
 		</PostBuildEvent>
 	</PropertyGroup>
