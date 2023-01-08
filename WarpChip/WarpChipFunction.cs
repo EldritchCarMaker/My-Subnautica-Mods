@@ -121,15 +121,35 @@ namespace WarpChip
             }
         }
 
-        public static IEnumerator TeleportFX(float delay = 0.25f)
+        public static IEnumerator TeleportFX(float delay = 0.25f, bool setCinematicMode = false)
         {
+            if (setCinematicMode) Player.main.cinematicModeActive = true;
             TeleportScreenFXController fxController = MainCamera.camera.GetComponent<TeleportScreenFXController>();
 #if SN
             fxController.StartTeleport();
 #else
             fxController.StartTeleport(null);//fucking WHY?????? the argument isnt even used!
 #endif
-            yield return new WaitForSeconds(delay);
+                yield return new WaitForSeconds(delay);
+
+            if (setCinematicMode) Player.main.cinematicModeActive = false;
+            fxController.StopTeleport();
+        }
+        public static IEnumerator TeleportFXWorld(bool setCinematicMode = false)
+        {
+            yield return TeleportFX(1f, setCinematicMode);
+            yield break;
+
+            if (setCinematicMode) Player.main.cinematicModeActive = true;
+            TeleportScreenFXController fxController = MainCamera.camera.GetComponent<TeleportScreenFXController>();
+#if SN
+            fxController.StartTeleport();
+#else
+            fxController.StartTeleport(null);
+#endif
+            yield return new WaitUntil(() => LargeWorldStreamer.main.IsWorldSettled());
+
+            if (setCinematicMode) Player.main.cinematicModeActive = false;
             fxController.StopTeleport();
         }
         public bool CanActivate(List<TechType> techTypes)
@@ -145,13 +165,12 @@ namespace WarpChip
         }
         public void ReturnToBase()
         {
-            foreach(var telePing in TelePingInstance.telePings)
-            {
-                if (!telePing.TeleportAllowed || !telePing.IsLookedAt) continue;
-
-                player.SetPosition(telePing.GetSpawnPosition());
+            var ping = TelePingInstance.GetTelePing();
+            if (ping)
+            { 
+                ping.Teleport();
                 justTeleportedToBase = true;
-                CoroutineHost.StartCoroutine(TeleportFX(1));
+                CoroutineHost.StartCoroutine(TeleportFXWorld(true));
                 return;
             }
 
@@ -164,7 +183,7 @@ namespace WarpChip
                 {
                     player.SetPosition(respawn.GetSpawnPosition());
                     justTeleportedToBase = true;
-                    CoroutineHost.StartCoroutine(TeleportFX(1));
+                    CoroutineHost.StartCoroutine(TeleportFXWorld(true));
                     return;
                 }
             }
@@ -177,7 +196,7 @@ namespace WarpChip
                     player.SetPosition(respawn.GetSpawnPosition());
                     player.SetCurrentSub(player.lastValidSub);
                     justTeleportedToBase = true; 
-                    CoroutineHost.StartCoroutine(TeleportFX(1));
+                    CoroutineHost.StartCoroutine(TeleportFXWorld(true));
                     return;
                 }
             }
@@ -189,7 +208,7 @@ namespace WarpChip
                     ErrorMessage.AddMessage("Can't find safe base, teleporting to lifepod");
                     player.lastEscapePod.RespawnPlayer();
                     justTeleportedToBase = true;
-                    CoroutineHost.StartCoroutine(TeleportFX(1));
+                    CoroutineHost.StartCoroutine(TeleportFXWorld(true));
                     return;
                 }
                 else if(QMod.config.TeleportToLifepodOnOldSave && EscapePod.main && (QMod.config.MaxDistanceToTeleportToLifepod == 0 || (EscapePod.main.transform.position - player.transform.position).magnitude <= QMod.config.MaxDistanceToTeleportToLifepod))
@@ -197,7 +216,7 @@ namespace WarpChip
                     ErrorMessage.AddMessage("Can't find safe base, teleporting to lifepod");
                     EscapePod.main.RespawnPlayer();
                     justTeleportedToBase = true;
-                    CoroutineHost.StartCoroutine(TeleportFX(1));
+                    CoroutineHost.StartCoroutine(TeleportFXWorld(true));
                     return;
                 }
             }

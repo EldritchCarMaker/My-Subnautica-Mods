@@ -137,7 +137,7 @@ namespace CyclopsVehicleUpgradeConsole
 #if SN1
             text.GetComponent<Text>().text = "Fabricate Vehicle In Empty Bay";
 #else
-            text.GetComponent<TextMeshProUGUI>().text = "Fabricate Vehicle In Empty Bay";
+            text.GetComponent<TextMeshProUGUI>().text = "Fabricate Vehicle";
 #endif
             text.transform.localScale = new Vector3(1, 1, 1);
             text.transform.position -= 0.14f * text.transform.up;

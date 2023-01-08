@@ -20,6 +20,7 @@ namespace WarpChip
     {
 #else
     [BepInPlugin("EldritchCarMaker.WarpChip", "Warp Chip", "1.4.0")]
+    [BepInDependency("EldritchCarMaker.EquippableItemIcons", "1.4.0")]
     public class QMod : BaseUnityPlugin
     {
 #endif
