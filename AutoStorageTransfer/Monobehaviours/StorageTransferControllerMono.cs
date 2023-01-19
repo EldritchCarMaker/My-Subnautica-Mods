@@ -40,6 +40,7 @@ namespace AutoStorageTransfer.Monobehaviours
         {
             if (!isDrawn || usingPlayer == null)
                 return;
+
             if (Targeting.GetTarget(Player.main.gameObject, 2, out var hitObj, out var distance))
             {
                 currentSeenContainer = UWE.Utils.GetComponentInHierarchy<StorageTransfer>(hitObj);

@@ -26,6 +26,7 @@ namespace AutoStorageTransfer.Items
         }
 
         public override EquipmentType EquipmentType => EquipmentType.Hand;
+        public override QuickSlotType QuickSlotType => QuickSlotType.Selectable;
 
         protected override RecipeData GetBlueprintRecipe()
         {
@@ -41,14 +42,15 @@ namespace AutoStorageTransfer.Items
 #if SN1
         public override GameObject GetGameObject()
         {
-            var obj = CraftData.InstantiateFromPrefab(TechType.Welder);
+            var prefab = CraftData.GetPrefabForTechType(TechType.Welder);
 #else
         public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
         {
             var task = CraftData.GetPrefabForTechTypeAsync(TechType.Welder);
             yield return task;
-            var obj = task.GetResult();
+            var prefab = task.GetResult();
 #endif
+            var obj = GameObject.Instantiate(prefab);
 
             GameObject.Destroy(obj.GetComponent<Welder>());
             GameObject.Destroy(obj.GetComponent<EnergyMixin>());

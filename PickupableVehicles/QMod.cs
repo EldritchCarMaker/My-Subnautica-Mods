@@ -71,6 +71,9 @@ namespace PickupableVehicles
 #if SN
         public int cyclopsWidth = 5;
         public int cyclopsHeight = 5;
+
+        public int rocketWidth = 6;
+        public int rcketHeight = 6;
 #else
         public int seatruckModuleHeight = 4;
         public int seatruckModuleWidth = 4;

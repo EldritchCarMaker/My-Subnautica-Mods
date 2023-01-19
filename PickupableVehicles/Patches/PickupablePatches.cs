@@ -19,12 +19,18 @@ namespace PickupableVehicles.Patches
             TechType type = __instance.GetTechType();
             if (type == TechType.Seamoth || type == TechType.Exosuit)
             {
+                __instance.randomizeRotationWhenDropped = false;
                 dropPosition += 6f * MainCamera.camera.transform.forward;
             }
 #if SN
             else if(type == TechType.Cyclops)
             {
                 dropPosition += 15f * MainCamera.camera.transform.forward;
+            }
+            else if(type == TechType.RocketBase)
+            {
+                dropPosition += 35f * MainCamera.camera.transform.forward;
+                __instance.randomizeRotationWhenDropped = false;
             }
 #endif
             else if (type.ToString().ToLower().Contains("seatruck"))
@@ -37,9 +43,16 @@ namespace PickupableVehicles.Patches
         public static void Postfix(Pickupable __instance)
         {
             TechType type = __instance.GetTechType();
-            if (type == TechType.Seamoth || type == TechType.Exosuit
+            if(type == TechType.Exosuit)
+            {
+                var exo = __instance.GetComponent<Exosuit>();
+                if (!exo) return;
+                exo.timeOnGround = 0f;
+                exo.onGround = false;
+            }
+            else if (type == TechType.Seamoth || type == TechType.Exosuit
 #if SN
-                || type == TechType.Cyclops) 
+                || type == TechType.Cyclops || type == TechType.RocketBase) 
 #else
                 || type.ToString().ToLower().Contains("seatruck"))
 #endif

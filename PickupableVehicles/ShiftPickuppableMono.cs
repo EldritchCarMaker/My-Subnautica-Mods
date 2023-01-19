@@ -18,12 +18,12 @@ namespace PickupableVehicles
                 return _pickupable;
             } 
         }
-
+        public TechType overrideTech = TechType.Cyclops;
         public void Start()
         {
             if (TryGetComponent<Pickupable>(out var pick)) GameObject.DestroyImmediate(pick);
 #if SN
-            Pickupable.overrideTechType = TechType.Cyclops;
+            Pickupable.overrideTechType = overrideTech;
             Pickupable.overrideTechUsed = true;
 #else
             Pickupable.overrideTechType = CraftData.GetTechType(gameObject);
