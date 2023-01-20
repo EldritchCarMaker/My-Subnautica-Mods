@@ -56,7 +56,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Items\TelePingBeacon.cs" />
+    <Compile Include="Monobehaviours\TelePingBeaconInstance.cs" />
     <Compile Include="Monobehaviours\TelePingInstance.cs" />
+    <Compile Include="Monobehaviours\TelePingVehicleInstance.cs" />
     <Compile Include="Patches\BeaconPatchs.cs" />
     <Compile Include="Patches\PlayerPatch.cs" />
     <Compile Include="Patches\PlayerToolPatches.cs" />

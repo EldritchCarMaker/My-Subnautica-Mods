@@ -9,40 +9,24 @@ using UWE;
 
 namespace WarpChip.Monobehaviours
 {
-    internal class TelePingInstance : MonoBehaviour
+    public abstract class TelePingInstance : MonoBehaviour
     {
         private static readonly List<TelePingInstance> telePings = new List<TelePingInstance>();
         public bool IsLookedAt => LookedAt();
-        public bool TeleportAllowed => (_timeLastCollider + colliderExitCooldown) <= Time.time;
+        public abstract bool TeleportAllowed { get; }
+        public virtual bool ShouldUseCinematicMode => true;//normal beacons need it, vehicles break with it.
 
-        private const float colliderExitCooldown = 0.5f;//time that has to pass since the last collider entered before teleport is active
         private const float lookAngleDifferenceMax = 0.00025f;//difference between two beacons look angle before they are considered "overlapping" and sorted by distance
 
-        private float _timeLastCollider;
-        private PingInstance _pingInstance;
+        protected PingInstance _pingInstance;
 
         internal uGUI_Ping ping;//is set by the uGUI_Pings patch
-        internal bool precursorOutOfWater;//set by beacon throw patch
-        public void Awake()
+        public virtual void Awake()
         {
             _pingInstance = gameObject.EnsureComponent<PingInstance>();
-            _pingInstance.SetLabel("Teleping Beacon");
-
-            var col = gameObject.EnsureComponent<SphereCollider>();
-            col.isTrigger = true;
-            col.radius = 3f;
         }
-        public void Teleport()
-        {
-            Player.main.OnPlayerPositionCheat();
-            Player.main.SetPosition(GetSpawnPosition());
-            Player.main.SetPrecursorOutOfWater(precursorOutOfWater);
-        }
-        private Vector3 GetSpawnPosition()
-        {
-            return transform.position + (0.5f * transform.forward);
-        }
-        public bool LookedAt()
+        public abstract void Teleport();
+        private bool LookedAt()
         {
             Vector3 forward = MainCamera.camera.transform.forward;
             Vector3 position1 = MainCamera.camera.transform.position;
@@ -52,7 +36,7 @@ namespace WarpChip.Monobehaviours
 
             return lookedAt;
         }
-        public float GetLookAngleDifference()
+        private float GetLookAngleDifference()
         {
             Vector3 forward = MainCamera.camera.transform.forward;
             Vector3 position1 = MainCamera.camera.transform.position;
@@ -61,15 +45,7 @@ namespace WarpChip.Monobehaviours
             return Vector3.Dot(forward, normalized);
         }
 
-        public void OnTriggerStay(Collider c)
-        {
-            if (c.isTrigger) return;
-            if (c.transform.IsChildOf(Player.main.transform)) return;
-
-            _timeLastCollider = Time.time;
-        }
-
-        public void Update()
+        public virtual void Update()
         {
             if (TeleportAllowed) ping.SetColor(new Color(0, 1, 0));
             else ping.SetColor(new Color(1, 0, 0));

@@ -8,6 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using WarpChip.Monobehaviours;
+#if SN
+using RecipeData = SMLHelper.V2.Crafting.TechData;
+using Sprite = Atlas.Sprite;
+#endif
 
 namespace WarpChip.Items
 {
@@ -18,12 +22,15 @@ namespace WarpChip.Items
         {
             OnFinishedPatching += () => ItemTechType = TechType;
         }
-
+        public override CraftTree.Type FabricatorType => CraftTree.Type.Fabricator;
+        public override string[] StepsToFabricatorTab => new[] { "Root", "Machines" };
+        public override TechType RequiredForUnlock => WarpChipItem.thisTechType;
+        public override QuickSlotType QuickSlotType => QuickSlotType.Selectable;
         public override EquipmentType EquipmentType => EquipmentType.Hand;
 
-        protected override TechData GetBlueprintRecipe()
+        protected override RecipeData GetBlueprintRecipe()
         {
-            return new TechData() 
+            return new RecipeData() 
             { 
                 craftAmount = 1, 
                 Ingredients = new List<Ingredient>() 
@@ -33,7 +40,7 @@ namespace WarpChip.Items
                 } 
             };
         }
-        protected override Atlas.Sprite GetItemSprite()
+        protected override Sprite GetItemSprite()
         {
             return SpriteManager.Get(TechType.Beacon);
         }
@@ -42,8 +49,17 @@ namespace WarpChip.Items
             var task = CraftData.GetPrefabForTechTypeAsync(TechType.Beacon);
             yield return task;
             var prefab = GameObject.Instantiate(task.GetResult());
-            prefab.AddComponent<TelePingInstance>();
+            prefab.AddComponent<TelePingBeaconInstance>();
             obj.Set(prefab);
         }
+#if SN1
+        public override GameObject GetGameObject()
+        {
+            var prefab = CraftData.InstantiateFromPrefab(TechType.Beacon);
+
+            prefab.AddComponent<TelePingBeaconInstance>();
+            return prefab;
+        }
+#endif
     }
 }

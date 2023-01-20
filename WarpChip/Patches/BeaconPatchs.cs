@@ -14,8 +14,12 @@ namespace WarpChip.Patches
         [HarmonyPatch(nameof(Beacon.Throw))]
         public static void Postfix(Beacon __instance)
         {
-            if (__instance.TryGetComponent<TelePingInstance>(out var ping))
+            if (__instance.TryGetComponent<TelePingBeaconInstance>(out var ping))
+#if SN
                 ping.precursorOutOfWater = Player.main.precursorOutOfWater;
+#else
+                ping.precursorOutOfWater = Player.main.forceWalkMotorMode;
+#endif
         }
     }
 }

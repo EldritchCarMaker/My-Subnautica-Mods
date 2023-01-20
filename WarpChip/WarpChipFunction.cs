@@ -170,7 +170,7 @@ namespace WarpChip
             { 
                 ping.Teleport();
                 justTeleportedToBase = true;
-                CoroutineHost.StartCoroutine(TeleportFXWorld(true));
+                CoroutineHost.StartCoroutine(TeleportFXWorld(ping.ShouldUseCinematicMode));
                 return;
             }
 
