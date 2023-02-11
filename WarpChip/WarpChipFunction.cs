@@ -155,8 +155,8 @@ namespace WarpChip
         public bool CanActivate(List<TechType> techTypes)
         {
             if (!techTypes.Contains(UltimateWarpChip.thisTechType))
-                return itemIcon.charge == itemIcon.MaxCharge && player != null && !player.isPiloting && player.mode == Player.Mode.Normal;
-            return itemIcon.charge >= itemIcon.MaxCharge / 2 && player != null && !player.isPiloting && player.mode == Player.Mode.Normal;
+                return itemIcon.charge == itemIcon.MaxCharge && !Cursor.visible && player != null && !player.isPiloting && player.mode == Player.Mode.Normal;
+            return itemIcon.charge >= itemIcon.MaxCharge / 2 && !Cursor.visible && player != null && !player.isPiloting && player.mode == Player.Mode.Normal;
         }
 
         public bool IsChargeIconActive()

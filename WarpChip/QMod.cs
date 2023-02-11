@@ -50,6 +50,8 @@ namespace WarpChip
 
             new TelePingBeacon().Patch();
 
+            new TelePingVehicleModule().Patch();
+
 #if !SN2
             Logger.Log(Logger.Level.Info, "Patched successfully!");
 #else

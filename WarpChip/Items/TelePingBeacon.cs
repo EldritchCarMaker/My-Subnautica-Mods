@@ -18,7 +18,7 @@ namespace WarpChip.Items
     internal class TelePingBeacon : Equipable
     {
         public static TechType ItemTechType { get; private set; }
-        public TelePingBeacon() : base("telepingbeacon", "Teleping beacon", "ASDA")
+        public TelePingBeacon() : base("telepingbeacon", "Teleping beacon", "A beacon combined with precursor technology to allow for teleportation when combined with the warp chip")
         {
             OnFinishedPatching += () => ItemTechType = TechType;
         }

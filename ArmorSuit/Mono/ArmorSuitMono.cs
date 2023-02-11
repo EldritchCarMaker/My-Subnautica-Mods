@@ -20,7 +20,6 @@ using UnityEngine.SceneManagement;
 using UWE;
 using Valve.VR;
 using static OVRPlugin;
-using Logger = QModManager.Utility.Logger;
 #if SN
 using Sprite = Atlas.Sprite;
 using RecipeData = SMLHelper.V2.Crafting.TechData;

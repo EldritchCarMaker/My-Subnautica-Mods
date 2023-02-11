@@ -216,7 +216,7 @@ namespace EquippableItemIcons.API
         public virtual bool CanActivateDefault()
         {
             Player player = Player.main;
-            return player != null && !player.isPiloting && player.mode == Player.Mode.Normal && !player.GetPDA().isOpen;
+            return player != null && !player.isPiloting && player.mode == Player.Mode.Normal && !player.GetPDA().isOpen && !Cursor.visible;
         }
     } 
 }

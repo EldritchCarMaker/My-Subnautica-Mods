@@ -76,9 +76,7 @@ namespace WarpChip
 #endif
         public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
         {
-            var task = CraftData.GetPrefabForTechTypeAsync(TechType.MapRoomHUDChip);
-            yield return task;
-            gameObject.Set(task.GetResult());
+            yield return CraftData.InstantiateFromPrefabAsync(TechType.MapRoomHUDChip, gameObject);
         }
     }
 }
