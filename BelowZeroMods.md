@@ -15,7 +15,7 @@
 [Listed on submodica](https://submodica.xyz/mods/sbz/139)
 
 
-### [Auto Storage Transfer](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/10332311/AutoStorageTransfer.zip)
+### [Auto Storage Transfer](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/10714593/AutoStorageTransfer.zip)
 
 [Listed on submodica](https://submodica.xyz/mods/sbz/150)
 
