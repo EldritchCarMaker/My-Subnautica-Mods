@@ -2,7 +2,7 @@
   "Id": "PickupableVehicles",
   "DisplayName": "Pickupable Vehicles",
   "Author": "EldritchCarMaker",
-  "Version": "1.1.0",
+  "Version": "1.2.0",
   "Enable": true,
   "AssemblyName": "PickupableVehicles.dll",
   "VersionDependencies": {
@@ -11,5 +11,5 @@
   "VersionChecker": {
     "LatestVersionURL": "https://raw.githubusercontent.com/EldritchCarMaker/My-Subnautica-Mods/main/PickupableVehicles/mod.json"
   },
-  "Game": "Subnautica"
+  "Game": "BelowZero"
 }
