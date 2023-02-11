@@ -23,7 +23,7 @@ namespace WarpChip.Items
             OnFinishedPatching += () => ItemTechType = TechType;
         }
         public override CraftTree.Type FabricatorType => CraftTree.Type.Fabricator;
-        public override string[] StepsToFabricatorTab => new[] { "Root", "Machines" };
+        public override string[] StepsToFabricatorTab => new[] { "Machines" };
         public override TechType RequiredForUnlock => WarpChipItem.thisTechType;
         public override QuickSlotType QuickSlotType => QuickSlotType.Selectable;
         public override EquipmentType EquipmentType => EquipmentType.Hand;

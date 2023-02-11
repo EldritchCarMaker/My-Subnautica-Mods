@@ -2,7 +2,7 @@
   "Id": "EquippableItemIcons",
   "DisplayName": "Equippable Item Icons",
   "Author": "EldritchCarMaker",
-  "Version": "1.4.0",
+  "Version": "1.4.1",
   "Enable": true,
   "AssemblyName": "EquippableItemIcons.dll",
   "VersionDependencies": {
