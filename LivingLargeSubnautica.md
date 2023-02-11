@@ -1,7 +1,9 @@
 # My Subnautica Mods
 Mods that I have made for subnautica one. 
 
-## 
+## [EII](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/10714707/EquippableItemIcons.zip)
+
+## [Warp Chip](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/10714711/WarpChip.zip)
 
 ## [Cyclops Vehicle Upgrade Console](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/10388084/CyclopsVehicleUpgradeConsole.zip)
 
