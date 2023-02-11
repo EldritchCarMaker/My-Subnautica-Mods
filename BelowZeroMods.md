@@ -1,6 +1,6 @@
 # My Below Zero Mods
 
-### [Pickupable Vehicles](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/10326397/PickupableVehicles.zip)
+### [Pickupable Vehicles](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/10714602/PickupableVehicles.zip)
 
 [Listed on submodica](https://submodica.xyz/mods/sbz/138)
 
@@ -115,7 +115,7 @@ These mods are still in very early testing, some may not work fully, some may no
 If I simply put the file with no extra explanation, it is because I have nothing to say regarding it. It could work fine, and I have no problems, or I might not have tested it and it barely works at all.
 
 
-[EquippableItemIcons.zip](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/10315483/EquippableItemIcons.zip)
+[EquippableItemIcons.zip](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/10714647/EquippableItemIcons.zip)
 
 
 [ArmorSuit.zip](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/10315485/ArmorSuit.zip) - texture currently somewhat broken, will fix later but functionality and color changing seems to be functional
@@ -139,7 +139,7 @@ If I simply put the file with no extra explanation, it is because I have nothing
 [TimeControlSuit.zip](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/10315504/TimeControlSuit.zip)
 
 
-[WarpChip.zip](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/10315505/WarpChip.zip)
+[WarpChip.zip](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/10714648/WarpChip.zip)
 
 
 [MiniatureVehicles.zip](https://github.com/EldritchCarMaker/My-Subnautica-Mods/files/10315493/MiniatureVehicles.zip)
