@@ -1,0 +1,15 @@
+{
+  "Id": "NoWaterParticles",
+  "DisplayName": "No Water Particles",
+  "Author": "EldritchCarMaker",
+  "Version": "1.0.0",
+  "Enable": true,
+  "AssemblyName": "NoWaterParticles.dll",
+  "VersionDependencies": {
+    "SMLHelper": "2.9.6"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://raw.githubusercontent.com/EldritchCarMaker/My-Subnautica-Mods/main/NoWaterParticles/mod.json"
+  },
+  "Game": "BelowZero"
+}

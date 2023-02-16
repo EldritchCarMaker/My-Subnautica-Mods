@@ -1,0 +1,16 @@
+{
+  "Id": "ArmorSuit",
+  "DisplayName": "Armor Suit",
+  "Author": "EldritchCarMaker",
+  "Version": "1.0.2",
+  "Enable": true,
+  "AssemblyName": "ArmorSuit.dll",
+  "VersionDependencies": {
+    "SMLHelper": "2.9.6",
+    "EquippableItemIcons" :  "1.4.0"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://raw.githubusercontent.com/EldritchCarMaker/My-Subnautica-Mods/main/ArmorSuit/mod.json"
+  },
+  "Game": "Subnautica"
+}
