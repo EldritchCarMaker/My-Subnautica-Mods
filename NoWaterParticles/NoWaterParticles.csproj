@@ -50,6 +50,7 @@
   <Import Project="..\Configurations.targets" />
   <Import Project="..\References.targets" />
   <ItemGroup>
+    <Compile Include="Patches\FishSchoolPatches.cs" />
     <Compile Include="Patches\PlayerPatches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QMod.cs" />

@@ -9,6 +9,7 @@ using BepInEx;
 using SMLHelper.V2.Json;
 using SMLHelper.V2.Options.Attributes;
 using SMLHelper.V2.Handlers;
+using SMLHelper.V2.Options;
 
 namespace NoWaterParticles
 {
@@ -21,6 +22,10 @@ namespace NoWaterParticles
     public class QMod : BaseUnityPlugin
     {
 #endif
+        public static Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+        internal static Assembly assembly = Assembly.GetExecutingAssembly();
+        internal static string name = ($"EldritchCarMaker_{assembly.GetName().Name}");
+        internal static Harmony harmony { get; } = new Harmony(name);
 #if !SN2
         [QModPatch]
         public static void Patch()
@@ -29,20 +34,32 @@ namespace NoWaterParticles
         public void Awake()
         {
 #endif
-            var assembly = Assembly.GetExecutingAssembly();
-            var name = ($"EldritchCarMaker_{assembly.GetName().Name}");
 #if !SN2
             Logger.Log(Logger.Level.Info, $"Patching {name}");
 #else
             Logger.LogInfo($"Patching {name}");
 #endif
-            Harmony harmony = new Harmony(name);
-            harmony.PatchAll(assembly);
+            if(Config.modEnabled)
+                harmony.PatchAll(assembly);
 #if !SN2
             Logger.Log(Logger.Level.Info, "Patched successfully!");
 #else
             Logger.LogInfo("Patched successfully!");
 #endif
+        }
+    }
+
+    [Menu("No Water Particles")]
+    public class Config : ConfigFile
+    {
+        [Toggle("Mod enabled"), OnChange(nameof(OnConfigChange))]
+        public bool modEnabled = true;
+        public void OnConfigChange(ToggleChangedEventArgs e)
+        {
+            if (modEnabled)
+                QMod.harmony.PatchAll(QMod.assembly);
+            else
+                QMod.harmony.UnpatchSelf();
         }
     }
 }
