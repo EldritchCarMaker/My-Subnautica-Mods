@@ -1,5 +1,6 @@
-﻿using SMLHelper.V2.Assets;
-using SMLHelper.V2.Utility;
+﻿using SMLHelper.Assets;
+using SMLHelper.Assets.Gadgets;
+using SMLHelper.Utility;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,17 +17,41 @@ using Sprite = Atlas.Sprite;
 
 namespace Snomod.Prefabs
 {
-    internal class Amogus : Spawnable
+    internal class Amogus
     {
         public static readonly string assetsPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
         public static readonly AssetBundle bundle = AssetBundle.LoadFromFile(Path.Combine(assetsPath, "amogus"));
-        public static TechType TT { get; private set; }
-        public Amogus() : base("Amogusus", "Amogus", "May or may not be an imposter")
+
+
+        internal static void Patch()
         {
-            OnFinishedPatching += () => TT = TechType;
+            var sprite = bundle.LoadAsset<UnityEngine.Sprite>("AmogusIconRed");
+
+            var prefab = new CustomPrefab("Amogusus", "Amogus", "May or may not be an imposter", sprite);
+
+            prefab.SetEquipment(EquipmentType.Hand).WithQuickSlotType(QuickSlotType.Selectable);
+
+            prefab.SetGameObject(GetGameObject());
+
+            prefab.SetSpawns
+            (
+                new WorldEntityInfo() 
+                { 
+                    cellLevel = LargeWorldEntity.CellLevel.Near, 
+                    classId = prefab.Info.ClassID, 
+                    slotType = EntitySlot.Type.Small, 
+                    localScale = Vector3.one, 
+                    techType = prefab.Info.TechType 
+                }, 
+                GetBiomes().ToArray()
+            );
+
+            prefab.Register();
+            TT = prefab.Info.TechType;
         }
+        public static TechType TT { get; private set; }
         private static GameObject prefab;
-        public override GameObject GetGameObject()
+        public static GameObject GetGameObject()
         {
             if(!prefab)
             {
@@ -40,18 +65,8 @@ namespace Snomod.Prefabs
             var obj = GameObject.Instantiate(prefab);
             return obj;
         }
-        public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
-        {
-            gameObject.Set(GetGameObject());
-            yield return null;
-        }
-        protected override Sprite GetItemSprite()
-        {
-            return new Atlas.Sprite(Amogus.bundle.LoadAsset<UnityEngine.Sprite>("AmogusIconRed"));
-        }
-        public override WorldEntityInfo EntityInfo => new WorldEntityInfo() { cellLevel = LargeWorldEntity.CellLevel.Near, classId = ClassID, slotType = EntitySlot.Type.Small, localScale = Vector3.one, techType = TechType};
-        public override List<LootDistributionData.BiomeData> BiomesToSpawnIn => GetBiomes();
-        public List<LootDistributionData.BiomeData> GetBiomes()
+
+        public static List<LootDistributionData.BiomeData> GetBiomes()
         {
             var list = new List<LootDistributionData.BiomeData>();
             foreach(BiomeType biome in Enum.GetValues(typeof(BiomeType)))

@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6B2B17CE-8FD5-40F0-9885-AB63E8D1A5B8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LuckyBlock</RootNamespace>
+    <AssemblyName>LuckyBlock</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'SN2|AnyCPU'">
+    <OutputPath>bin\SN2\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'SN1|AnyCPU'">
+    <OutputPath>bin\SN1\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'BZ|AnyCPU'">
+    <OutputPath>bin\BZ\</OutputPath>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <Import Project="..\Configurations.targets" />
+  <Import Project="..\References.targets" />
+  <ItemGroup>
+    <Reference Include="ReturnOfTheAncients">
+    </Reference>
+    <Reference Include="ArchitectsLibrary">
+    </Reference>
+    <Reference Include="ECCLibrary">
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BlockEvents\BlueprintUnlockEvents\BlueprintUnlockEventBase.cs" />
+    <Compile Include="BlockEvents\BonesharkRain.cs" />
+    <Compile Include="BlockEvents\IBlockEventDependency.cs" />
+    <Compile Include="BlockEvents\InventoryEvents\ClearInventoryEvent.cs" />
+    <Compile Include="BlockEvents\BlueprintUnlockEvents\CyclopsBlueprintEvent.cs" />
+    <Compile Include="BlockEvents\InventoryEvents\DropInventoryEvent.cs" />
+    <Compile Include="BlockEvents\InventoryEvents\FillInventoryEvent.cs" />
+    <Compile Include="BlockEvents\IDelayedEffect.cs" />
+    <Compile Include="BlockEvents\InventoryEvents\GiveBatteriesEvent.cs" />
+    <Compile Include="BlockEvents\KillNearbyLevis.cs" />
+    <Compile Include="BlockEvents\LuckyBlockEvent.cs" />
+    <Compile Include="BlockEvents\PlayerStatEvents\DrainOxygenEvent.cs" />
+    <Compile Include="BlockEvents\PlayerStatEvents\RefillStatEvent.cs" />
+    <Compile Include="BlockEvents\InventoryEvents\RefillBatteriesEvent.cs" />
+    <Compile Include="BlockEvents\RotAEvents\DropIonKnife.cs" />
+    <Compile Include="BlockEvents\RotAEvents\PlayGargJump.cs" />
+    <Compile Include="BlockEvents\RotAEvents\SpawnCubes.cs" />
+    <Compile Include="BlockEvents\RotAEvents\SpawnGarg.cs" />
+    <Compile Include="BlockEvents\RotAEvents\SpawnRotaResources.cs" />
+    <Compile Include="BlockEvents\SpawnEvents\RecursiveLuckyBlock.cs" />
+    <Compile Include="BlockEvents\SpawnEvents\SpawnBonesharks.cs" />
+    <Compile Include="BlockEvents\SpawnEvents\SpawnChunk.cs" />
+    <Compile Include="BlockEvents\SpawnEvents\SpawnEventBase.cs" />
+    <Compile Include="BlockEvents\SpawnEvents\SpawnMiscFish.cs" />
+    <Compile Include="BlockEvents\SpawnEvents\SpawnMiscLevis.cs" />
+    <Compile Include="BlockEvents\SpawnEvents\SpawnOre.cs" />
+    <Compile Include="BlockEvents\SpawnEvents\SpawnPrecursorCreatures.cs" />
+    <Compile Include="BlockEvents\SpawnEvents\SpawnReaper.cs" />
+    <Compile Include="BlockEvents\SpawnEvents\SpawnTablets.cs" />
+    <Compile Include="BlockEvents\SpawnEvents\SpawnVehicle.cs" />
+    <Compile Include="BlockEvents\Teleports\AuroraTeleport.cs" />
+    <Compile Include="BlockEvents\Teleports\DelayedTeleport.cs" />
+    <Compile Include="BlockEvents\Teleports\FakeTeleport.cs" />
+    <Compile Include="BlockEvents\GetHigh.cs" />
+    <Compile Include="BlockEvents\Teleports\TeleportEventBase.cs" />
+    <Compile Include="BlockEvents\TimeEvents\FastTimeEvent.cs" />
+    <Compile Include="BlockEvents\TimeEvents\SlowTimeEvent.cs" />
+    <Compile Include="BlockEvents\TimeEvents\StopTimeEvent.cs" />
+    <Compile Include="BlockEvents\TimeEvents\TimeEventBase.cs" />
+    <Compile Include="ConsoleCommands.cs" />
+    <Compile Include="GetLow.cs" />
+    <Compile Include="Main.cs" />
+    <Compile Include="MaterialUtils.cs" />
+    <Compile Include="MonoBehaviours\BlockFace.cs" />
+    <Compile Include="MonoBehaviours\BlockMover.cs" />
+    <Compile Include="MonoBehaviours\BoneSharkRainer.cs" />
+    <Compile Include="MonoBehaviours\CubeOpenEffects.cs" />
+    <Compile Include="MonoBehaviours\DestroyWhenFar.cs" />
+    <Compile Include="MonoBehaviours\LuckyBlockMono.cs" />
+    <Compile Include="MonoBehaviours\LuckyBlockRarity.cs" />
+    <Compile Include="MonoBehaviours\LuckyBlockSpawner.cs" />
+    <Compile Include="Patches\PlayerPatches.cs" />
+    <Compile Include="Patches\RotAPatches.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="mod.json" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\PostBuildEvents.targets" />
+</Project>

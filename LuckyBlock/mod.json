@@ -1,0 +1,15 @@
+{
+  "Id": "LuckyBlocks",
+  "DisplayName": "Lucky Blocks",
+  "Author": "EldritchCarMaker",
+  "Version": "1.0.0",
+  "Enable": true,
+  "AssemblyName": "LuckyBlock.dll",
+  "VersionDependencies": {
+    "SMLHelper": "2.9.6"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://raw.githubusercontent.com/EldritchCarMaker/My-Subnautica-Mods/main/LuckyBlock/mod.json"
+  },
+  "Game": "Subnautica"
+}

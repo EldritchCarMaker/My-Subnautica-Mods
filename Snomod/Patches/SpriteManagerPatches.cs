@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using HarmonyLib;
 using Snomod.Prefabs;
 using Snomod.MonoBehaviours;
-using SMLHelper.V2.Utility;
 using System.IO;
 using UnityEngine;
 #if SN

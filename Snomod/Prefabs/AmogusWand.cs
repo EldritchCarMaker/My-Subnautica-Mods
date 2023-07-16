@@ -1,5 +1,6 @@
-﻿using SMLHelper.V2.Assets;
-using SMLHelper.V2.Crafting;
+﻿using SMLHelper.Assets;
+using SMLHelper.Assets.Gadgets;
+using SMLHelper.Crafting;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,23 +8,33 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using static CraftData;
 
 namespace Snomod.Prefabs
 {
-    internal class AmogusWand : Equipable
+    internal class AmogusWand
     {
+        internal static void Patch()
+        {
+            var sprite = Amogus.bundle.LoadAsset<UnityEngine.Sprite>("amogusWandIconPink");
+
+            var prefab = new CustomPrefab("AmogusWand", "Amogus wand", "What good mod doesn't have magic in it?", sprite);
+
+            prefab.SetEquipment(EquipmentType.Hand).WithQuickSlotType(QuickSlotType.Selectable);
+
+            prefab.SetGameObject(GetGameObject());
+
+            prefab.SetRecipe(GetBlueprintRecipe()).WithStepsToFabricatorTab(new[] { "Root" }).WithFabricatorType(CraftTree.Type.Fabricator);
+
+            prefab.Register();
+            TT = prefab.Info.TechType;
+        }
         public static TechType TT { get; private set; }
         private static GameObject prefab;
-        public AmogusWand() : base("AmogusWand", "Amogus wand", "What good mod doesn't have magic in it?")
-        {
-            OnFinishedPatching += () => TT = TechType;
-        }
 
-        public override EquipmentType EquipmentType => EquipmentType.Hand;
-
-        protected override TechData GetBlueprintRecipe()
+        public static RecipeData GetBlueprintRecipe()
         {
-            return new TechData()
+            return new RecipeData()
             {
                 Ingredients = new List<Ingredient>()
                 {
@@ -34,7 +45,7 @@ namespace Snomod.Prefabs
             };
         }
 
-        public override GameObject GetGameObject()
+        public static GameObject GetGameObject()
         {
             if (!prefab)
             {
@@ -44,18 +55,6 @@ namespace Snomod.Prefabs
 
             var obj = GameObject.Instantiate(prefab);
             return obj;
-        }
-        public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
-        {
-            gameObject.Set(GetGameObject());
-            yield return null;
-        }
-        public override CraftTree.Type FabricatorType => CraftTree.Type.Fabricator;
-        public override QuickSlotType QuickSlotType => QuickSlotType.Selectable;
-        public override string[] StepsToFabricatorTab => new[] { "Root" };
-        protected override Atlas.Sprite GetItemSprite()
-        {
-            return new Atlas.Sprite(Amogus.bundle.LoadAsset<UnityEngine.Sprite>("amogusWandIconPink"));
         }
     }
 }

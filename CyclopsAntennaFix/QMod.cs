@@ -9,7 +9,7 @@ using SMLHelper.V2.Handlers;
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace CyclopsTorpedoes
+namespace CyclopsAntennaFix
 {
     [QModCore]
     public static class QMod

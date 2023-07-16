@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
+		<PackageReference Include="BepInEx.Core" Version="5.4.21" />
+		<PackageReference Include="BepInEx.PluginInfoProps" Version="1.1.0" />
+		<PackageReference Include="UnityEngine.Modules" Version="2019.4.36" IncludeAssets="compile" />
+		<PackageReference Include="Subnautica.BelowZero.GameLibs" Version="49371.0.0.1-r.0" />
+		<PackageReference Include="PolySharp" Version="1.13.1" />
+		<PackageReference Include="Subnautica.Nautilus" Version="1.*-*" PrivateAssets="all" />
+	</ItemGroup>
+</Project>

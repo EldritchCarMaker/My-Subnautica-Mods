@@ -52,7 +52,7 @@ namespace Snomod.MonoBehaviours
         public void CreateBackpackModel()
         {
             var parent = Player.main.transform.Find("body/player_view/export_skeleton/head_rig/neck/chest/spine_3");
-            var model = QMod.backpack.GetGameObject();
+            var model = AmogusBackpack.GetGameObject();
             var obj = Instantiate(model, parent, Player.main.transform.position - (0.5f * Player.main.transform.forward), Player.main.transform.rotation, false);
             Destroy(obj.transform.Find("Collision").gameObject);
 

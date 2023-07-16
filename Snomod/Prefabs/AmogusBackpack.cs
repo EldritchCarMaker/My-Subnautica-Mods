@@ -1,5 +1,6 @@
-﻿using SMLHelper.V2.Assets;
-using SMLHelper.V2.Crafting;
+﻿using SMLHelper.Assets;
+using SMLHelper.Assets.Gadgets;
+using SMLHelper.Crafting;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,22 +8,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using static CraftData;
 
 namespace Snomod.Prefabs
 {
-    internal class AmogusBackpack : Equipable
+    internal class AmogusBackpack
     {
-        public AmogusBackpack() : base("AmogusBackpack", "Amogus backpack", "The backpack of an amogus, may contain some abnormal items")
+        internal static void Patch()
         {
+            var sprite = Amogus.bundle.LoadAsset<UnityEngine.Sprite>("amogusBackpackIcon");
 
+            var prefab = new CustomPrefab("AmogusBackpack", "Amogus backpack", "The backpack of an amogus, may contain some abnormal items", sprite);
+
+            prefab.SetEquipment(EquipmentType.Tank);
+
+            prefab.SetGameObject(GetGameObject());
+
+            prefab.SetRecipe(GetBlueprintRecipe()).WithStepsToFabricatorTab(new[] { "Root" }).WithFabricatorType(CraftTree.Type.Fabricator);
+
+            prefab.Register();
         }
+
         private static GameObject prefab;
 
-        public override EquipmentType EquipmentType => EquipmentType.Tank;
-
-        protected override TechData GetBlueprintRecipe()
+        protected static RecipeData GetBlueprintRecipe()
         {
-            return new TechData()
+            return new RecipeData()
             {
                 craftAmount = 1,
                 Ingredients = new List<Ingredient>()
@@ -32,7 +43,7 @@ namespace Snomod.Prefabs
                 }
             };
         }
-        public override GameObject GetGameObject()
+        public static GameObject GetGameObject()
         {
             if (!prefab)
             {
@@ -43,17 +54,6 @@ namespace Snomod.Prefabs
 
             var obj = GameObject.Instantiate(prefab);
             return obj;
-        }
-        public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
-        {
-            gameObject.Set(GetGameObject());
-            yield return null;
-        }
-        public override CraftTree.Type FabricatorType => CraftTree.Type.Fabricator;
-        public override string[] StepsToFabricatorTab => new[] { "Root" };
-        protected override Atlas.Sprite GetItemSprite()
-        {
-            return new Atlas.Sprite(Amogus.bundle.LoadAsset<UnityEngine.Sprite>("amogusBackpackIcon"));
         }
     }
 }

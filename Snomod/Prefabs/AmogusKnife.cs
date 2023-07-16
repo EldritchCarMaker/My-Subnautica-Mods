@@ -1,6 +1,8 @@
-﻿using SMLHelper.V2.Assets;
-using SMLHelper.V2.Crafting;
-using SMLHelper.V2.Utility;
+﻿using HarmonyLib;
+using SMLHelper.Assets;
+using SMLHelper.Assets.Gadgets;
+using SMLHelper.Crafting;
+using SMLHelper.Utility;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,34 +12,43 @@ using System.Text;
 using System.Threading.Tasks;
 using Unity.Audio;
 using UnityEngine;
+using static CraftData;
 
 namespace Snomod.Prefabs
 {
-    internal class AmogusKnife : Equipable
+    internal static class AmogusKnife
     {
+        internal static void Patch()
+        {
+            var sprite = Amogus.bundle.LoadAsset<UnityEngine.Sprite>("amogusKnifeIcon");
+
+            var prefab = new CustomPrefab("AmogusKnife", "AMoguas", "Sus knife", sprite);
+
+            prefab.SetEquipment(EquipmentType.Hand).WithQuickSlotType(QuickSlotType.Selectable);
+
+            prefab.SetGameObject(GetGameObject());
+
+            prefab.SetRecipe(GetBlueprintRecipe()).WithStepsToFabricatorTab(new[] { "Root" }).WithFabricatorType(CraftTree.Type.Fabricator);
+
+            prefab.Register();
+            TT = prefab.Info.TechType;
+        }
         public static TechType TT { get; private set; }
         private static GameObject prefab;
-        public AmogusKnife() : base("AmogusKnife", "AMoguas", "Sus knife")
-        {
-            OnFinishedPatching += () => TT = TechType;
-        }
 
-        public override EquipmentType EquipmentType => EquipmentType.Hand;
-
-        protected override TechData GetBlueprintRecipe()
+        public static RecipeData GetBlueprintRecipe()
         {
-            return new TechData() 
+            return new RecipeData() 
             { 
                 Ingredients = new List<Ingredient>() 
                 { 
-                    new Ingredient(TechType.Knife, 1), 
-                    new Ingredient(Amogus.TT, 1)
+                    new Ingredient(TechType.Titanium, 1)
                 }, 
                 craftAmount = 1
             };
         }
 
-        public override GameObject GetGameObject()
+        public static GameObject GetGameObject()
         {
             if (!prefab)
             {
@@ -48,17 +59,39 @@ namespace Snomod.Prefabs
             var obj = GameObject.Instantiate(prefab);
             return obj;
         }
-        public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
-        {
-            gameObject.Set(GetGameObject());
-            yield return null;
-        }
-        public override CraftTree.Type FabricatorType => CraftTree.Type.Fabricator;
-        public override QuickSlotType QuickSlotType => QuickSlotType.Selectable;
-        public override string[] StepsToFabricatorTab => new[] { "Root" };
-        protected override Atlas.Sprite GetItemSprite()
-        {
-            return new Atlas.Sprite(Amogus.bundle.LoadAsset<UnityEngine.Sprite>("amogusKnifeIcon"));
+
+        
+        private static class Test21
+        { 
+            [HarmonyPatch(typeof(uGUI_CraftingMenu), nameof(uGUI_CraftingMenu.IsGrid))] 
+            private static void Postfix(uGUI_CraftingMenu.Node node, ref bool __result)
+            { 
+                __result = ShouldGrid(node);
+            }
+
+            private static bool ShouldGrid(uGUI_CraftingMenu.Node node)
+            {
+                var craftings = 0;
+                var tabs = 0;
+
+                foreach (var child in node)
+                {
+                    if (child.action == TreeAction.Expand) tabs++;
+                    else if (child.action == TreeAction.Craft) craftings++;
+                }
+
+                return craftings > tabs;
+            }
+
+            [HarmonyPatch(typeof(uGUI_CraftingMenu), nameof(uGUI_CraftingMenu.Collapse))] 
+            private static void Postfix(uGUI_CraftingMenu.Node parent)
+            {
+                if (parent == null) return;
+
+                if (parent.action != TreeAction.Craft) return;
+
+                parent.icon.SetActive(false);
+            }
         }
     }
 }
