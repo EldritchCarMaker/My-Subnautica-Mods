@@ -1,0 +1,15 @@
+{
+  "Id": "EldritchMoth",
+  "DisplayName": "Eldritch Moth",
+  "Author": "EldritchMothMaker",
+  "Version": "1.0.0",
+  "Enable": true,
+  "AssemblyName": "EldritchMoth.dll",
+  "VersionDependencies": {
+    "SMLHelper": "2.9.6"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://raw.githubusercontent.com/EldritchCarMaker/My-Subnautica-Mods/main/EldritchMoth/mod.json"
+  },
+  "Game": "Subnautica"
+}

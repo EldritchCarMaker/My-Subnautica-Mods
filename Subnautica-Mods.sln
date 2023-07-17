@@ -107,6 +107,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoWaterParticles", "NoWater
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LuckyBlockMod", "LuckyBlock\LuckyBlockMod.csproj", "{6B2B17CE-8FD5-40F0-9885-AB63E8D1A5B8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EldritchMoth", "EldritchMoth\EldritchMoth.csproj", "{732BB8B5-6642-4348-ABC6-426148831404}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		BZ|Any CPU = BZ|Any CPU
