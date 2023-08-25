@@ -2,6 +2,7 @@
 using QModManager.Utility;
 using Logger = QModManager.Utility.Logger;
 #else
+using AutoStorageTransfer.Json;
 using BepInEx.Logging;
 #endif
 using System;

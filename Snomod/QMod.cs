@@ -8,9 +8,6 @@ using BepInEx;
 using BepInEx.Logging;
 #endif
 using UnityEngine;
-using SMLHelper.Json;
-using SMLHelper.Options.Attributes;
-using SMLHelper.Handlers;
 using System.IO;
 using Snomod.Prefabs;
 using Snomod.MonoBehaviours;

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿#if SN1
+//still not
+using System.Collections.Generic;
 using SMLHelper.V2.Assets;
 using SMLHelper.V2.Crafting;
 using System.Reflection;
@@ -156,3 +158,4 @@ namespace RemoteControlVehicles
         }
     }
 }
+#endif

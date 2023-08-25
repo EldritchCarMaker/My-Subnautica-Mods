@@ -1,6 +1,6 @@
-﻿using SMLHelper.Assets;
-using SMLHelper.Assets.Gadgets;
-using SMLHelper.Crafting;
+﻿using Nautilus.Assets;
+using Nautilus.Assets.Gadgets;
+using Nautilus.Crafting;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,14 +22,13 @@ namespace Snomod.Prefabs
 
             prefab.SetEquipment(EquipmentType.Tank);
 
-            prefab.SetGameObject(GetGameObject());
+            prefab.SetGameObject(GetGameObject);
 
             prefab.SetRecipe(GetBlueprintRecipe()).WithStepsToFabricatorTab(new[] { "Root" }).WithFabricatorType(CraftTree.Type.Fabricator);
 
             prefab.Register();
         }
 
-        private static GameObject prefab;
 
         protected static RecipeData GetBlueprintRecipe()
         {
@@ -45,12 +44,9 @@ namespace Snomod.Prefabs
         }
         public static GameObject GetGameObject()
         {
-            if (!prefab)
-            {
-                prefab = Amogus.bundle.LoadAsset<GameObject>("AmongUsBackpack_Prefab");//lee made it, blame the long name on him
-                prefab.GetComponent<StorageContainer>().storageRoot.ClassId = "MogusBackpack";
-                prefab.SetActive(false);
-            }
+            var prefab = Amogus.bundle.LoadAsset<GameObject>("AmongUsBackpack_Prefab");//lee made it, blame the long name on him
+            prefab.GetComponent<StorageContainer>().storageRoot.ClassId = "MogusBackpack";
+            prefab.SetActive(true);
 
             var obj = GameObject.Instantiate(prefab);
             return obj;

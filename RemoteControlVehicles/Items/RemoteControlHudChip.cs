@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿#if SN1
+//not doing this shit rn
+using System.Collections.Generic;
 using SMLHelper.V2.Assets;
 using SMLHelper.V2.Crafting;
 using System.Reflection;
@@ -62,3 +64,4 @@ namespace RemoteControlVehicles
         }
     }
 }
+#endif

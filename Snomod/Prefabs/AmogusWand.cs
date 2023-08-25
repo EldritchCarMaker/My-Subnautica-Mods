@@ -1,6 +1,6 @@
-﻿using SMLHelper.Assets;
-using SMLHelper.Assets.Gadgets;
-using SMLHelper.Crafting;
+﻿using Nautilus.Assets;
+using Nautilus.Assets.Gadgets;
+using Nautilus.Crafting;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,7 +22,7 @@ namespace Snomod.Prefabs
 
             prefab.SetEquipment(EquipmentType.Hand).WithQuickSlotType(QuickSlotType.Selectable);
 
-            prefab.SetGameObject(GetGameObject());
+            prefab.SetGameObject(GetGameObject);
 
             prefab.SetRecipe(GetBlueprintRecipe()).WithStepsToFabricatorTab(new[] { "Root" }).WithFabricatorType(CraftTree.Type.Fabricator);
 
@@ -30,7 +30,6 @@ namespace Snomod.Prefabs
             TT = prefab.Info.TechType;
         }
         public static TechType TT { get; private set; }
-        private static GameObject prefab;
 
         public static RecipeData GetBlueprintRecipe()
         {
@@ -45,16 +44,14 @@ namespace Snomod.Prefabs
             };
         }
 
-        public static GameObject GetGameObject()
+        public static IEnumerator GetGameObject(IOut<GameObject> @out)
         {
-            if (!prefab)
-            {
-                prefab = Amogus.bundle.LoadAsset<GameObject>("AmogusWand");
-                prefab.SetActive(false);
-            }
+            yield return null;
+            var prefab = Amogus.bundle.LoadAsset<GameObject>("AmogusWand");
+            prefab.SetActive(true);
 
             var obj = GameObject.Instantiate(prefab);
-            return obj;
+            @out.Set(obj);
         }
     }
 }

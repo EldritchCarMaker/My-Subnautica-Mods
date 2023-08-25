@@ -53,7 +53,7 @@ namespace Snomod.MonoBehaviours
         {
             var parent = Player.main.transform.Find("body/player_view/export_skeleton/head_rig/neck/chest/spine_3");
             var model = AmogusBackpack.GetGameObject();
-            var obj = Instantiate(model, parent, Player.main.transform.position - (0.5f * Player.main.transform.forward), Player.main.transform.rotation, false);
+            var obj = Instantiate(model, Player.main.transform.position - (0.5f * Player.main.transform.forward), Player.main.transform.rotation, parent);
             Destroy(obj.transform.Find("Collision").gameObject);
 
             foreach (var comp in obj.GetComponents<Component>()) if (comp is not SkyApplier && comp is not MogusColorChanger) Destroy(comp);//remove all components, this is simply the dummy model

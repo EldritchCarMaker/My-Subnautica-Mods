@@ -1,6 +1,5 @@
-﻿using SMLHelper.Assets;
-using SMLHelper.Assets.Gadgets;
-using SMLHelper.Utility;
+﻿using Nautilus.Assets;
+using Nautilus.Assets.Gadgets;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -31,7 +30,7 @@ namespace Snomod.Prefabs
 
             prefab.SetEquipment(EquipmentType.Hand).WithQuickSlotType(QuickSlotType.Selectable);
 
-            prefab.SetGameObject(GetGameObject());
+            prefab.SetGameObject(GetGameObject);
 
             prefab.SetSpawns
             (
@@ -50,18 +49,14 @@ namespace Snomod.Prefabs
             TT = prefab.Info.TechType;
         }
         public static TechType TT { get; private set; }
-        private static GameObject prefab;
         public static GameObject GetGameObject()
         {
-            if(!prefab)
-            {
-                prefab = bundle.LoadAsset<GameObject>("Amogus");
-                prefab.SetActive(false);
-                var crawl = prefab.GetComponent<CaveCrawler>();
-                crawl.jumpSound = GetFmodAsset("event:/creature/crawler/jump");
-                crawl.walkingSound.SetAsset(GetFmodAsset("event:/creature/crawler/idle"));
-            }
-            
+            var prefab = bundle.LoadAsset<GameObject>("Amogus");
+            prefab.SetActive(true);
+            var crawl = prefab.GetComponent<CaveCrawler>();
+            crawl.jumpSound = GetFmodAsset("event:/creature/crawler/jump");
+            crawl.walkingSound.SetAsset(GetFmodAsset("event:/creature/crawler/idle"));
+
             var obj = GameObject.Instantiate(prefab);
             return obj;
         }

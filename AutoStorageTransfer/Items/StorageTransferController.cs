@@ -7,28 +7,25 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using AutoStorageTransfer.Monobehaviours;
-using SMLHelper.V2.Assets;
-using SMLHelper.V2.Crafting;
-using SMLHelper.V2.Utility;
+using Nautilus.Assets;
+using Nautilus.Assets.Gadgets;
+using Nautilus.Crafting;
+using Nautilus.Utility;
 using UnityEngine;
-#if SN
+using static CraftData;
+#if SN1
 using RecipeData = SMLHelper.V2.Crafting.TechData;
+#endif
+#if SN
 using Sprite = Atlas.Sprite;
 #endif
 
 namespace AutoStorageTransfer.Items
 {
-    internal class StorageTransferController : Equipable
+    internal class StorageTransferController
     {
-        public StorageTransferController() : base("StorageTransferController", "Storage Transfer Controller", "Allows control over storages, and setting them to transfer to or from other storages")
-        {
 
-        }
-
-        public override EquipmentType EquipmentType => EquipmentType.Hand;
-        public override QuickSlotType QuickSlotType => QuickSlotType.Selectable;
-
-        protected override RecipeData GetBlueprintRecipe()
+        protected static RecipeData GetBlueprintRecipe()
         {
             return new RecipeData()
             {
@@ -44,7 +41,7 @@ namespace AutoStorageTransfer.Items
         {
             var prefab = CraftData.GetPrefabForTechType(TechType.Welder);
 #else
-        public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
+        public static IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
         {
             var task = CraftData.GetPrefabForTechTypeAsync(TechType.Welder);
             yield return task;
@@ -61,14 +58,22 @@ namespace AutoStorageTransfer.Items
             gameObject.Set(obj);
 #endif
         }
-        public override TechGroup GroupForPDA => TechGroup.Personal; 
-        public override TechCategory CategoryForPDA => TechCategory.Tools;
-        public override CraftTree.Type FabricatorType => CraftTree.Type.Fabricator;
-        public override string[] StepsToFabricatorTab => new[] { "Personal", "Tools" };
-        public override string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
-        protected override Sprite GetItemSprite()
+        public static string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
+        protected static Sprite GetItemSprite()
         {
             return ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "StorageTransferController.png"));
+        }
+        public static void Patch()
+        {
+            var prefab = new CustomPrefab("StorageTransferController", "Storage Transfer Controller", "Allows control over storages, and setting them to transfer to or from other storages", GetItemSprite());
+
+            prefab.SetRecipe(GetBlueprintRecipe()).WithFabricatorType(CraftTree.Type.Fabricator).WithStepsToFabricatorTab(new[] { "Personal", "Tools" });
+            prefab.SetUnlock(TechType.Magnetite).WithPdaGroupCategory(TechGroup.Personal, TechCategory.Tools);
+            prefab.SetEquipment(EquipmentType.Hand).WithQuickSlotType(QuickSlotType.Selectable);
+
+            prefab.SetGameObject(GetGameObjectAsync);
+
+            prefab.Register();
         }
     }
 }

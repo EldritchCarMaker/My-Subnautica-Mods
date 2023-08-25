@@ -1,8 +1,7 @@
 ﻿using HarmonyLib;
-using SMLHelper.Assets;
-using SMLHelper.Assets.Gadgets;
-using SMLHelper.Crafting;
-using SMLHelper.Utility;
+using Nautilus.Assets;
+using Nautilus.Assets.Gadgets;
+using Nautilus.Crafting;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,7 +25,7 @@ namespace Snomod.Prefabs
 
             prefab.SetEquipment(EquipmentType.Hand).WithQuickSlotType(QuickSlotType.Selectable);
 
-            prefab.SetGameObject(GetGameObject());
+            prefab.SetGameObject(GetGameObject);
 
             prefab.SetRecipe(GetBlueprintRecipe()).WithStepsToFabricatorTab(new[] { "Root" }).WithFabricatorType(CraftTree.Type.Fabricator);
 
@@ -34,7 +33,6 @@ namespace Snomod.Prefabs
             TT = prefab.Info.TechType;
         }
         public static TechType TT { get; private set; }
-        private static GameObject prefab;
 
         public static RecipeData GetBlueprintRecipe()
         {
@@ -50,11 +48,8 @@ namespace Snomod.Prefabs
 
         public static GameObject GetGameObject()
         {
-            if (!prefab)
-            {
-                prefab = Amogus.bundle.LoadAsset<GameObject>("AmogusKnife");
-                prefab.SetActive(false);
-            }
+            var prefab = Amogus.bundle.LoadAsset<GameObject>("AmogusKnife");
+            prefab.SetActive(true);
 
             var obj = GameObject.Instantiate(prefab);
             return obj;

@@ -1,49 +1,82 @@
 using System.Reflection;
 using HarmonyLib;
+#if SN1
 using QModManager.API.ModLoading;
 using Logger = QModManager.Utility.Logger;
-
 using SMLHelper.V2.Json;
 using SMLHelper.V2.Options.Attributes;
 using SMLHelper.V2.Handlers;
+using MoreCyclopsUpgrades.API;
+using LogLevel = Logger.Level;
+#else
+using LogLevel = BepInEx.Logging.LogLevel;
+using Nautilus.Json;
+using Nautilus.Options.Attributes;
+using Nautilus.Handlers;
+#endif
+
+
 using RemoteControlVehicles;
 using UnityEngine;
-using MoreCyclopsUpgrades.API;
 using RemoteControlVehicles.Items;
+using BepInEx;
+using BepInEx.Logging;
 
 namespace RemoteControlVehicles
 {
+#if SN1
     [QModCore]
     public static class QMod
+#else
+    [BepInPlugin("EldritchCarMaker.RemoteControlVehicles", "Remote Control Vehicles", "1.0.0")]
+    public class QMod : BaseUnityPlugin
     {
-        internal static Config config { get; } = OptionsPanelHandler.Main.RegisterModOptions<Config>();
+        public static ManualLogSource Logger;
+        public void Awake()
+        {
+            Logger = base.Logger;
+            Patch();
+        }
+#endif
+#if SN1
         [QModPatch]
+#endif
         public static void Patch()
         {
             var assembly = Assembly.GetExecutingAssembly();
             var af = ($"EldritchCarMaker_{assembly.GetName().Name}");
-            Logger.Log(Logger.Level.Info, $"Patching {af}");
+
+            Logger.Log(LogLevel.Info, $"Patching {af}");
             Harmony harmony = new Harmony(af);
             harmony.PatchAll(assembly);
 
-            new TeleportVehicleModule().Patch();
-            //new RemoteControlHudChip().Patch();
 
+#if SN1
             var module = new CyclopsRemoteControlModule();
             module.Patch();
-
-            new RemoteControlAurora().Patch();
-            new RemoteControlCar().Patch();
-
-            new DroneControlRemote().Patch();
-
+            
             MCUServices.Register.CyclopsUpgradeHandler((SubRoot cyclops) =>
             {
                 return new CyclopsRemoteControlHandler(module.TechType, cyclops);
             });
+            TeleportVehicleModule.Patch();
+            //new RemoteControlHudChip().Patch();
+#endif
 
-            Logger.Log(Logger.Level.Info, "Patched successfully!");
+            RemoteControlAurora.Patch();
+            RemoteControlCar.Patch();
+
+            DroneControlRemote.Patch();
+
+
+            Logger.Log(LogLevel.Info, "Patched successfully!");
         }
+
+#if SN1
+        internal static Config config { get; } = OptionsPanelHandler.Main.RegisterModOptions<Config>();
+#else
+        internal static Config config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+#endif
     }
     [Menu("Remote Control Vehicles")]
     public class Config : ConfigFile

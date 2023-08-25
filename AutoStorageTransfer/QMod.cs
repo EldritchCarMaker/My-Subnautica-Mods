@@ -26,8 +26,8 @@ namespace AutoStorageTransfer
     public class QMod : BaseUnityPlugin
     {
 #endif
-        internal static Config config { get; } = OptionsPanelHandler.Main.RegisterModOptions<Config>();
-        internal static SaveData SaveData { get; } = SaveDataHandler.Main.RegisterSaveDataCache<SaveData>();
+        internal static Config config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+        internal static SaveData SaveData { get; } = SaveDataHandler.RegisterSaveDataCache<SaveData>();
 #if SN1
         [QModPatch]
         public static void Patch()
@@ -47,7 +47,7 @@ namespace AutoStorageTransfer
             Harmony harmony = new Harmony(name);
             harmony.PatchAll(assembly);
 
-            new Items.StorageTransferController().Patch();
+            Items.StorageTransferController.Patch();
             Patches.FCSCompatPatches.PatchFCS(harmony);
 #if SN1
             Logger.Log(Logger.Level.Info, "Patched successfully!");
