@@ -1,11 +1,7 @@
 using System.Reflection;
 using HarmonyLib;
-using SMLHelper.V2.Json;
-using SMLHelper.V2.Options.Attributes;
-using SMLHelper.V2.Handlers;
 using UnityEngine;
 using System.Collections.Generic;
-using SMLHelper.V2.Json.Attributes;
 using EquivalentExchange.Constructables;
 using System;
 using System.Collections.ObjectModel;
@@ -16,28 +12,44 @@ using System.Collections;
 using UWE;
 using System.Security.Policy;
 using System.Linq;
-#if !SN2
+#if SN1
 using QModManager.API.ModLoading;
 using Logger = QModManager.Utility.Logger;
+using SMLHelper.V2.Json;
+using SMLHelper.V2.Options.Attributes;
+using SMLHelper.V2.Handlers;
+using SMLHelper.V2.Json.Attributes;
 #else
 using BepInEx;
 using BepInEx.Logging;
+using Nautilus.Json;
+using Nautilus.Options.Attributes;
+using Nautilus.Handlers;
+using Nautilus.Json.Attributes;
 #endif
 
 namespace EquivalentExchange
 {
-#if !SN2
+#if SN1
     [QModCore]
     public static class QMod
     { 
+        internal static Config config { get; } = OptionsPanelHandler.Main.RegisterModOptions<Config>();
+        internal static SaveData SaveData { get; } = SaveDataHandler.Main.RegisterSaveDataCache<SaveData>();
+        //the two tech types for converting emc to alterra credit and back
+        internal static TechType FCSConvertType = TechTypeHandler.AddTechType("FCSConvert", FCSConvertName, FCSConvertDesc);
+        internal static TechType FCSConvertBackType = TechTypeHandler.AddTechType("FCSConvertBack", FCSConvertName, FCSConvertBackDesc);
 #else
     [BepInPlugin("EldritchCarMaker.EquivalentExchange", "Equivalent Exchange", "1.6.1")]
     public class QMod : BaseUnityPlugin
     {
         public static ManualLogSource logger;
+        internal static Config config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+        internal static SaveData SaveData { get; } = SaveDataHandler.RegisterSaveDataCache<SaveData>();
+        //the two tech types for converting emc to alterra credit and back
+        internal static TechType FCSConvertType = EnumHandler.AddEntry<TechType>("FCSConvert").WithPdaInfo(FCSConvertName, FCSConvertDesc);
+        internal static TechType FCSConvertBackType = EnumHandler.AddEntry<TechType>("FCSConvertBack").WithPdaInfo(FCSConvertName, FCSConvertBackDesc);
 #endif
-        internal static Config config { get; } = OptionsPanelHandler.Main.RegisterModOptions<Config>();
-        internal static SaveData SaveData { get; } = SaveDataHandler.Main.RegisterSaveDataCache<SaveData>();
 
 
         public static int ECMToFCSCreditRate => config.ECMToFCSCreditRate;
@@ -47,11 +59,8 @@ namespace EquivalentExchange
         public static readonly string FCSConvertBackDesc = $"Convert Alterra credits into ECM at a {ECMConvertPerClick * ECMToFCSCreditRate} to {ECMConvertPerClick} ratio";//description of convert back button
 
 
-        //the two tech types for converting emc to alterra credit and back
-        internal static TechType FCSConvertType = TechTypeHandler.AddTechType("FCSConvert", FCSConvertName, FCSConvertDesc);
-        internal static TechType FCSConvertBackType = TechTypeHandler.AddTechType("FCSConvertBack", FCSConvertName, FCSConvertBackDesc);
         public static Sprite FCSCreditIconSprite;
-#if !SN2
+#if SN1
         [QModPatch]
         public static void Patch()
         {
@@ -66,13 +75,13 @@ namespace EquivalentExchange
             Harmony harmony = new Harmony(stingers);
             harmony.PatchAll(assembly);
 
-            ConsoleCommandsHandler.Main.RegisterConsoleCommand("UnlockExchangeType", typeof(QMod), nameof(UnlockExchangeType));
-            ConsoleCommandsHandler.Main.RegisterConsoleCommand("lockExchangeType", typeof(QMod), nameof(LockExchangeType));
 
-            ConsoleCommandsHandler.Main.RegisterConsoleCommand("ExchangeUnlockAll", typeof (QMod), nameof(ExchangeUnlockAll));
-            ConsoleCommandsHandler.Main.RegisterConsoleCommand("ExchangeLockAll", typeof(QMod), nameof(ExchangeLockAll));
 
-            ConsoleCommandsHandler.Main.RegisterConsoleCommand("AddECM", typeof(QMod), nameof(AddAmount));
+#if SN1
+            ConsoleCommandsHandler.Main.RegisterConsoleCommands(typeof(Commands));
+#else
+            ConsoleCommandsHandler.RegisterConsoleCommands(typeof(Commands));
+#endif
 
 
             new ItemResearchStationConstructable().Patch();
@@ -93,7 +102,7 @@ namespace EquivalentExchange
         }
         public static void LogInfo(object message)
         {
-#if SN2
+#if !SN1
             logger.LogInfo(message);
 #else
             Logger.Log(Logger.Level.Info, message.ToString());
@@ -101,7 +110,7 @@ namespace EquivalentExchange
         }
         public static void LogDebug(object message)
         {
-#if SN2
+#if !SN1
             logger.LogDebug(message);
 #else
             Logger.Log(Logger.Level.Debug, message.ToString());
@@ -109,7 +118,7 @@ namespace EquivalentExchange
         }
         public static void LogError(object message)
         {
-#if SN2
+#if !SN1
             logger.LogError(message);
 #else
             Logger.Log(Logger.Level.Error, message.ToString());
@@ -117,7 +126,7 @@ namespace EquivalentExchange
         }
         public static bool ModPresent(string modName, bool useGUI = false)
         {
-#if SN2
+#if !SN1
             if (useGUI)
                 return BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(modName);
             else
@@ -169,33 +178,7 @@ namespace EquivalentExchange
         {
             return TryUnlockTechType(tt, out _);
         }
-        public static void ExchangeUnlockAll()
-        {
-            ErrorMessage.AddMessage("Unlocked all techtypes for exchange");
-            foreach(string typeString in Enum.GetNames(typeof(TechType)))
-            {
-                TryUnlockTechType(GetTechType(typeString));
-            }
-        }
-        public static void ExchangeLockAll()
-        {
-            ErrorMessage.AddMessage("Locked all techtypes for exchange");
-            SaveData.learntTechTypes.Clear();
-        }
-        public static void UnlockExchangeType(string str)
-        {
-            var unlocked = TryUnlockTechType(GetTechType(str), out string reason);
-
-            ErrorMessage.AddMessage(unlocked? $"Unlocked {str}" : $"Could not unlock {str} due to: {reason}");
-        }
-        public static void LockExchangeType(string str)
-        {
-            TechType type = GetTechType(str);
-            if (type == TechType.None) return;
-            if (SaveData.learntTechTypes.Contains(type))
-                SaveData.learntTechTypes.Remove(type);
-            ErrorMessage.AddMessage($"Locked {type}");
-        }
+        
         public static TechType GetTechType(string value)
         {
             return GetTechType(value, out _);
@@ -212,14 +195,19 @@ namespace EquivalentExchange
                 return tType;
 
             isModded = true;
+
+#if SN1
             //  Not one of the known TechTypes - is it registered with SMLHelper?
             if (TechTypeHandler.TryGetModdedTechType(value, out TechType custom))
                 return custom;
+#else
+            //  Not one of the known TechTypes - is it registered with Nautilus?
+            if (EnumHandler.TryGetValue(value, out TechType custom))
+                return custom;
+#endif
 
             return TechType.None;
         }
-
-        public static void AddAmount(int amount) => SaveData.ECMAvailable += amount;
     }
     [Menu("Equivalent Exchange")]
     public class Config : ConfigFile
