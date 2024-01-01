@@ -24,6 +24,12 @@
     <Folder Include="Items\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="ECCLibrary">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\SubnauticaBranches\LivinLarge\BepInEx\plugins\ECCLibrary\ECCLibrary.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\PostBuildEvents.targets" />
 </Project>
