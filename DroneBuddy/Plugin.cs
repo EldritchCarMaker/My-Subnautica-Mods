@@ -17,9 +17,9 @@ namespace DroneBuddy
         {
             Logger = base.Logger;
 
+            Harmony.CreateAndPatchAll(Assembly);
             DroneItem.RegisterDrone();
             
-            Harmony.CreateAndPatchAll(Assembly);
             Logger.LogInfo($"Drone buddy loaded! :)");
         }
     }

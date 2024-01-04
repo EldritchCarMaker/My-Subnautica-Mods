@@ -22,24 +22,28 @@ public class Drone : MonoBehaviour
     {
         behaviours = [.. GetComponents<IDroneBehaviour>()];
         DroneMovement = gameObject.EnsureComponent<DroneMovement>();
-        ChangeBehaviour();
+        UpdateBehaviour();
     }
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.F)) DroneMode = DroneMode == Mode.Far ? Mode.Close : Mode.Far;
+        if(Input.GetKeyDown(KeyCode.F)) SetDroneMode(DroneMode == Mode.Far ? Mode.Close : Mode.Far);
         LeashPosition = Player.main?.transform?.position ?? transform.position;
 
         if (DroneMode == Mode.Bitch) ErrorMessage.AddMessage("Bitch");
+
+        if(currentBehaviour?.UpdateTargetPosition(out var pos) == true)
+            DroneMovement.SetTargetPosition(pos);
     }
-    private void ChangeBehaviour()
+    private void UpdateBehaviour()
     {
         currentBehaviour?.OnBehaviourEnd();
-        behaviours.FirstOrDefault(behv => behv.BehaviourMode == DroneMode)?.OnBehaviourBegin();
+        currentBehaviour = behaviours.FirstOrDefault(behv => behv.BehaviourMode == DroneMode);
+        if (currentBehaviour != null) currentBehaviour.OnBehaviourBegin();
     }
 
     public void SetDroneMode(Mode droneMode)
     {
         DroneMode = droneMode;
-        ChangeBehaviour();
+        UpdateBehaviour();
     }
 }

@@ -7,7 +7,7 @@ public class DroneMovement : MonoBehaviour
     public Vector3 TargetPosition { get; private set; }
     public void SetTargetPosition(Vector3 targetPosition)
     {
-        ErrorMessage.AddMessage($"Setting target position to {targetPosition}");
+        //ErrorMessage.AddMessage($"Setting target position to {targetPosition}");
         TargetPosition = targetPosition;
     }
 
