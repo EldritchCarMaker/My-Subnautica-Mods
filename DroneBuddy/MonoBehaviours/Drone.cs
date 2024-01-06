@@ -43,6 +43,7 @@ public class Drone : MonoBehaviour
 
     public void SetDroneMode(Mode droneMode)
     {
+        ErrorMessage.AddMessage($"Now setting drone to {droneMode}");
         DroneMode = droneMode;
         UpdateBehaviour();
     }
