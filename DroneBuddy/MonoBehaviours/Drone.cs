@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace DroneBuddy.MonoBehaviours;
 
-public class Drone : MonoBehaviour
+public class Drone : HandTarget, IHandTarget
 {
     private List<IDroneBehaviour> behaviours = new();
     public enum Mode
@@ -17,12 +17,14 @@ public class Drone : MonoBehaviour
     public Mode DroneMode { get; private set; } = Mode.Close;
     public Vector3 LeashPosition {  get; private set; }
     public DroneMovement DroneMovement { get; private set; }
+    public DroneContainer ItemsContainer { get; private set; }
     private IDroneBehaviour currentBehaviour;
     private void Awake()
     {
         behaviours = [.. GetComponents<IDroneBehaviour>()];
         DroneMovement = gameObject.EnsureComponent<DroneMovement>();
         UpdateBehaviour();
+        ItemsContainer = gameObject.EnsureComponent<DroneContainer>();
     }
     private void Update()
     {
@@ -46,5 +48,15 @@ public class Drone : MonoBehaviour
         ErrorMessage.AddMessage($"Now setting drone to {droneMode}");
         DroneMode = droneMode;
         UpdateBehaviour();
+    }
+
+    public void OnHandHover(GUIHand hand)
+    {
+        HandReticle.main.SetText(HandReticle.TextType.Hand, "Drone pal {name}", true);
+    }
+
+    public void OnHandClick(GUIHand hand)
+    {
+        ItemsContainer.Open();
     }
 }

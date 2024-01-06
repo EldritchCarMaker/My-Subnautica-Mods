@@ -1,4 +1,6 @@
 ﻿using DroneBuddy.Patches;
+using HarmonyLib;
+using Nautilus.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +14,7 @@ internal class CollectLoot : SeekerBehaviour
 
     protected override Type[] ComponentTypesToFind => new[] { typeof(BreakableResource), typeof(Pickupable) };
 
-    protected override TechType[] TechTypesToSeek => new[] { TechType.Quartz, TechType.LimestoneChunk, TechType.SandstoneChunk, TechType.ShaleChunk, };
+    protected override TechType[] TechTypesToSeek => Drone.ItemsContainer.TechTypes.AddRangeToArray([TechType.LimestoneChunk, TechType.SandstoneChunk, TechType.ShaleChunk]);
 
     protected override void Collect(Component lootTarget, IItemsContainer inventory)
     {
