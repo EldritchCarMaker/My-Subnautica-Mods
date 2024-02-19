@@ -6,7 +6,6 @@ using Oculus.Newtonsoft.Json;
 #else
 using Newtonsoft.Json;
 #endif
-using SMLHelper.V2.Utility;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,7 +21,12 @@ using Valve.VR;
 using static OVRPlugin;
 #if SN
 using Sprite = Atlas.Sprite;
+#if SN1
 using RecipeData = SMLHelper.V2.Crafting.TechData;
+using SMLHelper.V2.Utility;
+#else
+using Nautilus.Utility;
+#endif
 #endif
 
 namespace ArmorSuit

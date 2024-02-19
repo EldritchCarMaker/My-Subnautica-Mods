@@ -1,15 +1,19 @@
 ﻿using System.Reflection;
 using HarmonyLib;
-#if !SN2
+#if SN1
 using QModManager.API.ModLoading;
 using Logger = QModManager.Utility.Logger;
-#else
-using BepInEx;
-#endif
 using SMLHelper.V2.Json;
 using SMLHelper.V2.Options.Attributes;
 using SMLHelper.V2.Handlers;
+#else
+using Nautilus.Json;
+using Nautilus.Options.Attributes;
+using Nautilus.Handlers;
+#endif
+using System.IO;
 using UnityEngine;
+using BepInEx;
 using WarpChip.Items;
 
 namespace WarpChip
@@ -18,13 +22,14 @@ namespace WarpChip
     [QModCore]
     public static class QMod
     {
+        public static Config config { get; } = OptionsPanelHandler.Main.RegisterModOptions<Config>();
 #else
     [BepInPlugin("EldritchCarMaker.WarpChip", "Warp Chip", "1.4.0")]
     [BepInDependency("EldritchCarMaker.EquippableItemIcons", "1.4.0")]
     public class QMod : BaseUnityPlugin
     {
+        public static Config config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
 #endif
-        public static Config config { get; } = OptionsPanelHandler.Main.RegisterModOptions<Config>();
 #if !SN2
         [QModPatch]
         public static void Patch()

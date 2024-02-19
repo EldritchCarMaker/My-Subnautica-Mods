@@ -1,19 +1,20 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-#if SN
+﻿#if SN
 using Sprite = Atlas.Sprite;
+#if SN1
 using RecipeData = SMLHelper.V2.Crafting.TechData;
-#endif
 using SMLHelper.V2.Assets;
 using SMLHelper.V2.Crafting;
 using SMLHelper.V2.Utility;
+#else
+using Nautilus.Crafting;
+using Nautilus.Utility;
+using EquippableItemIcons.API.SecretSMLNautilusAPIDontTouch;
+using static CraftData;
+#endif
+#endif
+using System.Collections;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace BurstFins
 {
@@ -21,7 +22,6 @@ namespace BurstFins
     {
         public static TechType thisTechType;
         public static Sprite sprite = SpriteManager.Get(TechType.UltraGlideFins);
-        public override string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
 
         public BurstFinsItem() : base("BurstFinsItem", "Burst Fins", "Allows a short burst of speed before going on cooldown")
         {

@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using HarmonyLib;
 using UnityEngine;
-using Logger = QModManager.Utility.Logger;
 
 namespace BurstFins.Patches
 {
@@ -18,18 +17,18 @@ namespace BurstFins.Patches
             var mono = Player.main.GetComponent<BurstFinsMono>();
             if (mono && mono.hudItemIcon != null && mono.hudItemIcon.active)
             {
-                ErrorMessage.AddMessage($"Found mono, icon active, __result before: {__result}");
+                //ErrorMessage.AddMessage($"Found mono, icon active, __result before: {__result}");
                 var num = __result;
                 num = num + 2.5f;
                 num = num * 2f;
                 __result = num;
-                ErrorMessage.AddMessage($"__result after: {__result} from num: {num}");
+                //ErrorMessage.AddMessage($"__result after: {__result} from num: {num}");
             }
             else if(mono && mono.hudItemIcon != null && mono.hudItemIcon.equipped)
             {
-                ErrorMessage.AddMessage($"Found mono, icon equipped, __result before: {__result}");
+                //ErrorMessage.AddMessage($"Found mono, icon equipped, __result before: {__result}");
                 __result = __result + 2.5f;
-                ErrorMessage.AddMessage($"__result after: {__result}");
+                //ErrorMessage.AddMessage($"__result after: {__result}");
             }
         }
         [HarmonyPatch(nameof(UnderwaterMotor.UpdateMove))]

@@ -1,16 +1,23 @@
 ﻿using System.Reflection;
 using HarmonyLib;
+#if SN1
 using QModManager.API.ModLoading;
 using Logger = QModManager.Utility.Logger;
-using UnityEngine;
 using SMLHelper.V2.Json;
 using SMLHelper.V2.Options.Attributes;
 using SMLHelper.V2.Handlers;
-using SpyWatch;
+#else
+using Nautilus.Json;
+using Nautilus.Options.Attributes;
+using Nautilus.Handlers;
+#endif
 using System.IO;
+using UnityEngine;
+using BepInEx;
 
 namespace SpyWatch
 {
+#if SN1
     [QModCore]
     public static class QMod
     {
@@ -55,6 +62,53 @@ namespace SpyWatch
             Logger.Log(Logger.Level.Info, "Patched successfully!");
         }
     }
+#else
+    [BepInEx.BepInPlugin("EldritchCarMaker.SpyWatch", "Spy Watch", "1.0.0")]
+    public class QMod : BaseUnityPlugin
+    {
+        private const string bundlePath = "Assets/SpyWatch.shaders";
+        private static Assembly assembly = Assembly.GetExecutingAssembly();
+        private static string modPath = Path.GetDirectoryName(assembly.Location);
+        internal static AssetBundle assetBundle = AssetBundle.LoadFromFile(Path.Combine(modPath, bundlePath));
+        internal static Config config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+
+
+        public static Material CloakMaterial;
+        public void Awake()
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            var CyclopsLockers = ($"EldritchCarMaker_{assembly.GetName().Name}");
+            Logger.LogInfo($"Patching {CyclopsLockers}");
+            Harmony harmony = new Harmony(CyclopsLockers);
+            harmony.PatchAll(assembly);
+
+            new SpyWatchItem().Patch();
+
+            if (!assetBundle)
+            {
+                Logger.LogError("Could not load Asset Bundle");
+                return;
+            }
+            var StealthEffect = assetBundle.LoadAsset<Material>("Cloak_Material_mtl");
+            if (!StealthEffect)
+            {
+                Logger.LogError("Could not load material from bundle");
+                return;
+            }
+            var StealthEffectShader = assetBundle.LoadAsset<Shader>("Invisibility");
+            if (!StealthEffectShader)
+            {
+                Logger.LogError("Could not load shader from bundle");
+                return;
+            }
+            StealthEffect.shader = StealthEffectShader;
+            assetBundle.Unload(false);
+            CloakMaterial = StealthEffect;
+
+            Logger.LogInfo("Patched successfully!");
+        }
+    }
+#endif
     [Menu("SpyWatch")]
     public class Config : ConfigFile
     {

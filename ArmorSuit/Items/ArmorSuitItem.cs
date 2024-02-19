@@ -7,13 +7,20 @@ using System.Text;
 using System.Threading.Tasks;
 #if SN
 using Sprite = Atlas.Sprite;
+#if SN1
 using RecipeData = SMLHelper.V2.Crafting.TechData;
-#endif
 using SMLHelper.V2.Assets;
+using SMLHelper.V2.Crafting;
 using SMLHelper.V2.Utility;
+#else
+using Nautilus.Crafting;
+using Nautilus.Utility;
+using EquippableItemIcons.API.SecretSMLNautilusAPIDontTouch;
+using static CraftData;
+#endif
+#endif
 using UnityEngine;
 using ArmorSuit.Items;
-using SMLHelper.V2.Crafting;
 using System.Collections;
 
 namespace ArmorSuit
@@ -22,7 +29,6 @@ namespace ArmorSuit
     {
         public static TechType thisTechType;
         public static Sprite sprite = SpriteManager.Get(TechType.UltraGlideFins);
-        public override string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
 
         public ArmorSuitItem() : base("ArmorSuitItem", "Armor Suit", "A high tech adaptive suit which gives high damage reduction to a specific damage type")
         {

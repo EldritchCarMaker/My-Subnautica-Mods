@@ -1,19 +1,22 @@
-﻿using SMLHelper.V2.Assets;
+﻿#if SN
+using Sprite = Atlas.Sprite;
+#if SN1
+using RecipeData = SMLHelper.V2.Crafting.TechData;
+using SMLHelper.V2.Assets;
 using SMLHelper.V2.Crafting;
-using System;
+using SMLHelper.V2.Utility;
+#else
+using Nautilus.Crafting;
+using Nautilus.Utility;
+using EquippableItemIcons.API.SecretSMLNautilusAPIDontTouch;
+using static CraftData;
+#endif
+#endif
+using System.Collections;
+using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-#if SN
-using Sprite = Atlas.Sprite;
-using RecipeData = SMLHelper.V2.Crafting.TechData;
-#endif
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using SMLHelper.V2.Utility;
-using UnityEngine;
-using System.Collections;
 
 namespace SonarChip
 {
@@ -21,7 +24,7 @@ namespace SonarChip
     {
         public static TechType thisTechType;
 
-        public override string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
+        public string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
 
         public SonarChipItem() : base("SonarChip", "Sonar Chip", "Allows use of a sonar ping")
         {

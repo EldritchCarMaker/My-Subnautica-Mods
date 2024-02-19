@@ -54,6 +54,7 @@
     <Compile Include="API\ChargableEquippableItem.cs" />
     <Compile Include="API\HudItemIcon.cs" />
     <Compile Include="API\Registries.cs" />
+    <Compile Include="API\SecretSMLNautilusAPIDontTouch\Equipable.cs" />
     <Compile Include="HudItemIconManager.cs" />
     <Compile Include="Patches\PlayerPatches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

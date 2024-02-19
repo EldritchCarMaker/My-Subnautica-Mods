@@ -1,17 +1,23 @@
-﻿using SMLHelper.V2.Assets;
-using SMLHelper.V2.Crafting;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-using WarpChip.Monobehaviours;
-#if SN
-using RecipeData = SMLHelper.V2.Crafting.TechData;
+﻿#if SN
 using Sprite = Atlas.Sprite;
+#if SN1
+using RecipeData = SMLHelper.V2.Crafting.TechData;
+using SMLHelper.V2.Assets;
+using SMLHelper.V2.Crafting;
+using SMLHelper.V2.Utility;
+#else
+using Nautilus.Crafting;
+using Nautilus.Utility;
+using EquippableItemIcons.API.SecretSMLNautilusAPIDontTouch;
+using static CraftData;
 #endif
+#endif
+using System.Collections;
+using UnityEngine;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
+using WarpChip.Monobehaviours;
 
 namespace WarpChip.Items
 {

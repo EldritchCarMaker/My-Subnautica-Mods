@@ -1,16 +1,22 @@
-﻿using SMLHelper.V2.Assets;
-using SMLHelper.V2.Crafting;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-#if SN
-using RecipeData = SMLHelper.V2.Crafting.TechData;
+﻿#if SN
 using Sprite = Atlas.Sprite;
+#if SN1
+using RecipeData = SMLHelper.V2.Crafting.TechData;
+using SMLHelper.V2.Assets;
+using SMLHelper.V2.Crafting;
+using SMLHelper.V2.Utility;
+#else
+using Nautilus.Crafting;
+using Nautilus.Utility;
+using EquippableItemIcons.API.SecretSMLNautilusAPIDontTouch;
+using static CraftData;
 #endif
+#endif
+using System.Collections;
+using UnityEngine;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 
 namespace WarpChip.Items
 {
@@ -43,6 +49,11 @@ namespace WarpChip.Items
         public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
         {
             yield return CraftData.InstantiateFromPrefabAsync(TechType.VehicleStorageModule, gameObject);
+        }
+
+        protected override Sprite GetItemSprite()
+        {
+            return SpriteManager.Get(TechType.VehicleStorageModule);
         }
 #endif
     }

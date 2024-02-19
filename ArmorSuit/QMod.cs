@@ -3,14 +3,17 @@ using HarmonyLib;
 #if !SN2
 using QModManager.API.ModLoading;
 using Logger = QModManager.Utility.Logger;
-#else
-using BepInEx;
-using BepInEx.Logging;
-#endif
-using UnityEngine;
 using SMLHelper.V2.Json;
 using SMLHelper.V2.Options.Attributes;
 using SMLHelper.V2.Handlers;
+#else
+using BepInEx;
+using BepInEx.Logging;
+using Nautilus.Handlers;
+using Nautilus.Json;
+using Nautilus.Options.Attributes;
+#endif
+using UnityEngine;
 using System.IO;
 using ArmorSuit.Items;
 using System.Collections.Generic;
@@ -21,12 +24,14 @@ namespace ArmorSuit
 #if !SN2
     [QModCore]
     public static class QMod
+    {
+        public static Config config { get; } = OptionsPanelHandler.Main.RegisterModOptions<Config>();
 #else
     [BepInPlugin("EldritchCarMaker.ArmorSuit", "Armor Suit", "1.0.2")]
     public class QMod : BaseUnityPlugin
-#endif
     {
-        public static Config config { get; } = OptionsPanelHandler.Main.RegisterModOptions<Config>();
+        public static Config config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+#endif
 #if !SN2
         [QModPatch]
         public static void Patch()

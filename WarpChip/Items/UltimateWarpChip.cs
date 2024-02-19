@@ -1,19 +1,22 @@
-﻿using SMLHelper.V2.Assets;
-using SMLHelper.V2.Crafting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-#if SN
+﻿#if SN
 using Sprite = Atlas.Sprite;
+#if SN1
 using RecipeData = SMLHelper.V2.Crafting.TechData;
+using SMLHelper.V2.Assets;
+using SMLHelper.V2.Crafting;
+using SMLHelper.V2.Utility;
+#else
+using Nautilus.Crafting;
+using Nautilus.Utility;
+using EquippableItemIcons.API.SecretSMLNautilusAPIDontTouch;
+using static CraftData;
 #endif
-using System.Threading.Tasks;
+#endif
+using System.Collections;
 using UnityEngine;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using SMLHelper.V2.Utility;
-using System.Collections;
 
 namespace WarpChip
 {
@@ -21,7 +24,7 @@ namespace WarpChip
     {
         public static TechType thisTechType;
 
-        public override string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
+        public string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
 
         public UltimateWarpChip() : base("UltimateWarpChip", "Ultimate Warp Chip", "Allows infinite short range teleportation with no cooldown")
         {

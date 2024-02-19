@@ -1,5 +1,8 @@
-﻿using SMLHelper.V2.Utility;
-using System;
+﻿#if SN1
+using SMLHelper.V2.Utility;
+#else
+using Nautilus.Utility;
+#endif
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -10,7 +13,6 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using UtilityStuffs;
-using Logger = QModManager.Utility.Logger;
 using UWE;
 using EquippableItemIcons.API;
 

@@ -1,5 +1,9 @@
 ﻿using EquippableItemIcons.API;
+#if SN1
 using SMLHelper.V2.Utility;
+#else
+using Nautilus.Utility;
+#endif
 using System;
 using System.Collections;
 using System.Collections.Generic;

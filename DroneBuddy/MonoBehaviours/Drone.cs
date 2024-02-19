@@ -18,11 +18,13 @@ public class Drone : HandTarget, IHandTarget
     public Vector3 LeashPosition {  get; private set; }
     public DroneMovement DroneMovement { get; private set; }
     public DroneContainer ItemsContainer { get; private set; }
+    public DroneName DroneName { get; private set; }
     private IDroneBehaviour currentBehaviour;
     private void Awake()
     {
         behaviours = [.. GetComponents<IDroneBehaviour>()];
         DroneMovement = gameObject.EnsureComponent<DroneMovement>();
+        DroneName = gameObject.EnsureComponent<DroneName>();
         UpdateBehaviour();
         ItemsContainer = gameObject.EnsureComponent<DroneContainer>();
     }
@@ -52,7 +54,7 @@ public class Drone : HandTarget, IHandTarget
 
     public void OnHandHover(GUIHand hand)
     {
-        HandReticle.main.SetText(HandReticle.TextType.Hand, "Drone pal {name}", true);
+        HandReticle.main.SetText(HandReticle.TextType.Hand, $"{DroneName.Name}", true);
     }
 
     public void OnHandClick(GUIHand hand)
