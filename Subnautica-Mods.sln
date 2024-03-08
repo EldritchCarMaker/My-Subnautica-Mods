@@ -111,6 +111,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EldritchMoth", "EldritchMot
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DroneBuddy", "DroneBuddy\DroneBuddy.csproj", "{9DB4876A-CC9D-4F93-B5CD-E73644BE6C0A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudyWithAChanceOfTorpedoes", "CloudyWithAChanceOfTorpedoes\CloudyWithAChanceOfTorpedoes.csproj", "{DE7958E5-67DD-4C23-BBB1-ED0AC45F080E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		BZ|Any CPU = BZ|Any CPU
@@ -509,6 +511,16 @@ Global
 		{9DB4876A-CC9D-4F93-B5CD-E73644BE6C0A}.SN1|Any CPU.Build.0 = SN1|Any CPU
 		{9DB4876A-CC9D-4F93-B5CD-E73644BE6C0A}.SN2|Any CPU.ActiveCfg = SN2|Any CPU
 		{9DB4876A-CC9D-4F93-B5CD-E73644BE6C0A}.SN2|Any CPU.Build.0 = SN2|Any CPU
+		{DE7958E5-67DD-4C23-BBB1-ED0AC45F080E}.BZ|Any CPU.ActiveCfg = BZ|Any CPU
+		{DE7958E5-67DD-4C23-BBB1-ED0AC45F080E}.BZ|Any CPU.Build.0 = BZ|Any CPU
+		{DE7958E5-67DD-4C23-BBB1-ED0AC45F080E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE7958E5-67DD-4C23-BBB1-ED0AC45F080E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE7958E5-67DD-4C23-BBB1-ED0AC45F080E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE7958E5-67DD-4C23-BBB1-ED0AC45F080E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE7958E5-67DD-4C23-BBB1-ED0AC45F080E}.SN1|Any CPU.ActiveCfg = SN1|Any CPU
+		{DE7958E5-67DD-4C23-BBB1-ED0AC45F080E}.SN1|Any CPU.Build.0 = SN1|Any CPU
+		{DE7958E5-67DD-4C23-BBB1-ED0AC45F080E}.SN2|Any CPU.ActiveCfg = SN2|Any CPU
+		{DE7958E5-67DD-4C23-BBB1-ED0AC45F080E}.SN2|Any CPU.Build.0 = SN2|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,21 +1,32 @@
-﻿using SMLHelper.V2.Assets;
-using SMLHelper.V2.Crafting;
+﻿
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 #if SN
+#if SN1
+using SMLHelper.V2.Assets;
+using SMLHelper.V2.Crafting;
+using SMLHelper.V2.Utility;
 using RecipeData = SMLHelper.V2.Crafting.TechData;
+#else
+using Nautilus.Crafting;
+using Nautilus.Assets;
+using Nautilus.Assets.PrefabTemplates;
+#endif
 using Sprite = Atlas.Sprite;
 #endif
 using System.Threading.Tasks;
-using SMLHelper.V2.Utility;
 using UnityEngine;
 using System.Collections;
+using Nautilus.Assets.Gadgets;
+using static CraftData;
+using Nautilus.Utility;
 
 namespace PickupableVehicles
 {
+#if SN1
     internal class PickupableVehicleModule : Equipable
     {
         public static TechType thisTechType;
@@ -77,4 +88,34 @@ namespace PickupableVehicles
         }
 #endif
     }
+#else
+    internal class PickupableVehicleModule
+    {
+        public static TechType thisTechType;
+        public void Patch()
+        {
+            var AssetsFolder = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
+            var customPrefab = new CustomPrefab("PickupableVehicleModule", "Pickupable Vehicle Module", "Allows you to pick up vehicle by holding sprint", ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "seamoth_boxing_a.png")));
+
+            customPrefab.SetGameObject(new CloneTemplate(customPrefab.Info, TechType.VehicleArmorPlating));
+            customPrefab.SetEquipment(EquipmentType.VehicleModule).QuickSlotType = QuickSlotType.Passive;
+            customPrefab.SetRecipe(new RecipeData()
+            {
+                craftAmount = 1,
+                Ingredients = new List<Ingredient>(new Ingredient[]
+                    {
+                        new Ingredient(TechType.Magnetite, 2),
+                        new Ingredient(TechType.AdvancedWiringKit, 2),
+                        new Ingredient(TechType.PrecursorIonCrystal, 1)
+
+                    }
+                )
+            }).WithFabricatorType(CraftTree.Type.Fabricator).WithCraftingTime(3).WithStepsToFabricatorTab(new string[] { "CommonModules" });
+            customPrefab.SetPdaGroupCategory(TechGroup.VehicleUpgrades, TechCategory.VehicleUpgrades);
+
+            customPrefab.Register();
+            thisTechType = customPrefab.Info.TechType;
+        }
+    }
+#endif
 }

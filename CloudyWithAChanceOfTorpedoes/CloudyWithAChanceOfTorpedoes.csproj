@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+	<AssemblyName>CloudyWithAChanceOfTorpedoes</AssemblyName>
+    <Version>1.0.0</Version>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>11</LangVersion>
+	<RootNamespace>CloudyWithAChanceOfTorpedoes</RootNamespace>
+
+    <RestoreAdditionalProjectSources>
+      https://api.nuget.org/v3/index.json;
+      https://nuget.bepinex.dev/v3/index.json;
+    </RestoreAdditionalProjectSources>
+
+    <Configurations>Debug;Release;SN2;SN1;BZ</Configurations>
+  </PropertyGroup>
+
+  <Import Project="..\Configurations.targets" />
+  <Import Project="..\References.targets" />
+
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\PostBuildEvents.targets" />
+</Project>
