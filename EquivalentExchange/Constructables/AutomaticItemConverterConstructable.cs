@@ -1,6 +1,8 @@
 ﻿using EquivalentExchange.Monobehaviours;
-using SMLHelper.V2.Assets;
-using SMLHelper.V2.Crafting;
+using Nautilus.Assets;
+using Nautilus.Assets.Gadgets;
+using Nautilus.Assets.PrefabTemplates;
+using Nautilus.Crafting;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,23 +10,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using static CraftData;
+
 #if SN
-using RecipeData = SMLHelper.V2.Crafting.TechData;
 using Sprite = Atlas.Sprite;
 #endif
 
 namespace EquivalentExchange.Constructables
 {
-    internal class AutomaticItemConverterConstructable : Buildable
+    internal class AutomaticItemConverterConstructable
     {
-        public AutomaticItemConverterConstructable() : base("AutomaticItemConverterConstructable", "Automatic Item Converter", "A small container that automatically, and constantly, converts ECM into a single, specified, item")
+        public static void Patch()
         {
-        }
-        public override TechGroup GroupForPDA { get; } = TechGroup.InteriorModules;
-        public override TechCategory CategoryForPDA { get; } = TechCategory.InteriorModule;
-        public override TechType RequiredForUnlock { get; } = TechType.PrecursorIonCrystal;
+            var customPrefab = new CustomPrefab("AutomaticItemConverterConstructable", "Automatic Item Converter", "A small container that automatically, and constantly, converts ECM into a single, specified, item");
 
-        protected override RecipeData GetBlueprintRecipe()
+            var template = new CloneTemplate(customPrefab.Info, TechType.MedicalCabinet);
+            template.ModifyPrefab += (prefb => prefb.EnsureComponent<AutomaticItemConverter>());
+            customPrefab.SetGameObject(template);
+
+            customPrefab.SetRecipe(GetBlueprintRecipe());
+            customPrefab.SetPdaGroupCategory(TechGroup.InteriorModules, TechCategory.InteriorModule);
+            customPrefab.SetUnlock(TechType.PrecursorIonCrystal);
+
+            customPrefab.Register();
+        }
+
+        protected static RecipeData GetBlueprintRecipe()
         {
             return new RecipeData
             {
@@ -35,20 +46,6 @@ namespace EquivalentExchange.Constructables
                     new Ingredient(TechType.Lubricant, 1)
                 }
             };
-        }
-#if SN1
-        public override GameObject GetGameObject()
-        {
-            var obj = CraftData.InstantiateFromPrefab(TechType.MedicalCabinet);
-            obj.AddComponent<AutomaticItemConverter>();
-            return obj;
-        }
-#endif
-        public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
-        {
-            var task =  CraftData.GetPrefabForTechTypeAsync(TechType.MedicalCabinet);
-            yield return task;
-            gameObject.Set(task.GetResult().EnsureComponent<AutomaticItemConverter>().gameObject);
         }
     }
 }

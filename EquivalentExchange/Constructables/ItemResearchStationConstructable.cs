@@ -7,27 +7,34 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using EquivalentExchange.Monobehaviours;
-using SMLHelper.V2.Assets;
-using SMLHelper.V2.Crafting;
+using Nautilus.Assets;
+using Nautilus.Assets.Gadgets;
+using Nautilus.Crafting;
 using UnityEngine;
+using static CraftData;
+
 #if SN
-using RecipeData = SMLHelper.V2.Crafting.TechData;
 using Sprite = Atlas.Sprite;
 #endif
 
 namespace EquivalentExchange.Constructables
 {
-    internal class ItemResearchStationConstructable : Buildable
+    internal class ItemResearchStationConstructable
     {
-        public ItemResearchStationConstructable() : base("ItemResearchStationConstructable", "Item Research Station", "A station used to research items for the purposes of material exchange")
+        public static void Patch()
         {
-        }
-        public GameObject prefab;
-        public override TechGroup GroupForPDA { get; } = TechGroup.InteriorPieces;
-        public override TechCategory CategoryForPDA { get; } = TechCategory.InteriorPiece;
-        public override TechType RequiredForUnlock { get; } = TechType.PrecursorIonCrystal;
+            var customPrefab = new CustomPrefab("ItemResearchStationConstructable", "Item Research Station", "A station used to research items for the purposes of material exchange");
 
-        protected override RecipeData GetBlueprintRecipe()
+            customPrefab.SetGameObject(GetGameObjectAsync);
+
+            customPrefab.SetRecipe(GetBlueprintRecipe());
+            customPrefab.SetPdaGroupCategory(TechGroup.InteriorPieces, TechCategory.InteriorPiece);
+            customPrefab.SetUnlock(TechType.PrecursorIonCrystal);
+
+            customPrefab.Register();
+        }
+
+        protected static RecipeData GetBlueprintRecipe()
         {
             return new RecipeData
             {
@@ -57,22 +64,17 @@ namespace EquivalentExchange.Constructables
             return obj;
         }
 #endif
-        public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
+        public static IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
         {
-            if(prefab == null)
-            {
-                var task = CraftData.GetPrefabForTechTypeAsync(TechType.Trashcans);
-                yield return task;
-                var trashPrefab = task.GetResult();
-                    
-                prefab = GameObject.Instantiate(trashPrefab);
-                GameObject.Destroy(prefab.GetComponent<Trashcan>());
-                prefab.AddComponent<ItemResearchStation>();
-                prefab.SetActive(false);
-            }
-            var obj = GameObject.Instantiate(prefab);
-            obj.SetActive(true);
-            gameObject.Set(obj);
+            var task = CraftData.GetPrefabForTechTypeAsync(TechType.Trashcans);
+            yield return task;
+            var trashPrefab = task.GetResult();
+
+            var prefab = GameObject.Instantiate(trashPrefab);
+            GameObject.Destroy(prefab.GetComponent<Trashcan>());
+            prefab.AddComponent<ItemResearchStation>();
+
+            gameObject.Set(prefab);
         }
     }
 }

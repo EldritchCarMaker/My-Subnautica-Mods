@@ -1,6 +1,8 @@
-﻿using SMLHelper.V2.Assets;
-using SMLHelper.V2.Crafting;
-using SMLHelper.V2.Utility;
+﻿using Nautilus.Assets;
+using Nautilus.Assets.Gadgets;
+using Nautilus.Assets.PrefabTemplates;
+using Nautilus.Crafting;
+using Nautilus.Utility;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,24 +12,34 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using static CraftData;
+
 #if SN
-using RecipeData = SMLHelper.V2.Crafting.TechData;
 using Sprite = Atlas.Sprite;
 #endif
 
 namespace EquivalentExchange
 {
-    internal class AutoItemConversionChip : Equipable
+    internal class AutoItemConversionChip
     {
-        public static TechType techType;
-        public AutoItemConversionChip() : base("AutoItemConversionChip", "Auto Item Conversion Chip", "A chip to allow for automatic item conversion as required for fabrication with unlimited range-- ONLY WORKS WHEN EASY CRAFT IS INSTALLED")
+        public static void Patch()
         {
-            OnFinishedPatching += () => techType = TechType;
+            var customPrefab = new CustomPrefab("AutoItemConversionChip", "Auto Item Conversion Chip", "A chip to allow for automatic item conversion as required for fabrication with unlimited range-- ONLY WORKS WHEN EASY CRAFT IS INSTALLED", GetItemSprite());
+
+            customPrefab.SetGameObject(new CloneTemplate(customPrefab.Info, TechType.MapRoomHUDChip));
+
+            customPrefab.SetRecipe(GetBlueprintRecipe()).WithStepsToFabricatorTab(StepsToFabricatorTab).FabricatorType = CraftTree.Type.Fabricator;
+            customPrefab.SetPdaGroupCategory(TechGroup.Personal, TechCategory.Equipment);
+            customPrefab.SetUnlock(TechType.Kyanite);
+
+            customPrefab.SetEquipment(EquipmentType.Chip);
+
+            customPrefab.Register();
         }
+        public static TechType techType;
 
-        public override EquipmentType EquipmentType => EquipmentType.Chip;
 
-        protected override RecipeData GetBlueprintRecipe()
+        protected static RecipeData GetBlueprintRecipe()
         {
             return new RecipeData()
             {
@@ -44,26 +56,11 @@ namespace EquivalentExchange
                 }
             };
         }
-        public override string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
-        public override TechCategory CategoryForPDA => TechCategory.Equipment;
-        public override CraftTree.Type FabricatorType => CraftTree.Type.Fabricator;
-        public override string[] StepsToFabricatorTab => new string[] { "Personal", "Equipment" };
-        public override TechType RequiredForUnlock => TechType.Kyanite;
-        public override float CraftingTime => 3f;
-        protected override Sprite GetItemSprite()
+        public static string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
+        public static string[] StepsToFabricatorTab => new string[] { "Personal", "Equipment" };
+        protected static Sprite GetItemSprite()
         {
             return ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "chip_ecm.png"));
         }
-#if SN1
-        public override GameObject GetGameObject()
-        {
-            return CraftData.GetPrefabForTechType(TechType.MapRoomHUDChip);
-        }
-#else
-        public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
-        {
-            yield return CraftData.InstantiateFromPrefabAsync(TechType.MapRoomHUDChip, gameObject);
-        }
-#endif
     }
 }

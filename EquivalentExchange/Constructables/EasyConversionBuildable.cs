@@ -1,5 +1,5 @@
-﻿using SMLHelper.V2.Assets;
-using SMLHelper.V2.Crafting;
+﻿using Nautilus.Assets;
+using Nautilus.Crafting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,21 +8,33 @@ using System.Threading.Tasks;
 using UnityEngine;
 using EquivalentExchange.Monobehaviours;
 using System.Collections;
+using Nautilus.Assets.Gadgets;
+
+using Nautilus.Assets.PrefabTemplates;
+using static CraftData;
+
+
 #if SN
-using RecipeData = SMLHelper.V2.Crafting.TechData;
 using Sprite = Atlas.Sprite;
 #endif
 
 namespace EquivalentExchange.Constructables
 {
-    internal class EasyConversionBuildable : Buildable
+    internal class EasyConversionBuildable
     {
-        public EasyConversionBuildable() : base("EasyConversionBuildable", "Easy Conversion Antenna", "While within range of this antenna, will allow for automatic conversion of ECM to items as required for fabrication")
+        public static void Patch()
         {
+            var customPrefab = new CustomPrefab("EasyConversionBuildable", "Easy Conversion Antenna", "While within range of this antenna, will allow for automatic conversion of ECM to items as required for fabrication");
 
+            customPrefab.SetGameObject(GetGameObjectAsync);
+
+            customPrefab.SetRecipe(GetBlueprintRecipe());
+            customPrefab.SetPdaGroupCategory(TechGroup.InteriorPieces, TechCategory.InteriorPiece);
+            customPrefab.SetUnlock(TechType.PrecursorIonCrystal);
+
+            customPrefab.Register();
         }
-
-        protected override RecipeData GetBlueprintRecipe()
+        protected static RecipeData GetBlueprintRecipe()
         {
             return new RecipeData()
             {
@@ -36,15 +48,12 @@ namespace EquivalentExchange.Constructables
                 }
             };
         }
-        public override TechGroup GroupForPDA { get; } = TechGroup.InteriorPieces;
-        public override TechCategory CategoryForPDA { get; } = TechCategory.InteriorPiece;
-        public override TechType RequiredForUnlock { get; } = TechType.PrecursorIonCrystal;
 #if SN1
         public override GameObject GetGameObject()
         {
             var thermalPlantPrefab = CraftData.GetPrefabForTechType(TechType.ThermalPlant);
 #else
-        public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
+        public static IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
         {
             var task = CraftData.GetPrefabForTechTypeAsync(TechType.ThermalPlant);
             yield return task;

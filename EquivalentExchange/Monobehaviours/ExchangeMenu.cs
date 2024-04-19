@@ -1,6 +1,6 @@
 ﻿using EquivalentExchange.Patches;
-using SMLHelper.V2.Handlers;
-using SMLHelper.V2.Utility;
+using Nautilus.Handlers;
+using Nautilus.Utility;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,7 +16,6 @@ using UnityEngine.UI;
 using UWE;
 using static EquivalentExchange.QMod;
 #if SN
-using RecipeData = SMLHelper.V2.Crafting.TechData;
 using Sprite = Atlas.Sprite;
 #endif
 
@@ -733,7 +732,7 @@ namespace EquivalentExchange.Monobehaviours
 				}
 				var origMenu = uGUI_BuilderMenu.GetInstance();
 
-                var exchangeMenu = GameObject.Instantiate(origMenu.gameObject, origMenu.transform.position, origMenu.transform.rotation, false);
+                var exchangeMenu = UWE.Utils.InstantiateDeactivated(origMenu.gameObject, origMenu.transform.position, origMenu.transform.rotation);
                 GameObject.DestroyImmediate(exchangeMenu.GetComponent<uGUI_BuilderMenu>());
                 exchangeMenu.AddComponent<ExchangeMenu>();
                 exchangeMenu.SetActive(true);
@@ -845,7 +844,7 @@ namespace EquivalentExchange.Monobehaviours
 			if (QMod.config.OrganicMaterialsCosts.ContainsKey(type))
 				return ExchangeMenuTab.BiologicalMaterials;
 
-			if (TechTypeHandler.TryGetModdedTechType(type.ToString(), out TechType custom))
+			if (EnumHandler.TryGetValue(type.ToString(), out TechType custom))
 				return ExchangeMenuTab.ModdedItems;
 
 

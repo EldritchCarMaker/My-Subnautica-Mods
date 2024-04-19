@@ -46,7 +46,8 @@ namespace EquippableItemIcons.API.SecretSMLNautilusAPIDontTouch
         public abstract IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject);
         public void Patch()
         {
-            var prefab = new CustomPrefab(classid, friendlyName, description);
+            var prefab = new CustomPrefab(classid, friendlyName, description, GetItemSprite());
+            TechType = prefab.Info.TechType;
 
             prefab.SetGameObject(GetGameObjectAsync);
             if(FabricatorType != CraftTree.Type.None)

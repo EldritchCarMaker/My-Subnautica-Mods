@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace EquivalentExchange.Monobehaviours
 {
 	using HarmonyLib;
-	using SMLHelper.V2.Handlers;
+	using Nautilus.Handlers;
 	using System;
 	using System.Collections.Generic;
 	using System.Reflection;
@@ -118,7 +118,8 @@ namespace EquivalentExchange.Monobehaviours
 			TechType techType = pickupable.GetTechType();
 
 			if (techType.ToString().ToLower() == "debitcard") return true;
-
+			/*
+			 * FCS Compat. Re-add/implement once FCS mods are updated
 			if(((Dictionary<TechType, Assembly>)AccessTools.Field(typeof(TechTypeHandler), "TechTypesAddedBy").GetValue(null)).TryGetValue(techType, out var assembly))
 			{
 				if(assembly.GetName().Name.Contains("FCS_"))
@@ -126,7 +127,7 @@ namespace EquivalentExchange.Monobehaviours
 					ErrorMessage.AddMessage("Can't add FCS items to the item research station. Please return them through the FCS pda instead");
 					return false;
 				}
-            }
+            }*/
             return true;
         }
 

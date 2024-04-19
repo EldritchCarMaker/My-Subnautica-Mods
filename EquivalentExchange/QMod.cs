@@ -41,6 +41,7 @@ namespace EquivalentExchange
         internal static TechType FCSConvertBackType = TechTypeHandler.AddTechType("FCSConvertBack", FCSConvertName, FCSConvertBackDesc);
 #else
     [BepInPlugin("EldritchCarMaker.EquivalentExchange", "Equivalent Exchange", "1.6.1")]
+    [BepInDependency("sn.easycraft.mod", BepInDependency.DependencyFlags.SoftDependency)]
     public class QMod : BaseUnityPlugin
     {
         public static ManualLogSource logger;
@@ -84,18 +85,30 @@ namespace EquivalentExchange
 #endif
 
 
-            new ItemResearchStationConstructable().Patch();
-            new AutomaticItemConverterConstructable().Patch();
-            new AutoItemConversionChip().Patch();
-            new EasyConversionBuildable().Patch();
+            ItemResearchStationConstructable.Patch();
+            AutomaticItemConverterConstructable.Patch();
+            AutoItemConversionChip.Patch();
+            EasyConversionBuildable.Patch();
 
 #if SN1
             if (QModManager.API.QModServices.Main.ModPresent("EasyCraft"))
+            {
+                EasyCraftPatches.PatchEasyCraft(harmony);
+#elif SN2
+            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("sn.easycraft.mod"))
+            {
                 EasyCraftPatches.PatchEasyCraft(harmony);
 #elif BZ
             if (QModManager.API.QModServices.Main.ModPresent("EasyCraft_BZ"))
+            {
                 EasyCraftPatches.PatchEasyCraft(harmony);
 #endif
+                logger.LogInfo("Easy Craft Found. Patching.");
+            }
+            else
+            {
+                logger.LogInfo("Easy Craft Not Found.");
+            }
 
 
             LogInfo("Patched successfully!");
