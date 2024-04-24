@@ -18,6 +18,8 @@ using System.IO;
 using ArmorSuit.Items;
 using System.Collections.Generic;
 using static ArmorSuit.ArmorSuitMono;
+using SuitLib;
+using Nautilus.Utility;
 
 namespace ArmorSuit
 {
@@ -28,6 +30,8 @@ namespace ArmorSuit
         public static Config config { get; } = OptionsPanelHandler.Main.RegisterModOptions<Config>();
 #else
     [BepInPlugin("EldritchCarMaker.ArmorSuit", "Armor Suit", "1.0.2")]
+    [BepInDependency("com.snmodding.nautilus", BepInDependency.DependencyFlags.HardDependency)]
+    [BepInDependency("Indigocoder.SuitLib", BepInDependency.DependencyFlags.HardDependency)]
     public class QMod : BaseUnityPlugin
     {
         public static Config config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
@@ -53,11 +57,27 @@ namespace ArmorSuit
             new ArmorGlovesItem().Patch();
             new ArmorSuitItem().Patch();
 
+            RegisterSuit();
 #if !SN2
             Logger.Log(Logger.Level.Info, "Patched successfully!");
 #else
             Logger.LogInfo("Patched successfully!");
 #endif
+        }
+
+        private void RegisterSuit()
+        {
+            Texture2D bodyTex = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "ColoredSuitBody.png"));
+            Texture2D armsTex = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "ColoredSuitArms.png"));
+
+            //Inspiring naming, I know
+            Dictionary<string, Texture2D> suitKeyValuePairs = new Dictionary<string, Texture2D> { { "_MainTex", bodyTex }, { "_SpecTex", bodyTex } };
+            Dictionary<string, Texture2D> armKeyValuePairs = new Dictionary<string, Texture2D> { { "_MainTex", armsTex }, { "_SpecTex", armsTex } };
+            ModdedSuit armorSuit = new(suitKeyValuePairs, armKeyValuePairs, ModdedSuitsManager.VanillaModel.Reinforced, ArmorSuitItem.thisTechType, tempValue: 0);
+            ModdedGloves armorGloves = new(armKeyValuePairs, ModdedSuitsManager.VanillaModel.Reinforced, ArmorGlovesItem.techType, tempValue: 0);
+
+            ModdedSuitsManager.AddModdedSuit(armorSuit);
+            ModdedSuitsManager.AddModdedGloves(armorGloves);
         }
     }
     [Menu("ArmorSuit")]

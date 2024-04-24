@@ -54,7 +54,9 @@ public override GameObject GetGameObject()
         {
             var task = CraftData.GetPrefabForTechTypeAsync(TechType.ReinforcedGloves);
             yield return task;
-            gameObject.Set(task.GetResult());
+            //Directly setting the prefab overwrites the reinforced gloves prefab
+            GameObject clonedGloves = GameObject.Instantiate(task.GetResult());
+            gameObject.Set(clonedGloves);
         }
     }
 }

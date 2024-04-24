@@ -53,18 +53,6 @@ namespace ArmorSuit
             DamageType.Smoke,
         };*/
 
-        private static GameObject _diveSuitGloves;
-        private static GameObject _diveSuitBody;
-
-        private static GameObject _reinforcedSuitGloves;
-        private static GameObject _reinforcedSuitBody;
-
-        private static Texture _vanillaRSuitBodyTexture;
-        private static Texture _vanillaRSuitArmsTexture;
-
-        private static Texture _newRSuitBodyTexture;
-        private static Texture _newRSuitArmsTexture;
-
         private static List<DefenseInfo> defenseInfos => QMod.config.DefenseInfos;
 
         private DefenseInfo _currentType;
@@ -92,7 +80,6 @@ namespace ArmorSuit
         public void Awake()
         {
             SuitDefense.SetUpDamageModifiers();
-            FindBodyObjects();
             SetUpSuitColors();
 
             hudItemIcon.activationType = ActivatedEquippableItem.ActivationType.OnceOff;
@@ -105,91 +92,15 @@ namespace ArmorSuit
 
             hudItemIcon.DetailedActivate += Activate;
             hudItemIcon.OnEquipChange += EquipChange;
+            hudItemIcon.OnUnEquip += SetSuitColors;
 
             Registries.RegisterHudItemIcon(hudItemIcon);
         }
 
-        private static void FindBodyObjects()
-        {
-#if SN
-            var geo = Player.main.transform.Find("body/player_view/male_geo");
-#else
-            var geo = Player.main.transform.Find("body/player_view_female/female_geo");
-#endif
-#if SN
-            var diveSuit = geo.Find("diveSuit");
-#else
-            var diveSuit = geo.Find("base");
-#endif
-
-            if (!_diveSuitGloves)
-            {
-#if SN
-                _diveSuitGloves = diveSuit.Find("diveSuit_hands_geo").gameObject;
-#else
-                _diveSuitGloves = diveSuit.Find("female_base_gloves_geo").gameObject;
-#endif
-            }
-            if(!_diveSuitBody)
-            {
-#if SN
-                _diveSuitBody = diveSuit.Find("diveSuit_body_geo").gameObject;
-#else
-                _diveSuitBody = diveSuit.Find("female_base_body_geo").gameObject;
-#endif
-            }
-#if SN
-            var suit = geo.Find("reinforcedSuit");
-#else
-            var suit = geo.Find("reinforced");
-#endif
-
-            if (!_reinforcedSuitGloves)
-            {
-#if SN
-                _reinforcedSuitGloves = suit.Find("reinforced_suit_01_glove_geo").gameObject;
-#else
-                _reinforcedSuitGloves = suit.Find("female_reinforced_hands_geo").gameObject;
-#endif
-            }
-            if(!_reinforcedSuitBody)
-            {
-#if SN
-                _reinforcedSuitBody = suit.Find("reinforced_suit_01_body_geo").gameObject;
-#else
-                _reinforcedSuitBody = suit.Find("female_reinforced_body_geo").gameObject;
-#endif
-            }
-
-            if (!_vanillaRSuitArmsTexture)
-            {
-                _vanillaRSuitArmsTexture = _reinforcedSuitGloves.GetComponent<Renderer>().material.mainTexture;
-            }
-            if(!_vanillaRSuitBodyTexture)
-            {
-                _vanillaRSuitBodyTexture = _reinforcedSuitBody.GetComponent<Renderer>().material.mainTexture;
-            }
-
-            if(!_newRSuitArmsTexture)
-            {
-                _newRSuitArmsTexture = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "ColoredSuitArms.png"));
-            }
-            if(!_newRSuitBodyTexture)
-            {
-                _newRSuitBodyTexture = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "ColoredSuitBody.png"));
-            }
-        }
-        public void Update()//just for testing
-        {
-            if (!Input.GetKeyDown(KeyCode.R)) return;
-            _newRSuitArmsTexture = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "ColoredSuitArms.png"));
-            _newRSuitBodyTexture = ImageUtils.LoadTextureFromFile(Path.Combine(AssetsFolder, "ColoredSuitBody.png"));
-            UpdatePlayerSuit();
-        }
         private void SetUpSuitColors()
         {
             SuitColors = gameObject.EnsureComponent<SuitColors>();
-            SuitColors.renderers = _reinforcedSuitGloves.transform.parent.GetComponentsInChildren<Renderer>(true);
+            SuitColors.renderers = Player.main.transform.Find("body/player_view/male_geo/reinforcedSuit").GetComponentsInChildren<Renderer>(true);
         }
 
         public void Activate(List<TechType> equippedTypes)
@@ -216,35 +127,7 @@ namespace ArmorSuit
         {
             UpdateDamageModifier();
             UpdateIcon();
-            UpdatePlayerSuit();
-        }
-
-        public void UpdatePlayerSuit()
-        {
-            _diveSuitBody.transform.parent.gameObject.SetActive(true);
-            _reinforcedSuitBody.transform.parent.gameObject.SetActive(true);//should be active anyway, but can't hurt to make sure
-
-
-            var notEquipped = hudItemIcon.equippedTechTypes.Count == 0;
-
-            var color = notEquipped ? Color.white : CurrentType.SuitColor;
-            SuitColors.SetColor(color);
-
-
-            var glovesEquipped = hudItemIcon.equippedTechTypes.Contains(ArmorGlovesItem.techType);
-            _reinforcedSuitGloves.SetActive(glovesEquipped);
-            _diveSuitGloves.SetActive(!glovesEquipped);
-
-            _reinforcedSuitGloves.GetComponent<Renderer>().material.mainTexture = glovesEquipped ? _newRSuitArmsTexture : _vanillaRSuitArmsTexture;
-
-
-            var suitEquipped = hudItemIcon.equippedTechTypes.Contains(hudItemIcon.techType);
-            _reinforcedSuitBody.SetActive(suitEquipped);
-            _diveSuitBody.SetActive(!suitEquipped);
-
-            _reinforcedSuitBody.GetComponent<Renderer>().material.mainTexture = suitEquipped ? _newRSuitBodyTexture : _vanillaRSuitBodyTexture;
-            _reinforcedSuitBody.GetComponent<Renderer>().materials[1].mainTexture = suitEquipped ? _newRSuitArmsTexture : _vanillaRSuitArmsTexture;
-
+            SetSuitColors();
         }
 
         public void UpdateIcon()
@@ -271,7 +154,21 @@ namespace ArmorSuit
         private void SetColors(Color color)
         {
             SetIconColor(color);
-            UpdatePlayerSuit();
+            SetSuitColors();
+        }
+
+        private void SetSuitColors()
+        {
+            Color color = hudItemIcon.equippedTechTypes.Count == 0 ? Color.white : CurrentType.SuitColor;
+
+            foreach (Renderer rend in SuitColors.renderers)
+            {
+                foreach (var item in rend.materials)
+                {
+                    item.color = color;
+                    item.SetColor("_SpecColor", color);
+                }
+            }
         }
 
         private void SetIconColor(Color color)

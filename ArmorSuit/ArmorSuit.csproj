@@ -61,11 +61,6 @@
   <Import Project="..\Configurations.targets" />
   <Import Project="..\References.targets" />
   <ItemGroup>
-    <Reference Include="EquippableItemIcons">
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Items\ArmorGlovesItem.cs" />
     <Compile Include="Items\ArmorSuitItem.cs" />
     <Compile Include="Mono\ArmorSuitDefense.cs" />
@@ -79,18 +74,23 @@
   <ItemGroup>
     <None Include="mod.json" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="EquippableItemIcons">
+      <HintPath>D:\Program Files (x86)\Steam\steamapps\common\Subnautica\BepInEx\plugins\EquippableItemIcons\EquippableItemIcons.dll</HintPath>
+    </Reference>
+    <Reference Include="SuitLib">
+      <HintPath>D:\Program Files (x86)\Steam\steamapps\common\Subnautica\BepInEx\plugins\SuitLib\SuitLib.dll</HintPath>
+    </Reference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
     </PostBuildEvent>
+copy /Y "$(TargetPath)" "D:\Program Files (x86)\Steam\steamapps\common\Subnautica\BepInEx\plugins\$(TargetName)"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>if not exist "$(Dependencies)" mkdir "$(Dependencies)"
-Echo $(SolutionDir)nstrip.exe  -p -cg -cg-exclude-events "$(ManagedDir)" "$(Dependencies)"
-$(SolutionDir)nstrip.exe -p -cg -cg-exclude-events "$(ManagedDir)" "$(Dependencies)" &gt; nul
-copy /Y "$(GameDir)\QMods\$(SMLHelperFolder)\SMLHelper.dll" "$(Dependencies)"
-copy /Y "$(GameDir)\BepInEx\plugins\QModManager\QModInstaller.dll" "$(Dependencies)"
-copy /Y "$(GameDir)\BepInEx\core\0Harmony.dll" "$(Dependencies)"</PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
   <Import Project="..\PostBuildEvents.targets" />
 </Project>

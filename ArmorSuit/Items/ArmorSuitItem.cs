@@ -86,7 +86,9 @@ namespace ArmorSuit
         {
             var task = CraftData.GetPrefabForTechTypeAsync(TechType.ReinforcedDiveSuit);
             yield return task;
-            gameObject.Set(task.GetResult());
+            //Setting it directly overwrites the reinforced dive suit prefab
+            GameObject clonedSuit = GameObject.Instantiate(task.GetResult());
+            gameObject.Set(clonedSuit);
         }
     }
 }
