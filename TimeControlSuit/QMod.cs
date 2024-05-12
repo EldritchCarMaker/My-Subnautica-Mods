@@ -53,7 +53,7 @@ namespace TimeControlSuit
             Harmony harmony = new Harmony(CyclopsLockers);
             harmony.PatchAll(assembly);
 
-            new TimeSuitItem().Patch();
+            TimeSuitItem.Patch();
 
             Logger.LogInfo("Patched successfully!");
         }

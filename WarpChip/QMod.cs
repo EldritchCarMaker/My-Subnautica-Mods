@@ -48,14 +48,13 @@ namespace WarpChip
             Harmony harmony = new Harmony(name);
             harmony.PatchAll(assembly);
 
-            WarpChipItem warpChipItem = new WarpChipItem();
-            warpChipItem.Patch();
+            WarpChipItem.Patch();
 
-            new UltimateWarpChip().Patch();
+            UltimateWarpChip.Patch();
 
-            new TelePingBeacon().Patch();
+            TelePingBeacon.Patch();
 
-            new TelePingVehicleModule().Patch();
+            TelePingVehicleModule.Patch();
 
 #if !SN2
             Logger.Log(Logger.Level.Info, "Patched successfully!");

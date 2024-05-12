@@ -53,7 +53,7 @@ namespace ShieldSuit
             Harmony harmony = new Harmony(CyclopsLockers);
             harmony.PatchAll(assembly);
 
-            new ShieldSuitItem().Patch();
+            ShieldSuitItem.Patch();
 
             Logger.LogInfo("Patched successfully!");
         }

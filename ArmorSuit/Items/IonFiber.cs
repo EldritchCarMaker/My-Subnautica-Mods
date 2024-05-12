@@ -8,34 +8,38 @@ using SMLHelper.V2.Utility;
 #else
 using Nautilus.Crafting;
 using Nautilus.Utility;
-using EquippableItemIcons.API.SecretSMLNautilusAPIDontTouch;
 using static CraftData;
 #endif
 #endif
 using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
+using Nautilus.Assets;
+using Nautilus.Assets.PrefabTemplates;
+using Nautilus.Assets.Gadgets;
 
 
 namespace ArmorSuit.Items
 {
-    internal class IonFiber :
-#if SN1
-        Craftable
-#else
-        Equipable
-#endif
+    internal static class IonFiber
     {
         public static TechType TType { get; private set; }
-        public IonFiber() : base("IonFiber", "Ion Fibers", "Special fibers made using precursor energy sources which have a miraculous ability to adapt")
+        public static void Patch()
         {
-            OnFinishedPatching += () => TType = TechType;
+            var customPrefab = new CustomPrefab("IonFiber", "Ion Fibers", "Special fibers made using precursor energy sources which have a miraculous ability to adapt", GetItemSprite());
+            customPrefab.SetGameObject(new CloneTemplate(customPrefab.Info, TechType.AramidFibers));
+
+            customPrefab.SetRecipe(GetBlueprintRecipe()).WithFabricatorType(CraftTree.Type.Fabricator).StepsToFabricatorTab = new[] { "Resources", "AdvancedMaterials" };
+            customPrefab.SetUnlock(TechType.PrecursorIonCrystal).WithPdaGroupCategory(TechGroup.Resources, TechCategory.AdvancedMaterials);
+
+            customPrefab.Register();
+            TType = customPrefab.Info.TechType;
         }
-        protected override Sprite GetItemSprite()
+        public static Sprite GetItemSprite()
         {
             return SpriteManager.Get(TechType.AramidFibers);
         }
-        protected override RecipeData GetBlueprintRecipe()
+        public static RecipeData GetBlueprintRecipe()
         {
             return new RecipeData()
             {
@@ -47,21 +51,5 @@ namespace ArmorSuit.Items
                 craftAmount = 1
             };
         }
-#if SN1
-        public override GameObject GetGameObject()
-        {
-            return CraftData.InstantiateFromPrefab(TechType.AramidFibers);
-        }
-#endif
-        public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
-        {
-            var task = CraftData.GetPrefabForTechTypeAsync(TechType.AramidFibers);
-            yield return task;
-            gameObject.Set(task.GetResult());
-        }
-        public override TechCategory CategoryForPDA => TechCategory.AdvancedMaterials;
-        public override CraftTree.Type FabricatorType => CraftTree.Type.Fabricator;
-        public override TechType RequiredForUnlock => TechType.PrecursorIonCrystal;
-        public override string[] StepsToFabricatorTab => new[] { "Resources", "AdvancedMaterials" };
     }
 }

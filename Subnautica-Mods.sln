@@ -113,6 +113,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DroneBuddy", "DroneBuddy\Dr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudyWithAChanceOfTorpedoes", "CloudyWithAChanceOfTorpedoes\CloudyWithAChanceOfTorpedoes.csproj", "{DE7958E5-67DD-4C23-BBB1-ED0AC45F080E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Maurice", "Maurice\Maurice.csproj", "{F208237C-D508-494F-9564-1306D2867FAF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		BZ|Any CPU = BZ|Any CPU
@@ -521,6 +523,16 @@ Global
 		{DE7958E5-67DD-4C23-BBB1-ED0AC45F080E}.SN1|Any CPU.Build.0 = SN1|Any CPU
 		{DE7958E5-67DD-4C23-BBB1-ED0AC45F080E}.SN2|Any CPU.ActiveCfg = SN2|Any CPU
 		{DE7958E5-67DD-4C23-BBB1-ED0AC45F080E}.SN2|Any CPU.Build.0 = SN2|Any CPU
+		{F208237C-D508-494F-9564-1306D2867FAF}.BZ|Any CPU.ActiveCfg = BZ|Any CPU
+		{F208237C-D508-494F-9564-1306D2867FAF}.BZ|Any CPU.Build.0 = BZ|Any CPU
+		{F208237C-D508-494F-9564-1306D2867FAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F208237C-D508-494F-9564-1306D2867FAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F208237C-D508-494F-9564-1306D2867FAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F208237C-D508-494F-9564-1306D2867FAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F208237C-D508-494F-9564-1306D2867FAF}.SN1|Any CPU.ActiveCfg = SN1|Any CPU
+		{F208237C-D508-494F-9564-1306D2867FAF}.SN1|Any CPU.Build.0 = SN1|Any CPU
+		{F208237C-D508-494F-9564-1306D2867FAF}.SN2|Any CPU.ActiveCfg = SN2|Any CPU
+		{F208237C-D508-494F-9564-1306D2867FAF}.SN2|Any CPU.Build.0 = SN2|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

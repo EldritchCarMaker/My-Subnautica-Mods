@@ -61,11 +61,6 @@
   <Import Project="..\Configurations.targets" />
   <Import Project="..\References.targets" />
   <ItemGroup>
-    <Reference Include="EquippableItemIcons">
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Patches\GroundMotorPatches.cs" />
     <Compile Include="Patches\PlayerPatch.cs" />
     <Compile Include="Patches\UnderWaterMotorPatches.cs" />
@@ -79,6 +74,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EquippableItemIcons\EquippableItemIcons.csproj">
+      <Project>{3984abc3-4152-487e-bbf9-da129d2327b5}</Project>
+      <Name>EquippableItemIcons</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\PostBuildEvents.targets" />

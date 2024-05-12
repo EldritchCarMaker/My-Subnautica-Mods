@@ -82,7 +82,7 @@ namespace SpyWatch
             Harmony harmony = new Harmony(CyclopsLockers);
             harmony.PatchAll(assembly);
 
-            new SpyWatchItem().Patch();
+            SpyWatchItem.Patch();
 
             if (!assetBundle)
             {

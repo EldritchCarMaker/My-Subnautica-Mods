@@ -8,6 +8,12 @@ using System.Threading.Tasks;
 using UnityEngine;
 #if SN
 using Sprite = Atlas.Sprite;
+using Nautilus.Assets.PrefabTemplates;
+
+using Nautilus.Assets;
+using Nautilus.Assets.Gadgets;
+
+
 #if SN1
 using RecipeData = SMLHelper.V2.Crafting.TechData;
 using SMLHelper.V2.Assets;
@@ -16,45 +22,30 @@ using SMLHelper.V2.Utility;
 #else
 using Nautilus.Crafting;
 using Nautilus.Utility;
-using EquippableItemIcons.API.SecretSMLNautilusAPIDontTouch;
 #endif
 #endif
 
 namespace ArmorSuit
 {
-    internal class ArmorGlovesItem : Equipable
+    internal class ArmorGlovesItem
     {
         public static TechType techType { get; private set; }
-
-        public override EquipmentType EquipmentType => EquipmentType.Gloves;
-        public override TechType RequiredForUnlock => TechType.Unobtanium;
-        public override Vector2int SizeInInventory => new Vector2int(2, 2);
-
-        public ArmorGlovesItem() : base("ArmorGlovesItem", "Armor Gloves", "A high tech adaptive pair of gloves which gives high damage reduction to a specific damage type")
+        public static void Patch()
         {
-            OnFinishedPatching += () => techType = TechType;
+            var customPrefab = new CustomPrefab("ArmorGlovesItem", "Armor Gloves", "A high tech adaptive pair of gloves which gives high damage reduction to a specific damage type", GetItemSprite());
+            customPrefab.SetGameObject(new CloneTemplate(customPrefab.Info, TechType.ReinforcedGloves));
+            customPrefab.Info.WithSizeInInventory(new(2, 2));
+
+            customPrefab.SetEquipment(EquipmentType.Gloves);
+
+
+            customPrefab.Register();
+            techType = customPrefab.Info.TechType;
         }
 
-        protected override Sprite GetItemSprite()
+        public static Sprite GetItemSprite()
         {
             return ImageUtils.LoadSpriteFromFile(Path.Combine(ArmorSuitMono.AssetsFolder, "ArmorGloves.png"));
-        }
-
-        protected override RecipeData GetBlueprintRecipe()
-        {
-            return new RecipeData();
-        }
-#if SN1
-public override GameObject GetGameObject()
-        {
-            return CraftData.InstantiateFromPrefab(TechType.ReinforcedGloves);
-        }
-#endif
-        public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
-        {
-            var task = CraftData.GetPrefabForTechTypeAsync(TechType.ReinforcedGloves);
-            yield return task;
-            gameObject.Set(task.GetResult());
         }
     }
 }

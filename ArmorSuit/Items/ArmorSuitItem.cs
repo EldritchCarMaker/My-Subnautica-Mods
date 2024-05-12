@@ -15,51 +15,44 @@ using SMLHelper.V2.Utility;
 #else
 using Nautilus.Crafting;
 using Nautilus.Utility;
-using EquippableItemIcons.API.SecretSMLNautilusAPIDontTouch;
 using static CraftData;
 #endif
 #endif
 using UnityEngine;
 using ArmorSuit.Items;
 using System.Collections;
+using Nautilus.Assets.PrefabTemplates;
+using Nautilus.Assets;
+using Nautilus.Assets.Gadgets;
 
 namespace ArmorSuit
 {
-    internal class ArmorSuitItem : Equipable
+    internal static class ArmorSuitItem
     {
         public static TechType thisTechType;
-        public static Sprite sprite = SpriteManager.Get(TechType.UltraGlideFins);
 
-        public ArmorSuitItem() : base("ArmorSuitItem", "Armor Suit", "A high tech adaptive suit which gives high damage reduction to a specific damage type")
+        public static void Patch()
         {
-            OnFinishedPatching += () =>
-            {
-                thisTechType = TechType;
-            };
+            var customPrefab = new CustomPrefab("ArmorSuitItem", "Armor Suit", "A high tech adaptive suit which gives high damage reduction to a specific damage type", GetItemSprite());
+            customPrefab.SetGameObject(new CloneTemplate(customPrefab.Info, TechType.ReinforcedDiveSuit));
+            customPrefab.Info.WithSizeInInventory(new(2, 2));
+
+            customPrefab.SetRecipe(GetBlueprintRecipe()).WithFabricatorType(CraftTree.Type.Fabricator).StepsToFabricatorTab = new[] { "Personal", "Equipment" };
+            customPrefab.SetUnlock(TechType.ReinforcedDiveSuit).WithPdaGroupCategory(TechGroup.Personal, TechCategory.Equipment);
+            customPrefab.SetEquipment(EquipmentType.Body);
+            
+
+            customPrefab.Register();
+            thisTechType = customPrefab.Info.TechType;
         }
 
-        public override EquipmentType EquipmentType => EquipmentType.Body;
-        
-        public override TechType RequiredForUnlock => TechType.ReinforcedDiveSuit;
-        
-        public override TechGroup GroupForPDA => TechGroup.Personal;
-        
-        public override TechCategory CategoryForPDA => TechCategory.Equipment;
-        
-        public override CraftTree.Type FabricatorType => CraftTree.Type.Fabricator;
-        
-        public override string[] StepsToFabricatorTab => new string[] { "Personal", "Equipment" };
-        
-        public override float CraftingTime => 3f;
 
-        public override Vector2int SizeInInventory => new Vector2int(2, 2);
-
-        protected override Sprite GetItemSprite()
+        public static Sprite GetItemSprite()
         {
             return ImageUtils.LoadSpriteFromFile(Path.Combine(ArmorSuitMono.AssetsFolder, "ArmorSuit.png"));
         }
 
-        protected override RecipeData GetBlueprintRecipe()
+        public static RecipeData GetBlueprintRecipe()
         {
             return new RecipeData()
             {
@@ -73,20 +66,6 @@ namespace ArmorSuit
                 ),
                 LinkedItems = new List<TechType>() { ArmorGlovesItem.techType }
             };
-        }
-#if SN1
-        public override GameObject GetGameObject()
-        {
-            var prefab = CraftData.GetPrefabForTechType(TechType.ReinforcedDiveSuit);
-            var obj = GameObject.Instantiate(prefab);
-            return obj;
-        }
-#endif
-        public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
-        {
-            var task = CraftData.GetPrefabForTechTypeAsync(TechType.ReinforcedDiveSuit);
-            yield return task;
-            gameObject.Set(task.GetResult());
         }
     }
 }

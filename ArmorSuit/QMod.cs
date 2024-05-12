@@ -49,9 +49,9 @@ namespace ArmorSuit
             Harmony harmony = new Harmony(CyclopsLockers);
             harmony.PatchAll(assembly);
 
-            new IonFiber().Patch();
-            new ArmorGlovesItem().Patch();
-            new ArmorSuitItem().Patch();
+            IonFiber.Patch();
+            ArmorGlovesItem.Patch();
+            ArmorSuitItem.Patch();
 
 #if !SN2
             Logger.Log(Logger.Level.Info, "Patched successfully!");

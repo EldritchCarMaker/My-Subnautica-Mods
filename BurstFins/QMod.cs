@@ -53,7 +53,7 @@ namespace BurstFins
             Harmony harmony = new Harmony(CyclopsLockers);
             harmony.PatchAll(assembly);
 
-            new BurstFinsItem().Patch();
+            BurstFinsItem.Patch();
 
             Logger.LogInfo("Patched successfully!");
         }

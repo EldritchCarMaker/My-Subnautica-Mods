@@ -8,7 +8,6 @@ using SMLHelper.V2.Utility;
 #else
 using Nautilus.Crafting;
 using Nautilus.Utility;
-using EquippableItemIcons.API.SecretSMLNautilusAPIDontTouch;
 using static CraftData;
 #endif
 #endif
@@ -17,42 +16,42 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using Nautilus.Assets.PrefabTemplates;
+using Nautilus.Assets;
+using static Atlas;
+using Nautilus.Assets.Gadgets;
 
 namespace WarpChip
 {
-    internal class UltimateWarpChip : Equipable
+    internal class UltimateWarpChip
     {
         public static TechType thisTechType;
 
-        public string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
-
-        public UltimateWarpChip() : base("UltimateWarpChip", "Ultimate Warp Chip", "Allows infinite short range teleportation with no cooldown")
+        public static string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
+        public static void Patch()
         {
-            OnFinishedPatching += () =>
-            {
-                thisTechType = TechType;
-            };
-        }
+            var customPrefab = new CustomPrefab("UltimateWarpChip", "Ultimate Warp Chip", "Allows infinite short range teleportation with no cooldown", GetItemSprite());
+            customPrefab.SetGameObject(new CloneTemplate(customPrefab.Info, TechType.MapRoomHUDChip));
 
-        public override EquipmentType EquipmentType => EquipmentType.Chip;
-        public override TechType RequiredForUnlock =>
+            customPrefab.SetRecipe(GetBlueprintRecipe()).WithFabricatorType(CraftTree.Type.Fabricator).StepsToFabricatorTab = new[] { "Personal", "Equipment" };
+            var unlockType =
 #if SN
-            TechType.HatchingEnzymes;
+                TechType.HatchingEnzymes;
 #else
-            TechType.TeleportationTool;
+                TechType.TeleportationTool;
 #endif
-        public override TechGroup GroupForPDA => TechGroup.Personal;
-        public override TechCategory CategoryForPDA => TechCategory.Equipment;
-        public override CraftTree.Type FabricatorType => CraftTree.Type.Fabricator;
-        public override string[] StepsToFabricatorTab => new string[] { "Personal", "Equipment" };
-        public override float CraftingTime => 3f;
-        public override QuickSlotType QuickSlotType => QuickSlotType.Passive;
-        protected override Sprite GetItemSprite()
+            customPrefab.SetUnlock(unlockType).WithPdaGroupCategory(TechGroup.Personal, TechCategory.Equipment);
+            customPrefab.SetEquipment(EquipmentType.Chip);
+
+            customPrefab.Register();
+            thisTechType = customPrefab.Info.TechType;
+        }
+        public static Sprite GetItemSprite()
         {
             return ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "WarpChipIcon.png"));
         }
 
-        protected override RecipeData GetBlueprintRecipe()
+        public static RecipeData GetBlueprintRecipe()
         {
             return new RecipeData()
             {
@@ -68,18 +67,6 @@ namespace WarpChip
                     }
                 )
             };
-        }
-#if SN1
-        public override GameObject GetGameObject()
-        {
-            var prefab = CraftData.GetPrefabForTechType(TechType.MapRoomHUDChip);
-            var obj = GameObject.Instantiate(prefab);
-            return obj;
-        }
-#endif
-        public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
-        {
-            yield return CraftData.InstantiateFromPrefabAsync(TechType.MapRoomHUDChip, gameObject);
         }
     }
 }

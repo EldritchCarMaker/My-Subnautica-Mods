@@ -54,7 +54,7 @@ namespace StasisSuit
             Harmony harmony = new Harmony(CyclopsLockers);
             harmony.PatchAll(assembly);
 
-            new StasisSuitItem().Patch();
+            StasisSuitItem.Patch();
 
             Logger.LogInfo("Patched successfully!");
         }

@@ -53,7 +53,7 @@ namespace MiniatureSuit
             Harmony harmony = new Harmony(CyclopsLockers);
             harmony.PatchAll(assembly);
 
-            new MiniSuitItem().Patch();
+            MiniSuitItem.Patch();
 
             Logger.LogInfo("Patched successfully!");
         }

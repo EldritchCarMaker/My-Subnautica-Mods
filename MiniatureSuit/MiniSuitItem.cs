@@ -8,7 +8,6 @@ using SMLHelper.V2.Utility;
 #else
 using Nautilus.Crafting;
 using Nautilus.Utility;
-using EquippableItemIcons.API.SecretSMLNautilusAPIDontTouch;
 using static CraftData;
 #endif
 #endif
@@ -17,37 +16,35 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using Nautilus.Assets.PrefabTemplates;
+using Nautilus.Assets;
+using Nautilus.Assets.Gadgets;
 
 namespace MiniatureSuit
 {
-    internal class MiniSuitItem : Equipable
+    internal class MiniSuitItem
     {
         public static TechType thisTechType;
-        public string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
-
-        public MiniSuitItem() : base("MiniSuitItem", "Miniature Suit", "suit that allows you to shrink down to half size")
+        public static string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
+        public static void Patch()
         {
-            OnFinishedPatching += () =>
-            {
-                thisTechType = TechType;
-            };
-        }
+            var customPrefab = new CustomPrefab("MiniSuitItem", "Miniature Suit", "suit that allows you to shrink down to half size", GetItemSprite());
+            customPrefab.SetGameObject(new CloneTemplate(customPrefab.Info, TechType.ReinforcedDiveSuit));
+            customPrefab.Info.WithSizeInInventory(new(2, 2));
 
-        public override EquipmentType EquipmentType => EquipmentType.Body;
-        public override Vector2int SizeInInventory => new Vector2int(2, 2);
-        public override TechType RequiredForUnlock => TechType.PrecursorIonCrystal;
-        public override TechGroup GroupForPDA => TechGroup.Personal;
-        public override TechCategory CategoryForPDA => TechCategory.Equipment;
-        public override CraftTree.Type FabricatorType => CraftTree.Type.Fabricator;
-        public override string[] StepsToFabricatorTab => new string[] { "Personal", "Equipment" };
-        public override float CraftingTime => 3f;
-        public override QuickSlotType QuickSlotType => QuickSlotType.Passive;
-        protected override Sprite GetItemSprite()
+            customPrefab.SetRecipe(GetBlueprintRecipe()).WithFabricatorType(CraftTree.Type.Fabricator).StepsToFabricatorTab = new[] { "Personal", "Equipment" };
+            customPrefab.SetUnlock(TechType.PrecursorIonCrystal).WithPdaGroupCategory(TechGroup.Personal, TechCategory.Equipment);
+            customPrefab.SetEquipment(EquipmentType.Body);
+
+            customPrefab.Register();
+            thisTechType = customPrefab.Info.TechType;
+        }
+        public static Sprite GetItemSprite()
         {
             return ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "MiniSuitItem.png"));
         }
 
-        protected override RecipeData GetBlueprintRecipe()
+        public static RecipeData GetBlueprintRecipe()
         {
             return new RecipeData()
             {
@@ -60,20 +57,6 @@ namespace MiniatureSuit
                     }
                 )
             };
-        }
-#if SN1
-        public override GameObject GetGameObject()
-        {
-            var prefab = CraftData.GetPrefabForTechType(TechType.ReinforcedDiveSuit);
-            var obj = GameObject.Instantiate(prefab);
-            return obj;
-        }
-#endif 
-        public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
-        {
-            var task = CraftData.GetPrefabForTechTypeAsync(TechType.ReinforcedDiveSuit);
-            yield return task;
-            gameObject.Set(task.GetResult());
         }
     }
 }

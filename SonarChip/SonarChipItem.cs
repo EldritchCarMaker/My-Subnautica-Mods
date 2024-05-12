@@ -8,7 +8,6 @@ using SMLHelper.V2.Utility;
 #else
 using Nautilus.Crafting;
 using Nautilus.Utility;
-using EquippableItemIcons.API.SecretSMLNautilusAPIDontTouch;
 using static CraftData;
 #endif
 #endif
@@ -17,37 +16,35 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using Nautilus.Assets.PrefabTemplates;
+using Nautilus.Assets;
+using Nautilus.Assets.Gadgets;
 
 namespace SonarChip
 {
-    internal class SonarChipItem : Equipable
+    internal class SonarChipItem
     {
         public static TechType thisTechType;
 
-        public string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
-
-        public SonarChipItem() : base("SonarChip", "Sonar Chip", "Allows use of a sonar ping")
+        public static string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
+        public static void Patch()
         {
-            OnFinishedPatching += () =>
-            {
-                thisTechType = TechType;
-            };
-        }
+            var customPrefab = new CustomPrefab("SonarChip", "Sonar Chip", "Allows use of a sonar ping", GetItemSprite());
+            customPrefab.SetGameObject(new CloneTemplate(customPrefab.Info, TechType.MapRoomHUDChip));
 
-        public override EquipmentType EquipmentType => EquipmentType.Chip;
-        public override TechType RequiredForUnlock => TechType.BaseMapRoom;
-        public override TechGroup GroupForPDA => TechGroup.Personal;
-        public override TechCategory CategoryForPDA => TechCategory.Equipment;
-        public override CraftTree.Type FabricatorType => CraftTree.Type.Fabricator;
-        public override string[] StepsToFabricatorTab => new string[] { "Personal", "Equipment" };
-        public override float CraftingTime => 3f;
-        public override QuickSlotType QuickSlotType => QuickSlotType.Passive;
-        protected override Sprite GetItemSprite()
+            customPrefab.SetRecipe(GetBlueprintRecipe()).WithFabricatorType(CraftTree.Type.Fabricator).StepsToFabricatorTab = new[] { "Personal", "Equipment" };
+            customPrefab.SetUnlock(TechType.BaseMapRoom).WithPdaGroupCategory(TechGroup.Personal, TechCategory.Equipment);
+            customPrefab.SetEquipment(EquipmentType.Chip);
+
+            customPrefab.Register();
+            thisTechType = customPrefab.Info.TechType;
+        }
+        public static Sprite GetItemSprite()
         {
             return ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "SonarChipIcon.png"));
         }
 
-        protected override RecipeData GetBlueprintRecipe()
+        public static RecipeData GetBlueprintRecipe()
         {
             return new RecipeData()
             {
@@ -64,20 +61,6 @@ namespace SonarChip
                     }
                 )
             };
-        }
-#if SN1
-        public override GameObject GetGameObject()
-        {
-            var prefab = CraftData.GetPrefabForTechType(TechType.MapRoomHUDChip);
-            var obj = GameObject.Instantiate(prefab);
-            return obj;
-        }
-#endif
-        public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
-        {
-            var task = CraftData.GetPrefabForTechTypeAsync(TechType.MapRoomHUDChip);
-            yield return task;
-            gameObject.Set(task.GetResult());
         }
     }
 }

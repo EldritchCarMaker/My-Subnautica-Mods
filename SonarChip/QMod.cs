@@ -53,7 +53,7 @@ namespace SonarChip
             Harmony harmony = new Harmony(CyclopsLockers);
             harmony.PatchAll(assembly);
 
-            new SonarChipItem().Patch();
+            SonarChipItem.Patch();
 
             Logger.LogInfo("Patched successfully!");
         }

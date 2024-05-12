@@ -7,34 +7,37 @@ using SMLHelper.V2.Crafting;
 using SMLHelper.V2.Utility;
 #else
 using Nautilus.Crafting;
-using Nautilus.Utility;
-using EquippableItemIcons.API.SecretSMLNautilusAPIDontTouch;
 using static CraftData;
 #endif
 #endif
 using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
 using WarpChip.Monobehaviours;
+using Nautilus.Assets.PrefabTemplates;
+using Nautilus.Assets;
+using Nautilus.Assets.Gadgets;
 
 namespace WarpChip.Items
 {
-    internal class TelePingBeacon : Equipable
+    internal class TelePingBeacon
     {
         public static TechType ItemTechType { get; private set; }
-        public TelePingBeacon() : base("telepingbeacon", "Teleping beacon", "A beacon combined with precursor technology to allow for teleportation when combined with the warp chip")
+        public static void Patch()
         {
-            OnFinishedPatching += () => ItemTechType = TechType;
-        }
-        public override CraftTree.Type FabricatorType => CraftTree.Type.Fabricator;
-        public override string[] StepsToFabricatorTab => new[] { "Machines" };
-        public override TechType RequiredForUnlock => WarpChipItem.thisTechType;
-        public override QuickSlotType QuickSlotType => QuickSlotType.Selectable;
-        public override EquipmentType EquipmentType => EquipmentType.Hand;
+            var customPrefab = new CustomPrefab("telepingbeacon", "Teleping beacon", "A beacon combined with precursor technology to allow for teleportation when combined with the warp chip", GetItemSprite());
+            var template = new CloneTemplate(customPrefab.Info, TechType.Beacon);
+            template.ModifyPrefab += (prefab) => prefab.AddComponent<TelePingBeaconInstance>();
+            customPrefab.SetGameObject(template);
 
-        protected override RecipeData GetBlueprintRecipe()
+            customPrefab.SetRecipe(GetBlueprintRecipe()).WithFabricatorType(CraftTree.Type.Fabricator).StepsToFabricatorTab = new[] { "Machines" };
+            customPrefab.SetUnlock(WarpChipItem.thisTechType).WithPdaGroupCategory(TechGroup.Personal, TechCategory.Equipment);
+            customPrefab.SetEquipment(EquipmentType.Hand).WithQuickSlotType(QuickSlotType.Selectable);
+
+            customPrefab.Register();
+            ItemTechType = customPrefab.Info.TechType;
+        }
+        public static RecipeData GetBlueprintRecipe()
         {
             return new RecipeData() 
             { 
@@ -46,26 +49,9 @@ namespace WarpChip.Items
                 } 
             };
         }
-        protected override Sprite GetItemSprite()
+        public static Sprite GetItemSprite()
         {
             return SpriteManager.Get(TechType.Beacon);
         }
-        public override IEnumerator GetGameObjectAsync(IOut<GameObject> obj)
-        {
-            var task = CraftData.GetPrefabForTechTypeAsync(TechType.Beacon);
-            yield return task;
-            var prefab = GameObject.Instantiate(task.GetResult());
-            prefab.AddComponent<TelePingBeaconInstance>();
-            obj.Set(prefab);
-        }
-#if SN1
-        public override GameObject GetGameObject()
-        {
-            var prefab = CraftData.InstantiateFromPrefab(TechType.Beacon);
-
-            prefab.AddComponent<TelePingBeaconInstance>();
-            return prefab;
-        }
-#endif
     }
 }

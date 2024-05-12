@@ -8,7 +8,6 @@ using SMLHelper.V2.Utility;
 #else
 using Nautilus.Crafting;
 using Nautilus.Utility;
-using EquippableItemIcons.API.SecretSMLNautilusAPIDontTouch;
 using static CraftData;
 #endif
 #endif
@@ -17,37 +16,31 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using Nautilus.Assets.PrefabTemplates;
+using Nautilus.Assets;
+using Nautilus.Assets.Gadgets;
 
 namespace SpyWatch
 {
-    internal class SpyWatchItem : Equipable
+    internal class SpyWatchItem
     {
         public static TechType thisTechType;
         public static Sprite sprite = ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "SpyWatchItem.png"));
         public string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
-
-        public SpyWatchItem() : base("SpyWatchItem", "Spy Watch", "Allows short length invisibility using membrain dna")
+        public static void Patch()
         {
-            OnFinishedPatching += () =>
-            {
-                thisTechType = TechType;
-            };
+            var customPrefab = new CustomPrefab("SpyWatchItem", "Spy Watch", "Allows short length invisibility using membrain dna", sprite);
+            customPrefab.SetGameObject(new CloneTemplate(customPrefab.Info, TechType.UltraGlideFins));
+
+            customPrefab.SetRecipe(GetBlueprintRecipe()).WithFabricatorType(CraftTree.Type.Fabricator).StepsToFabricatorTab = new[] { "Personal", "Equipment" };
+            customPrefab.SetUnlock(TechType.AdvancedWiringKit).WithPdaGroupCategory(TechGroup.Personal, TechCategory.Equipment);
+            customPrefab.SetEquipment(EquipmentType.Chip);
+
+            customPrefab.Register();
+            thisTechType = customPrefab.Info.TechType;
         }
 
-        public override EquipmentType EquipmentType => EquipmentType.Chip;
-        public override TechType RequiredForUnlock => TechType.AdvancedWiringKit;
-        public override TechGroup GroupForPDA => TechGroup.Personal;
-        public override TechCategory CategoryForPDA => TechCategory.Equipment;
-        public override CraftTree.Type FabricatorType => CraftTree.Type.Fabricator;
-        public override string[] StepsToFabricatorTab => new string[] { "Personal", "Equipment" };
-        public override float CraftingTime => 3f;
-        public override QuickSlotType QuickSlotType => QuickSlotType.Passive;
-        protected override Sprite GetItemSprite()
-        {
-            return sprite;
-        }
-
-        protected override RecipeData GetBlueprintRecipe()
+        public static RecipeData GetBlueprintRecipe()
         {
             return new RecipeData()
             {
@@ -65,20 +58,6 @@ namespace SpyWatch
                     }
                 )
             };
-        }
-#if SN1
-        public override GameObject GetGameObject()
-        {
-            var prefab = CraftData.GetPrefabForTechType(TechType.MapRoomHUDChip);
-            var obj = GameObject.Instantiate(prefab);
-            return obj;
-        }
-#endif
-        public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
-        {
-            var task = CraftData.GetPrefabForTechTypeAsync(TechType.MapRoomHUDChip);
-            yield return task;
-            gameObject.Set(task.GetResult());
         }
     }
 }

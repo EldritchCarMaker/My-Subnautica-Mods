@@ -8,7 +8,6 @@ using SMLHelper.V2.Utility;
 #else
 using Nautilus.Crafting;
 using Nautilus.Utility;
-using EquippableItemIcons.API.SecretSMLNautilusAPIDontTouch;
 using static CraftData;
 #endif
 #endif
@@ -17,44 +16,37 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using Nautilus.Assets.PrefabTemplates;
+using Nautilus.Assets;
+using static Atlas;
+using Nautilus.Assets.Gadgets;
 
 namespace WarpChip.Items
 {
-    internal class TelePingVehicleModule : Equipable
+    internal class TelePingVehicleModule
     {
         public static TechType techType;
-        public TelePingVehicleModule() : base("TelePingVehicleModule", "Teleping Vehicle Module", "A vehicle upgrade module, used to modify the vehicle's internal beacon into a teleping beacon and allow instant teleportation through the use of a warp chip")
+        public static void Patch()
         {
-            OnFinishedPatching += () => { techType = TechType; };
+            var customPrefab = new CustomPrefab("TelePingVehicleModule", "Teleping Vehicle Module", "A vehicle upgrade module, used to modify the vehicle's internal beacon into a teleping beacon and allow instant teleportation through the use of a warp chip", GetItemSprite());
+            customPrefab.SetGameObject(new CloneTemplate(customPrefab.Info, TechType.VehicleStorageModule));
 
+            customPrefab.SetRecipe(GetBlueprintRecipe()).WithFabricatorType(CraftTree.Type.SeamothUpgrades).StepsToFabricatorTab = new[] { "Root", "CommonModules" };
+            customPrefab.SetUnlock(TelePingBeacon.ItemTechType).WithPdaGroupCategory(TechGroup.Personal, TechCategory.Equipment);
+            customPrefab.SetEquipment(EquipmentType.Chip).WithQuickSlotType(QuickSlotType.Passive);
+
+            customPrefab.Register();
+            techType = customPrefab.Info.TechType;
         }
-
-        public override EquipmentType EquipmentType => EquipmentType.VehicleModule;
-
-        protected override RecipeData GetBlueprintRecipe()
+        public static RecipeData GetBlueprintRecipe()
         {
             return new RecipeData(new List<Ingredient>() { new Ingredient(TelePingBeacon.ItemTechType, 1), new Ingredient(TechType.AdvancedWiringKit, 1) }) { craftAmount = 1 };
         }
-        public override CraftTree.Type FabricatorType => CraftTree.Type.SeamothUpgrades;
-        public override string[] StepsToFabricatorTab => new[] { "Root", "CommonModules" };
-        public override QuickSlotType QuickSlotType => QuickSlotType.Passive;
-        public override TechType RequiredForUnlock => TelePingBeacon.ItemTechType;
-        
-#if SN1
-        public override GameObject GetGameObject()
-        {
-            return CraftData.InstantiateFromPrefab(TechType.VehicleStorageModule);
-        }
-#else
-        public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
-        {
-            yield return CraftData.InstantiateFromPrefabAsync(TechType.VehicleStorageModule, gameObject);
-        }
 
-        protected override Sprite GetItemSprite()
+
+        public static Sprite GetItemSprite()
         {
             return SpriteManager.Get(TechType.VehicleStorageModule);
         }
-#endif
     }
 }
