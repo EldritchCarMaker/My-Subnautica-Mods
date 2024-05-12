@@ -79,6 +79,9 @@
       <Project>{3984abc3-4152-487e-bbf9-da129d2327b5}</Project>
       <Name>EquippableItemIcons</Name>
     </ProjectReference>
+	<Reference Include="SuitLib">
+		<Private>False</Private>
+	</Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

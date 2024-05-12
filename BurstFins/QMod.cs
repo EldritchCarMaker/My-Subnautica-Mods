@@ -39,7 +39,7 @@ namespace BurstFins
         }
     }
 #else
-    [BepInEx.BepInPlugin("EldritchCarMaker.BurstFins", "Burst Fins", "1.0.0")]
+    [BepInEx.BepInPlugin("EldritchCarMaker.BurstFins", "Burst Fins", "1.0.1")]
     public class QMod : BaseUnityPlugin
     {
         internal static Config config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();

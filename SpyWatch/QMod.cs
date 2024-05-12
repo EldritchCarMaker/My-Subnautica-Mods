@@ -63,7 +63,7 @@ namespace SpyWatch
         }
     }
 #else
-    [BepInEx.BepInPlugin("EldritchCarMaker.SpyWatch", "Spy Watch", "1.0.0")]
+    [BepInEx.BepInPlugin("EldritchCarMaker.SpyWatch", "Spy Watch", "1.0.1")]
     public class QMod : BaseUnityPlugin
     {
         private const string bundlePath = "Assets/SpyWatch.shaders";

@@ -24,7 +24,7 @@ namespace WarpChip
     {
         public static Config config { get; } = OptionsPanelHandler.Main.RegisterModOptions<Config>();
 #else
-    [BepInPlugin("EldritchCarMaker.WarpChip", "Warp Chip", "1.4.0")]
+    [BepInPlugin("EldritchCarMaker.WarpChip", "Warp Chip", "1.4.1")]
     [BepInDependency("EldritchCarMaker.EquippableItemIcons", "1.4.0")]
     public class QMod : BaseUnityPlugin
     {

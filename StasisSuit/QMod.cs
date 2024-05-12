@@ -40,7 +40,7 @@ namespace StasisSuit
         }
     }
 #else
-    [BepInEx.BepInPlugin("EldritchCarMaker.StasisSuit", "Stasis Suit", "1.0.0")]
+    [BepInEx.BepInPlugin("EldritchCarMaker.StasisSuit", "Stasis Suit", "1.0.1")]
     public class QMod : BaseUnityPlugin
     {
         internal static Config config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();

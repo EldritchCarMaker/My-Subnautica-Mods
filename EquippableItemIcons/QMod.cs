@@ -24,7 +24,7 @@ namespace EquippableItemIcons
     
         internal static Config config { get; } = OptionsPanelHandler.Main.RegisterModOptions<Config>();
 #else
-    [BepInPlugin("EldritchCarMaker.EquippableItemIcons", "Equippable Item Icons", "1.4.0")]
+    [BepInPlugin("EldritchCarMaker.EquippableItemIcons", "Equippable Item Icons", "1.4.1")]
     public class QMod : BaseUnityPlugin
     {
         internal static Config config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();

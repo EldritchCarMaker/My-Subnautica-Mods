@@ -39,7 +39,7 @@ namespace SonarChip
         }
     }
 #else
-    [BepInEx.BepInPlugin("EldritchCarMaker.SonarChip", "Sonar Chip", "1.0.0")]
+    [BepInEx.BepInPlugin("EldritchCarMaker.SonarChip", "Sonar Chip", "1.0.1")]
     public class QMod : BaseUnityPlugin
     {
         internal static Config config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
