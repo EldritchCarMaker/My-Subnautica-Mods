@@ -1,5 +1,4 @@
-﻿using SMLHelper.V2.Utility;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,6 +10,9 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 #if !SN2
 using Logger = QModManager.Utility.Logger;
+using SMLHelper.V2.Utility;
+#else
+using Nautilus.Utility;
 #endif
 
 namespace CyclopsVehicleUpgradeConsole.Monobehaviours
