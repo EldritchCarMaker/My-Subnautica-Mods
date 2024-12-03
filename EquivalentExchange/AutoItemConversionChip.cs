@@ -35,6 +35,7 @@ namespace EquivalentExchange
             customPrefab.SetEquipment(EquipmentType.Chip);
 
             customPrefab.Register();
+            techType = customPrefab.Info.TechType;
         }
         public static TechType techType;
 

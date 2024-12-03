@@ -1,47 +1,57 @@
 ﻿using System.Reflection;
 using HarmonyLib;
-using QModManager.API.ModLoading;
-using Logger = QModManager.Utility.Logger;
 using UnityEngine;
-using SMLHelper.V2.Json;
-using SMLHelper.V2.Options.Attributes;
-using SMLHelper.V2.Handlers;
 using System.IO;
-using System.Collections.Generic;
-using SMLHelper.V2.Assets;
-using CameraDroneStealthUpgrade.Items;
 using CameraDroneUpgrades.API;
+using BepInEx;
+using Nautilus.Handlers;
+using Nautilus.Crafting;
+using static CraftData;
+using System.Collections.Generic;
+using Nautilus.Options.Attributes;
+using Nautilus.Json;
 
-namespace CameraDroneStealthUpgrade
+namespace CameraDroneStealthUpgrade;
+
+[BepInPlugin("EldritchCarMaker.CameraDroneStealthUpgrade", "Camera Drone Stealth Upgrade", "1.1.0")]
+[BepInDependency("EldritchCarMaker.CameraDroneUpgrades")]
+public class QMod : BaseUnityPlugin
 {
-    [QModCore]
-    public static class QMod
-    {
-        private static Assembly assembly = Assembly.GetExecutingAssembly();
-        private static string modPath = Path.GetDirectoryName(assembly.Location);
-        public static Config config { get; } = OptionsPanelHandler.Main.RegisterModOptions<Config>();
+    private static Assembly assembly = Assembly.GetExecutingAssembly();
+    private static string modPath = Path.GetDirectoryName(assembly.Location);
+    public static Config config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
 
-        [QModPatch]
-        public static void Patch()
+    public void Awake()
+    {
+        var CyclopsLockers = ($"EldritchCarMaker_{assembly.GetName().Name}");
+        Logger.LogInfo($"Patching {CyclopsLockers}");
+        Harmony harmony = new Harmony(CyclopsLockers);
+        harmony.PatchAll(assembly);
+
+        var item = new CameraDroneUpgradeModule("MapRoomCameraStealthUpgrade", "Drone Stealth Upgrade", "Drones are now cloaked from predators vision");
+        item.assetsName = "StealthUpgrade";
+        item.techData = new RecipeData()
         {
-            var CyclopsLockers = ($"EldritchCarMaker_{assembly.GetName().Name}");
-            Logger.Log(Logger.Level.Info, $"Patching {CyclopsLockers}");
-            Harmony harmony = new Harmony(CyclopsLockers);
-            harmony.PatchAll(assembly);
+            craftAmount = 1,
+            Ingredients = new List<Ingredient>(new Ingredient[]
+                    {
+                        new Ingredient(TechType.Polyaniline, 1),
+                        new Ingredient(TechType.ComputerChip, 1),
+                        new Ingredient(TechType.WiringKit, 1)
+                    }
+                )
+        };
+        item.Patch();
 
-            var item = new MapRoomCameraStealthUpgrade();
-            item.Patch();
+        var Stealth = new StealthFunctionality();
+        Stealth.upgrade = Registrations.RegisterDroneUpgrade("DroneStealthUpgrade", item.TechType, Stealth.SetUp);
 
-            var Stealth = new StealthFunctionality();
-            Stealth.upgrade = Registrations.RegisterDroneUpgrade("DroneStealthUpgrade", item.TechType, Stealth.SetUp);
-
-            Logger.Log(Logger.Level.Info, "Patched successfully!");
-        }
+        Logger.LogInfo("Patched successfully!");
     }
-    [Menu("Camera Drone Stealth Upgrade")]
-    public class Config : ConfigFile
-    {
-        [Keybind("Stealth mode", Tooltip = "keybind for toggling stealth for camera drones")]
-        public KeyCode stealthKey = KeyCode.T;
-    }
+}
+[Menu("Camera Drone Stealth Upgrade")]
+public class Config : ConfigFile
+{
+    [Keybind("Stealth mode", Tooltip = "keybind for toggling stealth for camera drones")]
+    public KeyCode stealthKey = KeyCode.T;
 }

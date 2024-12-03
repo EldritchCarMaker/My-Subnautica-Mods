@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using CameraDroneUpgrades.API;
 using HarmonyLib;
-using SMLHelper.V2.Assets;
 
 namespace CameraDroneUpgrades.Patches
 {

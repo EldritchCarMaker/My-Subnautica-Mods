@@ -499,6 +499,13 @@ namespace EquivalentExchange.Monobehaviours
 				}
 			}
 
+			var amountCrafted = techData.craftAmount;
+			totalCost /= amountCrafted;//For things like pipes
+			//Pipes cost 2 titanium, but craft 5 of them
+			//So without this they're a net increase, pay 10 ECM for two titanium, craft into 5 pipes, each worth 10, now you have 40 extra ECM
+			//This way it's worth 1/5th of the amount. So each pipe is only worth 2
+			//Balances out to even this way
+
 			cachedItemCosts.Add(techType, (int)totalCost);
 
             return useEfficiency ? totalCost * QMod.config.inefficiencyMultiplier : totalCost;

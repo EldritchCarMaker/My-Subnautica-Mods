@@ -1,4 +1,4 @@
-﻿using SMLHelper.V2.Assets;
+﻿using Nautilus.Assets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,9 +34,9 @@ namespace CameraDroneUpgrades.API
             upgrades.Add(upgrade);
             return upgrade;
         }
-        public static CameraDroneUpgrade RegisterDroneUpgrade(string name, Craftable item, Action setupmethod)
+        public static CameraDroneUpgrade RegisterDroneUpgrade(string name, CustomPrefab item, Action setupmethod)
         {
-            return RegisterDroneUpgrade(name, item.TechType, setupmethod);
+            return RegisterDroneUpgrade(name, item.Info.TechType, setupmethod);
         }
     }
 }

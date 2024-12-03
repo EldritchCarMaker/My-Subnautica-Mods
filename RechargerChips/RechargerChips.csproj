@@ -51,6 +51,7 @@
   <Import Project="..\References.targets" />
   <ItemGroup>
     <Compile Include="ChargerChipMono.cs" />
+    <Compile Include="Items\ChargerChipItem.cs" />
     <Compile Include="Items\ComboChargerChip.cs" />
     <Compile Include="Items\ThermalChargerChip.cs" />
     <Compile Include="Items\SolarChargerChip.cs" />

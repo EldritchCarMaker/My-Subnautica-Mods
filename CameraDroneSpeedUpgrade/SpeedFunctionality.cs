@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UWE;
-using Logger = QModManager.Utility.Logger;
 
 namespace CameraDroneSpeedUpgrade
 {
@@ -22,7 +21,7 @@ namespace CameraDroneSpeedUpgrade
         private static FMOD_CustomEmitter loop;
 
         public const float energyDrain = 0.5f;
-        public const float speed = 50f;
+        public const float speed = 10f;
         public static FMODAsset GetFmodAsset(string audioPath)
         {
             FMODAsset asset = ScriptableObject.CreateInstance<FMODAsset>();

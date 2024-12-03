@@ -8,13 +8,15 @@ using HarmonyLib;
 #if !SN2
 using QModManager.API.ModLoading;
 using Logger = QModManager.Utility.Logger;
-#else
-using BepInEx;
-#endif
-
 using SMLHelper.V2.Json;
 using SMLHelper.V2.Options.Attributes;
 using SMLHelper.V2.Handlers;
+#else
+using BepInEx;
+using Nautilus.Handlers;
+using Nautilus.Options.Attributes;
+using Nautilus.Json;
+#endif
 
 namespace PlayerToolChanges
 {
@@ -27,12 +29,13 @@ namespace PlayerToolChanges
     public class QMod : BaseUnityPlugin
     {
 #endif
-        public static Config config { get; } = OptionsPanelHandler.Main.RegisterModOptions<Config>();
 #if !SN2
+        public static Config config { get; } = OptionsPanelHandler.Main.RegisterModOptions<Config>();
         [QModPatch]
         public static void Patch()
         {
 #else
+        public static Config config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
         public void Awake()
         {
 #endif

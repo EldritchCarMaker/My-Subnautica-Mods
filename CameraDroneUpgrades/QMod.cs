@@ -8,13 +8,11 @@ using BepInEx;
 using BepInEx.Logging;
 #endif
 using UnityEngine;
-using SMLHelper.V2.Json;
-using SMLHelper.V2.Options.Attributes;
-using SMLHelper.V2.Handlers;
 using System.IO;
-using System.Collections.Generic;
-using SMLHelper.V2.Assets;
 using CameraDroneUpgrades.API;
+using Nautilus.Handlers;
+using Nautilus.Json;
+using Nautilus.Options.Attributes;
 
 namespace CameraDroneUpgrades
 {
@@ -30,7 +28,7 @@ namespace CameraDroneUpgrades
         private static Assembly assembly = Assembly.GetExecutingAssembly();
         private static string modPath = Path.GetDirectoryName(assembly.Location);
 
-        internal static Config Config { get; } = OptionsPanelHandler.Main.RegisterModOptions<Config>();
+        internal static Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
 #if !SN2
         [QModPatch]
         public static void Patch()
@@ -39,6 +37,7 @@ namespace CameraDroneUpgrades
         public static ManualLogSource logger;
         public void Awake()
         {
+            logger = base.Logger;
 #endif
             var assembly = Assembly.GetExecutingAssembly();
             var name = ($"EldritchCarMaker_{assembly.GetName().Name}");

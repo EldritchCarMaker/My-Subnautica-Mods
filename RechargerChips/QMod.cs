@@ -3,12 +3,12 @@ using HarmonyLib;
 #if !SN2
 using QModManager.API.ModLoading;
 using Logger = QModManager.Utility.Logger;
-#else
-using BepInEx;
-#endif
 using SMLHelper.V2.Json;
 using SMLHelper.V2.Options.Attributes;
 using SMLHelper.V2.Handlers;
+#else
+using BepInEx;
+#endif
 using UnityEngine;
 using RechargerChips.Items;
 
@@ -41,10 +41,13 @@ namespace RechargerChips
             Harmony harmony = new Harmony(name);
             harmony.PatchAll(assembly);
 
-
+#if SN1
             new SolarChargerChip().Patch();
             new ThermalChargerChip().Patch();
             new ComboChargerChip().Patch();
+#else
+            ChargerChipItem.Patch();
+#endif
 
 #if !SN2
             Logger.Log(Logger.Level.Info, "Patched successfully!");

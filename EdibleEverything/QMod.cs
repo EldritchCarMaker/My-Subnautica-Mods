@@ -1,14 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 using HarmonyLib;
+#if SN1
+using Logger = QModManager.Utility.Logger;
+using QModManager.API.ModLoading;
 using SMLHelper.V2.Handlers;
 using SMLHelper.V2.Json;
 using SMLHelper.V2.Json.Attributes;
-#if !SN2
-using Logger = QModManager.Utility.Logger;
-using QModManager.API.ModLoading;
-#else 
+#else
 using BepInEx;
+using Nautilus.Handlers;
+using Nautilus.Json;
+using Nautilus.Json.Attributes;
 #endif
 
 namespace EdibleEverything
@@ -22,12 +25,13 @@ namespace EdibleEverything
     public class QMod : BaseUnityPlugin
     {
 #endif
-        internal static SaveData SaveData { get; } = SaveDataHandler.Main.RegisterSaveDataCache<SaveData>();
 #if !SN2
+        internal static SaveData SaveData { get; } = SaveDataHandler.Main.RegisterSaveDataCache<SaveData>();
         [QModPatch]
         public static void Patch()
         {
 #else
+        internal static SaveData SaveData { get; } = SaveDataHandler.RegisterSaveDataCache<SaveData>();
         public void Awake()
         {
 #endif

@@ -1,4 +1,5 @@
-﻿using SMLHelper.V2.Assets;
+﻿#if SN1
+using SMLHelper.V2.Assets;
 using SMLHelper.V2.Crafting;
 using System.Collections.Generic;
 using System.IO;
@@ -54,7 +55,6 @@ namespace RechargerChips.Items
                 )
             };
         }
-#if SN1
         public override GameObject GetGameObject()
         {
             var prefab = CraftData.GetPrefabForTechType(TechType.MapRoomHUDChip);
@@ -62,11 +62,6 @@ namespace RechargerChips.Items
 
             return obj;
         }
-#else
-        public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
-        {
-            yield return CraftData.InstantiateFromPrefabAsync(TechType.MapRoomHUDChip, gameObject);
-        }
-#endif
     }
 }
+#endif

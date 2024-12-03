@@ -14,8 +14,6 @@ namespace CyclopsTorpedoes.Patches
         [HarmonyPatch(nameof(CraftData.GetEquipmentType))]
         public static void Postfix(TechType techType, ref EquipmentType __result)
         {
-            CyclopsExternalCamsPatches.RefreshTorpedoTypes(); 
-
             List<TechType> torpedoTT = new List<TechType>();
             foreach(TorpedoType tt in CyclopsExternalCamsPatches.torpedoTypes) torpedoTT.Add(tt.techType);
 

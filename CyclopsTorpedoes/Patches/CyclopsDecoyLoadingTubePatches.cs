@@ -5,7 +5,6 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using HarmonyLib;
-using Logger = QModManager.Utility.Logger;
 namespace CyclopsTorpedoes.Patches
 {
     [HarmonyPatch(typeof(CyclopsDecoyLoadingTube))]
@@ -36,8 +35,7 @@ namespace CyclopsTorpedoes.Patches
                     )
                 {
                     //do something here to change things at currentInstruction location.
-                    codeInstructions[i + 1].opcode = OpCodes.Bne_Un_S;
-                    codeInstructions.Insert(i + 1, new CodeInstruction(OpCodes.Ldc_I4, 527));
+                    codeInstructions.Insert(i + 1, Transpilers.EmitDelegate(CheckForTorpedoTechType));
                     break;
                 }
             } 
@@ -71,12 +69,20 @@ namespace CyclopsTorpedoes.Patches
                     )
                 {
                     //do something here to change things at currentInstruction location.
-                    codeInstructions[i + 1].opcode = OpCodes.Bne_Un_S;
-                    codeInstructions.Insert(i + 1, new CodeInstruction(OpCodes.Ldc_I4, 527));
+                    codeInstructions.Insert(i + 1, Transpilers.EmitDelegate(CheckForTorpedoTechType));
                     break;
                 }
             }
             return codeInstructions.AsEnumerable();
+        }
+
+        //Return false if None or a torpedo
+        public static bool CheckForTorpedoTechType(TechType techType)
+        {
+            if(techType == TechType.None) return false;
+            if(CyclopsExternalCamsPatches.torpedoTypes.Any(type => type.techType == techType)) return false;
+
+            return true;
         }
     }
 }

@@ -24,7 +24,9 @@ namespace Snomod.Prefabs
 
             prefab.SetGameObject(GetGameObject);
 
-            prefab.SetRecipe(GetBlueprintRecipe()).WithStepsToFabricatorTab(new[] { "Root" }).WithFabricatorType(CraftTree.Type.Fabricator);
+            prefab.SetRecipe(GetBlueprintRecipe()).WithStepsToFabricatorTab(new[] { "Mogus" }).WithFabricatorType(CraftTree.Type.Fabricator);
+
+            prefab.SetUnlock(Amogus.TT);
 
             prefab.Register();
         }

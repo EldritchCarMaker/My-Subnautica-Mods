@@ -1,47 +1,61 @@
 ﻿using System.Reflection;
 using HarmonyLib;
-using QModManager.API.ModLoading;
-using Logger = QModManager.Utility.Logger;
 using UnityEngine;
-using SMLHelper.V2.Json;
-using SMLHelper.V2.Options.Attributes;
-using SMLHelper.V2.Handlers;
 using System.IO;
-using System.Collections.Generic;
-using SMLHelper.V2.Assets;
-using CameraDroneStasisUpgrade.Items;
 using CameraDroneUpgrades.API;
+using BepInEx;
+using Nautilus.Handlers;
+using Nautilus.Options.Attributes;
+using Nautilus.Json;
+using Nautilus.Crafting;
+using static CraftData;
+using System.Collections.Generic;
+using BepInEx.Logging;
 
-namespace CameraDroneStasisUpgrade
+namespace CameraDroneStasisUpgrade;
+
+[BepInPlugin("EldritchCarMaker.CameraDroneStasisUpgrade", "Camera Drone Stasis Upgrade", "1.1.0")]
+[BepInDependency("EldritchCarMaker.CameraDroneUpgrades")]
+public class QMod : BaseUnityPlugin
 {
-    [QModCore]
-    public static class QMod
-    {
-        private static Assembly assembly = Assembly.GetExecutingAssembly();
-        private static string modPath = Path.GetDirectoryName(assembly.Location);
-        public static Config config { get; } = OptionsPanelHandler.Main.RegisterModOptions<Config>();
+    private static Assembly assembly = Assembly.GetExecutingAssembly();
+    public static ManualLogSource Logger { get; private set; }
+    internal static TechType moduleTechType;
+    public static Config config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
 
-        [QModPatch]
-        public static void Patch()
+    public void Awake()
+    {
+        Logger = base.Logger;
+        var CyclopsLockers = ($"EldritchCarMaker_{assembly.GetName().Name}");
+        Logger.LogInfo($"Patching {CyclopsLockers}");
+        Harmony harmony = new Harmony(CyclopsLockers);
+        harmony.PatchAll(assembly);
+
+        var item = new CameraDroneUpgradeModule("MapRoomCameraStasisUpgrade", "Drone Stasis Upgrade", "Allows drones to activate a stasis sphere");
+        item.assetsName = "StasisUpgrade";
+        item.techData = new RecipeData()
         {
-            var CyclopsLockers = ($"EldritchCarMaker_{assembly.GetName().Name}");
-            Logger.Log(Logger.Level.Info, $"Patching {CyclopsLockers}");
-            Harmony harmony = new Harmony(CyclopsLockers);
-            harmony.PatchAll(assembly);
+            craftAmount = 1,
+            Ingredients = new List<Ingredient>(new Ingredient[]
+                    {
+                        new Ingredient(TechType.Magnetite, 2),
+                        new Ingredient(TechType.ComputerChip, 1),
+                        new Ingredient(TechType.WiringKit, 1)
+                    }
+                )
+        };
+        item.Patch();
+        moduleTechType = item.TechType;
 
-            var item = new MapRoomCameraStasisUpgrade();
-            item.Patch();
+        var stasis = new StasisFunctionality();
+        stasis.upgrade = Registrations.RegisterDroneUpgrade("DroneSpeedUpgrade", item.TechType, stasis.SetUp);
 
-            var stasis = new StasisFunctionality();
-            stasis.upgrade = Registrations.RegisterDroneUpgrade("DroneSpeedUpgrade", item.TechType, stasis.SetUp);
-
-            Logger.Log(Logger.Level.Info, "Patched successfully!");
-        }
+        Logger.LogInfo("Patched successfully!");
     }
-    [Menu("Camera Drone Stasis Upgrade")]
-    public class Config : ConfigFile
-    {
-        [Keybind("Stasis key", Tooltip = "keybind for activating a stasis sphere")]
-        public KeyCode stasisKey = KeyCode.F;
-    }
+}
+[Menu("Camera Drone Stasis Upgrade")]
+public class Config : ConfigFile
+{
+    [Keybind("Stasis key", Tooltip = "keybind for activating a stasis sphere")]
+    public KeyCode stasisKey = KeyCode.F;
 }

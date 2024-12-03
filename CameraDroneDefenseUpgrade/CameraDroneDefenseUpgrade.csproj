@@ -52,9 +52,9 @@
   <ItemGroup>
     <Reference Include="CameraDroneUpgrades">
       <Private>False</Private>
+      <HintPath>..\Qmods\SN2\CameraDroneUpgrades\CameraDroneUpgrades.dll</HintPath>
     </Reference>
   </ItemGroup>
-  
   <ItemGroup>
     <Compile Include="Patches\CollectShinyPatch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

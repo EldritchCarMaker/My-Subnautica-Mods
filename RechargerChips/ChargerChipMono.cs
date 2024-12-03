@@ -36,10 +36,15 @@ namespace RechargerChips
         {
             if (main != null) Destroy(this);
             main = this;
-
+#if SN1
             chipTechTypes.Add(ChipType.Solar, SolarChargerChip.thisTechType);
             chipTechTypes.Add(ChipType.Thermal, ThermalChargerChip.thisTechType);
             chipTechTypes.Add(ChipType.Combo, ComboChargerChip.thisTechType);
+#else
+            chipTechTypes.Add(ChipType.Solar, ChargerChipItem.solarChipTechType);
+            chipTechTypes.Add(ChipType.Thermal, ChargerChipItem.thermalChipTechType);
+            chipTechTypes.Add(ChipType.Combo, ChargerChipItem.comboChipTechType);
+#endif
 
             UpdateEquipped();
             UpdateBatteries(null);

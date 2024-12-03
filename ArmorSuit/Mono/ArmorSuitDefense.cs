@@ -9,7 +9,7 @@ namespace ArmorSuit.Mono
 {
     internal class ArmorSuitDefense
     {
-        private static readonly Dictionary<DamageType, DamageModifier> DamageModifiers = new Dictionary<DamageType, DamageModifier>();
+        private readonly Dictionary<DamageType, DamageModifier> DamageModifiers = new Dictionary<DamageType, DamageModifier>();
 
         internal void SetUpDamageModifiers()
         {

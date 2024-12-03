@@ -5,15 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 using HarmonyLib;
-#if !SN2
+#if SN1
 using QModManager.API.ModLoading;
 using Logger = QModManager.Utility.Logger;
-#else
-using BepInEx;
-#endif
 using SMLHelper.V2.Json;
 using SMLHelper.V2.Options.Attributes;
 using SMLHelper.V2.Handlers;
+#else
+using BepInEx;
+using Nautilus.Handlers;
+using Nautilus.Json;
+#endif
 
 namespace SeedsFromHarvesting
 {
@@ -26,12 +28,13 @@ namespace SeedsFromHarvesting
     public class QMod : BaseUnityPlugin
     {
 #endif
-        internal static Config Config { get; } = OptionsPanelHandler.Main.RegisterModOptions<Config>();
 #if !SN2
+        internal static Config Config { get; } = OptionsPanelHandler.Main.RegisterModOptions<Config>();
         [QModPatch]
         public static void Patch()
         {
 #else
+        internal static Config Config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
         public void Awake()
         {
 #endif

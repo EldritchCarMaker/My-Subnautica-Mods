@@ -1,6 +1,4 @@
-﻿using SMLHelper.V2.Assets;
-using SMLHelper.V2.Crafting;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,8 +7,17 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using SMLHelper.V2.Utility;
 using MoreCyclopsUpgrades.API.Upgrades;
+
+#if SN1
+using SMLHelper.V2.Assets;
+using SMLHelper.V2.Crafting;
+using SMLHelper.V2.Utility;
+#else
+using Nautilus.Utility;
+using Nautilus.Crafting;
+using static CraftData;
+#endif
 
 namespace CyclopsTorpedoes
 {
@@ -29,17 +36,16 @@ namespace CyclopsTorpedoes
         public override CraftTree.Type FabricatorType => CraftTree.Type.CyclopsFabricator;
         public override string[] StepsToFabricatorTab => new string[] { };
         public override float CraftingTime => 3f;
-        public override QuickSlotType QuickSlotType => QuickSlotType.Passive;
 
 
-        protected override Sprite GetItemSprite()
+        public Sprite GetItemSprite()
         {
             return ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "cyclops_torpedo_module.png"));
         }
 
-        protected override TechData GetBlueprintRecipe()
+        protected override RecipeData GetBlueprintRecipe()
         {
-            return new TechData()
+            return new RecipeData()
             {
                 craftAmount = 1,
                 Ingredients = new List<Ingredient>(new Ingredient[]
@@ -49,13 +55,6 @@ namespace CyclopsTorpedoes
                     }
                 )
             };
-        }
-
-        public override GameObject GetGameObject()
-        {
-            var prefab = CraftData.GetPrefabForTechType(TechType.CyclopsDecoyModule);
-            var obj = GameObject.Instantiate(prefab);
-            return obj;
         }
     }
 }

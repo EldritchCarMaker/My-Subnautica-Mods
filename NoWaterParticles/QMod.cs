@@ -3,13 +3,17 @@ using HarmonyLib;
 #if !SN2
 using QModManager.API.ModLoading;
 using Logger = QModManager.Utility.Logger;
-#else
-using BepInEx;
-#endif
 using SMLHelper.V2.Json;
 using SMLHelper.V2.Options.Attributes;
 using SMLHelper.V2.Handlers;
 using SMLHelper.V2.Options;
+#else
+using BepInEx;
+using Nautilus.Handlers;
+using Nautilus.Options.Attributes;
+using Nautilus.Json;
+using Nautilus.Options;
+#endif
 
 namespace NoWaterParticles
 {

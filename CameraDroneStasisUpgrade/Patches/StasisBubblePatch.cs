@@ -19,7 +19,7 @@ namespace CameraDroneStasisUpgrade.Patches
             var man = other.GetComponent<CameraDroneUpgrades.maproomdroneupgrades>();
             if (man == null) return true;
 
-            if(man.equippedUpgrades.Contains(Items.MapRoomCameraStasisUpgrade.thisTechType))
+            if(man.equippedUpgrades.Contains(QMod.moduleTechType))
                 return false;
             return true;
         }

@@ -3,12 +3,12 @@ using HarmonyLib;
 #if !SN2
 using QModManager.API.ModLoading;
 using Logger = QModManager.Utility.Logger;
-#else
-using BepInEx;
-#endif
 using SMLHelper.V2.Json;
 using SMLHelper.V2.Options.Attributes;
 using SMLHelper.V2.Handlers;
+#else
+using BepInEx;
+#endif
 using UnityEngine;
 
 namespace MiniatureVehicles
@@ -39,6 +39,7 @@ namespace MiniatureVehicles
 #endif
             Harmony harmony = new Harmony(name);
             harmony.PatchAll(assembly);
+            new MiniatureVehicleModule().Patch();
 #if !SN2
             Logger.Log(Logger.Level.Info, "Patched successfully!");
 #else

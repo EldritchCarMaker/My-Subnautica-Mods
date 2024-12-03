@@ -32,8 +32,8 @@ namespace WarpChip.Items
             customPrefab.SetGameObject(new CloneTemplate(customPrefab.Info, TechType.VehicleStorageModule));
 
             customPrefab.SetRecipe(GetBlueprintRecipe()).WithFabricatorType(CraftTree.Type.SeamothUpgrades).StepsToFabricatorTab = new[] { "Root", "CommonModules" };
-            customPrefab.SetUnlock(TelePingBeacon.ItemTechType).WithPdaGroupCategory(TechGroup.Personal, TechCategory.Equipment);
-            customPrefab.SetEquipment(EquipmentType.Chip).WithQuickSlotType(QuickSlotType.Passive);
+            customPrefab.SetUnlock(TelePingBeacon.ItemTechType).WithPdaGroupCategory(TechGroup.VehicleUpgrades, TechCategory.VehicleUpgrades);
+            customPrefab.SetEquipment(EquipmentType.VehicleModule).WithQuickSlotType(QuickSlotType.Passive);
 
             customPrefab.Register();
             techType = customPrefab.Info.TechType;

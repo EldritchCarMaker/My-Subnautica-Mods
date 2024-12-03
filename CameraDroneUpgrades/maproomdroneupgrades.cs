@@ -1,5 +1,4 @@
 ﻿using CameraDroneUpgrades.API;
-using SMLHelper.V2.Assets;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,49 +1,60 @@
 ﻿using System.Reflection;
 using HarmonyLib;
-using QModManager.API.ModLoading;
-using Logger = QModManager.Utility.Logger;
 using UnityEngine;
-using SMLHelper.V2.Json;
-using SMLHelper.V2.Options.Attributes;
-using SMLHelper.V2.Handlers;
 using System.IO;
-using System.Collections.Generic;
-using SMLHelper.V2.Assets;
-using CameraDroneShieldUpgrade.Items;
 using CameraDroneUpgrades.API;
+using BepInEx;
+using Nautilus.Handlers;
+using Nautilus.Options.Attributes;
+using Nautilus.Json;
+using Nautilus.Crafting;
+using static CraftData;
+using System.Collections.Generic;
 
-namespace CameraDroneShieldUpgrade
+namespace CameraDroneShieldUpgrade;
+
+[BepInPlugin("EldritchCarMaker.CameraDroneShieldUpgrade", "Camera Drone Shield Upgrade", "1.1.0")]
+[BepInDependency("EldritchCarMaker.CameraDroneUpgrades")]
+public class QMod : BaseUnityPlugin
 {
-    [QModCore]
-    public static class QMod
+    private static Assembly assembly = Assembly.GetExecutingAssembly();
+    internal static TechType moduleTechType;
+    public static Config config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+
+    public static ShieldFunctionality shield;
+
+    public void Awake()
     {
-        private static Assembly assembly = Assembly.GetExecutingAssembly();
-        private static string modPath = Path.GetDirectoryName(assembly.Location);
-        public static Config config { get; } = OptionsPanelHandler.Main.RegisterModOptions<Config>();
+        var CyclopsLockers = ($"EldritchCarMaker_{assembly.GetName().Name}");
+        Logger.LogInfo($"Patching {CyclopsLockers}");
+        Harmony harmony = new Harmony(CyclopsLockers);
+        harmony.PatchAll(assembly);
 
-        public static ShieldFunctionality shield;
-
-        [QModPatch]
-        public static void Patch()
+        var item = new CameraDroneUpgradeModule("MapRoomCameraShieldUpgrade", "Drone Shield Upgrade", "Allows drones to use a small energy shield");
+        item.assetsName = "ShieldUpgrade";
+        item.techData = new RecipeData()
         {
-            var CyclopsLockers = ($"EldritchCarMaker_{assembly.GetName().Name}");
-            Logger.Log(Logger.Level.Info, $"Patching {CyclopsLockers}");
-            Harmony harmony = new Harmony(CyclopsLockers);
-            harmony.PatchAll(assembly);
+            craftAmount = 1,
+            Ingredients = new List<Ingredient>(new Ingredient[]
+                    {
+                        new Ingredient(TechType.Polyaniline, 1),
+                        new Ingredient(TechType.ComputerChip, 1),
+                        new Ingredient(TechType.WiringKit, 1)
+                    }
+                )
+        };
+        item.Patch();
+        moduleTechType = item.TechType;
 
-            var item = new MapRoomCameraShieldUpgrade();
-            item.Patch();
+        shield = new ShieldFunctionality();
+        shield.upgrade = Registrations.RegisterDroneUpgrade("DroneShieldUpgrade", item.TechType, shield.SetUp);
 
-            shield = new ShieldFunctionality();
-            shield.upgrade = Registrations.RegisterDroneUpgrade("DroneShieldUpgrade", item.TechType, shield.SetUp);
-
-            Logger.Log(Logger.Level.Info, "Patched successfully!");
-        }
+        Logger.LogInfo("Patched successfully!");
     }
-    [Menu("Camera Drone Shield Upgrade")]
-    public class Config : ConfigFile
-    {
-        [Keybind("Shield", Tooltip = "keybind for toggling a shield for camera drones")]
-        public KeyCode shieldKey = KeyCode.X;
-    }
+}
+[Menu("Camera Drone Shield Upgrade")]
+public class Config : ConfigFile
+{
+    [Keybind("Shield", Tooltip = "keybind for toggling a shield for camera drones")]
+    public KeyCode shieldKey = KeyCode.X;
 }

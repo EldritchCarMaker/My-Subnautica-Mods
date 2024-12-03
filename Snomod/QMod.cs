@@ -11,6 +11,7 @@ using UnityEngine;
 using System.IO;
 using Snomod.Prefabs;
 using Snomod.MonoBehaviours;
+using Nautilus.Handlers;
 
 namespace Snomod
 {
@@ -24,6 +25,8 @@ namespace Snomod
             Logger.LogInfo($"Patching {CyclopsLockers}");
             Harmony harmony = new Harmony(CyclopsLockers);
             harmony.PatchAll(assembly);
+
+            CraftTreeHandler.AddTabNode(CraftTree.Type.Fabricator, "Mogus", "Mogus", Prefabs.Amogus.bundle.LoadAsset<UnityEngine.Sprite>("AmogusIconRed"));
 
             Amogus.Patch();
             AmogusKnife.Patch();

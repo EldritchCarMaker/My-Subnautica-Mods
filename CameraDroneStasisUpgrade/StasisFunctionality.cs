@@ -7,8 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UWE;
-using static UWE.DebugGizmos;
-using Logger = QModManager.Utility.Logger;
 
 namespace CameraDroneStasisUpgrade
 {
@@ -43,7 +41,7 @@ namespace CameraDroneStasisUpgrade
         {
             if (!sphere)
             {
-                Logger.Log(Logger.Level.Warn, "Stasis sphere is still null, can't use stasis upgrade");
+                QMod.Logger.LogWarning("Stasis sphere is still null, can't use stasis upgrade");
                 ErrorMessage.AddMessage("Could not get stasis sphere, can't use upgrade");
                 return;
             }

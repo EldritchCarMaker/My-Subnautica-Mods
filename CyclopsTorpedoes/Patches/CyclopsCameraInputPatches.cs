@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HarmonyLib;
 using UnityEngine;
-using Logger = QModManager.Utility.Logger;
 
 namespace CyclopsTorpedoes.Patches
 {
@@ -14,11 +14,14 @@ namespace CyclopsTorpedoes.Patches
     {
         public static TorpedoType[] torpedoTypes;
 
-        public static void RefreshTorpedoTypes()
+        public static IEnumerator RefreshTorpedoTypes()
         {
             if (torpedoTypes == null)
             {
-                var vehicle = GameObject.Instantiate(CraftData.GetPrefabForTechType(TechType.Seamoth));
+                var task = CraftData.GetPrefabForTechTypeAsync(TechType.Seamoth);
+                yield return task;
+                var prefab = task.GetResult();
+                var vehicle = GameObject.Instantiate(prefab);
                 var seamothComp = vehicle.GetComponent<SeaMoth>();
                 seamothComp.Awake();
                 torpedoTypes = seamothComp.torpedoTypes;
@@ -34,8 +37,6 @@ namespace CyclopsTorpedoes.Patches
             
             if (!MoreCyclopsUpgrades.API.MCUServices.Find.CyclopsUpgradeHandler(__instance.GetComponentInParent<SubRoot>(), TorpedoModule.thisTechType).HasUpgrade)
                 return;
-            
-            RefreshTorpedoTypes();
 
             TorpedoType torpedoType = GetPriorityType();
 
