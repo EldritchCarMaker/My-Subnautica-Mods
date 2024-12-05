@@ -40,7 +40,7 @@ namespace RemoteControlVehicles.Monobehaviours
         public Pickupable pickupable { get; private set; }
         public WorldForces worldForces { get; private set; }
 
-        public GameObject lightsParent { get; internal set; }
+        [SerializeField] internal GameObject lightsParent;
         public PingInstance pingInstance;
         public ToggleLights toggleLights { get; private set; }
 
@@ -56,6 +56,12 @@ namespace RemoteControlVehicles.Monobehaviours
 
         protected virtual void Awake()
         {
+            energyMixin = EnsureComponent<EnergyMixin>();
+            liveMixin = EnsureComponent<LiveMixin>();
+            pickupable = EnsureComponent<Pickupable>();
+            rigidBody = EnsureComponent<Rigidbody>();
+            worldForces = EnsureComponent<WorldForces>();
+
             var camObject = new GameObject("CamPositionObject");
             camTransform = camObject.transform;
             camTransform.parent = transform;
@@ -66,16 +72,10 @@ namespace RemoteControlVehicles.Monobehaviours
             inputStackDummy.transform.parent = base.transform;
             inputStackDummy.SetActive(false);
 
-            var toggleLights = EnsureComponent<ToggleLights>();
+            toggleLights = EnsureComponent<ToggleLights>();
             toggleLights.energyMixin = energyMixin;
             toggleLights.lightsParent = lightsParent;
             toggleLights.energyPerSecond = lightEnergyDrain;
-
-            energyMixin = EnsureComponent<EnergyMixin>();
-            liveMixin = EnsureComponent<LiveMixin>();
-            pickupable = EnsureComponent<Pickupable>();
-            rigidBody = EnsureComponent<Rigidbody>();
-            worldForces = EnsureComponent<WorldForces>();
         }
         public T EnsureComponent<T>() where T : Component
         {
@@ -214,42 +214,46 @@ namespace RemoteControlVehicles.Monobehaviours
         protected virtual void Update()
         {
             UpdateEnergyRecharge();
-            if (IsControlled() && inputStackDummy.activeInHierarchy)
+            if (!IsControlled() || !inputStackDummy.activeInHierarchy)
             {
-                if (!IsReady() && LargeWorldStreamer.main.IsWorldSettled())
-                {
-                    readyForControl = true;
-                    //connectingSound.Stop();
-                    //Utils.PlayFMODAsset(connectedSound, base.transform, 20f);
-                }
-                if (CanBeControlled() && readyForControl)
-                {
-                    TurnVehicleWithCamera();
-                    wishDir = GameInput.GetMoveDirection();
-                    wishDir.Normalize();
-                }
-                else
-                {
-                    wishDir = Vector3.zero;
-                }
-                if (Input.GetKeyUp(KeyCode.Escape) || GameInput.GetButtonUp(GameInput.Button.Exit))
-                {
-                    ExitVehicle(true);
-                }
-                if (GameInput.GetButtonDown(GameInput.Button.Sprint))
-                    isThirdPerson = !isThirdPerson;
-
-                if (Input.mouseScrollDelta.y > 0) isThirdPerson = false;//go third person if scrolling back, first person if scrolling forward
-                else if(Input.mouseScrollDelta.y < 0) isThirdPerson = true;
-
-                toggleLights.CheckLightToggle();
-
-                if (Player.main != null && Player.main.liveMixin != null && !Player.main.liveMixin.IsAlive())
-                {
-                    ExitVehicle(true);
-                }
-                HandleEngine();
+                return;
             }
+
+            if (!IsReady() && LargeWorldStreamer.main.IsWorldSettled())
+            {
+                readyForControl = true;
+                //connectingSound.Stop();
+                //Utils.PlayFMODAsset(connectedSound, base.transform, 20f);
+            }
+            if (CanBeControlled() && readyForControl)
+            {
+                TurnVehicleWithCamera();
+                wishDir = GameInput.GetMoveDirection();
+                wishDir.Normalize();
+            }
+            else
+            {
+                wishDir = Vector3.zero;
+            }
+            if (Input.GetKeyUp(KeyCode.Escape) || GameInput.GetButtonUp(GameInput.Button.Exit))
+            {
+                ExitVehicle(true);
+            }
+            if (GameInput.GetButtonDown(GameInput.Button.Sprint))
+                isThirdPerson = !isThirdPerson;
+
+            if (Input.mouseScrollDelta.y > 0) isThirdPerson = false;//go third person if scrolling back, first person if scrolling forward
+            else if (Input.mouseScrollDelta.y < 0) isThirdPerson = true;
+
+            toggleLights.CheckLightToggle();//Doesn't work sadly but I'm too lazy to remove
+            if (Player.main.GetRightHandDown())
+                toggleLights.SetLightsActive(!toggleLights.GetLightsActive());
+
+            if (Player.main != null && Player.main.liveMixin != null && !Player.main.liveMixin.IsAlive())
+            {
+                ExitVehicle(true);
+            }
+            HandleEngine();
         }
         protected virtual void HandleEngine()
         {
