@@ -1,6 +1,8 @@
 ﻿using FMOD;
+using Nautilus.Handlers;
 using ProtoBuf;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,9 +36,9 @@ namespace RemoteControlVehicles.Monobehaviours
         private List<int> messagesPlayed = new List<int>();
 
         private RemoteVehicleDockingBay dockingBay;
-        protected override void Start()
+        protected override void Awake()
         {
-            base.Start();
+            base.Awake();
             (pickupable.droppedEvent = new Event<Pickupable>()).AddHandler(this, new Event<Pickupable>.HandleFunction(OnDropped));
 
             rigidBody.angularDrag = 1;
@@ -61,8 +63,12 @@ namespace RemoteControlVehicles.Monobehaviours
             pingInstance.origin = transform;
 
             //lastUsedMono is set after start is run, so if it's null the no start has run and we should register the ping type
+#if SN1
             if (!lastUsedMono) pingInstance.pingType = SMLHelper.V2.Handlers.PingHandler.RegisterNewPingType("Aurora", SpriteManager.Get(TechType.StarshipSouvenir));
             else SMLHelper.V2.Handlers.PingHandler.TryGetModdedPingType("Aurora", out pingInstance.pingType);
+#else
+            if (!EnumHandler.TryGetValue("Aurora", out pingInstance.pingType)) pingInstance.pingType = EnumHandler.AddEntry<PingType>("Aurora").WithIcon(SpriteManager.Get(TechType.StarshipSouvenir));
+#endif
 
             lastUsedMono = this;
         }
@@ -115,12 +121,23 @@ namespace RemoteControlVehicles.Monobehaviours
         }
         public void SelfDestruct()
         {
-            var particlePrefab = CraftData.GetPrefabForTechType(CrashFishPrefabType).GetComponent<Crash>().detonateParticlePrefab;
-            Utils.PlayOneShotPS(particlePrefab, transform.position, transform.rotation);
-            Utils.PlayFMODAsset(GetFmodAsset(ExplosionSound), Player.main.transform);
-            DamageSystem.RadiusDamage(MaxDamage, transform.position, DetonateRadius, DamageType.Explosive, gameObject);
+            CoroutineHost.StartCoroutine(SelfDestructAsync());
+        }
+        public IEnumerator SelfDestructAsync()
+        {
+            var position = transform.position;
+            var rotation = transform.rotation;
+
+            DamageSystem.RadiusDamage(MaxDamage, position, DetonateRadius, DamageType.Explosive, gameObject);
             liveMixin.Kill();
             Destroy(gameObject);
+
+            var task = CraftData.GetPrefabForTechTypeAsync(CrashFishPrefabType);
+            yield return task;
+            var prefab = task.GetResult();
+            var particlePrefab = prefab.GetComponent<Crash>().detonateParticlePrefab;
+            Utils.PlayOneShotPS(particlePrefab, position, rotation);
+            Utils.PlayFMODAsset(GetFmodAsset(ExplosionSound), Player.main.transform);
         }
         public static FMODAsset GetFmodAsset(string audioPath)
         {

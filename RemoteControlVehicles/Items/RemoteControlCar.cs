@@ -104,11 +104,55 @@ namespace RemoteControlVehicles.Items
             var task = PrefabDatabase.GetPrefabAsync("dfabc84e-c4c5-45d9-8b01-ca0eaeeb8e65");
             yield return task;
             task.TryGetPrefab(out var prefab);
+            var taskCam = CraftData.GetPrefabForTechTypeAsync(TechType.MapRoomCamera);
+            yield return taskCam;
+            var camPrefab = taskCam.GetResult().GetComponent<MapRoomCamera>();
 
             var obj = GameObject.Instantiate(prefab);
+            obj.SetActive(false);
 
             obj.AddComponent<RemoteControlCarTool>();
-            obj.AddComponent<RemoteControlCarMono>();
+            var mono = obj.AddComponent<RemoteControlCarMono>();
+
+
+
+            mono.lightsParent = GameObject.Instantiate(camPrefab.lightsParent);
+            mono.lightsParent.SetActive(false);
+            mono.lightsParent.transform.parent = obj.transform;
+            mono.lightsParent.transform.localRotation = Quaternion.identity;
+            mono.lightsParent.transform.localPosition = Vector3.zero;
+
+            var energyMixin = obj.EnsureComponent<EnergyMixin>();
+            energyMixin.compatibleBatteries = camPrefab.energyMixin.compatibleBatteries;
+            energyMixin.storageRoot = (new GameObject("BatteryRoot").AddComponent<ChildObjectIdentifier>());
+            energyMixin.defaultBattery = TechType.Battery;
+            energyMixin.batteryModels = new EnergyMixin.BatteryModels[0];
+            energyMixin.controlledObjects = new GameObject[0];
+
+
+            var toggleLights = obj.EnsureComponent<ToggleLights>();
+            toggleLights.energyMixin = energyMixin;
+
+
+            obj.EnsureComponent<LargeWorldEntity>().cellLevel = LargeWorldEntity.CellLevel.Global;
+
+
+            var liveMixin = obj.EnsureComponent<LiveMixin>();
+            liveMixin.data = ScriptableObject.CreateInstance<LiveMixinData>();
+            liveMixin.data.maxHealth = 100;
+            liveMixin.data.destroyOnDeath = false;
+            liveMixin.data.canResurrect = true;
+            liveMixin.data.weldable = true;
+            liveMixin.ResetHealth();
+            var pickupable = obj.EnsureComponent<Pickupable>();
+
+
+            var rigidBody = obj.EnsureComponent<Rigidbody>();
+            rigidBody.angularDrag = 1;
+
+
+            var worldForces = obj.EnsureComponent<WorldForces>();
+
             @out.Set(obj);
         }
         protected static RecipeData GetRecipe()

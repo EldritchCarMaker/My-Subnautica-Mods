@@ -19,6 +19,8 @@ using Nautilus.Assets;
 using Nautilus.Assets.Gadgets;
 using Nautilus.Crafting;
 using Nautilus.Utility;
+using static RootMotion.FinalIK.RagdollUtility;
+
 #endif
 #if SN
 using Sprite = Atlas.Sprite;
@@ -110,9 +112,48 @@ namespace RemoteControlVehicles.Items
             var task = CraftData.GetPrefabForTechTypeAsync(TechType.StarshipSouvenir);
             yield return task;
 
+            var taskCam = CraftData.GetPrefabForTechTypeAsync(TechType.MapRoomCamera);
+            yield return taskCam;
+            var camPrefab = taskCam.GetResult().GetComponent<MapRoomCamera>();
+
             var obj = GameObject.Instantiate(task.GetResult());
+            obj.SetActive(false);
             obj.AddComponent<RemoteControlAuroraTool>();
-            obj.AddComponent<RemoteControlAuroraMono>();
+            var mono = obj.AddComponent<RemoteControlAuroraMono>();
+
+            mono.lightsParent = GameObject.Instantiate(camPrefab.lightsParent);
+            mono.lightsParent.SetActive(false);
+            mono.lightsParent.transform.parent = obj.transform;
+            mono.lightsParent.transform.localRotation = Quaternion.identity;
+            mono.lightsParent.transform.localPosition = Vector3.zero;
+
+            var energyMixin = obj.EnsureComponent<EnergyMixin>();
+            energyMixin.compatibleBatteries = camPrefab.energyMixin.compatibleBatteries;
+            energyMixin.storageRoot = (new GameObject("BatteryRoot").AddComponent<ChildObjectIdentifier>());
+            energyMixin.defaultBattery = TechType.Battery;
+            energyMixin.batteryModels = new EnergyMixin.BatteryModels[0];
+            energyMixin.controlledObjects = new GameObject[0];
+
+
+            obj.EnsureComponent<LargeWorldEntity>().cellLevel = LargeWorldEntity.CellLevel.Global;
+
+
+            var liveMixin = obj.EnsureComponent<LiveMixin>();
+            liveMixin.data = ScriptableObject.CreateInstance<LiveMixinData>();
+            liveMixin.data.maxHealth = 100;
+            liveMixin.data.destroyOnDeath = false;
+            liveMixin.data.canResurrect = true;
+            liveMixin.data.weldable = true;
+            liveMixin.ResetHealth();
+            var pickupable = obj.EnsureComponent<Pickupable>();
+
+
+            var rigidBody = obj.EnsureComponent<Rigidbody>();
+            rigidBody.angularDrag = 1;
+
+
+            var worldForces = obj.EnsureComponent<WorldForces>();
+
             @out.Set(obj);
         }
 #endif

@@ -37,7 +37,7 @@ namespace RemoteControlVehicles.Items
         public static void Patch()
         {
 #if !SN1
-            var prefab = new CustomPrefab("DroneControlRemote", "Remote Control Remote", "Allows on-the-go remote control over vehicles and scanner room camera drones", ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "HudChipRemoteControl.png")));
+            var prefab = new CustomPrefab("DroneControlRemote", "Remote Control Remote", "Allows on-the-go remote control over vehicles and scanner room camera drones", ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "SeamothRemoteControl.png")));
             prefab.SetGameObject(GetGameObject);
             prefab.SetEquipment(EquipmentType.Hand).WithQuickSlotType(QuickSlotType.Selectable);
             prefab.SetPdaGroupCategory(TechGroup.Personal, TechCategory.Tools);

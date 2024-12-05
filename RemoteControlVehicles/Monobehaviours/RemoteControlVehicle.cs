@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,7 +20,7 @@ namespace RemoteControlVehicles.Monobehaviours
         protected virtual float stabilizeForce { get; } = 6f;
         protected virtual float controllTimeDelay { get; } = 0.1f;
         protected virtual float energyDrain { get; } = 0.06666f;
-        protected virtual float lightEnergyDrain { get; } = 0.5f;
+        protected virtual float lightEnergyDrain { get; } = 0.05f;
 
         public virtual string VehicleName => "Vehicle";
 
@@ -39,7 +40,7 @@ namespace RemoteControlVehicles.Monobehaviours
         public Pickupable pickupable { get; private set; }
         public WorldForces worldForces { get; private set; }
 
-        public GameObject lightsParent { get; private set; }
+        public GameObject lightsParent { get; internal set; }
         public PingInstance pingInstance;
         public ToggleLights toggleLights { get; private set; }
 
@@ -53,7 +54,7 @@ namespace RemoteControlVehicles.Monobehaviours
 
         public static RemoteControlVehicle currentVehicle { get; private set; }
 
-        protected virtual void Start()
+        protected virtual void Awake()
         {
             var camObject = new GameObject("CamPositionObject");
             camTransform = camObject.transform;
@@ -65,49 +66,15 @@ namespace RemoteControlVehicles.Monobehaviours
             inputStackDummy.transform.parent = base.transform;
             inputStackDummy.SetActive(false);
 
-            var camPrefab = CraftData.GetPrefabForTechType(TechType.MapRoomCamera).GetComponent<MapRoomCamera>();
-
-            lightsParent = Instantiate(camPrefab.lightsParent);
-            lightsParent.SetActive(false);
-            lightsParent.transform.parent = transform;
-            lightsParent.transform.localRotation = Quaternion.identity;
-            lightsParent.transform.localPosition = Vector3.zero;
-
-
-            energyMixin = EnsureComponent<EnergyMixin>();
-            energyMixin.compatibleBatteries = camPrefab.energyMixin.compatibleBatteries;
-            energyMixin.storageRoot = (new GameObject("BatteryRoot").AddComponent<ChildObjectIdentifier>());
-            energyMixin.Initialize();//a mod is fucking with the Awake method in a prefix, have to initialize manually
-            energyMixin.batteryModels = new EnergyMixin.BatteryModels[0];
-            energyMixin.controlledObjects = new GameObject[0];
-
-
-            toggleLights = EnsureComponent<ToggleLights>();
-            toggleLights.lightsParent = lightsParent;
+            var toggleLights = EnsureComponent<ToggleLights>();
             toggleLights.energyMixin = energyMixin;
+            toggleLights.lightsParent = lightsParent;
             toggleLights.energyPerSecond = lightEnergyDrain;
 
-
-            EnsureComponent<LargeWorldEntity>().cellLevel = LargeWorldEntity.CellLevel.Global;
-
-
+            energyMixin = EnsureComponent<EnergyMixin>();
             liveMixin = EnsureComponent<LiveMixin>();
-            liveMixin.data = ScriptableObject.CreateInstance<LiveMixinData>();
-            liveMixin.data.maxHealth = 100;
-            liveMixin.data.destroyOnDeath = false;
-            liveMixin.data.canResurrect = true;
-            liveMixin.data.weldable = true;
-            liveMixin.initialHealth = 100;
-            liveMixin.ResetHealth();
-
-
             pickupable = EnsureComponent<Pickupable>();
-
-
             rigidBody = EnsureComponent<Rigidbody>();
-            rigidBody.angularDrag = 1;
-
-
             worldForces = EnsureComponent<WorldForces>();
         }
         public T EnsureComponent<T>() where T : Component

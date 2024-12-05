@@ -26,7 +26,7 @@ namespace RemoteControlVehicles.Monobehaviours
 				}
 			}
 		}
-
+#if SN1
 		// Token: 0x06000400 RID: 1024 RVA: 0x0001AE20 File Offset: 0x00019020
 		public new void OnResourceDiscovered(ResourceTracker.ResourceInfo info)
 		{
@@ -36,6 +36,7 @@ namespace RemoteControlVehicles.Monobehaviours
 		public new void OnResourceRemoved(ResourceTracker.ResourceInfo info)
 		{
 		}
+#endif
 
 		// Token: 0x06000402 RID: 1026 RVA: 0x0001AE89 File Offset: 0x00019089
 		public new TechType GetActiveTechType()
@@ -74,12 +75,6 @@ namespace RemoteControlVehicles.Monobehaviours
 			yield return null;
 		}
 
-		// Token: 0x06000406 RID: 1030 RVA: 0x0001AF30 File Offset: 0x00019130
-		private new bool CheckIsPowered()
-		{
-			return this.forcePoweredIfNoRelay || (this.powerRelay != null && this.powerRelay.IsPowered());
-		}
-
 		// Token: 0x06000407 RID: 1031 RVA: 0x0001AF58 File Offset: 0x00019158
 		private new void Update()
 		{
@@ -93,19 +88,11 @@ namespace RemoteControlVehicles.Monobehaviours
 			{
 				this.upgradeSlots[i].SetActive(i < count);
 			}
+#if SN1
 			this.modelUpdatePending = false;
-		}
-
-		// Token: 0x06000409 RID: 1033 RVA: 0x0001B065 File Offset: 0x00019265
-		public new float GetScanRange()
-		{
-			return base.GetScanRange();
-		}
-
-		// Token: 0x0600040A RID: 1034 RVA: 0x0001B093 File Offset: 0x00019293
-		public new float GetScanInterval()
-		{
-			return base.GetScanInterval();
+#else
+			this.containerIsDirty = false;
+#endif
 		}
 
 		// Token: 0x0600040B RID: 1035 RVA: 0x0001B0C4 File Offset: 0x000192C4
@@ -116,17 +103,6 @@ namespace RemoteControlVehicles.Monobehaviours
 
 		// Token: 0x0600040C RID: 1036 RVA: 0x0001B174 File Offset: 0x00019374
 		public new void StartScanning(TechType newTypeToScan)
-		{
-		}
-
-		// Token: 0x0600040D RID: 1037 RVA: 0x0001B1F6 File Offset: 0x000193F6
-		public new IList<ResourceTracker.ResourceInfo> GetNodes()
-		{
-			return this.resourceNodes;
-		}
-
-		// Token: 0x0600040E RID: 1038 RVA: 0x0001B200 File Offset: 0x00019400
-		public new void GetDiscoveredNodes(ICollection<ResourceTracker.ResourceInfo> outNodes)
 		{
 		}
 
@@ -177,16 +153,5 @@ namespace RemoteControlVehicles.Monobehaviours
 		{
 		}
 
-		// Token: 0x06000414 RID: 1044 RVA: 0x0001B6E2 File Offset: 0x000198E2
-		private new void AddItem(InventoryItem item)
-		{
-			this.modelUpdatePending = true;
-		}
-
-		// Token: 0x06000415 RID: 1045 RVA: 0x0001B6E2 File Offset: 0x000198E2
-		private new void RemoveItem(InventoryItem item)
-		{
-			this.modelUpdatePending = true;
-		}
 	}
 }

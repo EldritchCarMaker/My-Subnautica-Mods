@@ -11,6 +11,7 @@ using System.IO;
 using Sprite = Atlas.Sprite;
 using static RemoteControlVehicles.TeleportVehicleModule;
 using UnityEngine.UI;
+using TMPro;
 
 namespace RemoteControlVehicles
 {
@@ -24,8 +25,13 @@ namespace RemoteControlVehicles
         public static bool isActive = false;
         public static GameObject hud;
         public static GameObject blackScreen;
-        public static Text text1;
-        public static Text text2;
+#if SN1
+        public static Text text1 { get; set; }
+        public static Text text2 { get; set; }
+#else
+        public static TextMeshProUGUI text1 { get; set; }
+        public static TextMeshProUGUI text2 { get; set; }
+#endif
 
         public static Vector3 subPosition;
 
@@ -88,8 +94,14 @@ namespace RemoteControlVehicles
 
             blackScreen = hud.transform.Find("Fader").gameObject;
             Transform textTransform = hud.transform.Find("Title");
+#if SN1
             text1 = textTransform.Find("TitleText").gameObject.GetComponent<Text>();
             text2 = textTransform.Find("DistanceText").gameObject.GetComponent<Text>();
+#else
+            text1 = textTransform.Find("TitleText").gameObject.GetComponent<TextMeshProUGUI>();
+            text2 = textTransform.Find("DistanceText").gameObject.GetComponent<TextMeshProUGUI>();
+#endif
+
             hud.SetActive(false);
         }
         public static IEnumerator WaitForWorld(Player player, bool isCyclops = false)
@@ -164,7 +176,11 @@ namespace RemoteControlVehicles
             yield return new WaitForEndOfFrame();
             if(Player.main.transform.position != position - difference)
             {
+#if SN1
                 Logger.Log(Logger.Level.Warn, "Player position not set, retrying");
+#else
+                QMod.Logger.LogInfo("Player position not set, retrying");
+#endif
 
                 for (var i=0; i<5; i++)
                 {

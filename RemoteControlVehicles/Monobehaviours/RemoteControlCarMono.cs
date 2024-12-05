@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Nautilus.Handlers;
 using UnityEngine;
 using UWE;
 
@@ -47,9 +49,9 @@ namespace RemoteControlVehicles.Monobehaviours
 
         private DockableRemoteVehicle dockable;
 
-        protected override void Start()
+        protected override void Awake()
         {
-            base.Start();
+            base.Awake();
 
             EnsureComponent<FreezeRigidbodyWhenFar>().freezeDist = 50;
 
@@ -71,8 +73,12 @@ namespace RemoteControlVehicles.Monobehaviours
             pingInstance.origin = transform;
 
             //lastUsedMono is set after start is run, so if it's null the no start has run and we should register the ping type
+#if SN1
             if(!lastUsedMono) pingInstance.pingType = SMLHelper.V2.Handlers.PingHandler.RegisterNewPingType("RCCar", SpriteManager.Get(TechType.ToyCar));
             else SMLHelper.V2.Handlers.PingHandler.TryGetModdedPingType("RCCar", out pingInstance.pingType);
+#else
+            if (!EnumHandler.TryGetValue("RCCar", out pingInstance.pingType)) pingInstance.pingType = EnumHandler.AddEntry<PingType>("RCCar").WithIcon(SpriteManager.Get(TechType.ToyCar));
+#endif
 
             lastUsedMono = this;
         }

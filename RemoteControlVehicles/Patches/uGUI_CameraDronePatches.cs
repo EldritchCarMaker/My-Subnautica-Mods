@@ -88,7 +88,11 @@ namespace RemoteControlVehicles.Patches
                 __instance.noSignal.SetActive(true);
                 __instance.connecting.SetActive(false);
             }
+#if SN1
             HandReticle.main.SetUseTextRaw(__instance.stringControls, string.Empty);
+#else
+            HandReticle.main.SetTextRaw(HandReticle.TextType.Hand, __instance.stringControls);
+#endif
             return false;
         }
     }

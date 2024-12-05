@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using UWE;
-using Logger = QModManager.Utility.Logger;
 
 namespace RemoteControlVehicles.Monobehaviours
 {
@@ -87,7 +86,11 @@ namespace RemoteControlVehicles.Monobehaviours
             MapRoomCamera mapRoomCamera = screen.FindCamera();
             if (mapRoomCamera)
             {
+#if SN1
                 mapRoomCamera.ControlCamera(Player.main, screen);
+#else
+                mapRoomCamera.ControlCamera(screen);
+#endif
                 screen.currentCamera = mapRoomCamera;
             }
             else
