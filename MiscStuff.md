@@ -11,14 +11,4 @@ Many icons and sprites were made by Tom Stone#0118 and Akari - アカリ#1302 on
 https://www.patreon.com/user?u=79717901 I don't even know if they still want to, I just made it so why not link it?
 
 ## Permissions and stuffs
-I give permission to anyone and everyone to modify and or distribute my mods and the files contained within, under the following restrictions. 
-
-I only ask that 
-
-1; do not upload my files to nexus mods, even if modified. 
-
-2; please give credit to me as the original author if possible. 
-
-3; if I ask for you to remove one of my mods that you have put up somewhere, please do so.
-
-In addition, I simply ask that if you upload one of my mods somewhere, let me know. You can do this by messaging me on discord (EldritchCarMaker#8108), or letting me know through github. Discord is preferable.
+For convenience and consistency, I am now going to be directing people towards the nexus permissions on the given mod. This is especially true as some of the mods contain assets which I have been given permission to use but do not have the permission to transfer permission to others
