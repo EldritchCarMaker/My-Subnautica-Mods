@@ -39,7 +39,7 @@ namespace ArmorSuit
         private static Sprite _armorSuitSprite = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "ArmorSuitIcon.png"));
         private static Sprite _armorSuitSpriteGloveless = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "armorsuitIcon-gloveless.png"));
 
-        public ActivatedEquippableItem hudItemIcon = new ActivatedEquippableItem("ArmorSuitIcon", _armorSuitSprite, ArmorSuitItem.thisTechType);
+        internal static ActivatedEquippableItem hudItemIcon;
 #endregion
 
         /*internal static readonly List<DamageType> UnaffectedTypes = new List<DamageType>()
@@ -81,19 +81,29 @@ namespace ArmorSuit
             SuitDefense.SetUpDamageModifiers();
             SetUpSuitColors();
 
-            hudItemIcon.activationType = ActivatedEquippableItem.ActivationType.OnceOff;
-            hudItemIcon.activateKey = QMod.config.ArmorSuitKey;
-            hudItemIcon.AutoIconFade = false;
-            hudItemIcon.DrainRate = 0;
-            hudItemIcon.equipmentType = EquipmentType.Body;
-            hudItemIcon.techType = ArmorSuitItem.thisTechType;
-            hudItemIcon.itemTechTypes.Add(ArmorGlovesItem.techType, EquipmentType.Gloves);
+            if(hudItemIcon == null)
+            {
+                hudItemIcon = new ActivatedEquippableItem("ArmorSuitIcon", _armorSuitSprite, ArmorSuitItem.thisTechType);
 
+                hudItemIcon.activationType = ActivatedEquippableItem.ActivationType.OnceOff;
+                hudItemIcon.activateKey = QMod.config.ArmorSuitKey;
+                hudItemIcon.AutoIconFade = false;
+                hudItemIcon.DrainRate = 0;
+                hudItemIcon.equipmentType = EquipmentType.Body;
+                hudItemIcon.techType = ArmorSuitItem.thisTechType;
+                hudItemIcon.itemTechTypes.Add(ArmorGlovesItem.techType, EquipmentType.Gloves);
+
+                Registries.RegisterHudItemIcon(hudItemIcon);
+            }
             hudItemIcon.DetailedActivate += Activate;
             hudItemIcon.OnEquipChange += EquipChange;
             hudItemIcon.OnUnEquip += SetSuitColors;
-
-            Registries.RegisterHudItemIcon(hudItemIcon);
+        }
+        private void OnDestroy()
+        {
+            hudItemIcon.DetailedActivate -= Activate;
+            hudItemIcon.OnEquipChange -= EquipChange;
+            hudItemIcon.OnUnEquip -= SetSuitColors;
         }
         private void SetUpSuitColors()
         {

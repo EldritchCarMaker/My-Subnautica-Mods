@@ -11,6 +11,7 @@ using BepInEx;
 using Nautilus.Handlers;
 using Nautilus.Json;
 using Nautilus.Options.Attributes;
+using BepInEx.Logging;
 #endif
 using UnityEngine;
 using System.IO;
@@ -28,6 +29,7 @@ namespace EquippableItemIcons
     public class QMod : BaseUnityPlugin
     {
         internal static Config config { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+        internal static ManualLogSource Logger { get; private set; }
 #endif
 #if !SN2
         [QModPatch]
@@ -36,6 +38,7 @@ namespace EquippableItemIcons
 #else
         public void Awake()
         {
+            Logger = base.Logger;
 #endif
             var assembly = Assembly.GetExecutingAssembly();
             var name = ($"EldritchCarMaker_{assembly.GetName().Name}");

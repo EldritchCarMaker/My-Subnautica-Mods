@@ -27,7 +27,7 @@ namespace SpyWatch
         private const string EnableCloakSoundPath = "event:/sub/cyclops/install_mod";//found it
         private const string DisableCloakSoundPath = "event:/tools/builder/remove";
 
-        public ActivatedEquippableItem itemIcon;
+        public static ActivatedEquippableItem itemIcon;
 
         internal int FixedFramesSinceCheck = 0;
 
@@ -42,16 +42,25 @@ namespace SpyWatch
             }
             var sprite = ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "SpyWatchIconRotate.png"));
 
-            itemIcon = new ActivatedEquippableItem("spyWatchIcon", sprite, SpyWatchItem.thisTechType);
+            if(itemIcon == null)
+            {
+                itemIcon = new ActivatedEquippableItem("spyWatchIcon", sprite, SpyWatchItem.thisTechType);
+                itemIcon.activateKey = QMod.config.SpyWatchKey;
+                itemIcon.backgroundSprite = sprite;
+                itemIcon.ActivateSound = Utility.GetFmodAsset(EnableCloakSoundPath);
+                itemIcon.DeactivateSound = Utility.GetFmodAsset(DisableCloakSoundPath);
+                Registries.RegisterHudItemIcon(itemIcon);
+            }
+
             itemIcon.Deactivate += Deactivate;
             itemIcon.Activate += Activate;
-            itemIcon.activateKey = QMod.config.SpyWatchKey;
-            itemIcon.backgroundSprite = sprite;
-            itemIcon.ActivateSound = Utility.GetFmodAsset(EnableCloakSoundPath);
-            itemIcon.DeactivateSound = Utility.GetFmodAsset(DisableCloakSoundPath);
-            Registries.RegisterHudItemIcon(itemIcon);
 
             //CoroutineHost.StartCoroutine(SetUpIcons());
+        }
+        private void OnDestroy()
+        {
+            itemIcon.Deactivate -= Deactivate;
+            itemIcon.Activate -= Activate;
         }
         public void Deactivate()
         {

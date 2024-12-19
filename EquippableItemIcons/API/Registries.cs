@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UWE;
-#if !SN2
+#if SN1
 using Logger = QModManager.Utility.Logger;
 #endif
 
@@ -19,21 +19,17 @@ namespace EquippableItemIcons.API
         private static bool CoroutineActive = false;
         public static void RegisterHudItemIcon(HudItemIcon icon)
         {
-#if !SN2
-            Logger.Log(Logger.Level.Info, $"Recieved HudItemIcon: {icon.name}"); 
-#endif
+            QMod.Logger.LogInfo($"Recieved HudItemIcon: {icon.name}");
             if (hudItemIcons.Contains(icon))
             {
-#if !SN2
-                Logger.Log(Logger.Level.Warn, $"Blocked duplicate icon: {icon.name}");
-#endif
+                QMod.Logger.LogInfo($"Blocked duplicate icon: {icon.name}");
                 return;
             }
             hudItemIcons.Add(icon);
             icon.makeIcon();
-#if !SN2
-            if(icon.container == null) Logger.Log(Logger.Level.Warn, $"{icon.name} has a null container. Unsure what problems this could cause exactly, but it could be an issue.");
-#endif
+
+            if (icon.container == null) QMod.Logger.LogInfo($"{icon.name} has a null container. Unsure what problems this could cause exactly, but it could be an issue.");
+
             UpdatePositions();
         }
         public static void UpdatePositions()
@@ -53,7 +49,15 @@ namespace EquippableItemIcons.API
                 {
                     activeIcons.Add(icon);
                 }
-                icon.container?.SetActive(false);
+                if(!icon.container)
+                {
+                    QMod.Logger.LogInfo($"Icon {icon.name} has a null container, remaking it. This isn't inherently an issue, and is likely caused by reloading a save");
+                    icon.makeIcon();
+                }
+                else
+                {
+                    icon.container.SetActive(false);
+                }
             }
 
 

@@ -6,9 +6,6 @@ using Logger = QModManager.Utility.Logger;
 #else
 using BepInEx;
 #endif
-using SMLHelper.V2.Json;
-using SMLHelper.V2.Options.Attributes;
-using SMLHelper.V2.Handlers;
 
 namespace CyclopsWindows
 {

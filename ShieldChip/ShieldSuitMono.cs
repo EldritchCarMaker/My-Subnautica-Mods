@@ -20,7 +20,7 @@ namespace ShieldSuit
 {
     internal class ShieldSuitMono : MonoBehaviour
     {
-        public ActivatedEquippableItem hudItemIcon = new ActivatedEquippableItem("ShieldSuitItem", ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "ShieldSuitIconRotate.png")), ShieldSuitItem.thisTechType);
+        public static ActivatedEquippableItem hudItemIcon;
         public Player player;
         public int FixedUpdatesSinceCheck = 0;
 
@@ -38,17 +38,26 @@ namespace ShieldSuit
             SetUpShield();
 
             var sprite = ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "ShieldSuitIconRotate.png"));
-            hudItemIcon.sprite = sprite;
-            hudItemIcon.backgroundSprite = sprite;
-            hudItemIcon.equipmentType = EquipmentType.Body;
+            if(hudItemIcon == null)
+            {
+                hudItemIcon = new ActivatedEquippableItem("ShieldSuitItem", ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "ShieldSuitIconRotate.png")), ShieldSuitItem.thisTechType);
+
+                hudItemIcon.sprite = sprite;
+                hudItemIcon.backgroundSprite = sprite;
+                hudItemIcon.equipmentType = EquipmentType.Body;
+                hudItemIcon.activateKey = QMod.config.ShieldSuitKey;
+                hudItemIcon.DeactivateSound = null;
+                hudItemIcon.MaxIconFill = 60;
+
+                Registries.RegisterHudItemIcon(hudItemIcon);
+            }
             hudItemIcon.Activate += Activate;
             hudItemIcon.Deactivate += Deactivate;
-            hudItemIcon.activateKey = QMod.config.ShieldSuitKey;
-            hudItemIcon.DeactivateSound = null;
-            hudItemIcon.MaxIconFill = 60;
-
-            Registries.RegisterHudItemIcon(hudItemIcon);
-
+        }
+        private void OnDestroy()
+        {
+            hudItemIcon.Activate -= Activate;
+            hudItemIcon.Deactivate -= Deactivate;
         }
         public void Update()
         {

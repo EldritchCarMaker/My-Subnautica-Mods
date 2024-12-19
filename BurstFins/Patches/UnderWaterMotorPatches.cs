@@ -15,7 +15,7 @@ namespace BurstFins.Patches
         public static void Postfix(ref float __result)
         {
             var mono = Player.main.GetComponent<BurstFinsMono>();
-            if (mono && mono.hudItemIcon != null && mono.hudItemIcon.active)
+            if (mono && BurstFinsMono.hudItemIcon != null && BurstFinsMono.hudItemIcon.active)
             {
                 //ErrorMessage.AddMessage($"Found mono, icon active, __result before: {__result}");
                 var num = __result;
@@ -24,7 +24,7 @@ namespace BurstFins.Patches
                 __result = num;
                 //ErrorMessage.AddMessage($"__result after: {__result} from num: {num}");
             }
-            else if(mono && mono.hudItemIcon != null && mono.hudItemIcon.equipped)
+            else if(mono && BurstFinsMono.hudItemIcon != null && BurstFinsMono.hudItemIcon.equipped)
             {
                 //ErrorMessage.AddMessage($"Found mono, icon equipped, __result before: {__result}");
                 __result = __result + 2.5f;
@@ -36,7 +36,7 @@ namespace BurstFins.Patches
         public static void MotorPostfix(UnderwaterMotor __instance, ref Vector3 __result)
         {
             var mono = Player.main.GetComponent<BurstFinsMono>();
-            if (mono && mono.hudItemIcon != null && mono.hudItemIcon.active)
+            if (mono && BurstFinsMono.hudItemIcon != null && BurstFinsMono.hudItemIcon.active)
             {
                 var num = __result;
                 num = new Vector3(num.x * 1.025f, num.y * 1.025f, num.z * 1.025f);

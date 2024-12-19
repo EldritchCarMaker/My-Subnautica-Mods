@@ -20,7 +20,7 @@ namespace StasisSuit
 {
     internal class StasisSuitMono : MonoBehaviour
     {
-        public ActivatedEquippableItem hudItemIcon = new ActivatedEquippableItem("StasisSuitItem", ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "StasisSuitIconRotate.png")), StasisSuitItem.thisTechType);
+        public ActivatedEquippableItem hudItemIcon;
         public Player player;
 
         public void Awake()
@@ -28,23 +28,35 @@ namespace StasisSuit
             player = GetComponent<Player>();
 
             var sprite = ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "StasisSuitIconRotate.png"));
-            hudItemIcon.sprite = sprite;
-            hudItemIcon.backgroundSprite = sprite;
-            hudItemIcon.equipmentType = EquipmentType.Body;
+            if(hudItemIcon == null)
+            {
+                hudItemIcon = new ActivatedEquippableItem("StasisSuitItem", ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "StasisSuitIconRotate.png")), StasisSuitItem.thisTechType);
+
+                hudItemIcon.sprite = sprite;
+                hudItemIcon.backgroundSprite = sprite;
+                hudItemIcon.equipmentType = EquipmentType.Body;
+                hudItemIcon.activateKey = QMod.config.StasisSuitKey;
+                hudItemIcon.DeactivateSound = null;
+                hudItemIcon.MaxIconFill = 60;
+                hudItemIcon.ChargeRate = 5;
+
+                Registries.RegisterHudItemIcon(hudItemIcon);
+
+                hudItemIcon.container.transform.localScale = new Vector3(0.75f, 0.75f, 0.75f);
+            }
+
             hudItemIcon.Activate += Activate;
             hudItemIcon.Deactivate += Deactivate;
             hudItemIcon.OnUnEquip += Deactivate;
-            hudItemIcon.activateKey = QMod.config.StasisSuitKey;
             hudItemIcon.CanActivate += canActivate;
-            hudItemIcon.DeactivateSound = null;
-            hudItemIcon.MaxIconFill = 60;
-            hudItemIcon.ChargeRate = 5;
-
-            Registries.RegisterHudItemIcon(hudItemIcon);
-
-            hudItemIcon.container.transform.localScale = new Vector3(0.75f, 0.75f, 0.75f);
         } 
-
+        private void OnDestroy()
+        {
+            hudItemIcon.Activate -= Activate;
+            hudItemIcon.Deactivate -= Deactivate;
+            hudItemIcon.OnUnEquip -= Deactivate;
+            hudItemIcon.CanActivate -= canActivate;
+        }
         public bool canActivate()
         {
             return hudItemIcon.charge >= hudItemIcon.MaxCharge && hudItemIcon.CanActivateDefault();

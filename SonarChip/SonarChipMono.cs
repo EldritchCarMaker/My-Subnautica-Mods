@@ -22,23 +22,30 @@ namespace SonarChip
     {
         private Player player;
 
-        public ActivatedEquippableItem itemIcon;
+        public static ActivatedEquippableItem itemIcon;
 
         public void Awake()
         {
-            itemIcon = new ActivatedEquippableItem("SonarChipIcon", ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "SonarChipIconRotate.png")), SonarChipItem.thisTechType);
+            if (itemIcon == null)
+            {
+                itemIcon = new ActivatedEquippableItem("SonarChipIcon", ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "SonarChipIconRotate.png")), SonarChipItem.thisTechType);
+                itemIcon.activateKey = QMod.config.ControlKey;
+                itemIcon.MaxCharge = 5;
+                itemIcon.ChargeRate = 1;
+                itemIcon.RechargeDelay = 1;
+                itemIcon.DrainRate = 1;
+                itemIcon.ActivateSound = UtilityStuffs.Utility.GetFmodAsset("event:/sub/seamoth/sonar_loop");
+                itemIcon.DeactivateSound = null;
+                itemIcon.activationType = ActivatedEquippableItem.ActivationType.OnceOff;
+                Registries.RegisterHudItemIcon(itemIcon);
+            }
             itemIcon.Activate += Activate;
-            itemIcon.activateKey = QMod.config.ControlKey;
-            itemIcon.MaxCharge = 5;
-            itemIcon.ChargeRate = 1;
-            itemIcon.RechargeDelay = 1;
-            itemIcon.DrainRate = 1;
-            itemIcon.ActivateSound = UtilityStuffs.Utility.GetFmodAsset("event:/sub/seamoth/sonar_loop");
-            itemIcon.DeactivateSound = null;
-            itemIcon.activationType = ActivatedEquippableItem.ActivationType.OnceOff;
-            Registries.RegisterHudItemIcon(itemIcon);
 
             player = GetComponent<Player>();
+        }
+        private void OnDestroy()
+        {
+            itemIcon.Activate -= Activate;
         }
         public void Activate()
         {

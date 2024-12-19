@@ -32,8 +32,8 @@ namespace WarpChip
         private const float MaxTeleportDistance = 25;
         private const float teleportWallOffset = 1;//used so that you don't teleport partially inside of a wall, puts you slightly away from the wall
 
-        public ActivatedEquippableItem itemIcon;
-        public ChargableEquippableItem chargingIcon;
+        public static ActivatedEquippableItem itemIcon;
+        public static ChargableEquippableItem chargingIcon;
         //public bool UpgradedItemEquipped = false;
         public int FramesSinceCheck = 0;
         bool justTeleportedToBase = false;
@@ -46,40 +46,52 @@ namespace WarpChip
         }
         public void SetUpIcons()
         {
-            itemIcon = new ActivatedEquippableItem("WarpChipIcon", ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "WarpChipIconRotate.png")), WarpChipItem.thisTechType);
-            itemIcon.DetailedActivate += TryTeleport;
-            itemIcon.activateKey = QMod.config.ControlKey;
-            itemIcon.MaxCharge = 5;
-            itemIcon.ChargeRate = itemIcon.MaxCharge / teleportCooldown;
-            itemIcon.DrainRate = 0;
-            itemIcon.ActivateSound = teleportSound;
-            itemIcon.DeactivateSound = null;
+            if(itemIcon == null)
+            {
+                itemIcon = new ActivatedEquippableItem("WarpChipIcon", ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "WarpChipIconRotate.png")), WarpChipItem.thisTechType);
+                itemIcon.activateKey = QMod.config.ControlKey;
+                itemIcon.MaxCharge = 5;
+                itemIcon.ChargeRate = itemIcon.MaxCharge / teleportCooldown;
+                itemIcon.DrainRate = 0;
+                itemIcon.ActivateSound = teleportSound;
+                itemIcon.DeactivateSound = null;
+                itemIcon.OnKeyDown = false;
+                itemIcon.itemTechTypes.Add(UltimateWarpChip.thisTechType, EquipmentType.Chip);
+                itemIcon.activationType = ActivatedEquippableItem.ActivationType.OnceOff;
+                itemIcon.AutoIconFade = false;
+                Registries.RegisterHudItemIcon(itemIcon);
+            }
+
             itemIcon.DetailedCanActivate += CanActivate;
-            itemIcon.OnKeyDown = false;
-            itemIcon.itemTechTypes.Add(UltimateWarpChip.thisTechType, EquipmentType.Chip);
-            itemIcon.activationType = ActivatedEquippableItem.ActivationType.OnceOff;
-            itemIcon.AutoIconFade = false;
-            Registries.RegisterHudItemIcon(itemIcon);
+            itemIcon.DetailedActivate += TryTeleport;
 
-            chargingIcon = new ChargableEquippableItem("WarpChargeIcon", null, WarpChipItem.thisTechType);
-            chargingIcon.ChargingReleasedSound = teleportSound;
-            chargingIcon.ChargingStartSound = null;
-            chargingIcon.itemTechTypes.Add(UltimateWarpChip.thisTechType, EquipmentType.Chip);
-            chargingIcon.ShouldMakeIcon = false;
-            chargingIcon.activateKey = QMod.config.ControlKey;
-            chargingIcon.AutoIconFade = false;
-            chargingIcon.IsIconActive += () => false;
+            if(chargingIcon == null)
+            {
+                chargingIcon = new ChargableEquippableItem("WarpChargeIcon", null, WarpChipItem.thisTechType);
+                chargingIcon.ChargingReleasedSound = teleportSound;
+                chargingIcon.ChargingStartSound = null;
+                chargingIcon.itemTechTypes.Add(UltimateWarpChip.thisTechType, EquipmentType.Chip);
+                chargingIcon.ShouldMakeIcon = false;
+                chargingIcon.activateKey = QMod.config.ControlKey;
+                chargingIcon.AutoIconFade = false;
+                chargingIcon.IsIconActive += () => false;
+                chargingIcon.MinChargeRequiredToTrigger = chargingIcon.MaxCharge;
+                chargingIcon.AutoReleaseOnMaxCharge = true;
+
+                chargingIcon.container = itemIcon.container;
+                chargingIcon.itemIconObject = itemIcon.itemIconObject;
+                chargingIcon.itemIcon = itemIcon.itemIcon;
+
+                Registries.RegisterHudItemIcon(chargingIcon);
+            }
+
             chargingIcon.ReleasedCharging += ReturnToBase;
-            chargingIcon.MinChargeRequiredToTrigger = chargingIcon.MaxCharge;
-            chargingIcon.AutoReleaseOnMaxCharge = true;
-
-            chargingIcon.container = itemIcon.container;
-            chargingIcon.itemIconObject = itemIcon.itemIconObject;
-            chargingIcon.itemIcon = itemIcon.itemIcon;
-
-            Registries.RegisterHudItemIcon(chargingIcon);
-
-
+        }
+        private void OnDestroy()
+        {
+            itemIcon.DetailedCanActivate -= CanActivate;
+            itemIcon.DetailedActivate -= TryTeleport;
+            chargingIcon.ReleasedCharging -= ReturnToBase;
         }
         public void Update()
         {

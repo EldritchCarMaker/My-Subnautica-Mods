@@ -30,7 +30,7 @@ namespace WarpChip
         public static string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
         public static void Patch()
         {
-            var customPrefab = new CustomPrefab("UltimateWarpChip", "Ultimate Warp Chip", "Allows infinite short range teleportation with no cooldown", GetItemSprite());
+            var customPrefab = new CustomPrefab("UltimateWarpChip", "Ultimate Warp Chip", "Allows for much faster short range teleportation with little cooldown", GetItemSprite());
             customPrefab.SetGameObject(new CloneTemplate(customPrefab.Info, TechType.MapRoomHUDChip));
 
             customPrefab.SetRecipe(GetBlueprintRecipe()).WithFabricatorType(CraftTree.Type.Fabricator).StepsToFabricatorTab = new[] { "Personal", "Equipment" };

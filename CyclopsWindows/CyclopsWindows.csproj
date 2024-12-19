@@ -50,6 +50,7 @@
   <Import Project="..\References.targets" />
   <ItemGroup>
     <Compile Include="MonoBehaviours\WindowButton.cs" />
+    <Compile Include="Patches\CyclopsCullManagerPatches.cs" />
     <Compile Include="Patches\SubRootPatches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QMod.cs" />

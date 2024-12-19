@@ -19,7 +19,7 @@ namespace SpyWatch.Patches
         public static bool Prefix(Player __instance, ref bool __result)
         {
             var watch = __instance.GetComponent<SpyWatchMono>();
-            if (watch != null && watch.itemIcon.active)
+            if (watch != null && SpyWatchMono.itemIcon.active)
             {
                 __result = false;
                 return false;

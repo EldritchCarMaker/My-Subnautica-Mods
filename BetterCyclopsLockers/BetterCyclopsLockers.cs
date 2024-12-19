@@ -23,7 +23,7 @@ namespace BetterCyclopsLockers
         }
     }
     
-    [HarmonyPatch(typeof(AutosortTarget), "Update")]
+    [HarmonyPatch(typeof(AutosortTarget), nameof(AutosortTarget.Update))]
     internal class AutosortLockersUpdatePatch
     {
         [HarmonyPrefix]
@@ -37,6 +37,21 @@ namespace BetterCyclopsLockers
             return true;
         }
     }
+    [HarmonyPatch(typeof(AutosortTarget), nameof(AutosortTarget.AddItem))]
+    internal class StopCoroutinePatch
+    {
+        private static bool Prefix(AutosortTarget __instance, Pickupable item)
+        {
+            if (__instance.TryGetComponent(out CyclopsLocker locker))
+            {
+                __instance.container.container.AddItem(item);
+
+                return false; 
+            }
+            return true;
+        }
+    }
+#if SN1
     [HarmonyPatch(typeof(AutosortTarget), "Save")]
     internal class AutosortLockersSavePatch
     {
@@ -51,18 +66,5 @@ namespace BetterCyclopsLockers
             return true;
         }
     }
-    [HarmonyPatch(typeof(AutosortTarget), "AddItem")]
-    internal class StopCoroutinePatch
-    {
-        private static bool Prefix(AutosortTarget __instance, Pickupable item)
-        {
-            if (__instance.TryGetComponent(out CyclopsLocker locker))
-            {
-                __instance.container.container.AddItem(item);
-
-                return false; 
-            }
-            return true;
-        }
-    }
+#endif
 }

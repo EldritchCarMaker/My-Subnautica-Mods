@@ -20,7 +20,7 @@ namespace TimeControlSuit
 {
     internal class TimeSuitMono : MonoBehaviour
     {
-        public ActivatedEquippableItem hudItemIcon = new ActivatedEquippableItem("TimeSuitItem", ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "TimeSuitIconRotate.png")), TimeSuitItem.thisTechType);
+        public ActivatedEquippableItem hudItemIcon;
         public Player player;
         public StasisSphere sphere;
 
@@ -34,23 +34,36 @@ namespace TimeControlSuit
 #endif
 
             var sprite = ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "TimeSuitIconRotate.png"));
-            hudItemIcon.sprite = sprite;
-            hudItemIcon.backgroundSprite = sprite;
-            hudItemIcon.equipmentType = EquipmentType.Body;
+
+            if(hudItemIcon == null)
+            {
+                hudItemIcon = new ActivatedEquippableItem("TimeSuitItem", ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "TimeSuitIconRotate.png")), TimeSuitItem.thisTechType);
+
+                hudItemIcon.sprite = sprite;
+                hudItemIcon.backgroundSprite = sprite;
+                hudItemIcon.equipmentType = EquipmentType.Body;
+                hudItemIcon.activateKey = QMod.config.TimeSuitKey;
+                hudItemIcon.DeactivateSound = null;
+                hudItemIcon.MaxIconFill = 60;
+
+                hudItemIcon.MaxCharge = 10;
+                hudItemIcon.ChargeRate = 1;
+                hudItemIcon.DrainRate = QMod.config.drainRate;
+
+                Registries.RegisterHudItemIcon(hudItemIcon);
+            }
+
             hudItemIcon.Activate += Activate;
             hudItemIcon.Deactivate += Deactivate;
             hudItemIcon.OnUnEquip += Deactivate;
-            hudItemIcon.activateKey = QMod.config.TimeSuitKey;
-            hudItemIcon.DeactivateSound = null;
-            hudItemIcon.MaxIconFill = 60;
             hudItemIcon.CanActivate += CanActivate;
-
-            hudItemIcon.MaxCharge = 10;
-            hudItemIcon.ChargeRate = 1;
-            hudItemIcon.DrainRate = QMod.config.drainRate;
-
-            Registries.RegisterHudItemIcon(hudItemIcon);
-
+        }
+        private void OnDestroy()
+        {
+            hudItemIcon.Activate -= Activate;
+            hudItemIcon.Deactivate -= Deactivate;
+            hudItemIcon.OnUnEquip -= Deactivate;
+            hudItemIcon.CanActivate -= CanActivate;
         }
 #if SN1
         public void SetUpSphere()

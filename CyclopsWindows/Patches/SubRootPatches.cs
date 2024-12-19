@@ -2,7 +2,11 @@
 using System;
 using System.Reflection;
 using UnityEngine;
+#if SN1
 using SMLHelper.V2.Utility;
+#else
+using Nautilus.Utility;
+#endif
 using System.IO;
 using UnityEngine.UI;
 using UWE;
