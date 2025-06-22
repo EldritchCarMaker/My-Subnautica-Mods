@@ -5,16 +5,14 @@ namespace Illuminautica.ColorOverrides;
 
 public class ColorOverride
 {
-    public ColorOverride(Color color, int priority, float lerpDuration = 0)
+    public ColorOverride(Color color, int priority)
     {
         _color = color;
-        _lerp = lerpDuration;
+        this.priority = priority;
     }
     private Color _color;
-    private float _lerp;
 
     public int priority;
-    public float LerpDuration => _lerp;
     public virtual bool IsValid => true;
     public virtual Color Color => _color;
 }

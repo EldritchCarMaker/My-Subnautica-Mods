@@ -7,9 +7,12 @@ namespace Illuminautica;
 
 public class ColorManager : MonoBehaviour
 {
-    private static ColorManager instance;
+    public static ColorManager instance { get; private set; }
 
     private List<ColorOverride> colorOverrides = new();
+    private ColorOverride currentOverride;
+    private Color currentColor;
+
     private void Awake()
     {
         if(instance)
@@ -23,6 +26,7 @@ public class ColorManager : MonoBehaviour
     private void Update()
     {
         var listDirty = false;
+        var overridesToRemove = new List<ColorOverride>();
         foreach(var colorOverride in colorOverrides)
         {
             if (colorOverride.IsValid)
@@ -32,14 +36,28 @@ public class ColorManager : MonoBehaviour
 
             //I feel like an event could go here, but it just doesn't seem necessary
             //What use could that event have?
-            colorOverrides.Remove(colorOverride);
+            overridesToRemove.Add(colorOverride);
 
             listDirty = true;
         }
+        foreach(var colorOverride in overridesToRemove) 
+            colorOverrides.Remove(colorOverride);
 
-        if(listDirty)
+        if (listDirty)
         {
             RecheckCurrentPriority();
+        }
+
+
+        if (currentOverride == null)
+            return;
+
+        //Even if the list isn't dirty, check current color
+        //The same override could change colors
+        if(currentOverride.Color != currentColor)
+        {
+            currentColor = currentOverride.Color;
+            InteropManager.SetCurrentColor(currentColor);
         }
     }
 
@@ -53,11 +71,7 @@ public class ColorManager : MonoBehaviour
                 highestPriority = colorOverride;
         }
 
-        if(highestPriority != null)
-        {
-            //Should be safe to call with duplicate colors, I think... Only one way to find out!
-            InteropManager.SetCurrentColor(highestPriority.Color, highestPriority.LerpDuration);
-        }
+        currentOverride = highestPriority;
     }
 
     public void AddNewColorOverride(ColorOverride colorOverride)

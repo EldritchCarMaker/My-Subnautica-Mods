@@ -4,7 +4,7 @@ namespace Illuminautica.ColorOverrides;
 
 public class TemporaryColorOverride : ColorOverride
 {
-    public TemporaryColorOverride(float duration, Color color, int priority, float lerpDuration = 0) : base(color, priority, lerpDuration)
+    public TemporaryColorOverride(float duration, Color color, int priority) : base(color, priority)
     {
         targetTime = Time.time + duration;
     }
