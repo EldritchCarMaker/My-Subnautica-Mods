@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Sprite = Atlas.Sprite;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +12,7 @@ using MoreCyclopsUpgrades.API.Upgrades;
 using SMLHelper.V2.Assets;
 using SMLHelper.V2.Crafting;
 using SMLHelper.V2.Utility;
+using Sprite = Atlas.Sprite;
 #else
 using Nautilus.Utility;
 using Nautilus.Crafting;
@@ -37,10 +37,9 @@ namespace CyclopsTorpedoes
         public override string[] StepsToFabricatorTab => new string[] { };
         public override float CraftingTime => 3f;
 
-
         public Sprite GetItemSprite()
         {
-            return ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "cyclops_torpedo_module.png"));
+            return ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "CyclopsTorpedoModule.png"));
         }
 
         protected override RecipeData GetBlueprintRecipe()

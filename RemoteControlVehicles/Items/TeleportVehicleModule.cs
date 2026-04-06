@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
-using Sprite = Atlas.Sprite;
 using System.IO;
 using UnityEngine;
 #if SN1

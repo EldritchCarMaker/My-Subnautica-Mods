@@ -49,7 +49,7 @@ namespace CyclopsWindows
 
             button.name = "WindowButton";
 
-            Atlas.Sprite myAtlas = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "window_toggle_full_alt.png"));
+            Sprite myAtlas = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "window_toggle_full_alt.png"));
             var texture = myAtlas.texture;
             var sprite = UnityEngine.Sprite.Create(texture, new Rect(0f, 0f, texture.width, texture.height), Vector2.one * 0.5f);
 

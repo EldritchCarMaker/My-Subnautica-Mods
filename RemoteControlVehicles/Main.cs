@@ -8,7 +8,6 @@ using UnityEngine;
 using System.Collections;
 using UWE;
 using System.IO;
-using Sprite = Atlas.Sprite;
 using static RemoteControlVehicles.TeleportVehicleModule;
 using UnityEngine.UI;
 using TMPro;

@@ -1,5 +1,4 @@
 ﻿#if SN
-using Sprite = Atlas.Sprite;
 #if SN1
 using RecipeData = SMLHelper.V2.Crafting.TechData;
 using SMLHelper.V2.Assets;
@@ -18,7 +17,6 @@ using System.IO;
 using System.Reflection;
 using Nautilus.Assets.PrefabTemplates;
 using Nautilus.Assets;
-using static Atlas;
 using Nautilus.Assets.Gadgets;
 
 namespace TimeControlSuit

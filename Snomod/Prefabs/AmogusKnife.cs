@@ -42,7 +42,7 @@ namespace Snomod.Prefabs
             { 
                 Ingredients = new List<Ingredient>() 
                 { 
-                    new Ingredient(TechType.Titanium, 1)
+                    new Ingredient(Amogus.TT, 1)
                 }, 
                 craftAmount = 1
             };

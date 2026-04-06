@@ -20,7 +20,6 @@ using UWE;
 using Valve.VR;
 using static OVRPlugin;
 #if SN
-using Sprite = Atlas.Sprite;
 #if SN1
 using RecipeData = SMLHelper.V2.Crafting.TechData;
 using SMLHelper.V2.Utility;

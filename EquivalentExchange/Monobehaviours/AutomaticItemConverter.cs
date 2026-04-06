@@ -151,7 +151,7 @@ namespace EquivalentExchange.Monobehaviours
             }
 
             var size =
-#if SN
+#if SN1
                 CraftData.GetItemSize(itemType);
 #else
                 TechData.GetItemSize(itemType);
@@ -297,7 +297,7 @@ namespace EquivalentExchange.Monobehaviours
 
             if (showMessage) ErrorMessage.AddMessage("Set item");
             ECMCost = ExchangeMenu.GetCost(type);
-#if SN2
+#if SN1
             var itemSize = CraftData.GetItemSize(type);
 #else
             var itemSize = TechData.GetItemSize(type);
@@ -321,7 +321,7 @@ namespace EquivalentExchange.Monobehaviours
             HandReticle.main.SetInteractText("Open Item Converter", $"{Language.main.GetFormat<string, string>("HandReticleAddButtonFormat", "Set Item Type", uGUI.FormatButton(GameInput.Button.Sprint))}");
 #else
             HandReticle.main.SetTextRaw(HandReticle.TextType.Hand, "Open Item Converter");
-            HandReticle.main.SetTextRaw(HandReticle.TextType.HandSubscript, $"{Language.main.GetFormat<string, string>("HandReticleAddButtonFormat", "Set Item Type", uGUI.FormatButton(GameInput.Button.Sprint))}");
+            HandReticle.main.SetText(HandReticle.TextType.HandSubscript, "Set Item Type", true, GameInput.Button.Sprint);
 #endif
             HandReticle.main.SetIcon(HandReticle.IconType.Hand, 1f);
         }

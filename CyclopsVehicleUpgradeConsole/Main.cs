@@ -12,7 +12,6 @@ using System.Reflection;
 using Story;
 using UnityEngine.UI;
 using System.IO;
-using Sprite = Atlas.Sprite;
 using static CyclopsVehicleUpgradeConsole.VehicleConsoleCreation;
 
 namespace CyclopsVehicleUpgradeConsole

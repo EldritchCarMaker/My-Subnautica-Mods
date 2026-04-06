@@ -20,9 +20,6 @@ using Nautilus.Assets.Gadgets;
 using Nautilus.Crafting;
 using Nautilus.Utility;
 #endif
-#if SN
-using Sprite = Atlas.Sprite;
-#endif
 
 namespace RemoteControlVehicles.Items
 {

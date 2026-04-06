@@ -22,7 +22,7 @@ internal static class DroneItem
 
         customPrefab.SetGameObject(clone);
         customPrefab.SetEquipment(EquipmentType.Hand).WithQuickSlotType(QuickSlotType.Selectable);
-        customPrefab.SetRecipe(new Nautilus.Crafting.RecipeData(new[] { new CraftData.Ingredient(TechType.MapRoomCamera, 1), new(TechType.AdvancedWiringKit, 3), new(TechType.AluminumOxide, 2) }))
+        customPrefab.SetRecipe(new Nautilus.Crafting.RecipeData(new[] { new Ingredient(TechType.MapRoomCamera, 1), new(TechType.AdvancedWiringKit, 3), new(TechType.AluminumOxide, 2) }))
             .WithFabricatorType(CraftTree.Type.Fabricator)
             .WithStepsToFabricatorTab("Personal", "Tools");
         customPrefab.SetPdaGroupCategory(TechGroup.Personal, TechCategory.Tools).RequiredForUnlock = TechType.MapRoomCamera;

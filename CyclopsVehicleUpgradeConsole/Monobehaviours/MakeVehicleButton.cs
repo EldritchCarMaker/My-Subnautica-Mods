@@ -148,7 +148,7 @@ namespace CyclopsVehicleUpgradeConsole.Monobehaviours
             VehicleDockingBay vehicleDockingBay = subRoot.GetComponentInChildren<VehicleDockingBay>();
             vehicleDockingBay.DockVehicle(gameObject.GetComponent<Vehicle>());
         }
-        public void UpdateButtonActive(HashSet<TechType> techList)
+        public void UpdateButtonActive()
         {
             gameObject.SetActive(!QMod.config.hideUnknown || KnownTech.Contains(vehicleType));
         }
@@ -157,7 +157,7 @@ namespace CyclopsVehicleUpgradeConsole.Monobehaviours
             if(QMod.config.hideUnknown)
             {
                 KnownTech.onChanged += UpdateButtonActive;
-                UpdateButtonActive(null);
+                UpdateButtonActive();
             }
             itemIcon.SetBackgroundSprite(SpriteManager.GetBackground(CraftData.BackgroundType.Normal));
         }

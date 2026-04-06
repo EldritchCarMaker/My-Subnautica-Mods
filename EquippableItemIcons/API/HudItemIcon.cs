@@ -7,9 +7,6 @@ using UnityEngine;
 #if !SN2
 using Logger = QModManager.Utility.Logger;
 #endif
-#if SN
-using Sprite = Atlas.Sprite;
-#endif
 
 namespace EquippableItemIcons.API
 {

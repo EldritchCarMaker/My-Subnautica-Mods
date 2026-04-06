@@ -11,11 +11,6 @@ using Nautilus.Assets;
 using Nautilus.Assets.Gadgets;
 using Nautilus.Crafting;
 using UnityEngine;
-using static CraftData;
-
-#if SN
-using Sprite = Atlas.Sprite;
-#endif
 
 namespace EquivalentExchange.Constructables
 {

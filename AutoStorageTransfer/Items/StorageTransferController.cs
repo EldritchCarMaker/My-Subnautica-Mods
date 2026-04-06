@@ -15,8 +15,6 @@ using UnityEngine;
 using static CraftData;
 #if SN1
 using RecipeData = SMLHelper.V2.Crafting.TechData;
-#endif
-#if SN
 using Sprite = Atlas.Sprite;
 #endif
 

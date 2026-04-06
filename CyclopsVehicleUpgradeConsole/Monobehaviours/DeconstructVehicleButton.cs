@@ -32,7 +32,7 @@ namespace CyclopsVehicleUpgradeConsole.Monobehaviours
             SubRoot subRoot = gameObject.GetComponentInParent<SubRoot>();
             dockingBay = subRoot.GetComponentInChildren<VehicleDockingBay>();
 
-            Atlas.Sprite myAtlas = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "VehicleDeconIcon.png"));
+            Sprite myAtlas = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "VehicleDeconIcon.png"));
             var texture = myAtlas.texture;
             var sprite = UnityEngine.Sprite.Create(texture, new Rect(0f, 0f, texture.width, texture.height), Vector2.one * 0.5f);
             gameObject.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
@@ -75,15 +75,15 @@ namespace CyclopsVehicleUpgradeConsole.Monobehaviours
                 : CraftData.GetTechType(dockingBay.dockedVehicle.gameObject);//is something else, possibly modded vehicle not currently made, get techtype through this instead
 
 
-            List<IIngredient> ingredients = new List<IIngredient>();
+            List<Ingredient> ingredients = new List<Ingredient>();
 
-            ITechData data = CraftData.Get(vehicleType);
-            for(var i = 0; i < data.ingredientCount; i++)
+            var data = TechData.GetIngredients(vehicleType);
+            for(var i = 0; i < data.Count; i++)
             {
-                ingredients.Add(data.GetIngredient(i));//get every ingredient
+                ingredients.Add(data[i]);//get every ingredient
             }
 
-            foreach(IIngredient ingredient in ingredients)//you ever see a word so much it doesn't even look like a real word? Ingredient looks so weird now
+            foreach(Ingredient ingredient in ingredients)//you ever see a word so much it doesn't even look like a real word? Ingredient looks so weird now
             {
 #if SN1
                 for(var j = 0; j < ingredient.amount; j++)

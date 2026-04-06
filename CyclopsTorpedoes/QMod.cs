@@ -62,7 +62,6 @@ public class QMod : BaseUnityPlugin
         harmony.PatchAll(assembly);
 
         var module = new TorpedoModule();
-        module.Info.WithIcon(module.GetItemSprite());//Purple come on now
         module.Patch();
 
         MCUServices.Register.CyclopsUpgradeHandler((SubRoot cyclops) =>

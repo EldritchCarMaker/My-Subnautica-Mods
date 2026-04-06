@@ -22,9 +22,6 @@ using Nautilus.Utility;
 using static RootMotion.FinalIK.RagdollUtility;
 
 #endif
-#if SN
-using Sprite = Atlas.Sprite;
-#endif
 
 namespace RemoteControlVehicles.Items
 {

@@ -39,7 +39,7 @@ namespace CyclopsVehicleUpgradeConsole.Monobehaviours
         {
             base.Awake();
 
-            Atlas.Sprite myAtlas = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "PageChangerBackground.png"));
+            Sprite myAtlas = ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, "PageChangerBackground.png"));
             var texture = myAtlas.texture;
             var sprite = UnityEngine.Sprite.Create(texture, new Rect(0f, 0f, texture.width, texture.height), Vector2.one * 0.5f);
             gameObject.transform.GetChild(0).GetComponent<Image>().sprite = sprite;

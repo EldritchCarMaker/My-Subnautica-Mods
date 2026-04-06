@@ -14,7 +14,6 @@ using Nautilus.Utility;
 using Nautilus.Assets.Gadgets;
 #endif
 using System.Reflection;
-using Sprite = Atlas.Sprite;
 using System.IO;
 using UnityEngine;
 using static CraftData;

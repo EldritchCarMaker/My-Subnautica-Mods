@@ -18,7 +18,7 @@ namespace Snomod.Prefabs
         {
             var sprite = Amogus.bundle.LoadAsset<UnityEngine.Sprite>("amogusBackpackIcon");
 
-            var prefab = new CustomPrefab("AmogusBackpack", "Amogus backpack", "The backpack of an amogus, may contain some abnormal items", sprite);
+            var prefab = new CustomPrefab("AmogusBackpack", "Amogus backpack", "The backpack of an amogus, may contain some abnormal items in the future. Press R to open when equipped!", sprite);
 
             prefab.SetEquipment(EquipmentType.Tank);
 

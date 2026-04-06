@@ -59,13 +59,13 @@ namespace AutoStorageTransfer.Monobehaviours
 #if SN1
                 HandReticle.main.interactText1 = $"{Language.main.GetFormat<string, string>("HandReticleAddButtonFormat", string1, uGUI.FormatButton(GameInput.Button.RightHand))}";
 #else
-                HandReticle.main.SetTextRaw(HandReticle.TextType.Hand, $"{Language.main.GetFormat<string, string>("HandReticleAddButtonFormat", string1, uGUI.FormatButton(GameInput.Button.RightHand))}");
+                HandReticle.main.SetText(HandReticle.TextType.Hand, string1, true, GameInput.Button.RightHand);
 #endif
                 var string2 = $"Toggle reciever status. Currently {(currentSeenContainer.IsReciever ? "reciever" : "transmitter")}";
 #if SN1
                 HandReticle.main.interactText2 = $"{Language.main.GetFormat<string, string>("HandReticleAddButtonFormat", string2, uGUI.FormatButton(GameInput.Button.AltTool))}";
 #else
-                HandReticle.main.SetTextRaw(HandReticle.TextType.HandSubscript, $"{Language.main.GetFormat<string, string>("HandReticleAddButtonFormat", string2, uGUI.FormatButton(GameInput.Button.AltTool))}");
+                HandReticle.main.SetText(HandReticle.TextType.HandSubscript, string2, true, GameInput.Button.AltTool);
 #endif
             }
             else

@@ -8,17 +8,21 @@ using UnityEngine;
 
 namespace PickupableVehicles.Patches
 {
-#if SN
+#if SN1
     [HarmonyPatch(typeof(CraftData))]
 #else
     [HarmonyPatch(typeof(TechData))]
 #endif
     internal class ItemSizePatch
     {
-#if SN
+#if BZ
+        static List<TechType> seatruckTypes = new List<TechType>() { TechType.SeaTruck, TechType.SeaTruckAquariumModule, TechType.SeaTruckDockingModule, TechType.SeaTruckFabricatorModule, TechType.SeaTruckSleeperModule, TechType.SeaTruckStorageModule, TechType.SeaTruckTeleportationModule };
+#endif
+
+#if SN1
         [HarmonyPatch(nameof(CraftData.GetItemSize))]
 #else
-        static List<TechType> seatruckTypes = new List<TechType>() { TechType.SeaTruck, TechType.SeaTruckAquariumModule, TechType.SeaTruckDockingModule, TechType.SeaTruckFabricatorModule, TechType.SeaTruckSleeperModule, TechType.SeaTruckStorageModule, TechType.SeaTruckTeleportationModule };
+
         [HarmonyPatch(nameof(TechData.GetItemSize))]
 #endif
         public static void Postfix(TechType techType, ref Vector2int __result)

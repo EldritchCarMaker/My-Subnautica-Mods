@@ -10,7 +10,7 @@ using Nautilus.Assets.Gadgets;
 using Nautilus.Assets.PrefabTemplates;
 using Nautilus.Crafting;
 using Nautilus.Utility;
-using static CraftData;
+using UnityEngine;
 
 namespace RechargerChips.Items;
 
@@ -91,7 +91,7 @@ internal class ChargerChipItem
 
         combinedChip.Register();
     }
-    public static Atlas.Sprite GetSprite(string spriteName)//no file extension
+    public static Sprite GetSprite(string spriteName)//no file extension
     {
         return ImageUtils.LoadSpriteFromFile(Path.Combine(AssetsFolder, spriteName + ".png"));
     }

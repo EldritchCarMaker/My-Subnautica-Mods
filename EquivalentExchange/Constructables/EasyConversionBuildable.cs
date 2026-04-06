@@ -9,14 +9,7 @@ using UnityEngine;
 using EquivalentExchange.Monobehaviours;
 using System.Collections;
 using Nautilus.Assets.Gadgets;
-
 using Nautilus.Assets.PrefabTemplates;
-using static CraftData;
-
-
-#if SN
-using Sprite = Atlas.Sprite;
-#endif
 
 namespace EquivalentExchange.Constructables
 {

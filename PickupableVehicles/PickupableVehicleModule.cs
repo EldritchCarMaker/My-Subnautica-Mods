@@ -10,12 +10,12 @@ using SMLHelper.V2.Assets;
 using SMLHelper.V2.Crafting;
 using SMLHelper.V2.Utility;
 using RecipeData = SMLHelper.V2.Crafting.TechData;
+using Sprite = Atlas.Sprite;
 #else
 using Nautilus.Crafting;
 using Nautilus.Assets;
 using Nautilus.Assets.PrefabTemplates;
 #endif
-using Sprite = Atlas.Sprite;
 #endif
 using System.Threading.Tasks;
 using UnityEngine;

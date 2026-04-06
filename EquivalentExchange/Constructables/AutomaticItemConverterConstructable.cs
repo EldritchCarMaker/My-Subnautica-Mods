@@ -10,11 +10,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using static CraftData;
-
-#if SN
-using Sprite = Atlas.Sprite;
-#endif
 
 namespace EquivalentExchange.Constructables
 {

@@ -135,7 +135,7 @@ namespace RemoteControlVehicles.Monobehaviours
         }
         public override string GetCustomUseText()
         {
-            return $"{Language.main.GetFormat<string, string>("HandReticleAddButtonFormat", "Open Storage", uGUI.FormatButton(GameInput.Button.AltTool))}";
+            return LanguageCache.GetButtonFormat("Open Storage", GameInput.Button.AltTool);
         }
         public void Update()
         {

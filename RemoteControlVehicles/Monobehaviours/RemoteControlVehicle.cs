@@ -246,7 +246,7 @@ namespace RemoteControlVehicles.Monobehaviours
             else if (Input.mouseScrollDelta.y < 0) isThirdPerson = true;
 
             toggleLights.CheckLightToggle();//Doesn't work sadly but I'm too lazy to remove
-            if (Player.main.GetRightHandDown())
+            if (GameInput.GetButtonDown(GameInput.Button.RightHand))
                 toggleLights.SetLightsActive(!toggleLights.GetLightsActive());
 
             if (Player.main != null && Player.main.liveMixin != null && !Player.main.liveMixin.IsAlive())

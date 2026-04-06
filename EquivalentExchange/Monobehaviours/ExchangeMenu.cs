@@ -15,9 +15,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UWE;
 using static EquivalentExchange.QMod;
-#if SN
-using Sprite = Atlas.Sprite;
-#endif
 
 namespace EquivalentExchange.Monobehaviours
 {
@@ -463,7 +460,7 @@ namespace EquivalentExchange.Monobehaviours
 
 			float totalCost = 0;
 
-#if SN
+#if SN1
 			var techData = CraftData.Get(techType, true);
 #else
 			var techData = TechData.GetIngredients(techType);
@@ -475,7 +472,7 @@ namespace EquivalentExchange.Monobehaviours
             }
 
 			int count =
-#if SN
+#if SN1
 				techData.ingredientCount;
 #else
 				techData.Count;
@@ -484,7 +481,7 @@ namespace EquivalentExchange.Monobehaviours
 			for (var i = 0; i < count; i++)
 			{
 				var ingredient =
-#if SN
+#if SN1
 					techData.GetIngredient(i);
 #else
 					techData[i];
@@ -499,7 +496,12 @@ namespace EquivalentExchange.Monobehaviours
 				}
 			}
 
+#if SN1
 			var amountCrafted = techData.craftAmount;
+#else
+            var amountCrafted = TechData.GetCraftAmount(techType);
+#endif
+
 			totalCost /= amountCrafted;//For things like pipes
 			//Pipes cost 2 titanium, but craft 5 of them
 			//So without this they're a net increase, pay 10 ECM for two titanium, craft into 5 pipes, each worth 10, now you have 40 extra ECM
@@ -855,7 +857,7 @@ namespace EquivalentExchange.Monobehaviours
 				return ExchangeMenuTab.ModdedItems;
 
 
-#if SN
+#if SN1
 			if (CraftData.GetEquipmentType(type) != EquipmentType.None)
 				return ExchangeMenuTab.Equipment;
 

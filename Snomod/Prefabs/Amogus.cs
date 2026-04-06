@@ -10,9 +10,6 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UWE;
-#if SN
-using Sprite = Atlas.Sprite;
-#endif
 
 namespace Snomod.Prefabs
 {

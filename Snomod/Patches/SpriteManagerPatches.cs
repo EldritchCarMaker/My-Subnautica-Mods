@@ -8,9 +8,6 @@ using Snomod.Prefabs;
 using Snomod.MonoBehaviours;
 using System.IO;
 using UnityEngine;
-#if SN
-using Sprite = Atlas.Sprite;
-#endif
 
 namespace Snomod.Patches
 {
@@ -23,7 +20,7 @@ namespace Snomod.Patches
             if (techType != Amogus.TT) return true;
             if (GUIItemsContainerPatches.LastColorType == MogusColorChanger.ColorType.None) return true;
 
-            __result = new Sprite(Amogus.bundle.LoadAsset<UnityEngine.Sprite>($"amogusIcon{GUIItemsContainerPatches.LastColorType}")); 
+            __result = Amogus.bundle.LoadAsset<UnityEngine.Sprite>($"amogusIcon{GUIItemsContainerPatches.LastColorType}");
             return false;
         }
     }

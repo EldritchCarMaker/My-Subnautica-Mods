@@ -22,10 +22,6 @@ namespace BurstFins
         {
             var sprite = SpriteManager.Get(TechType.UltraGlideFins);//gets ultra glide fins sprite from the game
 
-#if SN
-            sprite.size = new Vector2(-sprite.size.x, sprite.size.y);//tried to flip it upside down, didn't work too well there obviously
-            //would delete this line, but when I tried to the entire sprite decided it didn't want to exist.... so here it is
-#endif
             if(hudItemIcon == null )
             {
                 hudItemIcon = new ActivatedEquippableItem("BurstFinsIcon", SpriteManager.Get(TechType.UltraGlideFins), BurstFinsItem.thisTechType);

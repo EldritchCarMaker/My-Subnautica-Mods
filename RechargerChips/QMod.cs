@@ -19,7 +19,7 @@ namespace RechargerChips
     public static class QMod
     {
 #else
-    [BepInPlugin("EldritchCarMaker.RechargerChips", "Recharger Chips", "1.0.2")]
+    [BepInPlugin("EldritchCarMaker.RechargerChips", "Recharger Chips", "1.0.3")]
     public class QMod : BaseUnityPlugin
     {
 #endif

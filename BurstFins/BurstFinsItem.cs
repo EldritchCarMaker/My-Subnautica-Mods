@@ -1,5 +1,4 @@
 ﻿#if SN
-using Sprite = Atlas.Sprite;
 #if SN1
 using RecipeData = SMLHelper.V2.Crafting.TechData;
 using SMLHelper.V2.Assets;
@@ -39,11 +38,7 @@ namespace BurstFins
 
         public static Sprite GetItemSprite()
         {
-            var ChangedSprite = sprite;
-#if SN
-            ChangedSprite.size = new Vector2(-ChangedSprite.size.x, ChangedSprite.size.y);
-#endif
-            return ChangedSprite;
+            return sprite;
         }
 
         public static RecipeData GetBlueprintRecipe()

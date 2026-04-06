@@ -4,9 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-#if SN
-using Sprite = Atlas.Sprite;
-#endif
 
 namespace EquippableItemIcons.API
 {

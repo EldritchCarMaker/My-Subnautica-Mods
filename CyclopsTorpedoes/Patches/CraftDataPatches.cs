@@ -8,10 +8,10 @@ using UnityEngine;
 
 namespace CyclopsTorpedoes.Patches
 {
-    [HarmonyPatch(typeof(CraftData))]
+    [HarmonyPatch(typeof(TechData))]
     internal class CraftDataPatches
     {
-        [HarmonyPatch(nameof(CraftData.GetEquipmentType))]
+        [HarmonyPatch(nameof(TechData.GetEquipmentType))]
         public static void Postfix(TechType techType, ref EquipmentType __result)
         {
             List<TechType> torpedoTT = new List<TechType>();
