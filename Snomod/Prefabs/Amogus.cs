@@ -1,5 +1,6 @@
 ﻿using Nautilus.Assets;
 using Nautilus.Assets.Gadgets;
+using Snomod.MonoBehaviours;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -50,9 +51,8 @@ namespace Snomod.Prefabs
         {
             var prefab = bundle.LoadAsset<GameObject>("Amogus");
             prefab.SetActive(true);
-            var crawl = prefab.GetComponent<CaveCrawler>();
-            crawl.jumpSound = GetFmodAsset("event:/creature/crawler/jump");
-            crawl.walkingSound.SetAsset(GetFmodAsset("event:/creature/crawler/idle"));
+
+            prefab.AddComponent<MogusSounds>();//Have to add the component here rather than in the editor, because I lost the unity project that had it and would have to make it over again.
 
             var obj = GameObject.Instantiate(prefab);
             return obj;
@@ -73,12 +73,6 @@ namespace Snomod.Prefabs
                 list.Add(data);
             }
             return list;
-        }
-        public static FMODAsset GetFmodAsset(string audioPath)
-        {
-            FMODAsset asset = ScriptableObject.CreateInstance<FMODAsset>();
-            asset.path = audioPath;
-            return asset;
         }
     }
 }

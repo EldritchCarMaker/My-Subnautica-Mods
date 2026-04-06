@@ -52,6 +52,7 @@
   <Import Project="..\References.targets" />
   <ItemGroup>
     <Compile Include="MonoBehaviours\MogusBackpackEquipListener.cs" />
+    <Compile Include="MonoBehaviours\MogusSounds.cs" />
     <Compile Include="MonoBehaviours\MogusTools\MogusWand\MogusBullet.cs" />
     <Compile Include="MonoBehaviours\MogusColorChanger.cs" />
     <Compile Include="MonoBehaviours\MogusTools\MogusKnife.cs" />
@@ -59,6 +60,8 @@
     <Compile Include="Patches\GUIItemsContainerPatches.cs" />
     <Compile Include="Patches\InventoryPatches.cs" />
     <Compile Include="Patches\LavaMeteorPatches.cs" />
+    <Compile Include="Patches\OldSocksCommissionCompatPatch.cs" />
+    <Compile Include="Patches\PlayerDeathPatch.cs" />
     <Compile Include="Patches\SpriteManagerPatches.cs" />
     <Compile Include="Prefabs\Amogus.cs" />
     <Compile Include="Prefabs\AmogusBackpack.cs" />
