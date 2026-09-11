@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.32014.148
+# Visual Studio Version 18
+VisualStudioVersion = 18.9.12120.119 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterCyclopsLockers", "BetterCyclopsLockers\BetterCyclopsLockers.csproj", "{5AC33665-DECD-4251-8821-C6F2CCEE2B80}"
 EndProject
@@ -118,6 +118,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IgnoreSteamDRM", "IgnoreSteamDRM\IgnoreSteamDRM.csproj", "{CA21C6FA-2F1D-444B-8885-B4B70AF40CF0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Illuminautica", "Illuminautica\Illuminautica.csproj", "{2D457E37-32E1-4551-8010-DF130A003CB9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MainMenuVideo", "MainMenuVideo\MainMenuVideo.csproj", "{E4AF5427-934B-4885-9FFC-F0BBE8DCAF59}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -557,6 +559,16 @@ Global
 		{2D457E37-32E1-4551-8010-DF130A003CB9}.SN1|Any CPU.Build.0 = SN1|Any CPU
 		{2D457E37-32E1-4551-8010-DF130A003CB9}.SN2|Any CPU.ActiveCfg = SN2|Any CPU
 		{2D457E37-32E1-4551-8010-DF130A003CB9}.SN2|Any CPU.Build.0 = SN2|Any CPU
+		{E4AF5427-934B-4885-9FFC-F0BBE8DCAF59}.BZ|Any CPU.ActiveCfg = BZ|Any CPU
+		{E4AF5427-934B-4885-9FFC-F0BBE8DCAF59}.BZ|Any CPU.Build.0 = BZ|Any CPU
+		{E4AF5427-934B-4885-9FFC-F0BBE8DCAF59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4AF5427-934B-4885-9FFC-F0BBE8DCAF59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4AF5427-934B-4885-9FFC-F0BBE8DCAF59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4AF5427-934B-4885-9FFC-F0BBE8DCAF59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4AF5427-934B-4885-9FFC-F0BBE8DCAF59}.SN1|Any CPU.ActiveCfg = SN1|Any CPU
+		{E4AF5427-934B-4885-9FFC-F0BBE8DCAF59}.SN1|Any CPU.Build.0 = SN1|Any CPU
+		{E4AF5427-934B-4885-9FFC-F0BBE8DCAF59}.SN2|Any CPU.ActiveCfg = SN2|Any CPU
+		{E4AF5427-934B-4885-9FFC-F0BBE8DCAF59}.SN2|Any CPU.Build.0 = SN2|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
